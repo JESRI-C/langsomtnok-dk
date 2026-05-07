@@ -4,7 +4,7 @@ import { Link } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
 import { ProductCard } from "@/components/ProductCard";
 import { NewsletterSignup } from "@/components/NewsletterSignup";
-import { storefrontApiRequest, PRODUCTS_QUERY, type ShopifyProduct } from "@/lib/shopify";
+import { storefrontApiRequest, PRODUCTS_QUERY, BUNDLE_PLACEHOLDERS, formatPrice, type ShopifyProduct } from "@/lib/shopify";
 import { ArrowRight } from "lucide-react";
 import heroImage from "@/assets/hero-kitchen.jpg";
 import materialSteel from "@/assets/material-steel.jpg";
@@ -182,19 +182,17 @@ function HomePage() {
           <h2 className="font-serif text-3xl md:text-4xl text-center mb-3">Sæt ro sammen</h2>
           <p className="text-center text-muted-foreground mb-12">Sammensatte ritualer for det komplette køkken.</p>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {[
-              { title: "Ritual Startkit", desc: "Det første skridt mod et roligere køkken. Kniv, bræt og plejeolie.", price: "Fra 1.499 kr" },
-              { title: "Craft & Care", desc: "Slibesten, plejeolie og guide. Alt hvad du behøver for vedligehold.", price: "Fra 899 kr" },
-              { title: "Full Focus Set", desc: "Det komplette ritual. Knive, sten, holdere og pleje samlet.", price: "Fra 3.499 kr" },
-            ].map((bundle) => (
-              <Link key={bundle.title} to="/shop" className="group block p-8 rounded-lg border border-border bg-soft/30 hover:shadow-md transition-all duration-300">
+            {/* SHOPIFY CONNECTION: Bundle handles map to Shopify products or collections.
+                Create products/collections in Shopify admin with matching handles. */}
+            {BUNDLE_PLACEHOLDERS.map((bundle) => (
+              <Link key={bundle.handle} to="/product/$handle" params={{ handle: bundle.handle }} className="group block p-8 rounded-lg border border-border bg-soft/30 hover:shadow-md transition-all duration-300">
                 <div className="aspect-video rounded-md bg-linen mb-6 flex items-center justify-center">
                   <span className="font-serif text-2xl text-muted-foreground/30">Langsomt Nok</span>
                 </div>
                 <h3 className="font-serif text-xl mb-2 group-hover:text-walnut transition-colors">{bundle.title}</h3>
-                <p className="text-sm text-muted-foreground mb-4">{bundle.desc}</p>
+                <p className="text-sm text-muted-foreground mb-4">{bundle.description}</p>
                 <div className="flex items-center justify-between">
-                  <span className="text-sm font-medium">{bundle.price}</span>
+                  <span className="text-sm font-medium">Fra {formatPrice(bundle.price, bundle.currencyCode)}</span>
                   <span className="text-sm text-cta">Se sættet →</span>
                 </div>
               </Link>
