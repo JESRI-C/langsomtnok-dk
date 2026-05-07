@@ -16,6 +16,7 @@ import { Route as CirklenRouteImport } from './routes/cirklen'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as GuidesIndexRouteImport } from './routes/guides.index'
 import { Route as ProductHandleRouteImport } from './routes/product.$handle'
+import { Route as PagesDenForsteRigtigeKokkeknivRouteImport } from './routes/pages.den-forste-rigtige-kokkekniv'
 import { Route as GuidesSlugRouteImport } from './routes/guides.$slug'
 import { Route as CollectionsHandleRouteImport } from './routes/collections.$handle'
 
@@ -54,6 +55,12 @@ const ProductHandleRoute = ProductHandleRouteImport.update({
   path: '/product/$handle',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PagesDenForsteRigtigeKokkeknivRoute =
+  PagesDenForsteRigtigeKokkeknivRouteImport.update({
+    id: '/pages/den-forste-rigtige-kokkekniv',
+    path: '/pages/den-forste-rigtige-kokkekniv',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const GuidesSlugRoute = GuidesSlugRouteImport.update({
   id: '/guides/$slug',
   path: '/guides/$slug',
@@ -73,6 +80,7 @@ export interface FileRoutesByFullPath {
   '/shop': typeof ShopRoute
   '/collections/$handle': typeof CollectionsHandleRoute
   '/guides/$slug': typeof GuidesSlugRoute
+  '/pages/den-forste-rigtige-kokkekniv': typeof PagesDenForsteRigtigeKokkeknivRoute
   '/product/$handle': typeof ProductHandleRoute
   '/guides/': typeof GuidesIndexRoute
 }
@@ -84,6 +92,7 @@ export interface FileRoutesByTo {
   '/shop': typeof ShopRoute
   '/collections/$handle': typeof CollectionsHandleRoute
   '/guides/$slug': typeof GuidesSlugRoute
+  '/pages/den-forste-rigtige-kokkekniv': typeof PagesDenForsteRigtigeKokkeknivRoute
   '/product/$handle': typeof ProductHandleRoute
   '/guides': typeof GuidesIndexRoute
 }
@@ -96,6 +105,7 @@ export interface FileRoutesById {
   '/shop': typeof ShopRoute
   '/collections/$handle': typeof CollectionsHandleRoute
   '/guides/$slug': typeof GuidesSlugRoute
+  '/pages/den-forste-rigtige-kokkekniv': typeof PagesDenForsteRigtigeKokkeknivRoute
   '/product/$handle': typeof ProductHandleRoute
   '/guides/': typeof GuidesIndexRoute
 }
@@ -109,6 +119,7 @@ export interface FileRouteTypes {
     | '/shop'
     | '/collections/$handle'
     | '/guides/$slug'
+    | '/pages/den-forste-rigtige-kokkekniv'
     | '/product/$handle'
     | '/guides/'
   fileRoutesByTo: FileRoutesByTo
@@ -120,6 +131,7 @@ export interface FileRouteTypes {
     | '/shop'
     | '/collections/$handle'
     | '/guides/$slug'
+    | '/pages/den-forste-rigtige-kokkekniv'
     | '/product/$handle'
     | '/guides'
   id:
@@ -131,6 +143,7 @@ export interface FileRouteTypes {
     | '/shop'
     | '/collections/$handle'
     | '/guides/$slug'
+    | '/pages/den-forste-rigtige-kokkekniv'
     | '/product/$handle'
     | '/guides/'
   fileRoutesById: FileRoutesById
@@ -143,6 +156,7 @@ export interface RootRouteChildren {
   ShopRoute: typeof ShopRoute
   CollectionsHandleRoute: typeof CollectionsHandleRoute
   GuidesSlugRoute: typeof GuidesSlugRoute
+  PagesDenForsteRigtigeKokkeknivRoute: typeof PagesDenForsteRigtigeKokkeknivRoute
   ProductHandleRoute: typeof ProductHandleRoute
   GuidesIndexRoute: typeof GuidesIndexRoute
 }
@@ -198,6 +212,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProductHandleRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/pages/den-forste-rigtige-kokkekniv': {
+      id: '/pages/den-forste-rigtige-kokkekniv'
+      path: '/pages/den-forste-rigtige-kokkekniv'
+      fullPath: '/pages/den-forste-rigtige-kokkekniv'
+      preLoaderRoute: typeof PagesDenForsteRigtigeKokkeknivRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/guides/$slug': {
       id: '/guides/$slug'
       path: '/guides/$slug'
@@ -223,9 +244,20 @@ const rootRouteChildren: RootRouteChildren = {
   ShopRoute: ShopRoute,
   CollectionsHandleRoute: CollectionsHandleRoute,
   GuidesSlugRoute: GuidesSlugRoute,
+  PagesDenForsteRigtigeKokkeknivRoute: PagesDenForsteRigtigeKokkeknivRoute,
   ProductHandleRoute: ProductHandleRoute,
   GuidesIndexRoute: GuidesIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
