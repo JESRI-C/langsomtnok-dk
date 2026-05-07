@@ -19,6 +19,7 @@ import { Route as ProductHandleRouteImport } from './routes/product.$handle'
 import { Route as PagesSadanHolderDuDinKnivSkarpRouteImport } from './routes/pages.sadan-holder-du-din-kniv-skarp'
 import { Route as PagesGaveTilMadelskerenRouteImport } from './routes/pages.gave-til-madelskeren'
 import { Route as PagesDenForsteRigtigeKokkeknivRouteImport } from './routes/pages.den-forste-rigtige-kokkekniv'
+import { Route as PagesDamaskusKnivRouteImport } from './routes/pages.damaskus-kniv'
 import { Route as GuidesSlugRouteImport } from './routes/guides.$slug'
 import { Route as CollectionsHandleRouteImport } from './routes/collections.$handle'
 
@@ -74,6 +75,11 @@ const PagesDenForsteRigtigeKokkeknivRoute =
     path: '/pages/den-forste-rigtige-kokkekniv',
     getParentRoute: () => rootRouteImport,
   } as any)
+const PagesDamaskusKnivRoute = PagesDamaskusKnivRouteImport.update({
+  id: '/pages/damaskus-kniv',
+  path: '/pages/damaskus-kniv',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const GuidesSlugRoute = GuidesSlugRouteImport.update({
   id: '/guides/$slug',
   path: '/guides/$slug',
@@ -93,6 +99,7 @@ export interface FileRoutesByFullPath {
   '/shop': typeof ShopRoute
   '/collections/$handle': typeof CollectionsHandleRoute
   '/guides/$slug': typeof GuidesSlugRoute
+  '/pages/damaskus-kniv': typeof PagesDamaskusKnivRoute
   '/pages/den-forste-rigtige-kokkekniv': typeof PagesDenForsteRigtigeKokkeknivRoute
   '/pages/gave-til-madelskeren': typeof PagesGaveTilMadelskerenRoute
   '/pages/sadan-holder-du-din-kniv-skarp': typeof PagesSadanHolderDuDinKnivSkarpRoute
@@ -107,6 +114,7 @@ export interface FileRoutesByTo {
   '/shop': typeof ShopRoute
   '/collections/$handle': typeof CollectionsHandleRoute
   '/guides/$slug': typeof GuidesSlugRoute
+  '/pages/damaskus-kniv': typeof PagesDamaskusKnivRoute
   '/pages/den-forste-rigtige-kokkekniv': typeof PagesDenForsteRigtigeKokkeknivRoute
   '/pages/gave-til-madelskeren': typeof PagesGaveTilMadelskerenRoute
   '/pages/sadan-holder-du-din-kniv-skarp': typeof PagesSadanHolderDuDinKnivSkarpRoute
@@ -122,6 +130,7 @@ export interface FileRoutesById {
   '/shop': typeof ShopRoute
   '/collections/$handle': typeof CollectionsHandleRoute
   '/guides/$slug': typeof GuidesSlugRoute
+  '/pages/damaskus-kniv': typeof PagesDamaskusKnivRoute
   '/pages/den-forste-rigtige-kokkekniv': typeof PagesDenForsteRigtigeKokkeknivRoute
   '/pages/gave-til-madelskeren': typeof PagesGaveTilMadelskerenRoute
   '/pages/sadan-holder-du-din-kniv-skarp': typeof PagesSadanHolderDuDinKnivSkarpRoute
@@ -138,6 +147,7 @@ export interface FileRouteTypes {
     | '/shop'
     | '/collections/$handle'
     | '/guides/$slug'
+    | '/pages/damaskus-kniv'
     | '/pages/den-forste-rigtige-kokkekniv'
     | '/pages/gave-til-madelskeren'
     | '/pages/sadan-holder-du-din-kniv-skarp'
@@ -152,6 +162,7 @@ export interface FileRouteTypes {
     | '/shop'
     | '/collections/$handle'
     | '/guides/$slug'
+    | '/pages/damaskus-kniv'
     | '/pages/den-forste-rigtige-kokkekniv'
     | '/pages/gave-til-madelskeren'
     | '/pages/sadan-holder-du-din-kniv-skarp'
@@ -166,6 +177,7 @@ export interface FileRouteTypes {
     | '/shop'
     | '/collections/$handle'
     | '/guides/$slug'
+    | '/pages/damaskus-kniv'
     | '/pages/den-forste-rigtige-kokkekniv'
     | '/pages/gave-til-madelskeren'
     | '/pages/sadan-holder-du-din-kniv-skarp'
@@ -181,6 +193,7 @@ export interface RootRouteChildren {
   ShopRoute: typeof ShopRoute
   CollectionsHandleRoute: typeof CollectionsHandleRoute
   GuidesSlugRoute: typeof GuidesSlugRoute
+  PagesDamaskusKnivRoute: typeof PagesDamaskusKnivRoute
   PagesDenForsteRigtigeKokkeknivRoute: typeof PagesDenForsteRigtigeKokkeknivRoute
   PagesGaveTilMadelskerenRoute: typeof PagesGaveTilMadelskerenRoute
   PagesSadanHolderDuDinKnivSkarpRoute: typeof PagesSadanHolderDuDinKnivSkarpRoute
@@ -260,6 +273,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PagesDenForsteRigtigeKokkeknivRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/pages/damaskus-kniv': {
+      id: '/pages/damaskus-kniv'
+      path: '/pages/damaskus-kniv'
+      fullPath: '/pages/damaskus-kniv'
+      preLoaderRoute: typeof PagesDamaskusKnivRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/guides/$slug': {
       id: '/guides/$slug'
       path: '/guides/$slug'
@@ -285,6 +305,7 @@ const rootRouteChildren: RootRouteChildren = {
   ShopRoute: ShopRoute,
   CollectionsHandleRoute: CollectionsHandleRoute,
   GuidesSlugRoute: GuidesSlugRoute,
+  PagesDamaskusKnivRoute: PagesDamaskusKnivRoute,
   PagesDenForsteRigtigeKokkeknivRoute: PagesDenForsteRigtigeKokkeknivRoute,
   PagesGaveTilMadelskerenRoute: PagesGaveTilMadelskerenRoute,
   PagesSadanHolderDuDinKnivSkarpRoute: PagesSadanHolderDuDinKnivSkarpRoute,
