@@ -60,9 +60,9 @@ export function CartDrawer() {
 
         <div className="flex flex-col flex-1 min-h-0 pt-4">
           {items.length === 0 ? (
-            <div className="flex-1 flex items-center justify-center">
+           <div className="flex-1 flex items-center justify-center">
               <div className="text-center px-6">
-                <p className="font-serif text-lg text-muted-foreground mb-2">Intet i kurven endnu</p>
+                <p className="font-serif text-lg text-muted-foreground mb-2">Dit ritual er endnu ikke begyndt.</p>
                 <p className="text-sm text-muted-foreground/70">
                   Udforsk vores køkkenritualer og find dit første værktøj.
                 </p>
@@ -75,7 +75,7 @@ export function CartDrawer() {
                 <div className="mb-4 px-1">
                   {remainingForFreeShipping > 0 ? (
                     <p className="text-xs text-muted-foreground text-center mb-2">
-                      Køb for {formatPrice(remainingForFreeShipping.toString(), currency)} mere og få fri fragt
+                      Du er tæt på fri fragt. Tilføj pleje eller tilbehør, hvis det giver mening for dit ritual.
                     </p>
                   ) : (
                     <p className="text-xs text-cta text-center mb-2 font-medium">
@@ -191,11 +191,19 @@ export function CartDrawer() {
                     </>
                   )}
                 </Button>
-                <div className="flex justify-center gap-4 text-xs text-muted-foreground">
-                  <span>Fri fragt over {FREE_SHIPPING_THRESHOLD} kr</span>
+                <div className="flex justify-center gap-6 text-xs text-muted-foreground">
+                  <span>Pakket med omhu</span>
                   <span>·</span>
                   <span>Sikker betaling</span>
+                  <span>·</span>
+                  <span>30 dages returret</span>
                 </div>
+                <button
+                  onClick={() => setOpen(false)}
+                  className="w-full text-center text-sm text-muted-foreground hover:text-foreground transition-colors pt-2"
+                >
+                  Fortsæt med at udforske
+                </button>
               </div>
             </>
           )}

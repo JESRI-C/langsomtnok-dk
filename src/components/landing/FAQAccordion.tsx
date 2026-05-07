@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { ChevronDown } from "lucide-react";
+import { trackEvent } from "@/lib/analytics";
 
 export interface FAQItem {
   question: string;
@@ -20,7 +21,11 @@ export function FAQAccordion({ title = "Ofte stillede spørgsmål", items, varia
       {items.map((faq, i) => (
         <div key={i} className={i > 0 ? "border-t border-border" : ""}>
           <button
-            onClick={() => setOpenIdx(openIdx === i ? null : i)}
+            onClick={() => {
+              const isOpening = openIdx !== i;
+              setOpenIdx(isOpening ? i : null);
+              if (isOpening) trackEvent('faq_open', { label: faq.question });
+            }}
             className="w-full flex items-center justify-between p-5 text-left hover:bg-soft/30 transition-colors"
           >
             <span className="text-sm font-medium pr-4 leading-relaxed">{faq.question}</span>

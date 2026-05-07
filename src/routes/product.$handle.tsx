@@ -22,6 +22,8 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { ProductCard } from "@/components/ProductCard";
+import { ProductFitSection } from "@/components/ProductFitSection";
+import { StickyMobileCTA } from "@/components/StickyMobileCTA";
 import { useCartStore } from "@/stores/cartStore";
 import {
   storefrontApiRequest,
@@ -34,6 +36,7 @@ import {
   type ShopifyProduct,
   type ShopifyMetafield,
 } from "@/lib/shopify";
+import { trackEvent } from "@/lib/analytics";
 import { Loader2, Minus, Plus, Truck, RotateCcw, Shield, Package, ChevronDown } from "lucide-react";
 import { toast } from "sonner";
 
@@ -209,7 +212,8 @@ function ProductPage() {
       quantity,
       selectedOptions: variant.selectedOptions || [],
     });
-    toast.success("Tilføjet med ro", { description: product.title, position: "top-center" });
+    trackEvent('add_to_cart_product_page', { product_id: product.id, product_title: product.title });
+    toast.success("Tilføjet med ro.", { description: product.title, position: "top-center" });
   };
 
   // SHOPIFY CONNECTION: Read care instructions from metafields
@@ -343,6 +347,11 @@ function ProductPage() {
               </Button>
             </div>
 
+            {/* Trust line below CTA */}
+            <p className="text-xs text-muted-foreground text-center italic mt-3">
+              Pakket med omhu. Sendes trygt fra Danmark.
+            </p>
+
             {/* Trust points */}
             <div className="grid grid-cols-2 gap-3 pt-4 border-t border-border">
               {[
@@ -451,9 +460,10 @@ function ProductPage() {
           </div>
         </section>
 
+        {/* ── Product Fit & Doubt ─────────────────────────────────── */}
+        <ProductFitSection />
+
         {/* ── Related Products ────────────────────────────────────────── */}
-        {/* SHOPIFY CONNECTION: Uses Shopify's productRecommendations query.
-            Powered by Shopify's ML engine — no manual configuration needed. */}
         {relatedProducts.length > 0 && (
           <section className="mt-20">
             <h2 className="font-serif text-2xl mb-8">Det giver mening sammen med…</h2>
@@ -466,8 +476,6 @@ function ProductPage() {
         )}
 
         {/* ── Reviews Placeholder ─────────────────────────────────────── */}
-        {/* SHOPIFY CONNECTION: Integrate with a reviews app (Judge.me, Yotpo, Loox, etc.)
-            Reviews should come from real customers — never generate fake review content. */}
         <section className="mt-20 max-w-3xl">
           <h2 className="font-serif text-2xl mb-4">Anmeldelser</h2>
           <div className="p-8 rounded-lg border border-border text-center">
@@ -476,6 +484,15 @@ function ProductPage() {
           </div>
         </section>
       </div>
+
+      {/* Sticky mobile CTA */}
+      <StickyMobileCTA
+        productTitle={product.title}
+        price={variant ? formatPrice(variant.price.amount, variant.price.currencyCode) : ''}
+        onAddToCart={handleAddToCart}
+        isLoading={isCartLoading}
+        isAvailable={variant?.availableForSale ?? false}
+      />
     </div>
   );
 }

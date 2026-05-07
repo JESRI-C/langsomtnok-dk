@@ -127,6 +127,7 @@ function SharpeningPage() {
         headline="Giv dit blad nyt liv."
         text="Slibning er ikke en pligt. Det er en måde at forlænge glæden på."
         cta={{ label: "Se slibesten og pleje", to: "/collections/slibesten" }}
+        secondaryCta={{ label: "Læs slibeguiden", to: "/guides/hvordan-sliber-man-en-kniv" }}
         variant="dark"
       />
 

@@ -9,6 +9,7 @@
 import { Link } from "@tanstack/react-router";
 import { useCartStore } from "@/stores/cartStore";
 import { formatPrice, hasDiscount, getDiscountPercentage, type ShopifyProduct } from "@/lib/shopify";
+import { trackEvent } from "@/lib/analytics";
 import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
 
@@ -34,7 +35,8 @@ export function ProductCard({ product }: { product: ShopifyProduct }) {
       quantity: 1,
       selectedOptions: variant.selectedOptions || [],
     });
-    toast.success("Tilføjet med ro", { description: node.title, position: "top-center" });
+    trackEvent('add_to_cart_product_card', { product_id: node.id, product_title: node.title });
+    toast.success("Tilføjet med ro.", { description: node.title, position: "top-center" });
   };
 
   return (
