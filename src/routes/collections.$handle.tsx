@@ -138,7 +138,7 @@ function CollectionPage() {
           <p className="text-editorial text-muted-foreground">
             {editorialInfo?.intro || collection?.description || ""}
           </p>
-          {collection?.description && editorialInfo && (
+          {collection?.description && editorialInfo && collection.description !== editorialInfo.intro && (
             <p className="text-sm text-muted-foreground/70 mt-3">{collection.description}</p>
           )}
         </div>
