@@ -22,10 +22,10 @@ export const Route = createFileRoute("/pages/gave-til-madelskeren")({
 });
 
 const RECOMMENDED_HANDLES = [
-  "gift-of-calm-walnut-sharpener-manifest-card",
   "damascus-chef-knife-8-5-olive-wood",
-  "knife-sharpener-walnut",
-  "magnetic-knife-stand-acacia",
+  "walnut-sharpener-xz-mdq01-htm",
+  "magnetic-knife-display-stand-acacia",
+  "magnetic-knife-display-stand-walnut",
 ];
 
 function GiftPage() {

@@ -24,8 +24,8 @@ export const Route = createFileRoute("/pages/sadan-holder-du-din-kniv-skarp")({
 const RECOMMENDED_HANDLES = [
   "double-sided-whetstone-1000-5000",
   "double-sided-whetstone-3000-8000",
-  "leather-strop",
-  "whetstone-holder-acacia",
+  "leather-strop-green-and-yellow-compound",
+  "sharpening-stone-holder-acacia",
 ];
 
 function SharpeningPage() {
