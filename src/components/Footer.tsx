@@ -1,4 +1,5 @@
 import { Link } from "@tanstack/react-router";
+import { trackEvent } from "@/lib/analytics";
 
 const footerLinks = {
   shop: [
@@ -103,7 +104,38 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="border-t border-deep-foreground/10 mt-16 pt-8">
+        {/* Newsletter in footer */}
+        <div className="border-t border-deep-foreground/10 mt-16 pt-10">
+          <div className="max-w-md mx-auto text-center mb-10">
+            <h3 className="font-serif text-lg mb-3">Langsomt Brev</h3>
+            <p className="text-sm text-deep-foreground/50 mb-4">
+              Rolige breve om køkkenritualer, pleje og nye produkter.
+            </p>
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                trackEvent('newsletter_signup_footer');
+              }}
+              className="flex gap-2"
+            >
+              <input
+                type="email"
+                placeholder="Din e-mail"
+                required
+                className="flex-1 h-10 px-3 rounded-md border bg-deep-foreground/5 border-deep-foreground/10 text-deep-foreground placeholder:text-deep-foreground/30 text-sm focus:outline-none focus:ring-2 focus:ring-cta/30"
+              />
+              <button
+                type="submit"
+                className="h-10 px-5 rounded-md bg-cta text-cta-foreground text-sm font-medium hover:bg-cta/90 transition-colors"
+              >
+                Tilmeld
+              </button>
+            </form>
+            <p className="text-xs text-deep-foreground/25 mt-2">Ingen støj. Kun ro.</p>
+          </div>
+        </div>
+
+        <div className="border-t border-deep-foreground/10 pt-8">
           <p className="text-sm text-deep-foreground/30 text-center">
             © {new Date().getFullYear()} Langsomt Nok. Tid. Håndværk. Ro.
           </p>
