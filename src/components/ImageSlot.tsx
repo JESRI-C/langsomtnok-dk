@@ -38,34 +38,12 @@ interface ImageSlotProps {
 export function ImageSlot({
   name,
   ratio,
-  useCase,
   motif,
   alt,
   src,
   className = "",
-  variant = "light",
   priority = false,
 }: ImageSlotProps) {
-  const bgMap = {
-    light: "bg-soft",
-    warm: "bg-linen",
-    dark: "bg-deep",
-  };
-  const textMap = {
-    light: "text-foreground/20",
-    warm: "text-walnut/20",
-    dark: "text-deep-foreground/15",
-  };
-  const borderMap = {
-    light: "border-border/40",
-    warm: "border-walnut/10",
-    dark: "border-deep-foreground/10",
-  };
-  const labelMap = {
-    light: "text-foreground/30 bg-background/60",
-    warm: "text-walnut/40 bg-background/50",
-    dark: "text-deep-foreground/25 bg-deep/40",
-  };
 
   // Auto-resolve image from library if no explicit src
   const resolvedSrc = src || getImageForSlot(name);
@@ -89,43 +67,49 @@ export function ImageSlot({
 
   return (
     <div
-      className={`relative overflow-hidden rounded-lg border ${bgMap[variant]} ${borderMap[variant]} ${className}`}
+      className={`relative overflow-hidden rounded-lg border bg-soft border-border/40 ${className}`}
       style={{ aspectRatio: ratio }}
       role="img"
-      aria-label={alt || motif || name}
+      aria-label={resolvedAlt}
     >
-      {/* Decorative diagonal line for premium feel */}
+      {/* Calm background pattern */}
       <div className="absolute inset-0 flex items-center justify-center">
-        <div className={`w-[120%] h-px ${variant === "dark" ? "bg-deep-foreground/5" : "bg-foreground/5"} rotate-[-15deg]`} />
+        <div className="w-[120%] h-px bg-foreground/5 rotate-[-15deg]" />
       </div>
 
-      {/* Brand mark */}
+      {/* Center content */}
       <div className="absolute inset-0 flex flex-col items-center justify-center p-6 gap-3">
-        <span className={`font-serif text-lg md:text-xl tracking-tight ${textMap[variant]}`}>
+        <span className="font-serif text-lg md:text-xl tracking-tight text-foreground/15">
           Langsomt Nok
         </span>
-        {motif && (
-          <span className={`text-[11px] md:text-xs text-center max-w-[280px] leading-relaxed ${textMap[variant]}`}>
+        {/* Dev-only missing image label */}
+        {import.meta.env.DEV && (
+          <div className="text-center space-y-1">
+            <span className="block text-[11px] font-mono text-copper/60 bg-copper/5 px-2 py-1 rounded">
+              Billede mangler — indsæt Shopify Files URL
+            </span>
+            <span className="block text-[10px] font-mono text-muted-foreground/40">
+              id: {name}
+            </span>
+          </div>
+        )}
+        {!import.meta.env.DEV && motif && (
+          <span className="text-[11px] md:text-xs text-center max-w-[280px] leading-relaxed text-foreground/15">
             {motif}
           </span>
         )}
       </div>
 
-      {/* Slot label */}
-      <div className={`absolute bottom-3 left-3 right-3 flex items-end justify-between gap-2 ${labelMap[variant]}`}>
-        <span className={`text-[9px] font-mono tracking-wider uppercase px-2 py-1 rounded backdrop-blur-sm ${labelMap[variant]}`}>
-          {name}
-        </span>
-        <span className={`text-[9px] font-mono tracking-wider px-2 py-1 rounded backdrop-blur-sm ${labelMap[variant]}`}>
-          {ratio.replace("/", ":")}
-        </span>
-      </div>
-
-      {/* Top-right use case badge */}
-      {useCase && (
-        <span className={`absolute top-3 right-3 text-[9px] font-mono tracking-wider px-2 py-1 rounded backdrop-blur-sm ${labelMap[variant]}`}>
-          {useCase}
-        </span>
+      {/* Slot label — dev only */}
+      {import.meta.env.DEV && (
+        <div className="absolute bottom-3 left-3 right-3 flex items-end justify-between gap-2">
+          <span className="text-[9px] font-mono tracking-wider uppercase px-2 py-1 rounded backdrop-blur-sm text-foreground/25 bg-background/50">
+            {name}
+          </span>
+          <span className="text-[9px] font-mono tracking-wider px-2 py-1 rounded backdrop-blur-sm text-foreground/25 bg-background/50">
+            {ratio.replace("/", ":")}
+          </span>
+        </div>
       )}
     </div>
   );
