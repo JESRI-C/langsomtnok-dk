@@ -13,6 +13,7 @@ import { Route as ShopRouteImport } from './routes/shop'
 import { Route as OmRouteImport } from './routes/om'
 import { Route as KontaktRouteImport } from './routes/kontakt'
 import { Route as CirklenRouteImport } from './routes/cirklen'
+import { Route as AuditRouteImport } from './routes/audit'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as GuidesIndexRouteImport } from './routes/guides.index'
 import { Route as ProductHandleRouteImport } from './routes/product.$handle'
@@ -42,6 +43,11 @@ const KontaktRoute = KontaktRouteImport.update({
 const CirklenRoute = CirklenRouteImport.update({
   id: '/cirklen',
   path: '/cirklen',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuditRoute = AuditRouteImport.update({
+  id: '/audit',
+  path: '/audit',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -99,6 +105,7 @@ const CollectionsHandleRoute = CollectionsHandleRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/audit': typeof AuditRoute
   '/cirklen': typeof CirklenRoute
   '/kontakt': typeof KontaktRoute
   '/om': typeof OmRoute
@@ -115,6 +122,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/audit': typeof AuditRoute
   '/cirklen': typeof CirklenRoute
   '/kontakt': typeof KontaktRoute
   '/om': typeof OmRoute
@@ -132,6 +140,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/audit': typeof AuditRoute
   '/cirklen': typeof CirklenRoute
   '/kontakt': typeof KontaktRoute
   '/om': typeof OmRoute
@@ -150,6 +159,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/audit'
     | '/cirklen'
     | '/kontakt'
     | '/om'
@@ -166,6 +176,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/audit'
     | '/cirklen'
     | '/kontakt'
     | '/om'
@@ -182,6 +193,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/audit'
     | '/cirklen'
     | '/kontakt'
     | '/om'
@@ -199,6 +211,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuditRoute: typeof AuditRoute
   CirklenRoute: typeof CirklenRoute
   KontaktRoute: typeof KontaktRoute
   OmRoute: typeof OmRoute
@@ -242,6 +255,13 @@ declare module '@tanstack/react-router' {
       path: '/cirklen'
       fullPath: '/cirklen'
       preLoaderRoute: typeof CirklenRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/audit': {
+      id: '/audit'
+      path: '/audit'
+      fullPath: '/audit'
+      preLoaderRoute: typeof AuditRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -319,6 +339,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuditRoute: AuditRoute,
   CirklenRoute: CirklenRoute,
   KontaktRoute: KontaktRoute,
   OmRoute: OmRoute,

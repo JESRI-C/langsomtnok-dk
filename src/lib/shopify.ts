@@ -460,6 +460,54 @@ export const COLLECTION_BY_HANDLE_QUERY = `
   }
 `;
 
+/**
+ * Fetch multiple products by their handles.
+ * Used by landing pages to show specific product recommendations.
+ */
+export const PRODUCTS_BY_HANDLES_QUERY = `
+  query GetProductsByHandles($first: Int!, $query: String!) {
+    products(first: $first, query: $query) {
+      edges {
+        node {
+          id title description handle productType vendor tags
+          priceRange {
+            minVariantPrice { amount currencyCode }
+          }
+          compareAtPriceRange {
+            minVariantPrice { amount currencyCode }
+          }
+          images(first: 3) {
+            edges { node { url altText } }
+          }
+          variants(first: 5) {
+            edges {
+              node {
+                id title
+                price { amount currencyCode }
+                availableForSale
+                selectedOptions { name value }
+              }
+            }
+          }
+          options { name values }
+        }
+      }
+    }
+  }
+`;
+
+/** Fetch products by an array of handles */
+export async function fetchProductsByHandles(handles: string[]): Promise<ShopifyProduct[]> {
+  if (handles.length === 0) return [];
+  const query = handles.map(h => `handle:${h}`).join(" OR ");
+  try {
+    const data = await storefrontApiRequest(PRODUCTS_BY_HANDLES_QUERY, { first: handles.length, query });
+    return data?.data?.products?.edges || [];
+  } catch {
+    return [];
+  }
+}
+
 // ── Utility Functions ────────────────────────────────────────────────────────
 
 /** Format price in Danish locale (e.g. "1.499,00 kr.") */

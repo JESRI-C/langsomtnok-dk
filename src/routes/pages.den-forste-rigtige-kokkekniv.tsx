@@ -1,13 +1,13 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useState, useEffect } from "react";
 import { LandingPageHero } from "@/components/landing/LandingPageHero";
 import { ProductRecommendationBlock } from "@/components/landing/ProductRecommendationBlock";
-import { BundleRecommendationBlock } from "@/components/landing/BundleRecommendationBlock";
 import { TrustBar } from "@/components/landing/TrustBar";
 import { FAQAccordion } from "@/components/landing/FAQAccordion";
 import { CalmCTASection } from "@/components/landing/CalmCTASection";
-import { InternalLinkBlock } from "@/components/landing/InternalLinkBlock";
 import { NewsletterSignup } from "@/components/NewsletterSignup";
-import { ImageSlot, IMAGE_SLOTS } from "@/components/ImageSlot";
+import { IMAGE_SLOTS } from "@/components/ImageSlot";
+import { fetchProductsByHandles, type ShopifyProduct } from "@/lib/shopify";
 
 export const Route = createFileRoute("/pages/den-forste-rigtige-kokkekniv")({
   head: () => ({
@@ -21,7 +21,19 @@ export const Route = createFileRoute("/pages/den-forste-rigtige-kokkekniv")({
   component: FirstKnifePage,
 });
 
+const RECOMMENDED_HANDLES = [
+  "damascus-chef-knife-8-5-olive-wood",
+  "double-sided-whetstone-1000-5000",
+  "magnetic-knife-stand-acacia",
+];
+
 function FirstKnifePage() {
+  const [products, setProducts] = useState<ShopifyProduct[]>([]);
+
+  useEffect(() => {
+    fetchProductsByHandles(RECOMMENDED_HANDLES).then(setProducts);
+  }, []);
+
   return (
     <div>
       <LandingPageHero
@@ -47,16 +59,16 @@ function FirstKnifePage() {
         </div>
       </section>
 
-      {/* What makes a good kitchen knife */}
+      {/* What makes a good knife */}
       <section className="section-padding bg-soft">
         <div className="container-calm max-w-3xl">
           <h2 className="font-serif text-2xl md:text-3xl mb-6">Hvad gør en kniv god?</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {[
-              { title: "Stålet", text: "Højt kulstofindhold og korrekt hærdning giver et blad, der holder skarphed. Damascus-stål med VG-10 kerne er en af de bedste kombinationer." },
-              { title: "Balancen", text: "En god kniv hviler naturligt i hånden. Tyngdepunktet ligger ved bolsteren — der hvor blad møder skaft." },
-              { title: "Skaftet", text: "Træ, der ældes med dig. Valnød, oliven eller acacia giver varme og greb. Ingen plastik." },
-              { title: "Geometrien", text: "Bladets profil bestemmer, hvad kniven er god til. En kokkekniv er alsidig — den rokker, den snipper, den hakker." },
+              { title: "Stålet", text: "Højt kulstofindhold og korrekt hærdning giver et blad, der holder skarphed." },
+              { title: "Balancen", text: "En god kniv hviler naturligt i hånden. Tyngdepunktet ligger ved bolsteren." },
+              { title: "Skaftet", text: "Træ, der ældes med dig. Oliventræ, valnød eller acacia giver varme og greb." },
+              { title: "Geometrien", text: "Bladets profil bestemmer, hvad kniven er god til. En kokkekniv er alsidig." },
             ].map((item) => (
               <div key={item.title}>
                 <h3 className="font-serif text-lg mb-2">{item.title}</h3>
@@ -67,19 +79,14 @@ function FirstKnifePage() {
         </div>
       </section>
 
-      {/* Recommended starter knife */}
+      {/* Recommended products from Shopify */}
       <ProductRecommendationBlock
         title="Din første kniv"
         subtitle="Vi anbefaler at starte med én god kokkekniv. Ikke ti middelmådige."
+        products={products}
       />
 
-      {/* Starter bundle */}
-      <BundleRecommendationBlock
-        title="Start med et komplet ritual"
-        subtitle="Kniv, slibesten og plejeolie — alt du behøver for at begynde rigtigt."
-      />
-
-      {/* How to care */}
+      {/* Care steps */}
       <section className="section-padding">
         <div className="container-calm max-w-3xl">
           <h2 className="font-serif text-2xl md:text-3xl mb-6">Pleje af din første gode kniv</h2>
@@ -103,10 +110,9 @@ function FirstKnifePage() {
       </section>
 
       <FAQAccordion items={[
-        { question: "Hvilken størrelse kokkekniv skal jeg vælge?", answer: "De fleste starter bedst med en 20 cm (8\") kokkekniv. Den er alsidig nok til det meste og ikke for overvældende i hånden." },
-        { question: "Er damaskus-stål bedre end almindeligt stål?", answer: "Damaskus-stål kombinerer hårdhed med fleksibilitet. VG-10 kernen giver ekstraordinær skarphed, mens de ydre lag giver modstandsdygtighed og det karakteristiske mønster." },
+        { question: "Hvilken størrelse kokkekniv skal jeg vælge?", answer: "De fleste starter bedst med en 20-21 cm kokkekniv. Den er alsidig nok til det meste." },
         { question: "Kan jeg bruge kniven til alt?", answer: "En kokkekniv er utroligt alsidig — den hakker, snipper, terninger og rokker. For brød og udskæring anbefaler vi specialiserede knive." },
-        { question: "Hvad hvis jeg aldrig har slibet en kniv før?", answer: "Det er nemmere end du tror. Vores slibeguide tager dig igennem det trin for trin. Start med en 1000/5000 kombinationssten." },
+        { question: "Hvad hvis jeg aldrig har slibet en kniv før?", answer: "Det er nemmere end du tror. Start med en 1000/5000 slibesten og følg vores guide." },
         { question: "Hvor lang tid holder en god kokkekniv?", answer: "Med korrekt pleje — hele livet. En god kniv er en investering, der giver glæde i årtier." },
       ]} />
 

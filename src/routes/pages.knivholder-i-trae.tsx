@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useState, useEffect } from "react";
 import { LandingPageHero } from "@/components/landing/LandingPageHero";
 import { ProductRecommendationBlock } from "@/components/landing/ProductRecommendationBlock";
 import { TrustBar } from "@/components/landing/TrustBar";
@@ -6,12 +7,13 @@ import { FAQAccordion } from "@/components/landing/FAQAccordion";
 import { CalmCTASection } from "@/components/landing/CalmCTASection";
 import { NewsletterSignup } from "@/components/NewsletterSignup";
 import { ImageSlot, IMAGE_SLOTS } from "@/components/ImageSlot";
+import { fetchProductsByHandles, type ShopifyProduct } from "@/lib/shopify";
 
 export const Route = createFileRoute("/pages/knivholder-i-trae")({
   head: () => ({
     meta: [
       { title: "Knivholder i træ — Langsomt Nok" },
-      { name: "description", content: "Magnetiske knivholdere i træ skaber ro, overblik og varme i køkkenet. Se vores kollektion i valnød og acacia." },
+      { name: "description", content: "Magnetiske knivholdere i træ skaber ro, overblik og varme i køkkenet. Se vores kollektion i valnød og akacie." },
       { property: "og:title", content: "Knivholder i træ — Langsomt Nok" },
       { property: "og:description", content: "Magnetiske knivholdere i træ skaber ro, overblik og varme i køkkenet." },
     ],
@@ -19,13 +21,26 @@ export const Route = createFileRoute("/pages/knivholder-i-trae")({
   component: KnifeHolderPage,
 });
 
+const RECOMMENDED_HANDLES = [
+  "magnetic-knife-strip-acacia-50cm",
+  "magnetic-knife-stand-acacia",
+  "magnetic-knife-stand-walnut",
+  "magnetic-knife-strip-walnut-50cm",
+];
+
 function KnifeHolderPage() {
+  const [products, setProducts] = useState<ShopifyProduct[]>([]);
+
+  useEffect(() => {
+    fetchProductsByHandles(RECOMMENDED_HANDLES).then(setProducts);
+  }, []);
+
   return (
     <div>
       <LandingPageHero
         headline="Når værktøjet er smukt, skal det ikke gemmes væk."
         subheadline="Magnetiske knivholdere i træ skaber ro, overblik og varme i køkkenet."
-        primaryCta={{ label: "Se magnetiske holdere", to: "/collections/magnetiske-holdere" }}
+        primaryCta={{ label: "Se magnetiske holdere", to: "/shop" }}
         secondaryCta={{ label: "Læs om materialerne", to: "/guides/gode-koekkenredskaber-der-holder" }}
         imageSlot={{ name: IMAGE_SLOTS.heroes.woodenKnifeHolderLandingHero.name, motif: IMAGE_SLOTS.heroes.woodenKnifeHolderLandingHero.motif }}
         variant="overlay"
@@ -33,12 +48,11 @@ function KnifeHolderPage() {
 
       <TrustBar />
 
-      {/* Why magnetic */}
       <section className="section-padding">
         <div className="container-calm max-w-3xl">
           <h2 className="font-serif text-2xl md:text-3xl mb-6">Hvorfor en magnetisk knivholder?</h2>
           <div className="space-y-4 text-muted-foreground text-editorial">
-            <p>En skuffe ødelægger dine knive. En knivblok samler støv og bakterier. En magnetisk holder gør det modsatte: den viser dine redskaber frem, beskytter bladene og giver dig overblik.</p>
+            <p>En skuffe ødelægger dine knive. En knivblok samler støv. En magnetisk holder gør det modsatte: den viser dine redskaber frem, beskytter bladene og giver dig overblik.</p>
             <p>Med en magnetisk holder er kniven altid inden for rækkevidde. Du griber den naturligt — og lægger den lige så naturligt på plads igen.</p>
           </div>
         </div>
@@ -48,11 +62,10 @@ function KnifeHolderPage() {
       <section className="section-padding bg-soft">
         <div className="container-calm max-w-4xl">
           <h2 className="font-serif text-2xl md:text-3xl mb-8 text-center">Træsorter og køkkenæstetik</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {[
               { name: "Valnød", desc: "Dyb, varm og tidløs. Passer til de fleste køkkener og ældes smukt.", slot: IMAGE_SLOTS.materials.walnut },
-              { name: "Acacia", desc: "Lysere toner med et organisk mønster. Giver et let, nordisk udtryk.", slot: IMAGE_SLOTS.materials.acacia },
-              { name: "Oliventræ", desc: "Levende, hvirvlende mønster. Hvert stykke er unikt som et fingeraftryk.", slot: IMAGE_SLOTS.materials.oliveWood },
+              { name: "Akacie", desc: "Lysere toner med et organisk mønster. Giver et let, nordisk udtryk.", slot: IMAGE_SLOTS.materials.acacia },
             ].map((wood) => (
               <div key={wood.name}>
                 <ImageSlot name={wood.slot.name} ratio="1/1" motif={wood.slot.motif} alt={wood.name} variant="warm" className="mb-4" />
@@ -64,49 +77,39 @@ function KnifeHolderPage() {
         </div>
       </section>
 
-      {/* Wall mounting */}
+      {/* Wall vs stand */}
       <section className="section-padding">
         <div className="container-calm max-w-3xl">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-            <div>
-              <h2 className="font-serif text-2xl md:text-3xl mb-4">Montering og daglig brug</h2>
-              <div className="space-y-3 text-muted-foreground text-sm leading-relaxed">
-                <p>Montering tager 10 minutter. Medfølgende beslag passer til de fleste vægtyper — muret, gips eller træ.</p>
-                <p>Holderen bærer 3-5 knive afhængig af størrelse. De stærkeste magneter holder selv tunge kokkeknive sikkert på plads.</p>
-                <p>Placér holderen i bekvem højde — du skal nå knivene naturligt uden at strække dig.</p>
-              </div>
+          <h2 className="font-serif text-2xl md:text-3xl mb-6">Væg eller bord?</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div className="p-6 rounded-lg border border-border">
+              <h3 className="font-serif text-lg mb-3">Knivlist til væg</h3>
+              <p className="text-sm text-muted-foreground leading-relaxed">Monteres på væggen og giver et rent, synligt udtryk. Ideel til køkkener med god vægplads.</p>
             </div>
-            <ImageSlot name="knife-holder-mounted" ratio="4/5" motif="Knivholder monteret på hvid væg med knive, set let fra siden" variant="warm" />
+            <div className="p-6 rounded-lg border border-border">
+              <h3 className="font-serif text-lg mb-3">Knivstander til bord</h3>
+              <p className="text-sm text-muted-foreground leading-relaxed">Stiller frit på bordpladen. Ingen montering nødvendig. Ideel til lejligheder eller køkkener uden vægplads.</p>
+            </div>
           </div>
-        </div>
-      </section>
-
-      {/* Match with knives */}
-      <section className="section-padding bg-soft">
-        <div className="container-calm max-w-3xl">
-          <h2 className="font-serif text-2xl md:text-3xl mb-6">Match med dine knive</h2>
-          <p className="text-muted-foreground text-editorial mb-6">
-            Valnød passer perfekt til knive med mørke skafter. Acacia og oliven giver kontrast til stålblade. Det vigtigste er, at kombinationen giver dig glæde, hver gang du kigger på den.
-          </p>
         </div>
       </section>
 
       <ProductRecommendationBlock
         title="Magnetiske holdere"
-        subtitle="Håndlavet i massivt træ med stærke neodymium-magneter."
+        subtitle="Håndlavet i massivt træ med stærke magneter."
+        products={products}
       />
 
       <FAQAccordion items={[
-        { question: "Skader magneten mine knive?", answer: "Nej. Neodymium-magneter er stærke nok til at holde, men skånsomme mod bladet. Undgå at lade kniven glide langs holderen — løft den af." },
-        { question: "Kan holderen bære tunge kokkeknive?", answer: "Ja. Vores holdere bruger N52-grade neodymium-magneter, der holder selv de tungeste kokkeknive sikkert på plads." },
+        { question: "Skader magneten mine knive?", answer: "Nej. Magneterne er stærke nok til at holde, men skånsomme mod bladet. Løft kniven af — lad den ikke glide." },
+        { question: "Kan holderen bære tunge kokkeknive?", answer: "Ja. Vores holdere er designet til at holde selv de tungeste kokkeknive sikkert på plads." },
         { question: "Hvad hvis min væg er af gips?", answer: "Medfølgende beslag passer til gipsvægge. Vi anbefaler montering i lægter for de tungeste belastninger." },
-        { question: "Kan jeg bruge holderen til andre ting?", answer: "Ja — sakse, rivejern eller andre magnetiske redskaber. Mange bruger den også til nøgler i entréen." },
       ]} />
 
       <CalmCTASection
         headline="Vis dine redskaber frem."
         text="Når stål og træ mødes på væggen, bliver køkkenet lidt smukkere."
-        cta={{ label: "Se magnetiske holdere", to: "/collections/magnetiske-holdere" }}
+        cta={{ label: "Se magnetiske holdere", to: "/shop" }}
         secondaryCta={{ label: "Læs om materialerne", to: "/guides/gode-koekkenredskaber-der-holder" }}
         variant="warm"
       />

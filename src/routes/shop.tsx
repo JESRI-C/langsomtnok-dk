@@ -20,10 +20,10 @@ export const Route = createFileRoute("/shop")({
 
 const CATEGORIES = [
   { label: "Alle", query: "" },
-  { label: "Knive", query: "product_type:Knive" },
-  { label: "Slibesten", query: "product_type:Slibesten" },
-  { label: "Holdere", query: "product_type:Holdere" },
-  { label: "Pleje", query: "product_type:Pleje" },
+  { label: "Knive", query: "product_type:\"The Chef Line\"" },
+  { label: "Slibning & pleje", query: "product_type:\"The Ritual Set\"" },
+  { label: "Opbevaring", query: "product_type:\"The Calm Kitchen\"" },
+  { label: "Gaver", query: "product_type:\"The Gift Chapter\"" },
 ];
 
 function ShopPage() {
@@ -109,10 +109,10 @@ function ShopPage() {
           <h2 className="font-serif text-3xl md:text-4xl text-center mb-12">Udforsk kategorierne</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
-              { title: "Knive", desc: "Hvert snit fortæller en historie.", handle: "knive", slot: IMAGE_SLOTS.categories.knives },
-              { title: "Slibesten", desc: "Giv bladet nyt liv.", handle: "slibesten", slot: IMAGE_SLOTS.categories.sharpeningStones },
-              { title: "Magnetiske holdere", desc: "Træ møder stål.", handle: "magnetiske-holdere", slot: IMAGE_SLOTS.categories.magneticHolders },
-              { title: "Pleje & ritualer", desc: "Forlæng glæden.", handle: "pleje-ritualer", slot: IMAGE_SLOTS.categories.careProducts },
+              { title: "Knive", desc: "Knive til hænder, der gerne vil mærke forskellen.", handle: "knive", slot: IMAGE_SLOTS.categories.knives },
+              { title: "Slibning & pleje", desc: "Skarphed er ikke tilfældig. Den er plejet.", handle: "slibesten", slot: IMAGE_SLOTS.categories.sharpeningStones },
+              { title: "Magnetisk opbevaring", desc: "Når værktøjet er smukt, skal det ikke gemmes væk.", handle: "magnetiske-holdere", slot: IMAGE_SLOTS.categories.magneticHolders },
+              { title: "Gaver", desc: "Gaver, der bliver brugt. Ikke bare pakket ud.", handle: "gaver", slot: IMAGE_SLOTS.categories.giftSets },
             ].map((cat) => (
               <Link key={cat.title} to="/collections/$handle" params={{ handle: cat.handle }} className="group block">
                 <ImageSlot
