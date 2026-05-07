@@ -16,6 +16,7 @@ import { Route as CirklenRouteImport } from './routes/cirklen'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as GuidesIndexRouteImport } from './routes/guides.index'
 import { Route as ProductHandleRouteImport } from './routes/product.$handle'
+import { Route as PagesGaveTilMadelskerenRouteImport } from './routes/pages.gave-til-madelskeren'
 import { Route as PagesDenForsteRigtigeKokkeknivRouteImport } from './routes/pages.den-forste-rigtige-kokkekniv'
 import { Route as GuidesSlugRouteImport } from './routes/guides.$slug'
 import { Route as CollectionsHandleRouteImport } from './routes/collections.$handle'
@@ -55,6 +56,11 @@ const ProductHandleRoute = ProductHandleRouteImport.update({
   path: '/product/$handle',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PagesGaveTilMadelskerenRoute = PagesGaveTilMadelskerenRouteImport.update({
+  id: '/pages/gave-til-madelskeren',
+  path: '/pages/gave-til-madelskeren',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PagesDenForsteRigtigeKokkeknivRoute =
   PagesDenForsteRigtigeKokkeknivRouteImport.update({
     id: '/pages/den-forste-rigtige-kokkekniv',
@@ -81,6 +87,7 @@ export interface FileRoutesByFullPath {
   '/collections/$handle': typeof CollectionsHandleRoute
   '/guides/$slug': typeof GuidesSlugRoute
   '/pages/den-forste-rigtige-kokkekniv': typeof PagesDenForsteRigtigeKokkeknivRoute
+  '/pages/gave-til-madelskeren': typeof PagesGaveTilMadelskerenRoute
   '/product/$handle': typeof ProductHandleRoute
   '/guides/': typeof GuidesIndexRoute
 }
@@ -93,6 +100,7 @@ export interface FileRoutesByTo {
   '/collections/$handle': typeof CollectionsHandleRoute
   '/guides/$slug': typeof GuidesSlugRoute
   '/pages/den-forste-rigtige-kokkekniv': typeof PagesDenForsteRigtigeKokkeknivRoute
+  '/pages/gave-til-madelskeren': typeof PagesGaveTilMadelskerenRoute
   '/product/$handle': typeof ProductHandleRoute
   '/guides': typeof GuidesIndexRoute
 }
@@ -106,6 +114,7 @@ export interface FileRoutesById {
   '/collections/$handle': typeof CollectionsHandleRoute
   '/guides/$slug': typeof GuidesSlugRoute
   '/pages/den-forste-rigtige-kokkekniv': typeof PagesDenForsteRigtigeKokkeknivRoute
+  '/pages/gave-til-madelskeren': typeof PagesGaveTilMadelskerenRoute
   '/product/$handle': typeof ProductHandleRoute
   '/guides/': typeof GuidesIndexRoute
 }
@@ -120,6 +129,7 @@ export interface FileRouteTypes {
     | '/collections/$handle'
     | '/guides/$slug'
     | '/pages/den-forste-rigtige-kokkekniv'
+    | '/pages/gave-til-madelskeren'
     | '/product/$handle'
     | '/guides/'
   fileRoutesByTo: FileRoutesByTo
@@ -132,6 +142,7 @@ export interface FileRouteTypes {
     | '/collections/$handle'
     | '/guides/$slug'
     | '/pages/den-forste-rigtige-kokkekniv'
+    | '/pages/gave-til-madelskeren'
     | '/product/$handle'
     | '/guides'
   id:
@@ -144,6 +155,7 @@ export interface FileRouteTypes {
     | '/collections/$handle'
     | '/guides/$slug'
     | '/pages/den-forste-rigtige-kokkekniv'
+    | '/pages/gave-til-madelskeren'
     | '/product/$handle'
     | '/guides/'
   fileRoutesById: FileRoutesById
@@ -157,6 +169,7 @@ export interface RootRouteChildren {
   CollectionsHandleRoute: typeof CollectionsHandleRoute
   GuidesSlugRoute: typeof GuidesSlugRoute
   PagesDenForsteRigtigeKokkeknivRoute: typeof PagesDenForsteRigtigeKokkeknivRoute
+  PagesGaveTilMadelskerenRoute: typeof PagesGaveTilMadelskerenRoute
   ProductHandleRoute: typeof ProductHandleRoute
   GuidesIndexRoute: typeof GuidesIndexRoute
 }
@@ -212,6 +225,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProductHandleRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/pages/gave-til-madelskeren': {
+      id: '/pages/gave-til-madelskeren'
+      path: '/pages/gave-til-madelskeren'
+      fullPath: '/pages/gave-til-madelskeren'
+      preLoaderRoute: typeof PagesGaveTilMadelskerenRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/pages/den-forste-rigtige-kokkekniv': {
       id: '/pages/den-forste-rigtige-kokkekniv'
       path: '/pages/den-forste-rigtige-kokkekniv'
@@ -245,6 +265,7 @@ const rootRouteChildren: RootRouteChildren = {
   CollectionsHandleRoute: CollectionsHandleRoute,
   GuidesSlugRoute: GuidesSlugRoute,
   PagesDenForsteRigtigeKokkeknivRoute: PagesDenForsteRigtigeKokkeknivRoute,
+  PagesGaveTilMadelskerenRoute: PagesGaveTilMadelskerenRoute,
   ProductHandleRoute: ProductHandleRoute,
   GuidesIndexRoute: GuidesIndexRoute,
 }
