@@ -11,7 +11,7 @@ import { useState, useEffect } from "react";
 import { ProductCard } from "@/components/ProductCard";
 import { NewsletterSignup } from "@/components/NewsletterSignup";
 import { TrustBar } from "@/components/landing/TrustBar";
-import { storefrontApiRequest, COLLECTION_BY_HANDLE_QUERY, type ShopifyProduct } from "@/lib/shopify";
+import { storefrontApiRequest, COLLECTION_BY_HANDLE_QUERY, PRODUCTS_QUERY, type ShopifyProduct } from "@/lib/shopify";
 
 const SORT_OPTIONS = [
   { label: "Anbefalet", key: "COLLECTION_DEFAULT", reverse: false },
