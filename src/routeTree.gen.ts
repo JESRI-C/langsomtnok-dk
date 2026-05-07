@@ -10,7 +10,13 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as ShopRouteImport } from './routes/shop'
+import { Route as OmRouteImport } from './routes/om'
+import { Route as KontaktRouteImport } from './routes/kontakt'
+import { Route as CirklenRouteImport } from './routes/cirklen'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as GuidesIndexRouteImport } from './routes/guides.index'
+import { Route as ProductHandleRouteImport } from './routes/product.$handle'
+import { Route as GuidesSlugRouteImport } from './routes/guides.$slug'
 import { Route as CollectionsHandleRouteImport } from './routes/collections.$handle'
 
 const ShopRoute = ShopRouteImport.update({
@@ -18,9 +24,39 @@ const ShopRoute = ShopRouteImport.update({
   path: '/shop',
   getParentRoute: () => rootRouteImport,
 } as any)
+const OmRoute = OmRouteImport.update({
+  id: '/om',
+  path: '/om',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const KontaktRoute = KontaktRouteImport.update({
+  id: '/kontakt',
+  path: '/kontakt',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CirklenRoute = CirklenRouteImport.update({
+  id: '/cirklen',
+  path: '/cirklen',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GuidesIndexRoute = GuidesIndexRouteImport.update({
+  id: '/guides/',
+  path: '/guides/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProductHandleRoute = ProductHandleRouteImport.update({
+  id: '/product/$handle',
+  path: '/product/$handle',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GuidesSlugRoute = GuidesSlugRouteImport.update({
+  id: '/guides/$slug',
+  path: '/guides/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CollectionsHandleRoute = CollectionsHandleRouteImport.update({
@@ -31,32 +67,84 @@ const CollectionsHandleRoute = CollectionsHandleRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/cirklen': typeof CirklenRoute
+  '/kontakt': typeof KontaktRoute
+  '/om': typeof OmRoute
   '/shop': typeof ShopRoute
   '/collections/$handle': typeof CollectionsHandleRoute
+  '/guides/$slug': typeof GuidesSlugRoute
+  '/product/$handle': typeof ProductHandleRoute
+  '/guides/': typeof GuidesIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/cirklen': typeof CirklenRoute
+  '/kontakt': typeof KontaktRoute
+  '/om': typeof OmRoute
   '/shop': typeof ShopRoute
   '/collections/$handle': typeof CollectionsHandleRoute
+  '/guides/$slug': typeof GuidesSlugRoute
+  '/product/$handle': typeof ProductHandleRoute
+  '/guides': typeof GuidesIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/cirklen': typeof CirklenRoute
+  '/kontakt': typeof KontaktRoute
+  '/om': typeof OmRoute
   '/shop': typeof ShopRoute
   '/collections/$handle': typeof CollectionsHandleRoute
+  '/guides/$slug': typeof GuidesSlugRoute
+  '/product/$handle': typeof ProductHandleRoute
+  '/guides/': typeof GuidesIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/shop' | '/collections/$handle'
+  fullPaths:
+    | '/'
+    | '/cirklen'
+    | '/kontakt'
+    | '/om'
+    | '/shop'
+    | '/collections/$handle'
+    | '/guides/$slug'
+    | '/product/$handle'
+    | '/guides/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/shop' | '/collections/$handle'
-  id: '__root__' | '/' | '/shop' | '/collections/$handle'
+  to:
+    | '/'
+    | '/cirklen'
+    | '/kontakt'
+    | '/om'
+    | '/shop'
+    | '/collections/$handle'
+    | '/guides/$slug'
+    | '/product/$handle'
+    | '/guides'
+  id:
+    | '__root__'
+    | '/'
+    | '/cirklen'
+    | '/kontakt'
+    | '/om'
+    | '/shop'
+    | '/collections/$handle'
+    | '/guides/$slug'
+    | '/product/$handle'
+    | '/guides/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  CirklenRoute: typeof CirklenRoute
+  KontaktRoute: typeof KontaktRoute
+  OmRoute: typeof OmRoute
   ShopRoute: typeof ShopRoute
   CollectionsHandleRoute: typeof CollectionsHandleRoute
+  GuidesSlugRoute: typeof GuidesSlugRoute
+  ProductHandleRoute: typeof ProductHandleRoute
+  GuidesIndexRoute: typeof GuidesIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -68,11 +156,53 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ShopRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/om': {
+      id: '/om'
+      path: '/om'
+      fullPath: '/om'
+      preLoaderRoute: typeof OmRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/kontakt': {
+      id: '/kontakt'
+      path: '/kontakt'
+      fullPath: '/kontakt'
+      preLoaderRoute: typeof KontaktRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/cirklen': {
+      id: '/cirklen'
+      path: '/cirklen'
+      fullPath: '/cirklen'
+      preLoaderRoute: typeof CirklenRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/guides/': {
+      id: '/guides/'
+      path: '/guides'
+      fullPath: '/guides/'
+      preLoaderRoute: typeof GuidesIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/product/$handle': {
+      id: '/product/$handle'
+      path: '/product/$handle'
+      fullPath: '/product/$handle'
+      preLoaderRoute: typeof ProductHandleRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/guides/$slug': {
+      id: '/guides/$slug'
+      path: '/guides/$slug'
+      fullPath: '/guides/$slug'
+      preLoaderRoute: typeof GuidesSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/collections/$handle': {
@@ -87,8 +217,14 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  CirklenRoute: CirklenRoute,
+  KontaktRoute: KontaktRoute,
+  OmRoute: OmRoute,
   ShopRoute: ShopRoute,
   CollectionsHandleRoute: CollectionsHandleRoute,
+  GuidesSlugRoute: GuidesSlugRoute,
+  ProductHandleRoute: ProductHandleRoute,
+  GuidesIndexRoute: GuidesIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
