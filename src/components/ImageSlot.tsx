@@ -38,34 +38,12 @@ interface ImageSlotProps {
 export function ImageSlot({
   name,
   ratio,
-  useCase,
   motif,
   alt,
   src,
   className = "",
-  variant = "light",
   priority = false,
 }: ImageSlotProps) {
-  const bgMap = {
-    light: "bg-soft",
-    warm: "bg-linen",
-    dark: "bg-deep",
-  };
-  const textMap = {
-    light: "text-foreground/20",
-    warm: "text-walnut/20",
-    dark: "text-deep-foreground/15",
-  };
-  const borderMap = {
-    light: "border-border/40",
-    warm: "border-walnut/10",
-    dark: "border-deep-foreground/10",
-  };
-  const labelMap = {
-    light: "text-foreground/30 bg-background/60",
-    warm: "text-walnut/40 bg-background/50",
-    dark: "text-deep-foreground/25 bg-deep/40",
-  };
 
   // Auto-resolve image from library if no explicit src
   const resolvedSrc = src || getImageForSlot(name);
