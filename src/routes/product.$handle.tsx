@@ -58,7 +58,156 @@ interface ProductNode {
   metafields?: ShopifyMetafield[] | null;
 }
 
-function ProductPage() {
+/** Renders a single editorial section based on its detected type */
+function EditorialSection({
+  section,
+  relatedProducts = [],
+  doubtCta,
+}: {
+  section: ParsedSection;
+  relatedProducts?: ShopifyProduct[];
+  doubtCta?: { label: string; to: string };
+}) {
+  const { heading, content, type, listItems } = section;
+
+  // Skip "Product description" meta-headings
+  if (heading.toLowerCase() === "product description" || heading.toLowerCase() === "produktbeskrivelse") {
+    return null;
+  }
+
+  // FAQ → accordion
+  if (type === "faq") {
+    const faqs = section.listItems.length > 0 ? [] : [];
+    // Re-parse FAQ from content
+    const pBlocks = content.split(/<p[^>]*>/i).filter(Boolean);
+    const faqItems: Array<{ q: string; a: string }> = [];
+    for (const block of pBlocks) {
+      const strongMatch = block.match(/<(?:strong|b)>([\s\S]*?)<\/(?:strong|b)>/i);
+      if (strongMatch) {
+        const q = strongMatch[1].replace(/<[^>]*>/g, "").trim();
+        const a = block
+          .substring((block.indexOf("</strong>") !== -1 ? block.indexOf("</strong>") + 9 : block.indexOf("</b>") + 4))
+          .replace(/<br\s*\/?>/gi, " ").replace(/<\/p>/gi, "").replace(/<[^>]*>/g, "").trim();
+        if (q && a) faqItems.push({ q, a });
+      }
+    }
+    if (faqItems.length === 0) return null;
+    return (
+      <section className="mt-16 max-w-3xl">
+        <h2 className="font-serif text-2xl mb-6">{heading}</h2>
+        <Accordion type="single" collapsible className="border border-border rounded-lg overflow-hidden">
+          {faqItems.map((faq, i) => (
+            <AccordionItem key={i} value={`faq-${i}`} className={i > 0 ? "border-t border-border" : "border-b-0"}>
+              <AccordionTrigger className="px-4 text-sm font-medium hover:no-underline">{faq.q}</AccordionTrigger>
+              <AccordionContent className="px-4 text-sm text-muted-foreground leading-relaxed">{faq.a}</AccordionContent>
+            </AccordionItem>
+          ))}
+        </Accordion>
+      </section>
+    );
+  }
+
+  // Fit → ProductFitSection
+  if (type === "fit" && listItems.length > 0 && doubtCta) {
+    return <ProductFitSection fitPoints={listItems} doubtCta={doubtCta} />;
+  }
+
+  // Materials / specs → table card
+  if (type === "materials" && listItems.length > 0) {
+    return (
+      <section className="mt-16 max-w-3xl">
+        <h2 className="font-serif text-2xl mb-6">{heading}</h2>
+        <div className="border border-border rounded-lg overflow-hidden">
+          {listItems.map((item, i) => {
+            const colonIdx = item.indexOf(":");
+            const label = colonIdx > -1 ? item.substring(0, colonIdx).trim() : item;
+            const value = colonIdx > -1 ? item.substring(colonIdx + 1).trim() : "";
+            return (
+              <div key={i} className={`flex justify-between py-3 px-4 text-sm ${i % 2 === 0 ? "bg-soft/30" : "bg-transparent"}`}>
+                <span className="text-muted-foreground font-medium">{label}</span>
+                {value && <span className="text-foreground text-right">{value}</span>}
+              </div>
+            );
+          })}
+        </div>
+      </section>
+    );
+  }
+
+  // Care → calm card
+  if (type === "care") {
+    return (
+      <section className="mt-16 max-w-3xl">
+        <div className="p-6 md:p-8 rounded-lg bg-soft/50 border border-border/30">
+          <h2 className="font-serif text-2xl mb-4">{heading}</h2>
+          <div
+            className="text-muted-foreground leading-relaxed text-sm [&>p]:mb-3 [&>p:last-child]:mb-0 [&>ul]:list-disc [&>ul]:pl-5 [&>ul]:space-y-2"
+            dangerouslySetInnerHTML={{ __html: content }}
+          />
+        </div>
+      </section>
+    );
+  }
+
+  // Cross-sell → text + related products grid
+  if (type === "crossSell") {
+    return (
+      <section className="mt-20">
+        <h2 className="font-serif text-2xl mb-4">{heading}</h2>
+        <div
+          className="text-muted-foreground leading-relaxed mb-8 max-w-3xl [&>p]:mb-3"
+          dangerouslySetInnerHTML={{ __html: content }}
+        />
+        {relatedProducts.length > 0 && (
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            {relatedProducts.slice(0, 4).map((rp) => (
+              <ProductCard key={rp.node.id} product={rp} />
+            ))}
+          </div>
+        )}
+      </section>
+    );
+  }
+
+  // Generic / story → editorial section with bullet list card if applicable
+  if (listItems.length > 0) {
+    return (
+      <section className="mt-16 max-w-3xl">
+        <h2 className="font-serif text-2xl mb-4">{heading}</h2>
+        {/* Render prose content before the list */}
+        {content.includes("<p") && (
+          <div
+            className="text-muted-foreground leading-relaxed mb-4 [&>p]:mb-3 [&>p:last-child]:mb-0"
+            dangerouslySetInnerHTML={{ __html: content.replace(/<ul[\s\S]*<\/ul>/gi, "") }}
+          />
+        )}
+        <div className="p-5 rounded-lg bg-soft/40 border border-border/20">
+          <ul className="space-y-2">
+            {listItems.map((item, i) => (
+              <li key={i} className="flex items-start gap-2 text-sm text-muted-foreground">
+                <span className="text-copper mt-0.5">•</span>
+                <span>{item}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+    );
+  }
+
+  // Generic prose section
+  return (
+    <section className="mt-16 max-w-3xl">
+      <h2 className="font-serif text-2xl mb-4">{heading}</h2>
+      <div
+        className="text-muted-foreground leading-relaxed [&>p]:mb-4 [&>p:last-child]:mb-0"
+        dangerouslySetInnerHTML={{ __html: content }}
+      />
+    </section>
+  );
+}
+
+
   const { handle } = Route.useParams();
   const [product, setProduct] = useState<ProductNode | null>(null);
   const [relatedProducts, setRelatedProducts] = useState<ShopifyProduct[]>([]);
