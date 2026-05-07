@@ -66,7 +66,7 @@ export function ProductCard({ product }: { product: ShopifyProduct }) {
           <span className="text-[10px] font-medium text-copper uppercase tracking-wider">{node.productType}</span>
         )}
         <h3 className="font-serif text-base leading-tight group-hover:text-walnut transition-colors">{node.title}</h3>
-        <p className="text-sm text-muted-foreground line-clamp-1">{node.description}</p>
+        
         <div className="flex items-center justify-between pt-1">
           <div className="flex items-baseline gap-2">
             <span className="text-sm font-medium">{formatPrice(price.amount, price.currencyCode)}</span>
