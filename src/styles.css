@@ -4,13 +4,7 @@
 
 @custom-variant dark (&:is(.dark *));
 
-@font-face {
-  font-family: 'Playfair Display';
-  font-style: normal;
-  font-weight: 400 900;
-  font-display: swap;
-  src: url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
-}
+/* Fonts loaded via Google Fonts link in __root.tsx */
 
 @theme inline {
   --radius-sm: calc(var(--radius) - 4px);
