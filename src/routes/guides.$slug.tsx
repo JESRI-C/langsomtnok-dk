@@ -12,7 +12,7 @@ export const Route = createFileRoute("/guides/$slug")({
 
 function ArticlePage() {
   const { slug } = Route.useParams();
-  const title = slug.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+  const title = slug.replace(/-/g, ' ').replace(/\b\w/g, (l: string) => l.toUpperCase());
 
   return (
     <div className="pt-24 pb-16">
