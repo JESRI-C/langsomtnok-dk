@@ -460,9 +460,10 @@ function ProductPage() {
           </div>
         </section>
 
+        {/* ── Product Fit & Doubt ─────────────────────────────────── */}
+        <ProductFitSection />
+
         {/* ── Related Products ────────────────────────────────────────── */}
-        {/* SHOPIFY CONNECTION: Uses Shopify's productRecommendations query.
-            Powered by Shopify's ML engine — no manual configuration needed. */}
         {relatedProducts.length > 0 && (
           <section className="mt-20">
             <h2 className="font-serif text-2xl mb-8">Det giver mening sammen med…</h2>
@@ -475,8 +476,6 @@ function ProductPage() {
         )}
 
         {/* ── Reviews Placeholder ─────────────────────────────────────── */}
-        {/* SHOPIFY CONNECTION: Integrate with a reviews app (Judge.me, Yotpo, Loox, etc.)
-            Reviews should come from real customers — never generate fake review content. */}
         <section className="mt-20 max-w-3xl">
           <h2 className="font-serif text-2xl mb-4">Anmeldelser</h2>
           <div className="p-8 rounded-lg border border-border text-center">
@@ -485,6 +484,15 @@ function ProductPage() {
           </div>
         </section>
       </div>
+
+      {/* Sticky mobile CTA */}
+      <StickyMobileCTA
+        productTitle={product.title}
+        price={variant ? formatPrice(variant.price.amount, variant.price.currencyCode) : ''}
+        onAddToCart={handleAddToCart}
+        isLoading={isCartLoading}
+        isAvailable={variant?.availableForSale ?? false}
+      />
     </div>
   );
 }
