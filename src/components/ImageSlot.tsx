@@ -67,15 +67,19 @@ export function ImageSlot({
     dark: "text-deep-foreground/25 bg-deep/40",
   };
 
-  if (src) {
+  // Auto-resolve image from library if no explicit src
+  const resolvedSrc = src || getImageForSlot(name);
+  const resolvedAlt = alt || getAltForSlot(name) || motif || name;
+
+  if (resolvedSrc) {
     return (
       <div
         className={`overflow-hidden rounded-lg ${className}`}
         style={{ aspectRatio: ratio }}
       >
         <img
-          src={src}
-          alt={alt || name}
+          src={resolvedSrc}
+          alt={resolvedAlt}
           className="w-full h-full object-cover"
           loading={priority ? "eager" : "lazy"}
         />
