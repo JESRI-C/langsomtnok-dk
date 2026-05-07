@@ -159,12 +159,18 @@ export function parseProductDescription(descriptionHtml: string): ParsedProductD
 
   for (const section of rawSections) {
     if (!section.heading) {
-      // Intro — content before first H3
-      result.intro = section.content;
+      // Intro — content before first heading, strip <hr> tags
+      result.intro = section.content.replace(/<hr\s*\/?>/gi, "").trim();
       continue;
     }
 
     const headingText = stripTags(section.heading);
+    
+    // Skip meta-headings like "Product description" / "Produktbeskrivelse"
+    const hLower = headingText.toLowerCase();
+    if (hLower === "product description" || hLower === "produktbeskrivelse") {
+      continue;
+    }
     const type = detectSectionType(headingText);
     const listItems = extractListItems(section.content);
 
