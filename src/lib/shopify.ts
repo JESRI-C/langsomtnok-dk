@@ -284,7 +284,7 @@ export const PRODUCTS_QUERY = `
                 id title
                 price { amount currencyCode }
                 compareAtPrice { amount currencyCode }
-                availableForSale quantityAvailable sku
+                availableForSale sku
                 selectedOptions { name value }
               }
             }
@@ -331,7 +331,7 @@ export const PRODUCT_BY_HANDLE_QUERY = `
             id title
             price { amount currencyCode }
             compareAtPrice { amount currencyCode }
-            availableForSale quantityAvailable sku
+            availableForSale sku
             selectedOptions { name value }
           }
         }
