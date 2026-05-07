@@ -1,5 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
+import { trackEvent } from "@/lib/analytics";
 
 interface CalmCTASectionProps {
   headline: string;
@@ -20,7 +21,7 @@ export function CalmCTASection({ headline, text, cta, secondaryCta, variant = "w
         <h2 className={`font-serif text-3xl md:text-4xl mb-4 ${textMap[variant]}`}>{headline}</h2>
         {text && <p className={`text-editorial mx-auto mb-8 ${subMap[variant]}`}>{text}</p>}
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-          <Button asChild variant="cta" size="lg">
+          <Button asChild variant="cta" size="lg" onClick={() => trackEvent('cta_click_landing_primary', { label: cta.label })}>
             <Link to={cta.to}>{cta.label}</Link>
           </Button>
           {secondaryCta && (
