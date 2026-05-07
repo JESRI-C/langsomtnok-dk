@@ -133,7 +133,7 @@ export function Header() {
 
         {/* Mobile Navigation */}
         {mobileOpen && (
-          <div className="xl:hidden fixed inset-x-0 top-[calc(var(--header-height,64px))] bottom-0 bg-background/99 backdrop-blur-sm z-40 overflow-y-auto">
+          <div className="xl:hidden fixed inset-x-0 top-[92px] bottom-0 bg-background/99 backdrop-blur-sm z-40 overflow-y-auto">
             <nav className="container-calm py-8 flex flex-col gap-1">
               {navItems.map((item) => (
                 <Link
