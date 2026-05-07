@@ -11,7 +11,7 @@ import { useState, useEffect } from "react";
 import { ProductCard } from "@/components/ProductCard";
 import { NewsletterSignup } from "@/components/NewsletterSignup";
 import { TrustBar } from "@/components/landing/TrustBar";
-import { storefrontApiRequest, COLLECTION_BY_HANDLE_QUERY, type ShopifyProduct } from "@/lib/shopify";
+import { storefrontApiRequest, COLLECTION_BY_HANDLE_QUERY, PRODUCTS_QUERY, type ShopifyProduct } from "@/lib/shopify";
 
 const SORT_OPTIONS = [
   { label: "Anbefalet", key: "COLLECTION_DEFAULT", reverse: false },
@@ -39,6 +39,10 @@ const COLLECTION_INTROS: Record<string, { tagline: string; intro: string }> = {
     tagline: "The Calm Kitchen",
     intro: "Når værktøjet er smukt, skal det ikke gemmes væk.",
   },
+  "magnetisk-opbevaring": {
+    tagline: "The Calm Kitchen",
+    intro: "Når værktøjet er smukt, skal det ikke gemmes væk.",
+  },
   gaver: {
     tagline: "The Gift Chapter",
     intro: "Gaver, der bliver brugt. Ikke bare pakket ud.",
@@ -47,6 +51,17 @@ const COLLECTION_INTROS: Record<string, { tagline: string; intro: string }> = {
     tagline: "Begynd her",
     intro: "Begynd med det, du faktisk får lyst til at bruge igen.",
   },
+};
+
+/** Fallback: map collection handle → product_type query (until real Shopify collections exist) */
+const COLLECTION_PRODUCT_TYPE_FALLBACK: Record<string, string> = {
+  knive: 'product_type:"The Chef Line"',
+  slibesten: 'product_type:"The Ritual Set"',
+  "slibning-pleje": 'product_type:"The Ritual Set"',
+  "magnetiske-holdere": 'product_type:"The Calm Kitchen"',
+  "magnetisk-opbevaring": 'product_type:"The Calm Kitchen"',
+  gaver: 'product_type:"The Gift Chapter"',
+  "start-dit-ritual": "",
 };
 
 export const Route = createFileRoute("/collections/$handle")({
@@ -78,17 +93,31 @@ function CollectionPage() {
   useEffect(() => {
     setLoading(true);
     const sort = SORT_OPTIONS[sortIdx];
+
+    // Try real Shopify collection first
     storefrontApiRequest(COLLECTION_BY_HANDLE_QUERY, {
       handle,
       first: 50,
       sortKey: sort.key,
       reverse: sort.reverse,
     })
-      .then((data) => {
+      .then(async (data) => {
         const col = data?.data?.collection;
-        if (col) {
+        if (col && col.products?.edges?.length > 0) {
           setCollection({ title: col.title, description: col.description });
-          setProducts(col.products?.edges || []);
+          setProducts(col.products.edges);
+        } else {
+          // Fallback: use product_type filter
+          const fallbackQuery = COLLECTION_PRODUCT_TYPE_FALLBACK[handle];
+          if (fallbackQuery !== undefined) {
+            const fallbackTitle = editorialInfo?.tagline || handle;
+            setCollection({ title: fallbackTitle, description: editorialInfo?.intro || "" });
+            const fbData = await storefrontApiRequest(PRODUCTS_QUERY, { first: 50, ...(fallbackQuery ? { query: fallbackQuery } : {}) });
+            setProducts(fbData?.data?.products?.edges || []);
+          } else {
+            setCollection(null);
+            setProducts([]);
+          }
         }
       })
       .catch(console.error)
@@ -109,7 +138,7 @@ function CollectionPage() {
           <p className="text-editorial text-muted-foreground">
             {editorialInfo?.intro || collection?.description || ""}
           </p>
-          {collection?.description && editorialInfo && (
+          {collection?.description && editorialInfo && collection.description !== editorialInfo.intro && (
             <p className="text-sm text-muted-foreground/70 mt-3">{collection.description}</p>
           )}
         </div>
