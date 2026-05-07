@@ -107,6 +107,7 @@ function KnifeHolderPage() {
         headline="Vis dine redskaber frem."
         text="Når stål og træ mødes på væggen, bliver køkkenet lidt smukkere."
         cta={{ label: "Se magnetiske holdere", to: "/collections/magnetiske-holdere" }}
+        secondaryCta={{ label: "Læs om materialerne", to: "/guides/gode-koekkenredskaber-der-holder" }}
         variant="warm"
       />
 

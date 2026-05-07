@@ -133,6 +133,7 @@ function DamascusPage() {
         headline="Lag, styrke, tradition."
         text="Et damaskus-blad er ikke bare et redskab. Det er et stykke håndværk, du holder i hånden hver dag."
         cta={{ label: "Udforsk Damascus-kollektionen", to: "/collections/knive" }}
+        secondaryCta={{ label: "Læs om stålet", to: "/guides/damaskus-kniv-hvad-betyder-det" }}
         variant="dark"
       />
 
