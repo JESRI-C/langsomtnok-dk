@@ -184,10 +184,10 @@ function HomePage() {
         title="Materialerne bag ritualet"
         subtitle="Hvert materiale er valgt med omtanke. Ingen tilfældigheder."
         materials={[
-          { name: "Damascus stål", description: "Lag på lag af stål smedet til ét formål: et snit der holder.", imageSlotName: IMAGE_SLOTS.materials.damascusSteel.name, motif: IMAGE_SLOTS.materials.damascusSteel.motif },
-          { name: "Valnøddetræ", description: "Varme og dybde i hvert greb. Ældes smukt med tiden.", imageSlotName: IMAGE_SLOTS.materials.walnut.name, motif: IMAGE_SLOTS.materials.walnut.motif },
-          { name: "Oliventræ", description: "Blødere i hånden. Levende i sit mønster. Naturens egen kunst.", imageSlotName: IMAGE_SLOTS.materials.oliveWood.name, motif: IMAGE_SLOTS.materials.oliveWood.motif },
-          { name: "Slibesten", description: "Tålmodighedens redskab. Langsomt giver den bladet nyt liv.", imageSlotName: IMAGE_SLOTS.materials.sharpeningStone.name, motif: IMAGE_SLOTS.materials.sharpeningStone.motif },
+          { name: "Damascus stål", description: "Lag på lag af stål smedet til ét formål: et snit der holder.", imageSlotName: IMAGE_SLOTS.materials.damascusSteel.name, motif: IMAGE_SLOTS.materials.damascusSteel.motif, src: "https://cdn.shopify.com/s/files/1/0915/7227/3488/files/ln-material-damascus-01.png?v=1778143706" },
+          { name: "Valnøddetræ", description: "Varme og dybde i hvert greb. Ældes smukt med tiden.", imageSlotName: IMAGE_SLOTS.materials.walnut.name, motif: IMAGE_SLOTS.materials.walnut.motif, src: "https://cdn.shopify.com/s/files/1/0915/7227/3488/files/ln-material-walnut-01.png?v=1778143731" },
+          { name: "Oliventræ", description: "Blødere i hånden. Levende i sit mønster. Naturens egen kunst.", imageSlotName: IMAGE_SLOTS.materials.oliveWood.name, motif: IMAGE_SLOTS.materials.oliveWood.motif, src: "https://cdn.shopify.com/s/files/1/0915/7227/3488/files/ln-material-olivewood-01.png?v=1778143751" },
+          { name: "Slibesten", description: "Tålmodighedens redskab. Langsomt giver den bladet nyt liv.", imageSlotName: IMAGE_SLOTS.materials.sharpeningStone.name, motif: IMAGE_SLOTS.materials.sharpeningStone.motif, src: "https://cdn.shopify.com/s/files/1/0915/7227/3488/files/ln-material-whetstone-01.png?v=1778143769" },
         ]}
       />
 
