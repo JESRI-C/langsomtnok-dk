@@ -1,12 +1,13 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useState, useEffect } from "react";
 import { LandingPageHero } from "@/components/landing/LandingPageHero";
-import { GiftGuideBlock } from "@/components/landing/GiftGuideBlock";
-import { BundleRecommendationBlock } from "@/components/landing/BundleRecommendationBlock";
+import { ProductRecommendationBlock } from "@/components/landing/ProductRecommendationBlock";
 import { TrustBar } from "@/components/landing/TrustBar";
 import { FAQAccordion } from "@/components/landing/FAQAccordion";
 import { CalmCTASection } from "@/components/landing/CalmCTASection";
 import { NewsletterSignup } from "@/components/NewsletterSignup";
 import { ImageSlot, IMAGE_SLOTS } from "@/components/ImageSlot";
+import { fetchProductsByHandles, type ShopifyProduct } from "@/lib/shopify";
 
 export const Route = createFileRoute("/pages/gave-til-madelskeren")({
   head: () => ({
@@ -20,7 +21,20 @@ export const Route = createFileRoute("/pages/gave-til-madelskeren")({
   component: GiftPage,
 });
 
+const RECOMMENDED_HANDLES = [
+  "gift-of-calm-walnut-sharpener-manifest-card",
+  "damascus-chef-knife-8-5-olive-wood",
+  "knife-sharpener-walnut",
+  "magnetic-knife-stand-acacia",
+];
+
 function GiftPage() {
+  const [products, setProducts] = useState<ShopifyProduct[]>([]);
+
+  useEffect(() => {
+    fetchProductsByHandles(RECOMMENDED_HANDLES).then(setProducts);
+  }, []);
+
   return (
     <div>
       <LandingPageHero
@@ -34,31 +48,38 @@ function GiftPage() {
 
       <TrustBar />
 
-      {/* Why kitchen tools make meaningful gifts */}
       <section className="section-padding">
         <div className="container-calm max-w-3xl">
           <h2 className="font-serif text-2xl md:text-3xl mb-6">Gaver med mening</h2>
           <div className="space-y-4 text-muted-foreground text-editorial">
             <p>De bedste gaver er dem, der bliver brugt. Ikke dem, der ender i en skuffe. Et godt køkkenredskab bliver en del af hverdagen — hvert måltid, hver aften, hvert ritual.</p>
-            <p>Når du giver en kniv, giver du en måde at lave mad på. Når du giver en slibesten, giver du en ny færdighed. Når du giver plejeolie, giver du omsorg for noget, der allerede er elsket.</p>
+            <p>Når du giver en kniv, giver du en måde at lave mad på. Når du giver en slibesten, giver du en ny færdighed. Når du giver en knivsliber, giver du omsorg for noget, der allerede er elsket.</p>
           </div>
         </div>
       </section>
 
-      {/* Gifts by budget */}
-      <GiftGuideBlock
-        title="Gaver efter budget"
-        subtitle="Uanset budget finder du noget, der varer."
-      />
-
-      {/* Starter kits */}
-      <BundleRecommendationBlock
-        title="Startkits som gave"
-        subtitle="Sammensatte gaver med alt, hvad modtageren behøver for at begynde."
-      />
+      {/* Gift ideas by type */}
+      <section className="section-padding bg-soft">
+        <div className="container-calm max-w-3xl">
+          <h2 className="font-serif text-2xl md:text-3xl mb-8">Gaveidéer efter type</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {[
+              { label: "Til begynderen", desc: "En kokkekniv og en slibesten. Det perfekte startpunkt.", tag: "God som første valg" },
+              { label: "Til den øvede", desc: "En polérsten, en læderstrop eller en magnetisk knivholder.", tag: "Til pleje" },
+              { label: "Til den personlige", desc: "Gift of Calm med manifestkort. Praktisk og personligt.", tag: "Gaveklar" },
+            ].map((gift) => (
+              <div key={gift.label} className="p-5 rounded-lg border border-border bg-background">
+                <span className="text-[10px] font-medium text-copper uppercase tracking-wider">{gift.tag}</span>
+                <h3 className="font-serif text-base mb-2 mt-1">{gift.label}</h3>
+                <p className="text-sm text-muted-foreground">{gift.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
 
       {/* Gift packaging */}
-      <section className="section-padding bg-soft">
+      <section className="section-padding">
         <div className="container-calm max-w-3xl">
           <h2 className="font-serif text-2xl md:text-3xl mb-6">Indpakning og personligt kort</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -77,8 +98,14 @@ function GiftPage() {
         </div>
       </section>
 
+      <ProductRecommendationBlock
+        title="Anbefalede gaver"
+        subtitle="Gaver, der varer længere end én aften."
+        products={products}
+      />
+
       {/* Delivery confidence */}
-      <section className="section-padding">
+      <section className="section-padding bg-soft">
         <div className="container-calm max-w-3xl">
           <h2 className="font-serif text-2xl md:text-3xl mb-8">Tryg levering og retur</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -97,9 +124,9 @@ function GiftPage() {
       </section>
 
       <FAQAccordion items={[
-        { question: "Kan I pakke det ind som gave?", answer: "Ja, alle ordrer kan pakkes i vores gaveindpakning med naturpapir og bomuldssnor. Du kan tilføje et personligt kort ved checkout." },
-        { question: "Hvad hvis modtageren allerede har en god kniv?", answer: "Overvej en slibesten, plejeolie eller en magnetisk holder. De fleste har brug for vedligeholdelse mere end nye knive." },
-        { question: "Kan man returnere en gave?", answer: "Ja, vi har 30 dages returret på alle produkter. Modtageren kan bytte til en anden størrelse eller et andet produkt." },
+        { question: "Kan I pakke det ind som gave?", answer: "Ja, alle ordrer kan pakkes i vores gaveindpakning med naturpapir og bomuldssnor." },
+        { question: "Hvad hvis modtageren allerede har en god kniv?", answer: "Overvej en slibesten, knivsliber eller en magnetisk holder. De fleste har brug for vedligeholdelse mere end nye knive." },
+        { question: "Kan man returnere en gave?", answer: "Ja, vi har 30 dages returret på alle produkter." },
         { question: "Hvornår skal jeg bestille for at nå det?", answer: "Vi sender normalt inden for 1-2 hverdage. Standard levering tager 2-4 hverdage i Danmark." },
       ]} />
 
@@ -107,7 +134,7 @@ function GiftPage() {
         headline="Find en gave med ro."
         text="Gaver der varer længere end én aften. Og huskes længere."
         cta={{ label: "Find en gave med ro", to: "/shop" }}
-        secondaryCta={{ label: "Se gaveidéer", to: "/collections/gaver" }}
+        secondaryCta={{ label: "Se alle produkter", to: "/shop" }}
         variant="warm"
       />
 
