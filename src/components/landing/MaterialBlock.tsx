@@ -32,7 +32,7 @@ export function MaterialBlock({ title = "Materialerne bag ritualet", subtitle, m
                 ratio="1/1"
                 src={mat.src}
                 motif={mat.motif}
-                alt={mat.name}
+                alt={mat.alt || mat.name}
                 variant={isDark ? "dark" : "warm"}
                 className="mb-4"
               />
