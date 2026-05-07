@@ -9,6 +9,7 @@ interface MaterialBlockProps {
     imageSlotName: string;
     motif: string;
     src?: string;
+    alt?: string;
   }>;
   variant?: "light" | "dark";
 }
