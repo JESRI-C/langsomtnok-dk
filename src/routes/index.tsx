@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState, useEffect } from "react";
 import { Link } from "@tanstack/react-router";
-import { Button } from "@/components/ui/button";
+
 import { ProductCard } from "@/components/ProductCard";
 import { NewsletterSignup } from "@/components/NewsletterSignup";
 import { ImageSlot, IMAGE_SLOTS } from "@/components/ImageSlot";
