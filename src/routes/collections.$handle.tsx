@@ -93,17 +93,31 @@ function CollectionPage() {
   useEffect(() => {
     setLoading(true);
     const sort = SORT_OPTIONS[sortIdx];
+
+    // Try real Shopify collection first
     storefrontApiRequest(COLLECTION_BY_HANDLE_QUERY, {
       handle,
       first: 50,
       sortKey: sort.key,
       reverse: sort.reverse,
     })
-      .then((data) => {
+      .then(async (data) => {
         const col = data?.data?.collection;
-        if (col) {
+        if (col && col.products?.edges?.length > 0) {
           setCollection({ title: col.title, description: col.description });
-          setProducts(col.products?.edges || []);
+          setProducts(col.products.edges);
+        } else {
+          // Fallback: use product_type filter
+          const fallbackQuery = COLLECTION_PRODUCT_TYPE_FALLBACK[handle];
+          if (fallbackQuery !== undefined) {
+            const fallbackTitle = editorialInfo?.tagline || handle;
+            setCollection({ title: fallbackTitle, description: editorialInfo?.intro || "" });
+            const fbData = await storefrontApiRequest(PRODUCTS_QUERY, { first: 50, ...(fallbackQuery ? { query: fallbackQuery } : {}) });
+            setProducts(fbData?.data?.products?.edges || []);
+          } else {
+            setCollection(null);
+            setProducts([]);
+          }
         }
       })
       .catch(console.error)
