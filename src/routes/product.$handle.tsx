@@ -347,6 +347,11 @@ function ProductPage() {
               </Button>
             </div>
 
+            {/* Trust line below CTA */}
+            <p className="text-xs text-muted-foreground text-center italic mt-3">
+              Pakket med omhu. Sendes trygt fra Danmark.
+            </p>
+
             {/* Trust points */}
             <div className="grid grid-cols-2 gap-3 pt-4 border-t border-border">
               {[
