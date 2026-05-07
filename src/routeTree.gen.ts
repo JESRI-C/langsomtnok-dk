@@ -10,8 +10,12 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as ShopRouteImport } from './routes/shop'
+import { Route as ReturpolitikRouteImport } from './routes/returpolitik'
+import { Route as PrivatlivspolitikRouteImport } from './routes/privatlivspolitik'
 import { Route as OmRouteImport } from './routes/om'
 import { Route as KontaktRouteImport } from './routes/kontakt'
+import { Route as HandelsbetingelserRouteImport } from './routes/handelsbetingelser'
+import { Route as FragtRouteImport } from './routes/fragt'
 import { Route as CirklenRouteImport } from './routes/cirklen'
 import { Route as AuditRouteImport } from './routes/audit'
 import { Route as IndexRouteImport } from './routes/index'
@@ -30,6 +34,16 @@ const ShopRoute = ShopRouteImport.update({
   path: '/shop',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ReturpolitikRoute = ReturpolitikRouteImport.update({
+  id: '/returpolitik',
+  path: '/returpolitik',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PrivatlivspolitikRoute = PrivatlivspolitikRouteImport.update({
+  id: '/privatlivspolitik',
+  path: '/privatlivspolitik',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const OmRoute = OmRouteImport.update({
   id: '/om',
   path: '/om',
@@ -38,6 +52,16 @@ const OmRoute = OmRouteImport.update({
 const KontaktRoute = KontaktRouteImport.update({
   id: '/kontakt',
   path: '/kontakt',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HandelsbetingelserRoute = HandelsbetingelserRouteImport.update({
+  id: '/handelsbetingelser',
+  path: '/handelsbetingelser',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FragtRoute = FragtRouteImport.update({
+  id: '/fragt',
+  path: '/fragt',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CirklenRoute = CirklenRouteImport.update({
@@ -107,8 +131,12 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/audit': typeof AuditRoute
   '/cirklen': typeof CirklenRoute
+  '/fragt': typeof FragtRoute
+  '/handelsbetingelser': typeof HandelsbetingelserRoute
   '/kontakt': typeof KontaktRoute
   '/om': typeof OmRoute
+  '/privatlivspolitik': typeof PrivatlivspolitikRoute
+  '/returpolitik': typeof ReturpolitikRoute
   '/shop': typeof ShopRoute
   '/collections/$handle': typeof CollectionsHandleRoute
   '/guides/$slug': typeof GuidesSlugRoute
@@ -124,8 +152,12 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/audit': typeof AuditRoute
   '/cirklen': typeof CirklenRoute
+  '/fragt': typeof FragtRoute
+  '/handelsbetingelser': typeof HandelsbetingelserRoute
   '/kontakt': typeof KontaktRoute
   '/om': typeof OmRoute
+  '/privatlivspolitik': typeof PrivatlivspolitikRoute
+  '/returpolitik': typeof ReturpolitikRoute
   '/shop': typeof ShopRoute
   '/collections/$handle': typeof CollectionsHandleRoute
   '/guides/$slug': typeof GuidesSlugRoute
@@ -142,8 +174,12 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/audit': typeof AuditRoute
   '/cirklen': typeof CirklenRoute
+  '/fragt': typeof FragtRoute
+  '/handelsbetingelser': typeof HandelsbetingelserRoute
   '/kontakt': typeof KontaktRoute
   '/om': typeof OmRoute
+  '/privatlivspolitik': typeof PrivatlivspolitikRoute
+  '/returpolitik': typeof ReturpolitikRoute
   '/shop': typeof ShopRoute
   '/collections/$handle': typeof CollectionsHandleRoute
   '/guides/$slug': typeof GuidesSlugRoute
@@ -161,8 +197,12 @@ export interface FileRouteTypes {
     | '/'
     | '/audit'
     | '/cirklen'
+    | '/fragt'
+    | '/handelsbetingelser'
     | '/kontakt'
     | '/om'
+    | '/privatlivspolitik'
+    | '/returpolitik'
     | '/shop'
     | '/collections/$handle'
     | '/guides/$slug'
@@ -178,8 +218,12 @@ export interface FileRouteTypes {
     | '/'
     | '/audit'
     | '/cirklen'
+    | '/fragt'
+    | '/handelsbetingelser'
     | '/kontakt'
     | '/om'
+    | '/privatlivspolitik'
+    | '/returpolitik'
     | '/shop'
     | '/collections/$handle'
     | '/guides/$slug'
@@ -195,8 +239,12 @@ export interface FileRouteTypes {
     | '/'
     | '/audit'
     | '/cirklen'
+    | '/fragt'
+    | '/handelsbetingelser'
     | '/kontakt'
     | '/om'
+    | '/privatlivspolitik'
+    | '/returpolitik'
     | '/shop'
     | '/collections/$handle'
     | '/guides/$slug'
@@ -213,8 +261,12 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuditRoute: typeof AuditRoute
   CirklenRoute: typeof CirklenRoute
+  FragtRoute: typeof FragtRoute
+  HandelsbetingelserRoute: typeof HandelsbetingelserRoute
   KontaktRoute: typeof KontaktRoute
   OmRoute: typeof OmRoute
+  PrivatlivspolitikRoute: typeof PrivatlivspolitikRoute
+  ReturpolitikRoute: typeof ReturpolitikRoute
   ShopRoute: typeof ShopRoute
   CollectionsHandleRoute: typeof CollectionsHandleRoute
   GuidesSlugRoute: typeof GuidesSlugRoute
@@ -236,6 +288,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ShopRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/returpolitik': {
+      id: '/returpolitik'
+      path: '/returpolitik'
+      fullPath: '/returpolitik'
+      preLoaderRoute: typeof ReturpolitikRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/privatlivspolitik': {
+      id: '/privatlivspolitik'
+      path: '/privatlivspolitik'
+      fullPath: '/privatlivspolitik'
+      preLoaderRoute: typeof PrivatlivspolitikRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/om': {
       id: '/om'
       path: '/om'
@@ -248,6 +314,20 @@ declare module '@tanstack/react-router' {
       path: '/kontakt'
       fullPath: '/kontakt'
       preLoaderRoute: typeof KontaktRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/handelsbetingelser': {
+      id: '/handelsbetingelser'
+      path: '/handelsbetingelser'
+      fullPath: '/handelsbetingelser'
+      preLoaderRoute: typeof HandelsbetingelserRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/fragt': {
+      id: '/fragt'
+      path: '/fragt'
+      fullPath: '/fragt'
+      preLoaderRoute: typeof FragtRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/cirklen': {
@@ -341,8 +421,12 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuditRoute: AuditRoute,
   CirklenRoute: CirklenRoute,
+  FragtRoute: FragtRoute,
+  HandelsbetingelserRoute: HandelsbetingelserRoute,
   KontaktRoute: KontaktRoute,
   OmRoute: OmRoute,
+  PrivatlivspolitikRoute: PrivatlivspolitikRoute,
+  ReturpolitikRoute: ReturpolitikRoute,
   ShopRoute: ShopRoute,
   CollectionsHandleRoute: CollectionsHandleRoute,
   GuidesSlugRoute: GuidesSlugRoute,
