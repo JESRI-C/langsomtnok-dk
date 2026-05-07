@@ -39,6 +39,10 @@ const COLLECTION_INTROS: Record<string, { tagline: string; intro: string }> = {
     tagline: "The Calm Kitchen",
     intro: "Når værktøjet er smukt, skal det ikke gemmes væk.",
   },
+  "magnetisk-opbevaring": {
+    tagline: "The Calm Kitchen",
+    intro: "Når værktøjet er smukt, skal det ikke gemmes væk.",
+  },
   gaver: {
     tagline: "The Gift Chapter",
     intro: "Gaver, der bliver brugt. Ikke bare pakket ud.",
@@ -47,6 +51,17 @@ const COLLECTION_INTROS: Record<string, { tagline: string; intro: string }> = {
     tagline: "Begynd her",
     intro: "Begynd med det, du faktisk får lyst til at bruge igen.",
   },
+};
+
+/** Fallback: map collection handle → product_type query (until real Shopify collections exist) */
+const COLLECTION_PRODUCT_TYPE_FALLBACK: Record<string, string> = {
+  knive: 'product_type:"The Chef Line"',
+  slibesten: 'product_type:"The Ritual Set"',
+  "slibning-pleje": 'product_type:"The Ritual Set"',
+  "magnetiske-holdere": 'product_type:"The Calm Kitchen"',
+  "magnetisk-opbevaring": 'product_type:"The Calm Kitchen"',
+  gaver: 'product_type:"The Gift Chapter"',
+  "start-dit-ritual": "",
 };
 
 export const Route = createFileRoute("/collections/$handle")({
