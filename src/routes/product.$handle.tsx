@@ -298,100 +298,25 @@ function ProductPage() {
           <TrustBar />
         </div>
 
-        {/* ── 3. Product Story ──────────────────────────────────── */}
-        {parsed.story && (
-          <section className="mt-20 max-w-3xl">
-            <h2 className="font-serif text-2xl mb-4">{parsed.storyHeading || "Skabt med omhu"}</h2>
-            <div
-              className="text-muted-foreground leading-relaxed [&>p]:mb-4 [&>p:last-child]:mb-0"
-              dangerouslySetInnerHTML={{ __html: parsed.story }}
-            />
-          </section>
-        )}
-
-        {/* ── 4. Fit Section ────────────────────────────────────── */}
-        {parsed.fitPoints.length > 0 && (
-          <ProductFitSection
-            fitPoints={parsed.fitPoints}
-            doubtCta={doubtCta}
+        {/* ── 3–8. All editorial sections from descriptionHtml ── */}
+        {parsed.sections.map((section, i) => (
+          <EditorialSection
+            key={i}
+            section={section}
+            relatedProducts={section.type === "crossSell" ? relatedProducts : []}
+            doubtCta={section.type === "fit" ? doubtCta : undefined}
           />
-        )}
+        ))}
 
-        {/* ── 5. Materials & Details ────────────────────────────── */}
-        {parsed.materials.length > 0 && (
-          <section className="mt-16 max-w-3xl">
-            <h2 className="font-serif text-2xl mb-6">Materialer og detaljer</h2>
-            <div className="border border-border rounded-lg overflow-hidden">
-              {parsed.materials.map((item, i) => {
-                // Split on first colon to get label: value
-                const colonIdx = item.indexOf(":");
-                const label = colonIdx > -1 ? item.substring(0, colonIdx).trim() : item;
-                const value = colonIdx > -1 ? item.substring(colonIdx + 1).trim() : "";
-                return (
-                  <div
-                    key={i}
-                    className={`flex justify-between py-3 px-4 text-sm ${
-                      i % 2 === 0 ? "bg-soft/30" : "bg-transparent"
-                    }`}
-                  >
-                    <span className="text-muted-foreground font-medium">{label}</span>
-                    {value && <span className="text-foreground text-right">{value}</span>}
-                  </div>
-                );
-              })}
-            </div>
-          </section>
-        )}
-
-        {/* ── 6. Care Section ───────────────────────────────────── */}
-        {parsed.care && (
-          <section className="mt-16 max-w-3xl">
-            <div className="p-6 md:p-8 rounded-lg bg-soft/50 border border-border/30">
-              <h2 className="font-serif text-2xl mb-4">{parsed.careHeading || "Pleje er en del af ritualet"}</h2>
-              <div
-                className="text-muted-foreground leading-relaxed text-sm [&>p]:mb-3 [&>p:last-child]:mb-0 [&>ul]:list-disc [&>ul]:pl-5 [&>ul]:space-y-2"
-                dangerouslySetInnerHTML={{ __html: parsed.care }}
-              />
-            </div>
-          </section>
-        )}
-
-        {/* ── 7. Cross-sell / Related ritual ─────────────────────── */}
-        {(parsed.crossSell || relatedProducts.length > 0) && (
+        {/* Related products (if no crossSell section exists) */}
+        {!parsed.sections.some(s => s.type === "crossSell") && relatedProducts.length > 0 && (
           <section className="mt-20">
-            <h2 className="font-serif text-2xl mb-4">Det giver mening sammen med</h2>
-            {parsed.crossSell && (
-              <div
-                className="text-muted-foreground leading-relaxed mb-8 max-w-3xl [&>p]:mb-3"
-                dangerouslySetInnerHTML={{ __html: parsed.crossSell }}
-              />
-            )}
-            {relatedProducts.length > 0 && (
-              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                {relatedProducts.slice(0, 4).map((rp) => (
-                  <ProductCard key={rp.node.id} product={rp} />
-                ))}
-              </div>
-            )}
-          </section>
-        )}
-
-        {/* ── 8. FAQ ─────────────────────────────────────────────── */}
-        {parsed.faq.length > 0 && (
-          <section className="mt-16 max-w-3xl">
-            <h2 className="font-serif text-2xl mb-6">Ofte stillede spørgsmål</h2>
-            <Accordion type="single" collapsible className="border border-border rounded-lg overflow-hidden">
-              {parsed.faq.map((faq, i) => (
-                <AccordionItem key={i} value={`faq-${i}`} className={i > 0 ? "border-t border-border" : "border-b-0"}>
-                  <AccordionTrigger className="px-4 text-sm font-medium hover:no-underline">
-                    {faq.question}
-                  </AccordionTrigger>
-                  <AccordionContent className="px-4 text-sm text-muted-foreground leading-relaxed">
-                    {faq.answer}
-                  </AccordionContent>
-                </AccordionItem>
+            <h2 className="font-serif text-2xl mb-4">Relaterede produkter</h2>
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+              {relatedProducts.slice(0, 4).map((rp) => (
+                <ProductCard key={rp.node.id} product={rp} />
               ))}
-            </Accordion>
+            </div>
           </section>
         )}
 
