@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState, useEffect } from "react";
 import { Link } from "@tanstack/react-router";
-import { Button } from "@/components/ui/button";
+
 import { ProductCard } from "@/components/ProductCard";
 import { NewsletterSignup } from "@/components/NewsletterSignup";
 import { ImageSlot, IMAGE_SLOTS } from "@/components/ImageSlot";
@@ -42,7 +42,7 @@ function HomePage() {
   return (
     <div>
       {/* ── 1. Hero ─────────────────────────────────────────────────── */}
-      <section className="relative min-h-screen flex items-center">
+      <section className="relative min-h-[85vh] flex items-center">
         <div className="absolute inset-0">
           <ImageSlot
             name={IMAGE_SLOTS.heroes.homepageHeroMain.name}
@@ -55,7 +55,7 @@ function HomePage() {
           />
           <div className="absolute inset-0 bg-gradient-to-r from-deep/80 via-deep/50 to-transparent" />
         </div>
-        <div className="container-calm relative z-10 pt-20">
+        <div className="container-calm relative z-10 pt-12 pb-16">
           <div className="max-w-xl fade-in-up">
             <h1 className="font-serif text-5xl md:text-7xl lg:text-8xl text-deep-foreground leading-[0.95] mb-6">
               Tid.<br />Håndværk.<br />Ro.
@@ -64,13 +64,36 @@ function HomePage() {
               Køkkenredskaber skabt til dem, der ikke skynder sig gennem det vigtige.
             </p>
             <div className="flex flex-wrap gap-4">
-              <Button variant="hero" asChild>
-                <Link to="/shop">Udforsk ritualerne</Link>
-              </Button>
-              <Button variant="hero-outline" className="border-deep-foreground/30 text-deep-foreground hover:bg-deep-foreground/10" asChild>
-                <Link to="/pages/den-forste-rigtige-kokkekniv">Find din første kniv</Link>
-              </Button>
+              <Link
+                to="/shop"
+                className="inline-flex items-center justify-center rounded-md bg-cta text-cta-foreground px-7 py-3.5 text-sm font-medium transition-colors duration-500 hover:bg-[#3F4B3D]"
+              >
+                Udforsk ritualerne
+              </Link>
+              <Link
+                to="/pages/den-forste-rigtige-kokkekniv"
+                className="inline-flex items-center justify-center rounded-md border border-deep-foreground/30 text-deep-foreground px-7 py-3.5 text-sm font-medium transition-colors duration-500 hover:bg-deep-foreground/10"
+              >
+                Find din første kniv
+              </Link>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── 1b. Trust Credibility ────────────────────────────────────── */}
+      <section className="py-12 md:py-16 bg-soft/50">
+        <div className="container-calm text-center max-w-3xl mx-auto">
+          <h2 className="font-serif text-2xl md:text-3xl mb-8 text-foreground">Skabt til roligere køkkener</h2>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+            {[
+              { text: "Udvalgte materialer i træ, stål og sten" },
+              { text: "Pakket med omhu" },
+              { text: "Sendes fra Danmark" },
+              { text: "Enkel retur og sikker betaling" },
+            ].map((item) => (
+              <p key={item.text} className="text-sm text-muted-foreground leading-relaxed">{item.text}</p>
+            ))}
           </div>
         </div>
       </section>
