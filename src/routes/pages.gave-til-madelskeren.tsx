@@ -106,7 +106,8 @@ function GiftPage() {
       <CalmCTASection
         headline="Find en gave med ro."
         text="Gaver der varer længere end én aften. Og huskes længere."
-        cta={{ label: "Se gaveidéer", to: "/collections/gaver" }}
+        cta={{ label: "Find en gave med ro", to: "/shop" }}
+        secondaryCta={{ label: "Se gaveidéer", to: "/collections/gaver" }}
         variant="warm"
       />
 
