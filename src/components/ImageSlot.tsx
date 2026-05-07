@@ -3,17 +3,16 @@
  * IMAGE SLOT — Langsomt Nok Brand Image System
  * ============================================================================
  *
- * Premium, intentional image placeholders for the entire brand universe.
- * Each slot documents what image belongs there, with ratio, motif and alt text.
+ * Auto-resolves images from the image library by slot name.
+ * Falls back to branded placeholder when no image is available.
  *
  * USAGE:
- *   <ImageSlot name="homepage-hero-main" ratio="16/9" motif="Damascus chef knife on dark walnut" />
- *   <ImageSlot name="homepage-hero-main" ratio="16/9" src="/images/hero.jpg" alt="..." />
- *
- * When `src` is provided, renders the real image.
- * When `src` is omitted, renders a beautiful branded placeholder.
+ *   <ImageSlot name="homepage-hero-main" ratio="16/9" />
+ *   <ImageSlot name="homepage-hero-main" ratio="16/9" src="/custom.jpg" alt="..." />
  * ============================================================================
  */
+
+import { getImageForSlot, getAltForSlot } from "@/lib/image-library";
 
 interface ImageSlotProps {
   /** Unique slot identifier, e.g. "homepage-hero-main" */
