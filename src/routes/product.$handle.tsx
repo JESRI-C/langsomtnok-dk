@@ -212,7 +212,8 @@ function ProductPage() {
       quantity,
       selectedOptions: variant.selectedOptions || [],
     });
-    toast.success("Tilføjet med ro", { description: product.title, position: "top-center" });
+    trackEvent('add_to_cart_product_page', { product_id: product.id, product_title: product.title });
+    toast.success("Tilføjet med ro.", { description: product.title, position: "top-center" });
   };
 
   // SHOPIFY CONNECTION: Read care instructions from metafields
