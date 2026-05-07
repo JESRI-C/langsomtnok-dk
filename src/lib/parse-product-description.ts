@@ -4,14 +4,8 @@
  * ============================================================================
  *
  * Parses structured Shopify descriptionHtml into typed sections.
- * All Langsomt Nok products follow a consistent H3-based structure:
- *   - Intro (before first H3)
- *   - Skabt til... (story/purpose)
- *   - Passer til dig, hvis (fit bullets)
- *   - Materialer og detaljer (specs)
- *   - Pleje / Sådan bruger du den (care)
- *   - Det giver mening sammen med (cross-sell)
- *   - FAQ (question/answer pairs)
+ * Works with ANY H3-based structure — detects known section types by keywords
+ * and collects remaining sections as generic editorial blocks.
  * ============================================================================
  */
 
@@ -20,50 +14,53 @@ export interface ParsedFAQItem {
   answer: string;
 }
 
+export interface ParsedSection {
+  heading: string;
+  content: string;
+  /** Detected type for special rendering */
+  type: "story" | "fit" | "materials" | "care" | "crossSell" | "faq" | "generic";
+  /** Extracted list items (for fit, materials, or any section with <li>) */
+  listItems: string[];
+}
+
 export interface ParsedProductDescription {
   /** Opening paragraphs before first H3 */
   intro: string;
-  /** "Skabt til..." section HTML */
+  /** All H3 sections in order, typed for rendering */
+  sections: ParsedSection[];
+  // Legacy accessors for backward compat
   story: string;
-  /** "Passer til dig, hvis" bullet points */
   fitPoints: string[];
-  /** "Materialer og detaljer" list items */
   materials: string[];
-  /** "Pleje" or "Sådan bruger du den" section HTML */
   care: string;
-  /** "Det giver mening sammen med" section HTML */
   crossSell: string;
-  /** FAQ question/answer pairs */
   faq: ParsedFAQItem[];
-  /** The story section heading (varies: "Skabt til rolig præcision", etc.) */
   storyHeading: string;
-  /** The care section heading (varies: "Pleje er en del af ritualet", "Sådan bruger du den") */
   careHeading: string;
 }
 
 /**
- * Split HTML string on <h3> tags, returning an array of
+ * Split HTML string on heading tags (h1, h2, h3), returning an array of
  * { heading: string, content: string } pairs.
- * The first entry has heading="" (intro content before first H3).
  */
-function splitOnH3(html: string): Array<{ heading: string; content: string }> {
-  // Split on <h3> or <h3 ...> tags
-  const parts = html.split(/<h3[^>]*>/i);
+function splitOnHeadings(html: string): Array<{ heading: string; content: string }> {
+  // Split on any h1/h2/h3 opening tag
+  const parts = html.split(/<h[123][^>]*>/i);
   const sections: Array<{ heading: string; content: string }> = [];
 
   for (let i = 0; i < parts.length; i++) {
     const part = parts[i];
     if (i === 0) {
-      // Intro — no heading
       sections.push({ heading: "", content: part.trim() });
     } else {
-      // Split heading from content at </h3>
-      const closeIdx = part.indexOf("</h3>");
-      if (closeIdx === -1) {
-        sections.push({ heading: part.trim(), content: "" });
+      // Find closing tag (h1, h2, or h3)
+      const closeMatch = part.match(/<\/h[123]>/i);
+      if (!closeMatch) {
+        sections.push({ heading: stripTags(part).trim(), content: "" });
       } else {
+        const closeIdx = part.indexOf(closeMatch[0]);
         const heading = part.substring(0, closeIdx).trim();
-        const content = part.substring(closeIdx + 5).trim();
+        const content = part.substring(closeIdx + closeMatch[0].length).trim();
         sections.push({ heading, content });
       }
     }
@@ -78,30 +75,24 @@ function extractListItems(html: string): string[] {
   const regex = /<li[^>]*>([\s\S]*?)<\/li>/gi;
   let match: RegExpExecArray | null;
   while ((match = regex.exec(html)) !== null) {
-    // Strip inner HTML tags to get plain text
     const text = match[1].replace(/<[^>]*>/g, "").trim();
     if (text) items.push(text);
   }
   return items;
 }
 
-/** Extract FAQ pairs from HTML with <strong>Question</strong><br>Answer pattern */
+/** Extract FAQ pairs from HTML with <strong>Question</strong> pattern */
 function extractFAQ(html: string): ParsedFAQItem[] {
   const faqs: ParsedFAQItem[] = [];
-  // Match <strong>question</strong> followed by <br> or <br/> then answer text
-  const regex = /<(?:strong|b)>([\s\S]*?)<\/(?:strong|b)>\s*(?:<br\s*\/?>)?\s*([\s\S]*?)(?=<(?:strong|b|p)>|$)/gi;
-  
-  // Alternative: parse <p> blocks containing <strong>
   const pBlocks = html.split(/<p[^>]*>/i).filter(Boolean);
-  
+
   for (const block of pBlocks) {
     const strongMatch = block.match(/<(?:strong|b)>([\s\S]*?)<\/(?:strong|b)>/i);
     if (strongMatch) {
       const question = strongMatch[1].replace(/<[^>]*>/g, "").trim();
-      // Get answer: everything after the </strong> and optional <br>
       let answer = block
-        .substring(block.indexOf("</strong>") + 9 || block.indexOf("</b>") + 4)
-        .replace(/<br\s*\/?>/gi, "")
+        .substring((block.indexOf("</strong>") !== -1 ? block.indexOf("</strong>") + 9 : block.indexOf("</b>") + 4))
+        .replace(/<br\s*\/?>/gi, " ")
         .replace(/<\/p>/gi, "")
         .replace(/<[^>]*>/g, "")
         .trim();
@@ -110,7 +101,7 @@ function extractFAQ(html: string): ParsedFAQItem[] {
       }
     }
   }
-  
+
   return faqs;
 }
 
@@ -119,13 +110,39 @@ function stripTags(html: string): string {
   return html.replace(/<[^>]*>/g, "").trim();
 }
 
+/** Detect section type from heading text (supports Danish and English) */
+function detectSectionType(heading: string): ParsedSection["type"] {
+  const h = heading.toLowerCase();
+
+  // Story / purpose
+  if (h.startsWith("skabt til") || h.includes("design") || h.includes("expression") || h.includes("udtryk")) return "story";
+
+  // Fit / who it's for
+  if (h.startsWith("passer til") || h.includes("for those") || h.includes("for dem")) return "fit";
+
+  // Materials / specs / dimensions
+  if (h.startsWith("materialer") || h.includes("dimensions") || h.includes("specifications") || h.includes("specifikation") || h.includes("material")) return "materials";
+
+  // Care / maintenance
+  if (h.startsWith("pleje") || h.startsWith("sådan bruger") || h.includes("maintenance") || h.includes("vedligehold")) return "care";
+
+  // Cross-sell
+  if (h.startsWith("det giver mening") || h.includes("goes well") || h.includes("sammen med")) return "crossSell";
+
+  // FAQ
+  if (h === "faq" || h === "ofte stillede spørgsmål" || h.includes("frequently asked")) return "faq";
+
+  return "generic";
+}
+
 /**
  * Parse a Shopify product's descriptionHtml into structured sections.
- * Returns an object with all recognized sections extracted.
+ * Returns all sections typed for rendering, plus legacy accessors.
  */
 export function parseProductDescription(descriptionHtml: string): ParsedProductDescription {
   const result: ParsedProductDescription = {
     intro: "",
+    sections: [],
     story: "",
     fitPoints: [],
     materials: [],
@@ -138,28 +155,68 @@ export function parseProductDescription(descriptionHtml: string): ParsedProductD
 
   if (!descriptionHtml) return result;
 
-  const sections = splitOnH3(descriptionHtml);
+  const rawSections = splitOnHeadings(descriptionHtml);
 
-  for (const section of sections) {
-    const headingLower = stripTags(section.heading).toLowerCase();
-
+  for (const section of rawSections) {
     if (!section.heading) {
-      // Intro
-      result.intro = section.content;
-    } else if (headingLower.startsWith("skabt til")) {
-      result.storyHeading = stripTags(section.heading);
-      result.story = section.content;
-    } else if (headingLower.startsWith("passer til")) {
-      result.fitPoints = extractListItems(section.content);
-    } else if (headingLower.startsWith("materialer")) {
-      result.materials = extractListItems(section.content);
-    } else if (headingLower.startsWith("pleje") || headingLower.startsWith("sådan bruger")) {
-      result.careHeading = stripTags(section.heading);
-      result.care = section.content;
-    } else if (headingLower.startsWith("det giver mening")) {
-      result.crossSell = section.content;
-    } else if (headingLower === "faq") {
-      result.faq = extractFAQ(section.content);
+      // Intro — content before first heading, strip <hr> tags
+      result.intro = section.content.replace(/<hr\s*\/?>/gi, "").trim();
+      continue;
+    }
+
+    const headingText = stripTags(section.heading);
+    
+    // Skip meta-headings like "Product description" / "Produktbeskrivelse"
+    const hLower = headingText.toLowerCase();
+    if (hLower === "product description" || hLower === "produktbeskrivelse") {
+      continue;
+    }
+    const type = detectSectionType(headingText);
+    const listItems = extractListItems(section.content);
+
+    const parsed: ParsedSection = {
+      heading: headingText,
+      content: section.content.replace(/<hr\s*\/?>/gi, "").trim(),
+      type,
+      listItems,
+    };
+
+    result.sections.push(parsed);
+
+    // Populate legacy accessors
+    switch (type) {
+      case "story":
+        if (!result.story) {
+          result.storyHeading = headingText;
+          result.story = section.content;
+        }
+        break;
+      case "fit":
+        if (result.fitPoints.length === 0) {
+          result.fitPoints = listItems.length > 0 ? listItems : [stripTags(section.content)];
+        }
+        break;
+      case "materials":
+        if (result.materials.length === 0) {
+          result.materials = listItems.length > 0 ? listItems : [stripTags(section.content)];
+        }
+        break;
+      case "care":
+        if (!result.care) {
+          result.careHeading = headingText;
+          result.care = section.content;
+        }
+        break;
+      case "crossSell":
+        if (!result.crossSell) {
+          result.crossSell = section.content;
+        }
+        break;
+      case "faq":
+        if (result.faq.length === 0) {
+          result.faq = extractFAQ(section.content);
+        }
+        break;
     }
   }
 

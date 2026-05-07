@@ -257,7 +257,7 @@ export async function storefrontApiRequest(query: string, variables: Record<stri
  * Examples: query: "tag:bestseller", query: "product_type:Kniv"
  */
 export const PRODUCTS_QUERY = `
-  query GetProducts($first: Int!, $query: String) {
+  query GetProducts($first: Int!, $query: String) @inContext(language: DA) {
     products(first: $first, query: $query) {
       edges {
         node {
@@ -311,7 +311,7 @@ export const PRODUCTS_QUERY = `
  *   ]) { namespace key value type }
  */
 export const PRODUCT_BY_HANDLE_QUERY = `
-  query GetProductByHandle($handle: String!) {
+  query GetProductByHandle($handle: String!) @inContext(language: DA) {
     productByHandle(handle: $handle) {
       id title description descriptionHtml handle productType vendor tags
       seo { title description }
@@ -347,7 +347,7 @@ export const PRODUCT_BY_HANDLE_QUERY = `
  * Pass a product ID (gid://shopify/Product/xxxxx) to get related products.
  */
 export const PRODUCT_RECOMMENDATIONS_QUERY = `
-  query GetProductRecommendations($productId: ID!) {
+  query GetProductRecommendations($productId: ID!) @inContext(language: DA) {
     productRecommendations(productId: $productId) {
       id title description handle productType tags
       priceRange {
@@ -377,7 +377,7 @@ export const PRODUCT_RECOMMENDATIONS_QUERY = `
  * Each collection handle routes to /collections/{handle}.
  */
 export const COLLECTIONS_QUERY = `
-  query GetCollections($first: Int!) {
+  query GetCollections($first: Int!) @inContext(language: DA) {
     collections(first: $first) {
       edges {
         node {
@@ -395,7 +395,7 @@ export const COLLECTIONS_QUERY = `
  * and maps directly to the Shopify collection handle.
  */
 export const COLLECTION_BY_HANDLE_QUERY = `
-  query GetCollectionByHandle($handle: String!, $first: Int!, $sortKey: ProductCollectionSortKeys, $reverse: Boolean) {
+  query GetCollectionByHandle($handle: String!, $first: Int!, $sortKey: ProductCollectionSortKeys, $reverse: Boolean) @inContext(language: DA) {
     collection(handle: $handle) {
       id title handle description descriptionHtml
       image { url altText width height }
@@ -440,7 +440,7 @@ export const COLLECTION_BY_HANDLE_QUERY = `
  * Used by landing pages to show specific product recommendations.
  */
 export const PRODUCTS_BY_HANDLES_QUERY = `
-  query GetProductsByHandles($first: Int!, $query: String!) {
+  query GetProductsByHandles($first: Int!, $query: String!) @inContext(language: DA) {
     products(first: $first, query: $query) {
       edges {
         node {
