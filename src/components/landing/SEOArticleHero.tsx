@@ -1,14 +1,16 @@
-import { Link } from "@tanstack/react-router";
+import { ImageSlot } from "@/components/ImageSlot";
 
 interface SEOArticleHeroProps {
   title: string;
   intro: string;
   category: string;
   readingTime: string;
-  image?: string;
+  imageSlotName?: string;
+  imageMotif?: string;
+  imageSrc?: string;
 }
 
-export function SEOArticleHero({ title, intro, category, readingTime, image }: SEOArticleHeroProps) {
+export function SEOArticleHero({ title, intro, category, readingTime, imageSlotName, imageMotif, imageSrc }: SEOArticleHeroProps) {
   return (
     <header className="section-padding bg-soft">
       <div className="container-calm max-w-3xl fade-in-up">
@@ -23,11 +25,14 @@ export function SEOArticleHero({ title, intro, category, readingTime, image }: S
         <p className="text-editorial text-lg text-muted-foreground mb-8">
           {intro}
         </p>
-        {image && (
-          <div className="aspect-[21/9] rounded-lg overflow-hidden bg-linen">
-            <img src={image} alt={title} className="w-full h-full object-cover" loading="eager" />
-          </div>
-        )}
+        <ImageSlot
+          name={imageSlotName || "article-hero"}
+          ratio="21/9"
+          src={imageSrc}
+          motif={imageMotif || title}
+          alt={title}
+          variant="warm"
+        />
       </div>
     </header>
   );
