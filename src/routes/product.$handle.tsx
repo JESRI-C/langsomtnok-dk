@@ -22,6 +22,8 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { ProductCard } from "@/components/ProductCard";
+import { ProductFitSection } from "@/components/ProductFitSection";
+import { StickyMobileCTA } from "@/components/StickyMobileCTA";
 import { useCartStore } from "@/stores/cartStore";
 import {
   storefrontApiRequest,
@@ -34,6 +36,7 @@ import {
   type ShopifyProduct,
   type ShopifyMetafield,
 } from "@/lib/shopify";
+import { trackEvent } from "@/lib/analytics";
 import { Loader2, Minus, Plus, Truck, RotateCcw, Shield, Package, ChevronDown } from "lucide-react";
 import { toast } from "sonner";
 
