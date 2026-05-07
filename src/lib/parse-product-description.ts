@@ -40,11 +40,12 @@ export interface ParsedProductDescription {
 }
 
 /**
- * Split HTML string on <h3> tags, returning an array of
+ * Split HTML string on heading tags (h1, h2, h3), returning an array of
  * { heading: string, content: string } pairs.
  */
-function splitOnH3(html: string): Array<{ heading: string; content: string }> {
-  const parts = html.split(/<h3[^>]*>/i);
+function splitOnHeadings(html: string): Array<{ heading: string; content: string }> {
+  // Split on any h1/h2/h3 opening tag
+  const parts = html.split(/<h[123][^>]*>/i);
   const sections: Array<{ heading: string; content: string }> = [];
 
   for (let i = 0; i < parts.length; i++) {
@@ -52,12 +53,14 @@ function splitOnH3(html: string): Array<{ heading: string; content: string }> {
     if (i === 0) {
       sections.push({ heading: "", content: part.trim() });
     } else {
-      const closeIdx = part.indexOf("</h3>");
-      if (closeIdx === -1) {
-        sections.push({ heading: part.trim(), content: "" });
+      // Find closing tag (h1, h2, or h3)
+      const closeMatch = part.match(/<\/h[123]>/i);
+      if (!closeMatch) {
+        sections.push({ heading: stripTags(part).trim(), content: "" });
       } else {
+        const closeIdx = part.indexOf(closeMatch[0]);
         const heading = part.substring(0, closeIdx).trim();
-        const content = part.substring(closeIdx + 5).trim();
+        const content = part.substring(closeIdx + closeMatch[0].length).trim();
         sections.push({ heading, content });
       }
     }
