@@ -207,7 +207,7 @@ function EditorialSection({
   );
 }
 
-
+function ProductPage() {
   const { handle } = Route.useParams();
   const [product, setProduct] = useState<ProductNode | null>(null);
   const [relatedProducts, setRelatedProducts] = useState<ShopifyProduct[]>([]);
