@@ -24,7 +24,7 @@ export const Route = createFileRoute("/pages/den-forste-rigtige-kokkekniv")({
 const RECOMMENDED_HANDLES = [
   "damascus-chef-knife-8-5-olive-wood",
   "double-sided-whetstone-1000-5000",
-  "magnetic-knife-stand-acacia",
+  "magnetic-knife-display-stand-acacia",
 ];
 
 function FirstKnifePage() {

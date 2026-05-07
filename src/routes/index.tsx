@@ -11,7 +11,7 @@ import { MaterialBlock } from "@/components/landing/MaterialBlock";
 import { BundleRecommendationBlock } from "@/components/landing/BundleRecommendationBlock";
 import { TrustBar } from "@/components/landing/TrustBar";
 import { CalmCTASection } from "@/components/landing/CalmCTASection";
-import { storefrontApiRequest, PRODUCTS_QUERY, BUNDLE_PLACEHOLDERS, formatPrice, type ShopifyProduct } from "@/lib/shopify";
+import { storefrontApiRequest, PRODUCTS_QUERY, formatPrice, type ShopifyProduct } from "@/lib/shopify";
 import { ArrowRight } from "lucide-react";
 
 export const Route = createFileRoute("/")({

@@ -50,8 +50,9 @@ export function ProductCard({ product }: { product: ShopifyProduct }) {
             loading="lazy"
           />
         ) : (
-          <div className="w-full h-full flex items-center justify-center text-muted-foreground/40">
-            <span className="font-serif text-lg">Langsomt Nok</span>
+          <div className="w-full h-full flex flex-col items-center justify-center text-muted-foreground/30">
+            <span className="font-serif text-lg mb-1">Langsomt Nok</span>
+            <span className="text-xs text-copper/50">Billede mangler</span>
           </div>
         )}
         {isOnSale && (

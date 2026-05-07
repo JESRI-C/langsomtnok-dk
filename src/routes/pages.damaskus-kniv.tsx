@@ -24,6 +24,7 @@ export const Route = createFileRoute("/pages/damaskus-kniv")({
 const RECOMMENDED_HANDLES = [
   "damascus-chef-knife-8-5-olive-wood",
   "damascus-utility-knife-5-3-olive-wood",
+  "walnut-sharpener-xz-mdq01-htm",
 ];
 
 function DamascusPage() {

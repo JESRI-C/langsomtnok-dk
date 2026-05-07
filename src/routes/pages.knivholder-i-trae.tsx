@@ -22,10 +22,10 @@ export const Route = createFileRoute("/pages/knivholder-i-trae")({
 });
 
 const RECOMMENDED_HANDLES = [
-  "magnetic-knife-strip-acacia-50cm",
-  "magnetic-knife-stand-acacia",
-  "magnetic-knife-stand-walnut",
-  "magnetic-knife-strip-walnut-50cm",
+  "magnetic-knife-holder-acacia-19-6",
+  "magnetic-knife-display-stand-acacia",
+  "magnetic-knife-display-stand-walnut",
+  "magnetic-knife-holder-walnut-19-6",
 ];
 
 function KnifeHolderPage() {
