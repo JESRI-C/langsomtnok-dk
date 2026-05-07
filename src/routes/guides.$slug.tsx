@@ -1,73 +1,110 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { SEOArticleHero } from "@/components/landing/SEOArticleHero";
+import { ProductRecommendationBlock } from "@/components/landing/ProductRecommendationBlock";
+import { RelatedArticles } from "@/components/landing/RelatedArticles";
+import { InternalLinkBlock } from "@/components/landing/InternalLinkBlock";
 import { NewsletterSignup } from "@/components/NewsletterSignup";
+import { getArticleBySlug, getRelatedArticles } from "@/lib/articles";
 
 export const Route = createFileRoute("/guides/$slug")({
-  head: ({ params }) => ({
-    meta: [
-      { title: `${params.slug.replace(/-/g, ' ')} — Langsomt Nok Guides` },
-    ],
-  }),
+  head: ({ params }) => {
+    const article = getArticleBySlug(params.slug);
+    return {
+      meta: [
+        { title: article?.seoTitle || `${params.slug} — Langsomt Nok Guides` },
+        ...(article ? [{ name: "description", content: article.metaDescription }] : []),
+        { property: "og:title", content: article?.seoTitle || params.slug },
+        ...(article ? [{ property: "og:description", content: article.metaDescription }] : []),
+      ],
+    };
+  },
   component: ArticlePage,
 });
 
 function ArticlePage() {
   const { slug } = Route.useParams();
-  const title = slug.replace(/-/g, ' ').replace(/\b\w/g, (l: string) => l.toUpperCase());
+  const article = getArticleBySlug(slug);
+
+  if (!article) {
+    const title = slug.replace(/-/g, " ").replace(/\b\w/g, (l: string) => l.toUpperCase());
+    return (
+      <div className="pt-24 pb-16">
+        <div className="container-calm max-w-3xl mx-auto text-center py-20">
+          <h1 className="font-serif text-3xl mb-4">{title}</h1>
+          <p className="text-muted-foreground mb-6">Denne guide er under udarbejdelse.</p>
+          <Link to="/guides" className="text-sm text-cta">← Alle guides</Link>
+        </div>
+      </div>
+    );
+  }
+
+  const related = getRelatedArticles(article.relatedSlugs);
 
   return (
     <div className="pt-24 pb-16">
-      <article className="container-calm max-w-3xl mx-auto">
-        <Link to="/guides" className="text-sm text-muted-foreground hover:text-foreground mb-8 inline-block">
-          ← Alle guides
-        </Link>
+      <SEOArticleHero
+        title={article.title}
+        intro={article.intro}
+        category={article.category}
+        readingTime={article.readTime}
+      />
 
-        <div className="mb-12">
-          <span className="text-xs font-medium text-copper uppercase tracking-wider">Guide</span>
-          <h1 className="font-serif text-4xl md:text-5xl mt-2 mb-4 leading-tight">{title}</h1>
-          <p className="text-muted-foreground text-lg leading-relaxed">
-            En dybdegående guide til at forstå og forbedre dit køkkenritual.
-          </p>
-          <div className="flex items-center gap-4 mt-4 text-sm text-muted-foreground/60">
-            <span>5 min læsetid</span>
-            <span>·</span>
-            <span>Langsomt Nok</span>
+      <article className="container-calm max-w-3xl mx-auto py-12">
+        <Link to="/guides" className="text-sm text-muted-foreground hover:text-foreground mb-8 inline-block">← Alle guides</Link>
+
+        {/* Table of contents */}
+        <nav className="p-5 rounded-lg bg-soft border border-border mb-12">
+          <h3 className="font-serif text-base mb-3">Indhold</h3>
+          <ol className="space-y-1.5">
+            {article.tableOfContents.map((item, i) => (
+              <li key={i} className="text-sm text-muted-foreground hover:text-cta transition-colors">
+                <span className="text-copper mr-2">{i + 1}.</span>{item}
+              </li>
+            ))}
+          </ol>
+        </nav>
+
+        {/* Article sections */}
+        <div className="space-y-10">
+          {article.sections.map((section) => (
+            <section key={section.heading}>
+              <h2 className="font-serif text-2xl mb-4">{section.heading}</h2>
+              <p className="text-muted-foreground leading-relaxed">{section.content}</p>
+            </section>
+          ))}
+        </div>
+
+        {/* Internal links to collections */}
+        {article.relatedCollections.length > 0 && (
+          <div className="mt-12 pt-8 border-t border-border">
+            <InternalLinkBlock
+              title="Udforsk produkterne"
+              links={article.relatedCollections.map((h) => ({
+                label: h.replace(/-/g, " ").replace(/\b\w/g, (l: string) => l.toUpperCase()),
+                to: `/collections/${h}`,
+              }))}
+              variant="list"
+            />
           </div>
-        </div>
-
-        <div className="aspect-video rounded-lg bg-linen mb-12 flex items-center justify-center">
-          <span className="font-serif text-xl text-muted-foreground/30">Billede</span>
-        </div>
-
-        <div className="prose prose-lg max-w-none text-foreground">
-          <p className="text-lg leading-relaxed text-muted-foreground mb-6">
-            Et godt snit begynder før kniven rammer brættet. Det begynder med forståelsen af, hvad der gør et redskab godt. Materialet. Balancen. Den følelse, der opstår, når stål møder ingrediens med præcision.
-          </p>
-          <h2 className="font-serif text-2xl mt-10 mb-4">At vælge rigtigt</h2>
-          <p className="text-muted-foreground leading-relaxed mb-6">
-            Der er ingen genveje til et godt valg. Men der er viden. Og viden begynder med at stille de rigtige spørgsmål: Hvad laver du oftest? Hvad føles godt i din hånd? Hvilke materialer taler til dig?
-          </p>
-          <h2 className="font-serif text-2xl mt-10 mb-4">Materialet fortæller</h2>
-          <p className="text-muted-foreground leading-relaxed mb-6">
-            Damascus stål er ikke bare smukt. Det er funktionelt. Lagene af stål giver bladet en hårdhed og en fleksibilitet, der arbejder sammen. Ligesom træ og tid arbejder sammen for at give skaftet sin karakter.
-          </p>
-          <h2 className="font-serif text-2xl mt-10 mb-4">Pleje er en del af ritualet</h2>
-          <p className="text-muted-foreground leading-relaxed">
-            Pleje er ikke en pligt. Det er en måde at forlænge glæden på. En skarp kniv er en tryg kniv. Et velplejet skaft er et smukt skaft. Og begge dele kræver blot lidt tålmodighed.
-          </p>
-        </div>
-
-        <div className="mt-16 pt-8 border-t border-border">
-          <h3 className="font-serif text-xl mb-4">Relaterede guides</h3>
-          <div className="flex gap-4">
-            <Link to="/guides" className="text-sm text-cta hover:text-cta/80">
-              Se alle guides →
-            </Link>
-          </div>
-        </div>
+        )}
       </article>
-      <div className="mt-16">
-        <NewsletterSignup variant="dark" />
-      </div>
+
+      {/* Related products */}
+      <ProductRecommendationBlock title="Anbefalede produkter" />
+
+      {/* Related articles */}
+      {related.length > 0 && (
+        <RelatedArticles
+          articles={related.map((a) => ({
+            slug: a.slug,
+            title: a.title,
+            category: a.category,
+            readTime: a.readTime,
+          }))}
+        />
+      )}
+
+      <NewsletterSignup variant="dark" />
     </div>
   );
 }

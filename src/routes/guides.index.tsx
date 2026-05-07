@@ -1,60 +1,90 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useState } from "react";
 import { NewsletterSignup } from "@/components/NewsletterSignup";
-
-const articles = [
-  { slug: "vaelg-din-foerste-kniv", category: "Knivvalg", title: "Vælg din første kniv", intro: "En guide til det vigtigste redskab i dit køkken.", readTime: "5 min", img: null },
-  { slug: "slibning-for-begyndere", category: "Slibning", title: "Slibning for begyndere", intro: "Sådan giver du dit blad nyt liv med tålmodighed og en god sten.", readTime: "8 min", img: null },
-  { slug: "pleje-af-traeskaefter", category: "Pleje", title: "Pleje af træskafter", intro: "Olie, varme og tid. De tre ting, dit skaft har brug for.", readTime: "4 min", img: null },
-  { slug: "damascus-staal-historien", category: "Materialer", title: "Damascus stål — historien", intro: "Lag på lag af stål. En tradition ældre end vi aner.", readTime: "6 min", img: null },
-  { slug: "den-perfekte-gave", category: "Gaver", title: "Den perfekte gave", intro: "Gaver der varer længere end én aften. Og huskes længere.", readTime: "3 min", img: null },
-  { slug: "langsom-mad", category: "Langsom mad", title: "Langsom mad, bedre smag", intro: "Når du giver ingredienserne tid, giver de dig mere tilbage.", readTime: "7 min", img: null },
-];
+import { GuideArticleCard } from "@/components/landing/GuideArticleCard";
+import { ARTICLES, ARTICLE_CATEGORIES } from "@/lib/articles";
 
 export const Route = createFileRoute("/guides/")({
   head: () => ({
     meta: [
-      { title: "Guides — Langsomt Nok" },
-      { name: "description", content: "Guides til roligere køkkenritualer. Knivvalg, slibning, pleje og mere." },
-      { property: "og:title", content: "Guides — Langsomt Nok" },
-      { property: "og:description", content: "Guides til roligere køkkenritualer." },
+      { title: "Guides til roligere køkkenritualer — Langsomt Nok" },
+      { name: "description", content: "Guides til roligere køkkenritualer. Knivvalg, slibning, pleje, materialer, gaver og langsom mad." },
+      { property: "og:title", content: "Guides til roligere køkkenritualer — Langsomt Nok" },
+      { property: "og:description", content: "Viden, teknikker og historier for dem, der vil forstå deres redskaber bedre." },
     ],
   }),
   component: GuidesPage,
 });
 
 function GuidesPage() {
+  const [activeCategory, setActiveCategory] = useState<string | null>(null);
+
+  const filteredArticles = activeCategory
+    ? ARTICLES.filter((a) => a.category === activeCategory)
+    : ARTICLES;
+
   return (
     <div className="pt-24">
-      <div className="container-calm">
-        <div className="max-w-2xl mb-12">
-          <h1 className="font-serif text-4xl md:text-5xl mb-4">Guides til roligere køkkenritualer</h1>
-          <p className="text-editorial text-muted-foreground">
-            Viden, teknikker og historier for dem, der vil forstå deres redskaber bedre.
-          </p>
+      {/* Hero */}
+      <section className="section-padding bg-soft">
+        <div className="container-calm">
+          <div className="max-w-2xl fade-in-up">
+            <h1 className="font-serif text-4xl md:text-5xl mb-4">Guides til roligere køkkenritualer</h1>
+            <p className="text-editorial text-muted-foreground">
+              Viden, teknikker og historier for dem, der vil forstå deres redskaber bedre.
+            </p>
+          </div>
         </div>
+      </section>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
-          {articles.map((article) => (
-            <Link
-              key={article.slug}
-              to="/guides/$slug"
-              params={{ slug: article.slug }}
-              className="group block"
+      {/* Category filter */}
+      <section className="py-6 border-b border-border">
+        <div className="container-calm">
+          <div className="flex flex-wrap gap-2">
+            <button
+              onClick={() => setActiveCategory(null)}
+              className={`px-4 py-2 rounded-lg text-sm transition-all ${
+                !activeCategory ? "bg-cta text-cta-foreground" : "bg-soft text-muted-foreground hover:text-foreground"
+              }`}
             >
-              <div className="aspect-[3/2] rounded-lg bg-linen mb-4 flex items-center justify-center overflow-hidden">
-                <span className="font-serif text-lg text-muted-foreground/30">Langsomt Nok</span>
-              </div>
-              <span className="text-xs font-medium text-copper uppercase tracking-wider">{article.category}</span>
-              <h3 className="font-serif text-xl mt-1 mb-2 group-hover:text-walnut transition-colors">{article.title}</h3>
-              <p className="text-sm text-muted-foreground mb-2">{article.intro}</p>
-              <div className="flex items-center gap-3 text-xs text-muted-foreground/60">
-                <span>{article.readTime} læsetid</span>
-                <span className="text-cta font-medium">Læs guiden →</span>
-              </div>
-            </Link>
-          ))}
+              Alle
+            </button>
+            {ARTICLE_CATEGORIES.map((cat) => (
+              <button
+                key={cat}
+                onClick={() => setActiveCategory(activeCategory === cat ? null : cat)}
+                className={`px-4 py-2 rounded-lg text-sm transition-all ${
+                  activeCategory === cat ? "bg-cta text-cta-foreground" : "bg-soft text-muted-foreground hover:text-foreground"
+                }`}
+              >
+                {cat}
+              </button>
+            ))}
+          </div>
         </div>
-      </div>
+      </section>
+
+      {/* Articles grid */}
+      <section className="section-padding">
+        <div className="container-calm">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {filteredArticles.map((article) => (
+              <GuideArticleCard
+                key={article.slug}
+                slug={article.slug}
+                title={article.title}
+                intro={article.intro}
+                category={article.category}
+                readTime={article.readTime}
+              />
+            ))}
+          </div>
+          {filteredArticles.length === 0 && (
+            <p className="text-center text-muted-foreground py-12">Ingen guides i denne kategori endnu.</p>
+          )}
+        </div>
+      </section>
+
       <NewsletterSignup />
     </div>
   );

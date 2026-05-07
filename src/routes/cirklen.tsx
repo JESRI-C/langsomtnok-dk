@@ -1,6 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
 import { NewsletterSignup } from "@/components/NewsletterSignup";
+import { ImageSlot } from "@/components/ImageSlot";
+import { CalmCTASection } from "@/components/landing/CalmCTASection";
 
 export const Route = createFileRoute("/cirklen")({
   head: () => ({
@@ -17,9 +19,8 @@ export const Route = createFileRoute("/cirklen")({
 function CirklenPage() {
   return (
     <div className="pt-24">
-      {/* Hero */}
       <section className="section-padding bg-linen">
-        <div className="container-calm text-center max-w-3xl mx-auto">
+        <div className="container-calm text-center max-w-3xl mx-auto fade-in-up">
           <h1 className="font-serif text-4xl md:text-6xl mb-6">Velkommen i Cirklen</h1>
           <p className="text-editorial mx-auto text-muted-foreground">
             Et stille fællesskab for dem, der tror på tid, håndværk og gode måltider.
@@ -27,7 +28,6 @@ function CirklenPage() {
         </div>
       </section>
 
-      {/* Manifest */}
       <section className="section-padding">
         <div className="container-calm max-w-2xl mx-auto text-center">
           <h2 className="font-serif text-3xl mb-6">Manifestet</h2>
@@ -41,7 +41,6 @@ function CirklenPage() {
         </div>
       </section>
 
-      {/* What members receive */}
       <section className="section-padding bg-soft">
         <div className="container-calm">
           <h2 className="font-serif text-3xl text-center mb-12">Hvad Cirklen giver dig</h2>
@@ -60,7 +59,6 @@ function CirklenPage() {
         </div>
       </section>
 
-      {/* Monthly rituals */}
       <section className="section-padding">
         <div className="container-calm max-w-2xl mx-auto">
           <h2 className="font-serif text-3xl text-center mb-12">Månedlige ritualer</h2>
@@ -84,27 +82,21 @@ function CirklenPage() {
         </div>
       </section>
 
-      {/* Customer stories placeholder */}
       <section className="section-padding bg-linen">
         <div className="container-calm text-center max-w-2xl mx-auto">
           <h2 className="font-serif text-3xl mb-6">Historier fra Cirklen</h2>
-          <p className="text-muted-foreground italic mb-8">
-            "Jeg troede, det bare var en kniv. Men den ændrede måden, jeg laver mad på."
-          </p>
-          <p className="text-sm text-muted-foreground/60">— Kommende historier fra fællesskabet</p>
+          <ImageSlot name="cirklen-stories" ratio="16/9" motif="Hænder der arbejder med kniv og skærebræt i roligt køkken" variant="warm" className="mb-8" />
+          <p className="text-muted-foreground/60 text-sm">— Kommende historier fra fællesskabet</p>
         </div>
       </section>
 
-      {/* Future login placeholder */}
       <section className="section-padding">
         <div className="container-calm text-center max-w-lg mx-auto">
           <h2 className="font-serif text-2xl mb-4">Indre Cirkel</h2>
           <p className="text-sm text-muted-foreground mb-6">
             Snart kan du logge ind og få adgang til eksklusive guides, tidlig adgang til nye produkter og et personligt pleje-arkiv.
           </p>
-          <Button variant="outline" disabled>
-            Kommer snart
-          </Button>
+          <Button variant="outline" disabled>Kommer snart</Button>
         </div>
       </section>
 

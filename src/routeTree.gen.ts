@@ -16,6 +16,11 @@ import { Route as CirklenRouteImport } from './routes/cirklen'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as GuidesIndexRouteImport } from './routes/guides.index'
 import { Route as ProductHandleRouteImport } from './routes/product.$handle'
+import { Route as PagesSadanHolderDuDinKnivSkarpRouteImport } from './routes/pages.sadan-holder-du-din-kniv-skarp'
+import { Route as PagesKnivholderITraeRouteImport } from './routes/pages.knivholder-i-trae'
+import { Route as PagesGaveTilMadelskerenRouteImport } from './routes/pages.gave-til-madelskeren'
+import { Route as PagesDenForsteRigtigeKokkeknivRouteImport } from './routes/pages.den-forste-rigtige-kokkekniv'
+import { Route as PagesDamaskusKnivRouteImport } from './routes/pages.damaskus-kniv'
 import { Route as GuidesSlugRouteImport } from './routes/guides.$slug'
 import { Route as CollectionsHandleRouteImport } from './routes/collections.$handle'
 
@@ -54,6 +59,33 @@ const ProductHandleRoute = ProductHandleRouteImport.update({
   path: '/product/$handle',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PagesSadanHolderDuDinKnivSkarpRoute =
+  PagesSadanHolderDuDinKnivSkarpRouteImport.update({
+    id: '/pages/sadan-holder-du-din-kniv-skarp',
+    path: '/pages/sadan-holder-du-din-kniv-skarp',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const PagesKnivholderITraeRoute = PagesKnivholderITraeRouteImport.update({
+  id: '/pages/knivholder-i-trae',
+  path: '/pages/knivholder-i-trae',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PagesGaveTilMadelskerenRoute = PagesGaveTilMadelskerenRouteImport.update({
+  id: '/pages/gave-til-madelskeren',
+  path: '/pages/gave-til-madelskeren',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PagesDenForsteRigtigeKokkeknivRoute =
+  PagesDenForsteRigtigeKokkeknivRouteImport.update({
+    id: '/pages/den-forste-rigtige-kokkekniv',
+    path: '/pages/den-forste-rigtige-kokkekniv',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const PagesDamaskusKnivRoute = PagesDamaskusKnivRouteImport.update({
+  id: '/pages/damaskus-kniv',
+  path: '/pages/damaskus-kniv',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const GuidesSlugRoute = GuidesSlugRouteImport.update({
   id: '/guides/$slug',
   path: '/guides/$slug',
@@ -73,6 +105,11 @@ export interface FileRoutesByFullPath {
   '/shop': typeof ShopRoute
   '/collections/$handle': typeof CollectionsHandleRoute
   '/guides/$slug': typeof GuidesSlugRoute
+  '/pages/damaskus-kniv': typeof PagesDamaskusKnivRoute
+  '/pages/den-forste-rigtige-kokkekniv': typeof PagesDenForsteRigtigeKokkeknivRoute
+  '/pages/gave-til-madelskeren': typeof PagesGaveTilMadelskerenRoute
+  '/pages/knivholder-i-trae': typeof PagesKnivholderITraeRoute
+  '/pages/sadan-holder-du-din-kniv-skarp': typeof PagesSadanHolderDuDinKnivSkarpRoute
   '/product/$handle': typeof ProductHandleRoute
   '/guides/': typeof GuidesIndexRoute
 }
@@ -84,6 +121,11 @@ export interface FileRoutesByTo {
   '/shop': typeof ShopRoute
   '/collections/$handle': typeof CollectionsHandleRoute
   '/guides/$slug': typeof GuidesSlugRoute
+  '/pages/damaskus-kniv': typeof PagesDamaskusKnivRoute
+  '/pages/den-forste-rigtige-kokkekniv': typeof PagesDenForsteRigtigeKokkeknivRoute
+  '/pages/gave-til-madelskeren': typeof PagesGaveTilMadelskerenRoute
+  '/pages/knivholder-i-trae': typeof PagesKnivholderITraeRoute
+  '/pages/sadan-holder-du-din-kniv-skarp': typeof PagesSadanHolderDuDinKnivSkarpRoute
   '/product/$handle': typeof ProductHandleRoute
   '/guides': typeof GuidesIndexRoute
 }
@@ -96,6 +138,11 @@ export interface FileRoutesById {
   '/shop': typeof ShopRoute
   '/collections/$handle': typeof CollectionsHandleRoute
   '/guides/$slug': typeof GuidesSlugRoute
+  '/pages/damaskus-kniv': typeof PagesDamaskusKnivRoute
+  '/pages/den-forste-rigtige-kokkekniv': typeof PagesDenForsteRigtigeKokkeknivRoute
+  '/pages/gave-til-madelskeren': typeof PagesGaveTilMadelskerenRoute
+  '/pages/knivholder-i-trae': typeof PagesKnivholderITraeRoute
+  '/pages/sadan-holder-du-din-kniv-skarp': typeof PagesSadanHolderDuDinKnivSkarpRoute
   '/product/$handle': typeof ProductHandleRoute
   '/guides/': typeof GuidesIndexRoute
 }
@@ -109,6 +156,11 @@ export interface FileRouteTypes {
     | '/shop'
     | '/collections/$handle'
     | '/guides/$slug'
+    | '/pages/damaskus-kniv'
+    | '/pages/den-forste-rigtige-kokkekniv'
+    | '/pages/gave-til-madelskeren'
+    | '/pages/knivholder-i-trae'
+    | '/pages/sadan-holder-du-din-kniv-skarp'
     | '/product/$handle'
     | '/guides/'
   fileRoutesByTo: FileRoutesByTo
@@ -120,6 +172,11 @@ export interface FileRouteTypes {
     | '/shop'
     | '/collections/$handle'
     | '/guides/$slug'
+    | '/pages/damaskus-kniv'
+    | '/pages/den-forste-rigtige-kokkekniv'
+    | '/pages/gave-til-madelskeren'
+    | '/pages/knivholder-i-trae'
+    | '/pages/sadan-holder-du-din-kniv-skarp'
     | '/product/$handle'
     | '/guides'
   id:
@@ -131,6 +188,11 @@ export interface FileRouteTypes {
     | '/shop'
     | '/collections/$handle'
     | '/guides/$slug'
+    | '/pages/damaskus-kniv'
+    | '/pages/den-forste-rigtige-kokkekniv'
+    | '/pages/gave-til-madelskeren'
+    | '/pages/knivholder-i-trae'
+    | '/pages/sadan-holder-du-din-kniv-skarp'
     | '/product/$handle'
     | '/guides/'
   fileRoutesById: FileRoutesById
@@ -143,6 +205,11 @@ export interface RootRouteChildren {
   ShopRoute: typeof ShopRoute
   CollectionsHandleRoute: typeof CollectionsHandleRoute
   GuidesSlugRoute: typeof GuidesSlugRoute
+  PagesDamaskusKnivRoute: typeof PagesDamaskusKnivRoute
+  PagesDenForsteRigtigeKokkeknivRoute: typeof PagesDenForsteRigtigeKokkeknivRoute
+  PagesGaveTilMadelskerenRoute: typeof PagesGaveTilMadelskerenRoute
+  PagesKnivholderITraeRoute: typeof PagesKnivholderITraeRoute
+  PagesSadanHolderDuDinKnivSkarpRoute: typeof PagesSadanHolderDuDinKnivSkarpRoute
   ProductHandleRoute: typeof ProductHandleRoute
   GuidesIndexRoute: typeof GuidesIndexRoute
 }
@@ -198,6 +265,41 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProductHandleRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/pages/sadan-holder-du-din-kniv-skarp': {
+      id: '/pages/sadan-holder-du-din-kniv-skarp'
+      path: '/pages/sadan-holder-du-din-kniv-skarp'
+      fullPath: '/pages/sadan-holder-du-din-kniv-skarp'
+      preLoaderRoute: typeof PagesSadanHolderDuDinKnivSkarpRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/pages/knivholder-i-trae': {
+      id: '/pages/knivholder-i-trae'
+      path: '/pages/knivholder-i-trae'
+      fullPath: '/pages/knivholder-i-trae'
+      preLoaderRoute: typeof PagesKnivholderITraeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/pages/gave-til-madelskeren': {
+      id: '/pages/gave-til-madelskeren'
+      path: '/pages/gave-til-madelskeren'
+      fullPath: '/pages/gave-til-madelskeren'
+      preLoaderRoute: typeof PagesGaveTilMadelskerenRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/pages/den-forste-rigtige-kokkekniv': {
+      id: '/pages/den-forste-rigtige-kokkekniv'
+      path: '/pages/den-forste-rigtige-kokkekniv'
+      fullPath: '/pages/den-forste-rigtige-kokkekniv'
+      preLoaderRoute: typeof PagesDenForsteRigtigeKokkeknivRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/pages/damaskus-kniv': {
+      id: '/pages/damaskus-kniv'
+      path: '/pages/damaskus-kniv'
+      fullPath: '/pages/damaskus-kniv'
+      preLoaderRoute: typeof PagesDamaskusKnivRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/guides/$slug': {
       id: '/guides/$slug'
       path: '/guides/$slug'
@@ -223,6 +325,11 @@ const rootRouteChildren: RootRouteChildren = {
   ShopRoute: ShopRoute,
   CollectionsHandleRoute: CollectionsHandleRoute,
   GuidesSlugRoute: GuidesSlugRoute,
+  PagesDamaskusKnivRoute: PagesDamaskusKnivRoute,
+  PagesDenForsteRigtigeKokkeknivRoute: PagesDenForsteRigtigeKokkeknivRoute,
+  PagesGaveTilMadelskerenRoute: PagesGaveTilMadelskerenRoute,
+  PagesKnivholderITraeRoute: PagesKnivholderITraeRoute,
+  PagesSadanHolderDuDinKnivSkarpRoute: PagesSadanHolderDuDinKnivSkarpRoute,
   ProductHandleRoute: ProductHandleRoute,
   GuidesIndexRoute: GuidesIndexRoute,
 }
