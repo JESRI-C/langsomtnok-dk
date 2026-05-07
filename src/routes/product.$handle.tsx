@@ -26,7 +26,7 @@ import {
   type ShopifyProduct,
   type ShopifyMetafield,
 } from "@/lib/shopify";
-import { parseProductDescription } from "@/lib/parse-product-description";
+import { parseProductDescription, type ParsedSection } from "@/lib/parse-product-description";
 import { trackEvent } from "@/lib/analytics";
 import { Loader2, Minus, Plus } from "lucide-react";
 import { toast } from "sonner";
