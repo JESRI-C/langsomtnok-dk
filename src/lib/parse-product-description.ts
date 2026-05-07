@@ -155,7 +155,7 @@ export function parseProductDescription(descriptionHtml: string): ParsedProductD
 
   if (!descriptionHtml) return result;
 
-  const rawSections = splitOnH3(descriptionHtml);
+  const rawSections = splitOnHeadings(descriptionHtml);
 
   for (const section of rawSections) {
     if (!section.heading) {
