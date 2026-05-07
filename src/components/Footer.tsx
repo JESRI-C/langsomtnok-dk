@@ -20,8 +20,10 @@ const footerLinks = {
     { label: "Kontakt", to: "/kontakt" },
   ],
   legal: [
-    { label: "Handelsbetingelser", to: "/kontakt" },
-    { label: "Privatlivspolitik", to: "/kontakt" },
+    { label: "Handelsbetingelser", to: "/handelsbetingelser" },
+    { label: "Privatlivspolitik", to: "/privatlivspolitik" },
+    { label: "Returpolitik", to: "/returpolitik" },
+    { label: "Fragt", to: "/fragt" },
   ],
 };
 
