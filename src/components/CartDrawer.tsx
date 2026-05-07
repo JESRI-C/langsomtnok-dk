@@ -60,9 +60,9 @@ export function CartDrawer() {
 
         <div className="flex flex-col flex-1 min-h-0 pt-4">
           {items.length === 0 ? (
-            <div className="flex-1 flex items-center justify-center">
+           <div className="flex-1 flex items-center justify-center">
               <div className="text-center px-6">
-                <p className="font-serif text-lg text-muted-foreground mb-2">Intet i kurven endnu</p>
+                <p className="font-serif text-lg text-muted-foreground mb-2">Dit ritual er endnu ikke begyndt.</p>
                 <p className="text-sm text-muted-foreground/70">
                   Udforsk vores køkkenritualer og find dit første værktøj.
                 </p>
