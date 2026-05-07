@@ -6,12 +6,12 @@ interface TrustBarProps {
 }
 
 const TRUST_ITEMS = [
-  { icon: Truck, text: "Fri fragt over 499 kr." },
-  { icon: RotateCcw, text: "30 dages returret" },
-  { icon: Package, text: "Pakket med ro og omhu" },
+  { icon: Package, text: "Pakket med omhu" },
   { icon: Shield, text: "Sikker betaling" },
-  { icon: Leaf, text: "Bæredygtige materialer" },
-  { icon: Heart, text: "Skabt til at vare" },
+  { icon: RotateCcw, text: "30 dages returret" },
+  { icon: Truck, text: "Sendes fra Danmark" },
+  { icon: Heart, text: "Plejeguide medfølger" },
+  { icon: Leaf, text: "Skabt til at vare" },
 ];
 
 export function TrustBar({ variant = "light", layout = "horizontal" }: TrustBarProps) {
