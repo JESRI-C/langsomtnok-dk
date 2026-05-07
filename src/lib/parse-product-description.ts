@@ -176,7 +176,7 @@ export function parseProductDescription(descriptionHtml: string): ParsedProductD
 
     const parsed: ParsedSection = {
       heading: headingText,
-      content: section.content,
+      content: section.content.replace(/<hr\s*\/?>/gi, "").trim(),
       type,
       listItems,
     };
