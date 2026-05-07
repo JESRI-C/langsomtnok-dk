@@ -201,32 +201,7 @@ export interface NewsletterSignupData {
   acceptsMarketing: boolean;
 }
 
-// ── Placeholder Data for Bundles ─────────────────────────────────────────────
-// These represent bundle products that should exist in Shopify.
-// Replace handles with actual Shopify product/collection handles.
-export const BUNDLE_PLACEHOLDERS: ShopifyBundle[] = [
-  {
-    handle: 'ritual-startkit',        // SHOPIFY: create product or collection with this handle
-    title: 'Ritual Startkit',
-    description: 'Det første skridt mod et roligere køkken. Kniv, bræt og plejeolie.',
-    price: '1499.00',
-    currencyCode: 'DKK',
-  },
-  {
-    handle: 'craft-and-care',         // SHOPIFY: create product or collection with this handle
-    title: 'Craft & Care',
-    description: 'Slibesten, plejeolie og guide. Alt hvad du behøver for vedligehold.',
-    price: '899.00',
-    currencyCode: 'DKK',
-  },
-  {
-    handle: 'full-focus-set',         // SHOPIFY: create product or collection with this handle
-    title: 'Full Focus Set',
-    description: 'Det komplette ritual. Knive, sten, holdere og pleje samlet.',
-    price: '3499.00',
-    currencyCode: 'DKK',
-  },
-];
+// Bundle placeholders removed — use real Shopify products only.
 
 // ── Placeholder Collection Handles ───────────────────────────────────────────
 // Map frontend category routes to Shopify collection handles.
