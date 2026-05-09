@@ -165,6 +165,19 @@ export function CartDrawer() {
 
               {/* Checkout footer */}
               <div className="flex-shrink-0 pt-4 border-t border-border space-y-4">
+                {/* Secure payment info box */}
+                <div className="rounded-lg p-4 bg-soft/40 border border-foreground/10">
+                  <div className="flex items-start gap-2.5">
+                    <ShieldCheck className="w-4 h-4 text-cta mt-0.5 flex-shrink-0" strokeWidth={1.5} />
+                    <div>
+                      <p className="text-xs font-medium text-foreground mb-1">Sikker betaling</p>
+                      <p className="text-xs text-muted-foreground leading-relaxed">
+                        Du betaler trygt via Shopify checkout. Betalingsmulighederne vises, når du går videre til checkout.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
                 <p className="text-xs text-muted-foreground text-center italic">
                   Din ordre pakkes med ro og omhu.
                 </p>
