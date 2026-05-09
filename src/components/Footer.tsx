@@ -14,6 +14,12 @@ const footerLinks = {
     { label: "Pleje", to: "/guides" },
     { label: "Materialer", to: "/guides" },
   ],
+  rituals: [
+    { label: "Farsdagsgaver", href: "/gaver/fars-dag" },
+    { label: "Hold din kniv skarp", href: "/ritualer/hold-kniven-skarp" },
+    { label: "Rolig opbevaring", href: "/ritualer/rolig-opbevaring" },
+    { label: "Find dit køkkenritual", href: "/find-dit-ritual" },
+  ],
   brand: [
     { label: "Om Langsomt Nok", to: "/om" },
     { label: "Langsomt Cirklen", to: "/cirklen" },
