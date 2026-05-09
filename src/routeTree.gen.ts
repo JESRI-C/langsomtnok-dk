@@ -27,6 +27,7 @@ import { Route as PagesGaveTilMadelskerenRouteImport } from './routes/pages.gave
 import { Route as PagesDenForsteRigtigeKokkeknivRouteImport } from './routes/pages.den-forste-rigtige-kokkekniv'
 import { Route as PagesDamaskusKnivRouteImport } from './routes/pages.damaskus-kniv'
 import { Route as GuidesSlugRouteImport } from './routes/guides.$slug'
+import { Route as GaverFarsDagRouteImport } from './routes/gaver.fars-dag'
 import { Route as CollectionsHandleRouteImport } from './routes/collections.$handle'
 
 const ShopRoute = ShopRouteImport.update({
@@ -121,6 +122,11 @@ const GuidesSlugRoute = GuidesSlugRouteImport.update({
   path: '/guides/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const GaverFarsDagRoute = GaverFarsDagRouteImport.update({
+  id: '/gaver/fars-dag',
+  path: '/gaver/fars-dag',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const CollectionsHandleRoute = CollectionsHandleRouteImport.update({
   id: '/collections/$handle',
   path: '/collections/$handle',
@@ -139,6 +145,7 @@ export interface FileRoutesByFullPath {
   '/returpolitik': typeof ReturpolitikRoute
   '/shop': typeof ShopRoute
   '/collections/$handle': typeof CollectionsHandleRoute
+  '/gaver/fars-dag': typeof GaverFarsDagRoute
   '/guides/$slug': typeof GuidesSlugRoute
   '/pages/damaskus-kniv': typeof PagesDamaskusKnivRoute
   '/pages/den-forste-rigtige-kokkekniv': typeof PagesDenForsteRigtigeKokkeknivRoute
@@ -160,6 +167,7 @@ export interface FileRoutesByTo {
   '/returpolitik': typeof ReturpolitikRoute
   '/shop': typeof ShopRoute
   '/collections/$handle': typeof CollectionsHandleRoute
+  '/gaver/fars-dag': typeof GaverFarsDagRoute
   '/guides/$slug': typeof GuidesSlugRoute
   '/pages/damaskus-kniv': typeof PagesDamaskusKnivRoute
   '/pages/den-forste-rigtige-kokkekniv': typeof PagesDenForsteRigtigeKokkeknivRoute
@@ -182,6 +190,7 @@ export interface FileRoutesById {
   '/returpolitik': typeof ReturpolitikRoute
   '/shop': typeof ShopRoute
   '/collections/$handle': typeof CollectionsHandleRoute
+  '/gaver/fars-dag': typeof GaverFarsDagRoute
   '/guides/$slug': typeof GuidesSlugRoute
   '/pages/damaskus-kniv': typeof PagesDamaskusKnivRoute
   '/pages/den-forste-rigtige-kokkekniv': typeof PagesDenForsteRigtigeKokkeknivRoute
@@ -205,6 +214,7 @@ export interface FileRouteTypes {
     | '/returpolitik'
     | '/shop'
     | '/collections/$handle'
+    | '/gaver/fars-dag'
     | '/guides/$slug'
     | '/pages/damaskus-kniv'
     | '/pages/den-forste-rigtige-kokkekniv'
@@ -226,6 +236,7 @@ export interface FileRouteTypes {
     | '/returpolitik'
     | '/shop'
     | '/collections/$handle'
+    | '/gaver/fars-dag'
     | '/guides/$slug'
     | '/pages/damaskus-kniv'
     | '/pages/den-forste-rigtige-kokkekniv'
@@ -247,6 +258,7 @@ export interface FileRouteTypes {
     | '/returpolitik'
     | '/shop'
     | '/collections/$handle'
+    | '/gaver/fars-dag'
     | '/guides/$slug'
     | '/pages/damaskus-kniv'
     | '/pages/den-forste-rigtige-kokkekniv'
@@ -269,6 +281,7 @@ export interface RootRouteChildren {
   ReturpolitikRoute: typeof ReturpolitikRoute
   ShopRoute: typeof ShopRoute
   CollectionsHandleRoute: typeof CollectionsHandleRoute
+  GaverFarsDagRoute: typeof GaverFarsDagRoute
   GuidesSlugRoute: typeof GuidesSlugRoute
   PagesDamaskusKnivRoute: typeof PagesDamaskusKnivRoute
   PagesDenForsteRigtigeKokkeknivRoute: typeof PagesDenForsteRigtigeKokkeknivRoute
@@ -407,6 +420,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof GuidesSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/gaver/fars-dag': {
+      id: '/gaver/fars-dag'
+      path: '/gaver/fars-dag'
+      fullPath: '/gaver/fars-dag'
+      preLoaderRoute: typeof GaverFarsDagRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/collections/$handle': {
       id: '/collections/$handle'
       path: '/collections/$handle'
@@ -429,6 +449,7 @@ const rootRouteChildren: RootRouteChildren = {
   ReturpolitikRoute: ReturpolitikRoute,
   ShopRoute: ShopRoute,
   CollectionsHandleRoute: CollectionsHandleRoute,
+  GaverFarsDagRoute: GaverFarsDagRoute,
   GuidesSlugRoute: GuidesSlugRoute,
   PagesDamaskusKnivRoute: PagesDamaskusKnivRoute,
   PagesDenForsteRigtigeKokkeknivRoute: PagesDenForsteRigtigeKokkeknivRoute,
@@ -441,3 +462,13 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
