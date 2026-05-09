@@ -9,6 +9,7 @@ import { HeroVideo } from "@/components/landing/HeroVideo";
 import { storefrontApiRequest, PRODUCTS_QUERY, type ShopifyProduct } from "@/lib/shopify";
 import { STORIES as UNIVERSET_STORIES } from "@/lib/universet";
 import { StoryCard as UniversetHomeStoryCard } from "@/components/universet/StoryCard";
+import { KeramikHomeSection } from "@/components/KeramikHomeSection";
 
 const UNIVERSET_HOME_STORIES = UNIVERSET_STORIES.slice(0, 3);
 
@@ -225,6 +226,9 @@ function HomePage() {
           </div>
         </section>
       )}
+
+      {/* ─────────────────── 3b. KERAMIK ─────────────────── */}
+      <KeramikHomeSection />
 
       {/* ─────────────────── 4. MATERIALS ─────────────────── */}
       <section className="section-padding bg-deep text-deep-foreground">
