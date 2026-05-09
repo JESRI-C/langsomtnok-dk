@@ -204,6 +204,9 @@ export function CartDrawer() {
                     </>
                   )}
                 </Button>
+                <p className="text-xs text-muted-foreground text-center">
+                  Betaling håndteres sikkert i checkout.
+                </p>
                 <div className="flex justify-center gap-6 text-xs text-muted-foreground">
                   <span>Pakket med omhu</span>
                   <span>·</span>
