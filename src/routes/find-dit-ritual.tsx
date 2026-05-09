@@ -26,7 +26,7 @@ const RITUAL_CARDS = [
 
 function FindRitualPage() {
   useEffect(() => {
-    trackEvent("landing_page_view" as never, { page: "find_dit_ritual" });
+    trackEvent("landing_page_view", { page: "find_dit_ritual" });
   }, []);
 
   return (
