@@ -1,4 +1,5 @@
 import { Link } from "@tanstack/react-router";
+import { CreditCard, ShieldCheck, Package, RotateCcw } from "lucide-react";
 import { trackEvent } from "@/lib/analytics";
 
 const footerLinks = {
@@ -161,6 +162,34 @@ export function Footer() {
               </button>
             </form>
             <p className="text-xs text-deep-foreground/25 mt-2">Ingen støj. Kun ro.</p>
+          </div>
+        </div>
+
+        {/* Tryg betaling */}
+        <div className="border-t border-deep-foreground/10 pt-8 pb-8">
+          <div className="max-w-2xl mx-auto text-center">
+            <h3 className="text-sm font-medium tracking-wider uppercase mb-3 text-deep-foreground/40">Tryg betaling</h3>
+            <p className="text-sm text-deep-foreground/60 leading-relaxed mb-5 max-w-md mx-auto">
+              Betal sikkert med kort og de betalingsmuligheder, der vises i checkout.
+            </p>
+            <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-3 text-deep-foreground/50">
+              <span className="inline-flex items-center gap-2 text-xs">
+                <CreditCard className="w-4 h-4 text-cta" strokeWidth={1.5} />
+                Kort
+              </span>
+              <span className="inline-flex items-center gap-2 text-xs">
+                <ShieldCheck className="w-4 h-4 text-cta" strokeWidth={1.5} />
+                Sikker betaling
+              </span>
+              <span className="inline-flex items-center gap-2 text-xs">
+                <Package className="w-4 h-4 text-cta" strokeWidth={1.5} />
+                Pakket med omhu
+              </span>
+              <span className="inline-flex items-center gap-2 text-xs">
+                <RotateCcw className="w-4 h-4 text-cta" strokeWidth={1.5} />
+                30 dages returret
+              </span>
+            </div>
           </div>
         </div>
 
