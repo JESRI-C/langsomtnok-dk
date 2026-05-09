@@ -79,8 +79,12 @@ export function ProductCard({ product }: { product: ShopifyProduct }) {
         
         <div className="flex items-center justify-between pt-1">
           <div className="flex items-baseline gap-2">
-            <span className="text-sm font-medium">{formatPrice(price.amount, price.currencyCode)}</span>
-            {isOnSale && product.node.compareAtPriceRange?.minVariantPrice && (
+            {parseFloat(price.amount) > 0 ? (
+              <span className="text-sm font-medium">{formatPrice(price.amount, price.currencyCode)}</span>
+            ) : (
+              <span className="text-xs text-muted-foreground italic">Pris kommer snart</span>
+            )}
+            {isOnSale && parseFloat(price.amount) > 0 && product.node.compareAtPriceRange?.minVariantPrice && (
               <span className="text-xs text-muted-foreground/50 line-through">
                 {formatPrice(product.node.compareAtPriceRange.minVariantPrice.amount, product.node.compareAtPriceRange.minVariantPrice.currencyCode)}
               </span>
