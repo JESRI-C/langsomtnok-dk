@@ -447,6 +447,29 @@ function ProductPage() {
           <TrustBar />
         </div>
 
+        {/* ── Contextual ritual / gift guide link (1 per product) ── */}
+        {(() => {
+          const ritualLink =
+            product.productType === "The Ritual Set"
+              ? { href: "/ritualer/hold-kniven-skarp", label: "Læs guiden til at holde din kniv skarp" }
+              : product.productType === "The Calm Kitchen"
+                ? { href: "/ritualer/rolig-opbevaring", label: "Se guiden til rolig knivopbevaring" }
+                : product.productType === "The Gift Chapter"
+                  ? { href: "/gaver/fars-dag", label: "Se farsdagsgaver med ro og brugsværdi" }
+                  : null;
+          if (!ritualLink) return null;
+          return (
+            <div className="mt-10 max-w-3xl">
+              <a
+                href={ritualLink.href}
+                className="inline-flex items-center gap-2 text-sm font-medium text-walnut border-b border-walnut/30 pb-1 hover:gap-3 transition-all"
+              >
+                {ritualLink.label} →
+              </a>
+            </div>
+          );
+        })()}
+
         {/* ── 3–8. All editorial sections from descriptionHtml ── */}
         {parsed.sections.map((section, i) => (
           <EditorialSection

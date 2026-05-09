@@ -9,6 +9,7 @@ import { fetchProductsByQuery, type ShopifyProduct } from "@/lib/shopify";
 import { trackEvent } from "@/lib/analytics";
 import { useCampaignContent } from "@/hooks/useCampaignContent";
 import type { CampaignContent } from "@/lib/campaign-content";
+import { buildCampaignHead, SITE_ORIGIN } from "@/lib/campaign-seo";
 
 // Edit live in: Shopify Admin → Content → Metaobjects → Campaign Landing Page → "rolig-opbevaring"
 const FALLBACK: CampaignContent = {
@@ -35,14 +36,22 @@ const FALLBACK: CampaignContent = {
 };
 
 export const Route = createFileRoute("/ritualer/rolig-opbevaring")({
-  head: () => ({
-    meta: [
-      { title: FALLBACK.seo_title! },
-      { name: "description", content: FALLBACK.seo_description! },
-      { property: "og:title", content: FALLBACK.seo_title! },
-      { property: "og:description", content: FALLBACK.seo_description! },
-    ],
-  }),
+  head: () =>
+    buildCampaignHead({
+      pathname: "/ritualer/rolig-opbevaring",
+      title: FALLBACK.seo_title!,
+      description: FALLBACK.seo_description!,
+      breadcrumbs: [
+        { name: "Forside", url: `${SITE_ORIGIN}/` },
+        { name: "Ritualer", url: `${SITE_ORIGIN}/find-dit-ritual` },
+        { name: "Rolig opbevaring", url: `${SITE_ORIGIN}/ritualer/rolig-opbevaring` },
+      ],
+      itemListName: "Rolig opbevaring — guide",
+      itemList: (FALLBACK.guide_cards ?? []).map((c) => ({
+        name: c.title,
+        url: `${SITE_ORIGIN}/ritualer/rolig-opbevaring`,
+      })),
+    }),
   component: OpbevaringPage,
 });
 
@@ -81,6 +90,18 @@ function OpbevaringPage() {
           {c.intro_section_body && (
             <p className="text-editorial text-muted-foreground whitespace-pre-line">{c.intro_section_body}</p>
           )}
+        </div>
+      </section>
+
+      <section className="pb-16">
+        <div className="container-calm max-w-2xl">
+          <div className="p-6 md:p-8 rounded-lg bg-soft/60 border border-border/40">
+            <p className="text-editorial text-foreground/80 leading-relaxed">
+              Knive holder sig bedst, når de opbevares sikkert, synligt og uden at slå mod andre
+              redskaber. En magnetisk knivliste eller knivstander i træ giver både bedre overblik
+              og mere ro i køkkenet.
+            </p>
+          </div>
         </div>
       </section>
 

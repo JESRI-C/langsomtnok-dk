@@ -14,6 +14,12 @@ const footerLinks = {
     { label: "Pleje", to: "/guides" },
     { label: "Materialer", to: "/guides" },
   ],
+  rituals: [
+    { label: "Farsdagsgaver", href: "/gaver/fars-dag" },
+    { label: "Hold din kniv skarp", href: "/ritualer/hold-kniven-skarp" },
+    { label: "Rolig opbevaring", href: "/ritualer/rolig-opbevaring" },
+    { label: "Find dit køkkenritual", href: "/find-dit-ritual" },
+  ],
   brand: [
     { label: "Om Langsomt Nok", to: "/om" },
     { label: "Langsomt Cirklen", to: "/cirklen" },
@@ -31,7 +37,7 @@ export function Footer() {
   return (
     <footer className="bg-deep text-deep-foreground">
       <div className="container-calm section-padding">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 lg:gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-12 lg:gap-8">
           <div className="lg:col-span-2">
             <h2 className="font-serif text-2xl mb-4">Langsomt Nok</h2>
             <p className="text-deep-foreground/60 text-sm leading-relaxed max-w-sm mb-3">
@@ -81,6 +87,22 @@ export function Footer() {
                   <Link to={link.to} className="text-sm text-deep-foreground/60 hover:text-deep-foreground transition-colors">
                     {link.label}
                   </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div>
+            <h3 className="text-sm font-medium tracking-wider uppercase mb-4 text-deep-foreground/40">Ritualer og gaver</h3>
+            <ul className="space-y-3">
+              {footerLinks.rituals.map((link) => (
+                <li key={link.label}>
+                  <a
+                    href={link.href}
+                    className="text-sm text-deep-foreground/60 hover:text-deep-foreground transition-colors"
+                  >
+                    {link.label}
+                  </a>
                 </li>
               ))}
             </ul>

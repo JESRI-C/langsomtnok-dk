@@ -9,6 +9,7 @@ import { fetchProductsByQuery, type ShopifyProduct } from "@/lib/shopify";
 import { trackEvent } from "@/lib/analytics";
 import { useCampaignContent } from "@/hooks/useCampaignContent";
 import type { CampaignContent } from "@/lib/campaign-content";
+import { buildCampaignHead, SITE_ORIGIN } from "@/lib/campaign-seo";
 
 // Fallback copy — used when Shopify Metaobject is missing or empty.
 // Edit live in: Shopify Admin → Content → Metaobjects → Campaign Landing Page → "fars-dag"
@@ -40,14 +41,24 @@ const FALLBACK: CampaignContent = {
 };
 
 export const Route = createFileRoute("/gaver/fars-dag")({
-  head: () => ({
-    meta: [
-      { title: FALLBACK.seo_title! },
-      { name: "description", content: FALLBACK.seo_description! },
-      { property: "og:title", content: FALLBACK.seo_title! },
-      { property: "og:description", content: FALLBACK.seo_description! },
-    ],
-  }),
+  head: () =>
+    buildCampaignHead({
+      pathname: "/gaver/fars-dag",
+      title: FALLBACK.seo_title!,
+      description: FALLBACK.seo_description!,
+      breadcrumbs: [
+        { name: "Forside", url: `${SITE_ORIGIN}/` },
+        { name: "Gaver", url: `${SITE_ORIGIN}/collections/gaver` },
+        { name: "Farsdagsgaver", url: `${SITE_ORIGIN}/gaver/fars-dag` },
+      ],
+      itemListName: "Farsdagsgaver — guideudvalg",
+      itemList: (FALLBACK.guide_cards ?? []).map((c) => ({
+        name: c.title,
+        url: c.href?.startsWith("http")
+          ? c.href
+          : `${SITE_ORIGIN}/gaver/fars-dag${c.href ?? ""}`,
+      })),
+    }),
   component: FarsdagPage,
 });
 
@@ -82,6 +93,17 @@ function FarsdagPage() {
       />
 
       <TrustBar />
+
+      <section className="section-padding pb-0">
+        <div className="container-calm max-w-2xl">
+          <div className="p-6 md:p-8 rounded-lg bg-soft/60 border border-border/40 text-center">
+            <p className="text-editorial text-foreground/80 leading-relaxed">
+              En god farsdagsgave er en gave, der bliver brugt. Hos Langsomt Nok finder du rolige,
+              funktionelle gaver til far, der holder af mad, køkkenredskaber og små daglige ritualer.
+            </p>
+          </div>
+        </div>
+      </section>
 
       <section className="section-padding">
         <div className="container-calm">

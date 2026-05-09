@@ -9,6 +9,7 @@ import { fetchProductsByQuery, type ShopifyProduct } from "@/lib/shopify";
 import { trackEvent } from "@/lib/analytics";
 import { useCampaignContent } from "@/hooks/useCampaignContent";
 import type { CampaignContent } from "@/lib/campaign-content";
+import { buildCampaignHead, SITE_ORIGIN } from "@/lib/campaign-seo";
 
 // Edit live in: Shopify Admin → Content → Metaobjects → Campaign Landing Page → "hold-kniven-skarp"
 const FALLBACK: CampaignContent = {
@@ -38,14 +39,22 @@ const FALLBACK: CampaignContent = {
 };
 
 export const Route = createFileRoute("/ritualer/hold-kniven-skarp")({
-  head: () => ({
-    meta: [
-      { title: FALLBACK.seo_title! },
-      { name: "description", content: FALLBACK.seo_description! },
-      { property: "og:title", content: FALLBACK.seo_title! },
-      { property: "og:description", content: FALLBACK.seo_description! },
-    ],
-  }),
+  head: () =>
+    buildCampaignHead({
+      pathname: "/ritualer/hold-kniven-skarp",
+      title: FALLBACK.seo_title!,
+      description: FALLBACK.seo_description!,
+      breadcrumbs: [
+        { name: "Forside", url: `${SITE_ORIGIN}/` },
+        { name: "Ritualer", url: `${SITE_ORIGIN}/find-dit-ritual` },
+        { name: "Hold din kniv skarp", url: `${SITE_ORIGIN}/ritualer/hold-kniven-skarp` },
+      ],
+      itemListName: "Sliberitualet — trin",
+      itemList: (FALLBACK.guide_cards ?? []).map((c) => ({
+        name: c.title,
+        url: c.href?.startsWith("http") ? c.href : `${SITE_ORIGIN}${c.href ?? ""}`,
+      })),
+    }),
   component: SkarpPage,
 });
 
@@ -85,6 +94,18 @@ function SkarpPage() {
           {c.intro_section_body && (
             <p className="text-editorial text-muted-foreground whitespace-pre-line">{c.intro_section_body}</p>
           )}
+        </div>
+      </section>
+
+      <section className="pb-16">
+        <div className="container-calm max-w-2xl">
+          <div className="p-6 md:p-8 rounded-lg bg-soft/60 border border-border/40">
+            <p className="text-editorial text-foreground/80 leading-relaxed">
+              Den bedste måde at holde en køkkenkniv skarp på er at vedligeholde æggen løbende med
+              slibesten, strop eller en enkel knivsliber. Det forlænger knivens levetid og gør
+              madlavningen mere rolig og præcis.
+            </p>
+          </div>
         </div>
       </section>
 

@@ -6,6 +6,7 @@ import { IMAGE_SLOTS } from "@/components/ImageSlot";
 import { trackEvent } from "@/lib/analytics";
 import { useCampaignContent } from "@/hooks/useCampaignContent";
 import type { CampaignContent } from "@/lib/campaign-content";
+import { buildCampaignHead, SITE_ORIGIN } from "@/lib/campaign-seo";
 
 // Edit live in: Shopify Admin → Content → Metaobjects → Campaign Landing Page → "find-dit-ritual"
 const FALLBACK: CampaignContent = {
@@ -44,14 +45,21 @@ const FALLBACK: CampaignContent = {
 };
 
 export const Route = createFileRoute("/find-dit-ritual")({
-  head: () => ({
-    meta: [
-      { title: FALLBACK.seo_title! },
-      { name: "description", content: FALLBACK.seo_description! },
-      { property: "og:title", content: FALLBACK.seo_title! },
-      { property: "og:description", content: FALLBACK.seo_description! },
-    ],
-  }),
+  head: () =>
+    buildCampaignHead({
+      pathname: "/find-dit-ritual",
+      title: FALLBACK.seo_title!,
+      description: FALLBACK.seo_description!,
+      breadcrumbs: [
+        { name: "Forside", url: `${SITE_ORIGIN}/` },
+        { name: "Find dit ritual", url: `${SITE_ORIGIN}/find-dit-ritual` },
+      ],
+      itemListName: "Find dit køkkenritual",
+      itemList: (FALLBACK.guide_cards ?? []).map((c) => ({
+        name: c.title,
+        url: c.href?.startsWith("http") ? c.href : `${SITE_ORIGIN}${c.href ?? "/find-dit-ritual"}`,
+      })),
+    }),
   component: FindRitualPage,
 });
 
@@ -76,6 +84,18 @@ function FindRitualPage() {
       />
 
       <TrustBar />
+
+      <section className="pt-12">
+        <div className="container-calm max-w-2xl">
+          <div className="p-6 md:p-8 rounded-lg bg-soft/60 border border-border/40 text-center">
+            <p className="text-editorial text-foreground/80 leading-relaxed">
+              Et køkkenritual er en lille gentagen handling, der gør madlavningen mere rolig. Det
+              kan være at slibe en kniv, pleje et redskab, rydde op på bordet eller give tingene
+              en fast plads.
+            </p>
+          </div>
+        </div>
+      </section>
 
       <section id="ritual-valg" className="section-padding">
         <div className="container-calm max-w-5xl">
