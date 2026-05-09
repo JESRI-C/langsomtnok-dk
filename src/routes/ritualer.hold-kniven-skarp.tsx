@@ -39,14 +39,22 @@ const FALLBACK: CampaignContent = {
 };
 
 export const Route = createFileRoute("/ritualer/hold-kniven-skarp")({
-  head: () => ({
-    meta: [
-      { title: FALLBACK.seo_title! },
-      { name: "description", content: FALLBACK.seo_description! },
-      { property: "og:title", content: FALLBACK.seo_title! },
-      { property: "og:description", content: FALLBACK.seo_description! },
-    ],
-  }),
+  head: () =>
+    buildCampaignHead({
+      pathname: "/ritualer/hold-kniven-skarp",
+      title: FALLBACK.seo_title!,
+      description: FALLBACK.seo_description!,
+      breadcrumbs: [
+        { name: "Forside", url: `${SITE_ORIGIN}/` },
+        { name: "Ritualer", url: `${SITE_ORIGIN}/find-dit-ritual` },
+        { name: "Hold din kniv skarp", url: `${SITE_ORIGIN}/ritualer/hold-kniven-skarp` },
+      ],
+      itemListName: "Sliberitualet — trin",
+      itemList: (FALLBACK.guide_cards ?? []).map((c) => ({
+        name: c.title,
+        url: c.href?.startsWith("http") ? c.href : `${SITE_ORIGIN}${c.href ?? ""}`,
+      })),
+    }),
   component: SkarpPage,
 });
 
