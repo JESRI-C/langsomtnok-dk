@@ -94,6 +94,17 @@ function FarsdagPage() {
 
       <TrustBar />
 
+      <section className="section-padding pb-0">
+        <div className="container-calm max-w-2xl">
+          <div className="p-6 md:p-8 rounded-lg bg-soft/60 border border-border/40 text-center">
+            <p className="text-editorial text-foreground/80 leading-relaxed">
+              En god farsdagsgave er en gave, der bliver brugt. Hos Langsomt Nok finder du rolige,
+              funktionelle gaver til far, der holder af mad, køkkenredskaber og små daglige ritualer.
+            </p>
+          </div>
+        </div>
+      </section>
+
       <section className="section-padding">
         <div className="container-calm">
           <div className="text-center mb-12">
