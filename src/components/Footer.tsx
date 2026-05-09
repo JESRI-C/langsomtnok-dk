@@ -93,6 +93,22 @@ export function Footer() {
           </div>
 
           <div>
+            <h3 className="text-sm font-medium tracking-wider uppercase mb-4 text-deep-foreground/40">Ritualer og gaver</h3>
+            <ul className="space-y-3">
+              {footerLinks.rituals.map((link) => (
+                <li key={link.label}>
+                  <a
+                    href={link.href}
+                    className="text-sm text-deep-foreground/60 hover:text-deep-foreground transition-colors"
+                  >
+                    {link.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div>
             <h3 className="text-sm font-medium tracking-wider uppercase mb-4 text-deep-foreground/40">Brand</h3>
             <ul className="space-y-3">
               {footerLinks.brand.map((link) => (
