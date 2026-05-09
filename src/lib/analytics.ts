@@ -42,7 +42,9 @@ export type AnalyticsEvent =
   | 'universet_story_click'
   | 'universet_category_filter'
   | 'related_products_click'
-  | 'cirklen_signup_click';
+  | 'cirklen_signup_click'
+  | 'keramik_artist_click'
+  | 'keramik_category_click';
 
 interface AnalyticsParams {
   label?: string;

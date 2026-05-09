@@ -15,6 +15,7 @@ import { Route as ReturpolitikRouteImport } from './routes/returpolitik'
 import { Route as PrivatlivspolitikRouteImport } from './routes/privatlivspolitik'
 import { Route as OmRouteImport } from './routes/om'
 import { Route as KontaktRouteImport } from './routes/kontakt'
+import { Route as KeramikRouteImport } from './routes/keramik'
 import { Route as HandelsbetingelserRouteImport } from './routes/handelsbetingelser'
 import { Route as FragtRouteImport } from './routes/fragt'
 import { Route as FindDitRitualRouteImport } from './routes/find-dit-ritual'
@@ -31,6 +32,8 @@ import { Route as PagesKnivholderITraeRouteImport } from './routes/pages.knivhol
 import { Route as PagesGaveTilMadelskerenRouteImport } from './routes/pages.gave-til-madelskeren'
 import { Route as PagesDenForsteRigtigeKokkeknivRouteImport } from './routes/pages.den-forste-rigtige-kokkekniv'
 import { Route as PagesDamaskusKnivRouteImport } from './routes/pages.damaskus-kniv'
+import { Route as KeramikSusanRielRouteImport } from './routes/keramik.susan-riel'
+import { Route as KeramikSlugRouteImport } from './routes/keramik.$slug'
 import { Route as GuidesSlugRouteImport } from './routes/guides.$slug'
 import { Route as GaverFarsDagRouteImport } from './routes/gaver.fars-dag'
 import { Route as CollectionsHandlavetKeramikRouteImport } from './routes/collections.handlavet-keramik'
@@ -64,6 +67,11 @@ const OmRoute = OmRouteImport.update({
 const KontaktRoute = KontaktRouteImport.update({
   id: '/kontakt',
   path: '/kontakt',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const KeramikRoute = KeramikRouteImport.update({
+  id: '/keramik',
+  path: '/keramik',
   getParentRoute: () => rootRouteImport,
 } as any)
 const HandelsbetingelserRoute = HandelsbetingelserRouteImport.update({
@@ -148,6 +156,16 @@ const PagesDamaskusKnivRoute = PagesDamaskusKnivRouteImport.update({
   path: '/pages/damaskus-kniv',
   getParentRoute: () => rootRouteImport,
 } as any)
+const KeramikSusanRielRoute = KeramikSusanRielRouteImport.update({
+  id: '/susan-riel',
+  path: '/susan-riel',
+  getParentRoute: () => KeramikRoute,
+} as any)
+const KeramikSlugRoute = KeramikSlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => KeramikRoute,
+} as any)
 const GuidesSlugRoute = GuidesSlugRouteImport.update({
   id: '/guides/$slug',
   path: '/guides/$slug',
@@ -177,6 +195,7 @@ export interface FileRoutesByFullPath {
   '/find-dit-ritual': typeof FindDitRitualRoute
   '/fragt': typeof FragtRoute
   '/handelsbetingelser': typeof HandelsbetingelserRoute
+  '/keramik': typeof KeramikRouteWithChildren
   '/kontakt': typeof KontaktRoute
   '/om': typeof OmRoute
   '/privatlivspolitik': typeof PrivatlivspolitikRoute
@@ -187,6 +206,8 @@ export interface FileRoutesByFullPath {
   '/collections/handlavet-keramik': typeof CollectionsHandlavetKeramikRoute
   '/gaver/fars-dag': typeof GaverFarsDagRoute
   '/guides/$slug': typeof GuidesSlugRoute
+  '/keramik/$slug': typeof KeramikSlugRoute
+  '/keramik/susan-riel': typeof KeramikSusanRielRoute
   '/pages/damaskus-kniv': typeof PagesDamaskusKnivRoute
   '/pages/den-forste-rigtige-kokkekniv': typeof PagesDenForsteRigtigeKokkeknivRoute
   '/pages/gave-til-madelskeren': typeof PagesGaveTilMadelskerenRoute
@@ -205,6 +226,7 @@ export interface FileRoutesByTo {
   '/find-dit-ritual': typeof FindDitRitualRoute
   '/fragt': typeof FragtRoute
   '/handelsbetingelser': typeof HandelsbetingelserRoute
+  '/keramik': typeof KeramikRouteWithChildren
   '/kontakt': typeof KontaktRoute
   '/om': typeof OmRoute
   '/privatlivspolitik': typeof PrivatlivspolitikRoute
@@ -215,6 +237,8 @@ export interface FileRoutesByTo {
   '/collections/handlavet-keramik': typeof CollectionsHandlavetKeramikRoute
   '/gaver/fars-dag': typeof GaverFarsDagRoute
   '/guides/$slug': typeof GuidesSlugRoute
+  '/keramik/$slug': typeof KeramikSlugRoute
+  '/keramik/susan-riel': typeof KeramikSusanRielRoute
   '/pages/damaskus-kniv': typeof PagesDamaskusKnivRoute
   '/pages/den-forste-rigtige-kokkekniv': typeof PagesDenForsteRigtigeKokkeknivRoute
   '/pages/gave-til-madelskeren': typeof PagesGaveTilMadelskerenRoute
@@ -234,6 +258,7 @@ export interface FileRoutesById {
   '/find-dit-ritual': typeof FindDitRitualRoute
   '/fragt': typeof FragtRoute
   '/handelsbetingelser': typeof HandelsbetingelserRoute
+  '/keramik': typeof KeramikRouteWithChildren
   '/kontakt': typeof KontaktRoute
   '/om': typeof OmRoute
   '/privatlivspolitik': typeof PrivatlivspolitikRoute
@@ -244,6 +269,8 @@ export interface FileRoutesById {
   '/collections/handlavet-keramik': typeof CollectionsHandlavetKeramikRoute
   '/gaver/fars-dag': typeof GaverFarsDagRoute
   '/guides/$slug': typeof GuidesSlugRoute
+  '/keramik/$slug': typeof KeramikSlugRoute
+  '/keramik/susan-riel': typeof KeramikSusanRielRoute
   '/pages/damaskus-kniv': typeof PagesDamaskusKnivRoute
   '/pages/den-forste-rigtige-kokkekniv': typeof PagesDenForsteRigtigeKokkeknivRoute
   '/pages/gave-til-madelskeren': typeof PagesGaveTilMadelskerenRoute
@@ -264,6 +291,7 @@ export interface FileRouteTypes {
     | '/find-dit-ritual'
     | '/fragt'
     | '/handelsbetingelser'
+    | '/keramik'
     | '/kontakt'
     | '/om'
     | '/privatlivspolitik'
@@ -274,6 +302,8 @@ export interface FileRouteTypes {
     | '/collections/handlavet-keramik'
     | '/gaver/fars-dag'
     | '/guides/$slug'
+    | '/keramik/$slug'
+    | '/keramik/susan-riel'
     | '/pages/damaskus-kniv'
     | '/pages/den-forste-rigtige-kokkekniv'
     | '/pages/gave-til-madelskeren'
@@ -292,6 +322,7 @@ export interface FileRouteTypes {
     | '/find-dit-ritual'
     | '/fragt'
     | '/handelsbetingelser'
+    | '/keramik'
     | '/kontakt'
     | '/om'
     | '/privatlivspolitik'
@@ -302,6 +333,8 @@ export interface FileRouteTypes {
     | '/collections/handlavet-keramik'
     | '/gaver/fars-dag'
     | '/guides/$slug'
+    | '/keramik/$slug'
+    | '/keramik/susan-riel'
     | '/pages/damaskus-kniv'
     | '/pages/den-forste-rigtige-kokkekniv'
     | '/pages/gave-til-madelskeren'
@@ -320,6 +353,7 @@ export interface FileRouteTypes {
     | '/find-dit-ritual'
     | '/fragt'
     | '/handelsbetingelser'
+    | '/keramik'
     | '/kontakt'
     | '/om'
     | '/privatlivspolitik'
@@ -330,6 +364,8 @@ export interface FileRouteTypes {
     | '/collections/handlavet-keramik'
     | '/gaver/fars-dag'
     | '/guides/$slug'
+    | '/keramik/$slug'
+    | '/keramik/susan-riel'
     | '/pages/damaskus-kniv'
     | '/pages/den-forste-rigtige-kokkekniv'
     | '/pages/gave-til-madelskeren'
@@ -349,6 +385,7 @@ export interface RootRouteChildren {
   FindDitRitualRoute: typeof FindDitRitualRoute
   FragtRoute: typeof FragtRoute
   HandelsbetingelserRoute: typeof HandelsbetingelserRoute
+  KeramikRoute: typeof KeramikRouteWithChildren
   KontaktRoute: typeof KontaktRoute
   OmRoute: typeof OmRoute
   PrivatlivspolitikRoute: typeof PrivatlivspolitikRoute
@@ -412,6 +449,13 @@ declare module '@tanstack/react-router' {
       path: '/kontakt'
       fullPath: '/kontakt'
       preLoaderRoute: typeof KontaktRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/keramik': {
+      id: '/keramik'
+      path: '/keramik'
+      fullPath: '/keramik'
+      preLoaderRoute: typeof KeramikRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/handelsbetingelser': {
@@ -526,6 +570,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PagesDamaskusKnivRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/keramik/susan-riel': {
+      id: '/keramik/susan-riel'
+      path: '/susan-riel'
+      fullPath: '/keramik/susan-riel'
+      preLoaderRoute: typeof KeramikSusanRielRouteImport
+      parentRoute: typeof KeramikRoute
+    }
+    '/keramik/$slug': {
+      id: '/keramik/$slug'
+      path: '/$slug'
+      fullPath: '/keramik/$slug'
+      preLoaderRoute: typeof KeramikSlugRouteImport
+      parentRoute: typeof KeramikRoute
+    }
     '/guides/$slug': {
       id: '/guides/$slug'
       path: '/guides/$slug'
@@ -557,6 +615,19 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface KeramikRouteChildren {
+  KeramikSlugRoute: typeof KeramikSlugRoute
+  KeramikSusanRielRoute: typeof KeramikSusanRielRoute
+}
+
+const KeramikRouteChildren: KeramikRouteChildren = {
+  KeramikSlugRoute: KeramikSlugRoute,
+  KeramikSusanRielRoute: KeramikSusanRielRoute,
+}
+
+const KeramikRouteWithChildren =
+  KeramikRoute._addFileChildren(KeramikRouteChildren)
+
 interface UniversetRouteChildren {
   UniversetSlugRoute: typeof UniversetSlugRoute
 }
@@ -576,6 +647,7 @@ const rootRouteChildren: RootRouteChildren = {
   FindDitRitualRoute: FindDitRitualRoute,
   FragtRoute: FragtRoute,
   HandelsbetingelserRoute: HandelsbetingelserRoute,
+  KeramikRoute: KeramikRouteWithChildren,
   KontaktRoute: KontaktRoute,
   OmRoute: OmRoute,
   PrivatlivspolitikRoute: PrivatlivspolitikRoute,
