@@ -10,7 +10,8 @@ import type { CampaignContent } from "@/lib/campaign-content";
 // Edit live in: Shopify Admin → Content → Metaobjects → Campaign Landing Page → "find-dit-ritual"
 const FALLBACK: CampaignContent = {
   seo_title: "Find dit køkkenritual | Langsomt Nok",
-  seo_description: "Find det rette køkkenritual med slibning, pleje, opbevaring eller gaver fra Langsomt Nok.",
+  seo_description:
+    "Find det rette køkkenritual med slibning, pleje, opbevaring eller gaver fra Langsomt Nok.",
   hero_eyebrow: "Begynd her",
   hero_headline: "Find dit køkkenritual",
   hero_subheading: "Et roligt sted at begynde — med skarphed, pleje, opbevaring eller en gave.",
@@ -19,10 +20,26 @@ const FALLBACK: CampaignContent = {
   intro_section_title: "Hvor vil du begynde?",
   intro_section_body: "Vælg det, der ligner din hverdag lige nu.",
   guide_cards: [
-    { title: "Min kniv er blevet sløv", text: "Start med slibning og pleje.", href: "/ritualer/hold-kniven-skarp" },
-    { title: "Jeg vil passe bedre på mine redskaber", text: "Find sten, strop og små ritualer.", href: "/ritualer/hold-kniven-skarp" },
-    { title: "Jeg vil skabe ro i køkkenet", text: "Se knivholdere og standere i træ.", href: "/ritualer/rolig-opbevaring" },
-    { title: "Jeg leder efter en gave", text: "Find en gave, der faktisk bliver brugt.", href: "/gaver/fars-dag" },
+    {
+      title: "Min kniv er blevet sløv",
+      text: "Start med slibning og pleje.",
+      href: "/ritualer/hold-kniven-skarp",
+    },
+    {
+      title: "Jeg vil passe bedre på mine redskaber",
+      text: "Find sten, strop og små ritualer.",
+      href: "/ritualer/hold-kniven-skarp",
+    },
+    {
+      title: "Jeg vil skabe ro i køkkenet",
+      text: "Se knivholdere og standere i træ.",
+      href: "/ritualer/rolig-opbevaring",
+    },
+    {
+      title: "Jeg leder efter en gave",
+      text: "Find en gave, der faktisk bliver brugt.",
+      href: "/gaver/fars-dag",
+    },
   ],
 };
 
@@ -77,7 +94,9 @@ function FindRitualPage() {
                 data-event="ritual_card_click"
                 className="group block p-8 rounded-lg border border-border hover:border-walnut/30 hover:shadow-sm transition-all duration-300 bg-background"
               >
-                <h3 className="font-serif text-xl mb-3 group-hover:text-walnut transition-colors">{card.title}</h3>
+                <h3 className="font-serif text-xl mb-3 group-hover:text-walnut transition-colors">
+                  {card.title}
+                </h3>
                 <p className="text-muted-foreground mb-5">{card.text}</p>
                 <span className="text-sm text-cta font-medium">Begynd her →</span>
               </a>
