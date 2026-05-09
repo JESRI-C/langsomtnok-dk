@@ -20,6 +20,7 @@ import { Route as CirklenRouteImport } from './routes/cirklen'
 import { Route as AuditRouteImport } from './routes/audit'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as GuidesIndexRouteImport } from './routes/guides.index'
+import { Route as RitualerHoldKnivenSkarpRouteImport } from './routes/ritualer.hold-kniven-skarp'
 import { Route as ProductHandleRouteImport } from './routes/product.$handle'
 import { Route as PagesSadanHolderDuDinKnivSkarpRouteImport } from './routes/pages.sadan-holder-du-din-kniv-skarp'
 import { Route as PagesKnivholderITraeRouteImport } from './routes/pages.knivholder-i-trae'
@@ -83,6 +84,11 @@ const IndexRoute = IndexRouteImport.update({
 const GuidesIndexRoute = GuidesIndexRouteImport.update({
   id: '/guides/',
   path: '/guides/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RitualerHoldKnivenSkarpRoute = RitualerHoldKnivenSkarpRouteImport.update({
+  id: '/ritualer/hold-kniven-skarp',
+  path: '/ritualer/hold-kniven-skarp',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ProductHandleRoute = ProductHandleRouteImport.update({
@@ -153,6 +159,7 @@ export interface FileRoutesByFullPath {
   '/pages/knivholder-i-trae': typeof PagesKnivholderITraeRoute
   '/pages/sadan-holder-du-din-kniv-skarp': typeof PagesSadanHolderDuDinKnivSkarpRoute
   '/product/$handle': typeof ProductHandleRoute
+  '/ritualer/hold-kniven-skarp': typeof RitualerHoldKnivenSkarpRoute
   '/guides/': typeof GuidesIndexRoute
 }
 export interface FileRoutesByTo {
@@ -175,6 +182,7 @@ export interface FileRoutesByTo {
   '/pages/knivholder-i-trae': typeof PagesKnivholderITraeRoute
   '/pages/sadan-holder-du-din-kniv-skarp': typeof PagesSadanHolderDuDinKnivSkarpRoute
   '/product/$handle': typeof ProductHandleRoute
+  '/ritualer/hold-kniven-skarp': typeof RitualerHoldKnivenSkarpRoute
   '/guides': typeof GuidesIndexRoute
 }
 export interface FileRoutesById {
@@ -198,6 +206,7 @@ export interface FileRoutesById {
   '/pages/knivholder-i-trae': typeof PagesKnivholderITraeRoute
   '/pages/sadan-holder-du-din-kniv-skarp': typeof PagesSadanHolderDuDinKnivSkarpRoute
   '/product/$handle': typeof ProductHandleRoute
+  '/ritualer/hold-kniven-skarp': typeof RitualerHoldKnivenSkarpRoute
   '/guides/': typeof GuidesIndexRoute
 }
 export interface FileRouteTypes {
@@ -222,6 +231,7 @@ export interface FileRouteTypes {
     | '/pages/knivholder-i-trae'
     | '/pages/sadan-holder-du-din-kniv-skarp'
     | '/product/$handle'
+    | '/ritualer/hold-kniven-skarp'
     | '/guides/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -244,6 +254,7 @@ export interface FileRouteTypes {
     | '/pages/knivholder-i-trae'
     | '/pages/sadan-holder-du-din-kniv-skarp'
     | '/product/$handle'
+    | '/ritualer/hold-kniven-skarp'
     | '/guides'
   id:
     | '__root__'
@@ -266,6 +277,7 @@ export interface FileRouteTypes {
     | '/pages/knivholder-i-trae'
     | '/pages/sadan-holder-du-din-kniv-skarp'
     | '/product/$handle'
+    | '/ritualer/hold-kniven-skarp'
     | '/guides/'
   fileRoutesById: FileRoutesById
 }
@@ -289,6 +301,7 @@ export interface RootRouteChildren {
   PagesKnivholderITraeRoute: typeof PagesKnivholderITraeRoute
   PagesSadanHolderDuDinKnivSkarpRoute: typeof PagesSadanHolderDuDinKnivSkarpRoute
   ProductHandleRoute: typeof ProductHandleRoute
+  RitualerHoldKnivenSkarpRoute: typeof RitualerHoldKnivenSkarpRoute
   GuidesIndexRoute: typeof GuidesIndexRoute
 }
 
@@ -369,6 +382,13 @@ declare module '@tanstack/react-router' {
       path: '/guides'
       fullPath: '/guides/'
       preLoaderRoute: typeof GuidesIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/ritualer/hold-kniven-skarp': {
+      id: '/ritualer/hold-kniven-skarp'
+      path: '/ritualer/hold-kniven-skarp'
+      fullPath: '/ritualer/hold-kniven-skarp'
+      preLoaderRoute: typeof RitualerHoldKnivenSkarpRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/product/$handle': {
@@ -457,6 +477,7 @@ const rootRouteChildren: RootRouteChildren = {
   PagesKnivholderITraeRoute: PagesKnivholderITraeRoute,
   PagesSadanHolderDuDinKnivSkarpRoute: PagesSadanHolderDuDinKnivSkarpRoute,
   ProductHandleRoute: ProductHandleRoute,
+  RitualerHoldKnivenSkarpRoute: RitualerHoldKnivenSkarpRoute,
   GuidesIndexRoute: GuidesIndexRoute,
 }
 export const routeTree = rootRouteImport
