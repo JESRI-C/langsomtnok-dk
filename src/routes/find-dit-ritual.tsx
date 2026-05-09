@@ -26,7 +26,7 @@ const RITUAL_CARDS = [
 
 function FindRitualPage() {
   useEffect(() => {
-    trackEvent("landing_page_view" as never, { page: "find_dit_ritual" });
+    trackEvent("landing_page_view", { page: "find_dit_ritual" });
   }, []);
 
   return (
@@ -52,7 +52,7 @@ function FindRitualPage() {
               <Link
                 key={card.title}
                 to={card.to}
-                onClick={() => trackEvent("ritual_card_click" as never, { label: card.title })}
+                onClick={() => trackEvent("ritual_card_click", { label: card.title })}
                 data-event="ritual_card_click"
                 className="group block p-8 rounded-lg border border-border hover:border-walnut/30 hover:shadow-sm transition-all duration-300 bg-background"
               >

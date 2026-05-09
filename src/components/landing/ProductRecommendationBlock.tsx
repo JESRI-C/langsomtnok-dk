@@ -29,9 +29,9 @@ export function ProductRecommendationBlock({ title = "Anbefalede produkter", sub
                   {image ? (
                     <img src={image.url} alt={image.altText || node.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy" />
                   ) : (
-                    <div className="w-full h-full flex flex-col items-center justify-center text-muted-foreground/30">
-                      <span className="font-serif text-lg mb-1">Langsomt Nok</span>
-                      <span className="text-xs text-copper/50">Billede mangler</span>
+                    <div className="w-full h-full flex flex-col items-center justify-center bg-soft text-muted-foreground/50">
+                      <span className="font-serif text-base mb-1">Langsomt Nok</span>
+                      <span className="text-xs">Billede på vej</span>
                     </div>
                   )}
                 </div>

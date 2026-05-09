@@ -26,7 +26,18 @@ export type AnalyticsEvent =
   | 'faq_open'
   | 'guide_internal_link_click'
   | 'product_fit_section_view'
-  | 'free_shipping_progress_view';
+  | 'free_shipping_progress_view'
+  | 'landing_page_view'
+  | 'hero_cta_click'
+  | 'secondary_cta_click'
+  | 'gift_card_click'
+  | 'ritual_card_click'
+  | 'product_card_click'
+  | 'add_to_cart'
+  | 'initiate_checkout'
+  | 'purchase'
+  | 'scroll_depth_50'
+  | 'scroll_depth_75';
 
 interface AnalyticsParams {
   label?: string;

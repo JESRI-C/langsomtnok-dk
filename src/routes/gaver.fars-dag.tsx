@@ -31,10 +31,10 @@ function FarsdagPage() {
   const [products, setProducts] = useState<ShopifyProduct[]>([]);
 
   useEffect(() => {
-    trackEvent("landing_page_view" as never, { page: "farsdag_2026" });
-    // Prioriter Ritual Set + Calm Kitchen — ingen knive som primært
+    trackEvent("landing_page_view", { page: "farsdag_2026" });
+    // Prioriter Ritual Set + Calm Kitchen + Gift Chapter — ingen knive som primært
     fetchProductsByQuery(
-      "product_type:'The Ritual Set' OR product_type:'The Calm Kitchen' OR product_type:'The Gift Chapter'",
+      'product_type:"The Ritual Set" OR product_type:"The Calm Kitchen" OR product_type:"The Gift Chapter"',
       20
     ).then(setProducts);
   }, []);
@@ -68,7 +68,7 @@ function FarsdagPage() {
               <a
                 key={c.title}
                 href={c.anchor}
-                onClick={() => trackEvent("cta_click_landing_secondary" as never, { label: c.title })}
+                onClick={() => trackEvent("gift_card_click", { label: c.title })}
                 data-event="gift_card_click"
                 className="group block p-6 rounded-lg border border-border hover:border-walnut/30 hover:shadow-sm transition-all duration-300 bg-background"
               >
