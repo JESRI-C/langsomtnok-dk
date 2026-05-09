@@ -11,6 +11,7 @@ import { ImageSlot } from "@/components/ImageSlot";
 import {
   storefrontApiRequest,
   COLLECTION_BY_HANDLE_QUERY,
+  PRODUCTS_QUERY,
   type ShopifyProduct,
 } from "@/lib/shopify";
 
