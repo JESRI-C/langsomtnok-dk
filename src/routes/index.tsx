@@ -7,6 +7,10 @@ import { NewsletterSignup } from "@/components/NewsletterSignup";
 import { ImageSlot, IMAGE_SLOTS } from "@/components/ImageSlot";
 import { HeroVideo } from "@/components/landing/HeroVideo";
 import { storefrontApiRequest, PRODUCTS_QUERY, type ShopifyProduct } from "@/lib/shopify";
+import { STORIES as UNIVERSET_STORIES } from "@/lib/universet";
+import { StoryCard as UniversetHomeStoryCard } from "@/components/universet/StoryCard";
+
+const UNIVERSET_HOME_STORIES = UNIVERSET_STORIES.slice(0, 3);
 
 import heroPoster from "@/assets/hero-kitchen.jpg";
 
