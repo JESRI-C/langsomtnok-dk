@@ -67,6 +67,15 @@ export function Footer() {
                 Pinterest
               </a>
             </div>
+
+            <div className="mt-8 pt-6 border-t border-deep-foreground/10 max-w-sm">
+              <h3 className="text-sm font-medium tracking-wider uppercase mb-3 text-deep-foreground/40">
+                Et nyt dansk køkkenunivers
+              </h3>
+              <p className="text-sm text-deep-foreground/60 leading-relaxed">
+                Langsomt Nok er skabt med fokus på knive, keramik og køkkenudstyr i ærlige materialer. Vi bygger langsomt, ordentligt og med respekt for den gode købsoplevelse.
+              </p>
+            </div>
           </div>
 
           <div>
