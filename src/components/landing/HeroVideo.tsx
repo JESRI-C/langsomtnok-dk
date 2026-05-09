@@ -38,16 +38,24 @@ export function HeroVideo({ src = "/hero.mp4", poster, alt = "" }: HeroVideoProp
       >
         <source src={src} type="video/mp4" />
       </video>
-      {/* Warm dark gradient overlay — left to right */}
+      {/* Warm dark gradient overlay — anchors text on left, lets sunlit right breathe */}
       <div
         className="absolute inset-0"
         style={{
           background:
-            "linear-gradient(100deg, rgba(20,15,12,0.78) 0%, rgba(30,22,18,0.55) 45%, rgba(40,28,20,0.20) 100%)",
+            "linear-gradient(95deg, rgba(20,14,10,0.72) 0%, rgba(28,20,14,0.55) 35%, rgba(40,28,18,0.18) 65%, rgba(60,42,24,0.05) 100%)",
         }}
       />
-      {/* Subtle bottom fade for text grounding on mobile */}
-      <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-deep/70 to-transparent md:hidden" />
+      {/* Subtle warm vignette for editorial depth */}
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background:
+            "radial-gradient(ellipse at 75% 55%, transparent 35%, rgba(20,14,10,0.25) 100%)",
+        }}
+      />
+      {/* Bottom fade for mobile readability */}
+      <div className="absolute inset-x-0 bottom-0 h-2/5 bg-gradient-to-t from-deep/80 via-deep/30 to-transparent md:hidden" />
     </div>
   );
 }
