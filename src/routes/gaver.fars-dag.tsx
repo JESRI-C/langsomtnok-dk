@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { LandingPageHero } from "@/components/landing/LandingPageHero";
 import { ProductRecommendationBlock } from "@/components/landing/ProductRecommendationBlock";
