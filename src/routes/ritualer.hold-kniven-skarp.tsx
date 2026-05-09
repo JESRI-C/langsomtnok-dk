@@ -24,7 +24,7 @@ const RITUAL_CARDS = [
   { title: "Hurtig løsning", text: "Til hverdagen, hvor kniven bare skal tilbage i form.", handle: "walnut-sharpener-xz-mdq01-htm" },
   { title: "Klassisk ritual", text: "Til dig, der vil lære slibningen rigtigt.", handle: "double-sided-whetstone-1000-5000" },
   { title: "Fin afslutning", text: "Når æggen skal poleres og forfines.", handle: "double-sided-whetstone-3000-8000" },
-  { title: "Sidste finish", text: "Til den rolige bevægelse over læderet.", handle: "leather-strop" },
+  { title: "Sidste finish", text: "Til den rolige bevægelse over læderet.", handle: "leather-strop-green-and-yellow-compound" },
   { title: "Stabil base", text: "Når stenen skal ligge fast, mens du arbejder.", handle: "sharpening-stone-holder-acacia" },
 ];
 
