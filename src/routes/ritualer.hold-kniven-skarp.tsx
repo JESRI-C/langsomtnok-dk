@@ -7,26 +7,47 @@ import { CalmCTASection } from "@/components/landing/CalmCTASection";
 import { IMAGE_SLOTS } from "@/components/ImageSlot";
 import { fetchProductsByQuery, type ShopifyProduct } from "@/lib/shopify";
 import { trackEvent } from "@/lib/analytics";
+import { useCampaignContent } from "@/hooks/useCampaignContent";
+import type { CampaignContent } from "@/lib/campaign-content";
+
+// Edit live in: Shopify Admin → Content → Metaobjects → Campaign Landing Page → "hold-kniven-skarp"
+const FALLBACK: CampaignContent = {
+  seo_title: "Hold din kniv skarp | Slibesten og knivpleje",
+  seo_description:
+    "Slibesten, læderstropper og knivslibere til dig, der vil holde dine køkkenknive skarpe med ro og omhu.",
+  hero_eyebrow: "Sliberitualet",
+  hero_headline: "Din kniv er ikke dårlig. Den er bare blevet sløv.",
+  hero_subheading: "Giv skarpheden tilbage med sten, strop og rolig vedligeholdelse.",
+  primary_cta_text: "Start sliberitualet",
+  primary_cta_url: "#sliberitual",
+  intro_section_title: "Før du køber nyt",
+  intro_section_body:
+    "De fleste knive skal ikke udskiftes.\nDe skal bare have tid, pleje og en rolig hånd.",
+  guide_cards: [
+    { title: "Hurtig løsning", text: "Til hverdagen, hvor kniven bare skal tilbage i form.", href: "/product/walnut-sharpener-xz-mdq01-htm" },
+    { title: "Klassisk ritual", text: "Til dig, der vil lære slibningen rigtigt.", href: "/product/double-sided-whetstone-1000-5000" },
+    { title: "Fin afslutning", text: "Når æggen skal poleres og forfines.", href: "/product/double-sided-whetstone-3000-8000" },
+    { title: "Sidste finish", text: "Til den rolige bevægelse over læderet.", href: "/product/leather-strop-green-and-yellow-compound" },
+    { title: "Stabil base", text: "Når stenen skal ligge fast, mens du arbejder.", href: "/product/sharpening-stone-holder-acacia" },
+  ],
+  story_section_body: "Roligt afstemte par. Ingen hast.",
+  final_cta_headline: "Gør din kniv skarp igen",
+  final_cta_body: "Begynd med ét trin. Resten følger med tiden.",
+  final_cta_button_text: "Start sliberitualet",
+  final_cta_button_url: "#sliberitual",
+};
 
 export const Route = createFileRoute("/ritualer/hold-kniven-skarp")({
   head: () => ({
     meta: [
-      { title: "Hold din kniv skarp | Slibesten og knivpleje" },
-      { name: "description", content: "Slibesten, læderstropper og knivslibere til dig, der vil holde dine køkkenknive skarpe med ro og omhu." },
-      { property: "og:title", content: "Hold din kniv skarp | Langsomt Nok" },
-      { property: "og:description", content: "Slibesten, læderstropper og knivslibere — rolig vedligeholdelse af din kniv." },
+      { title: FALLBACK.seo_title! },
+      { name: "description", content: FALLBACK.seo_description! },
+      { property: "og:title", content: FALLBACK.seo_title! },
+      { property: "og:description", content: FALLBACK.seo_description! },
     ],
   }),
   component: SkarpPage,
 });
-
-const RITUAL_CARDS = [
-  { title: "Hurtig løsning", text: "Til hverdagen, hvor kniven bare skal tilbage i form.", handle: "walnut-sharpener-xz-mdq01-htm" },
-  { title: "Klassisk ritual", text: "Til dig, der vil lære slibningen rigtigt.", handle: "double-sided-whetstone-1000-5000" },
-  { title: "Fin afslutning", text: "Når æggen skal poleres og forfines.", handle: "double-sided-whetstone-3000-8000" },
-  { title: "Sidste finish", text: "Til den rolige bevægelse over læderet.", handle: "leather-strop-green-and-yellow-compound" },
-  { title: "Stabil base", text: "Når stenen skal ligge fast, mens du arbejder.", handle: "sharpening-stone-holder-acacia" },
-];
 
 const BUNDLES = [
   { title: "Sten + holder", text: "Det giver mening sammen med slibestensholderen — så stenen ligger fast." },
@@ -35,6 +56,7 @@ const BUNDLES = [
 ];
 
 function SkarpPage() {
+  const c = useCampaignContent("hold-kniven-skarp", FALLBACK);
   const [products, setProducts] = useState<ShopifyProduct[]>([]);
 
   useEffect(() => {
@@ -45,39 +67,38 @@ function SkarpPage() {
   return (
     <div data-page-type="campaign_landing" data-campaign="slibning_ritual" data-product-category="sharpening">
       <LandingPageHero
-        headline="Din kniv er ikke dårlig. Den er bare blevet sløv."
-        subheadline="Giv skarpheden tilbage med sten, strop og rolig vedligeholdelse."
-        primaryCta={{ label: "Start sliberitualet", to: "/ritualer/hold-kniven-skarp" }}
-        imageSlot={{ name: IMAGE_SLOTS.heroes.giftLandingHero.name, motif: "Slibesten på valnøddetræ med vanddråber og linned i naturligt sidelys" }}
+        headline={c.hero_headline!}
+        subheadline={c.hero_subheading!}
+        primaryCta={{ label: c.primary_cta_text!, to: c.primary_cta_url! }}
+        imageSlot={{
+          name: IMAGE_SLOTS.heroes.giftLandingHero.name,
+          motif: "Slibesten på valnøddetræ med vanddråber og linned i naturligt sidelys",
+        }}
         variant="overlay"
       />
 
       <TrustBar />
 
-      {/* Problem */}
       <section className="section-padding">
         <div className="container-calm max-w-2xl text-center">
-          <h2 className="font-serif text-2xl md:text-3xl mb-6">Før du køber nyt</h2>
-          <p className="text-editorial text-muted-foreground">
-            De fleste knive skal ikke udskiftes.<br />
-            De skal bare have tid, pleje og en rolig hånd.
-          </p>
+          <h2 className="font-serif text-2xl md:text-3xl mb-6">{c.intro_section_title}</h2>
+          {c.intro_section_body && (
+            <p className="text-editorial text-muted-foreground whitespace-pre-line">{c.intro_section_body}</p>
+          )}
         </div>
       </section>
 
-      {/* Ritual guide */}
-      <section className="section-padding bg-soft">
+      <section id="sliberitual" className="section-padding bg-soft">
         <div className="container-calm">
           <div className="text-center mb-12">
             <h2 className="font-serif text-2xl md:text-3xl mb-3">Find dit næste skridt</h2>
             <p className="text-muted-foreground text-editorial mx-auto">Fem rolige måder at holde kniven skarp.</p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-5 max-w-6xl mx-auto">
-            {RITUAL_CARDS.map((card, i) => (
-              <Link
+            {(c.guide_cards ?? []).map((card, i) => (
+              <a
                 key={card.title}
-                to="/product/$handle"
-                params={{ handle: card.handle }}
+                href={card.href || "#sliberitual"}
                 onClick={() => trackEvent("ritual_card_click", { label: card.title })}
                 data-event="ritual_card_click"
                 className="group block p-5 rounded-lg border border-border hover:border-walnut/30 hover:shadow-sm transition-all duration-300 bg-background"
@@ -86,7 +107,7 @@ function SkarpPage() {
                 <h3 className="font-serif text-base mt-1 mb-2 group-hover:text-walnut transition-colors">{card.title}</h3>
                 <p className="text-sm text-muted-foreground mb-3">{card.text}</p>
                 <span className="text-xs text-cta font-medium">Se produktet →</span>
-              </Link>
+              </a>
             ))}
           </div>
         </div>
@@ -98,12 +119,13 @@ function SkarpPage() {
         products={products}
       />
 
-      {/* Bundles */}
       <section className="section-padding bg-soft">
         <div className="container-calm max-w-4xl">
           <div className="text-center mb-10">
             <h2 className="font-serif text-2xl md:text-3xl mb-3">Sæt ro sammen</h2>
-            <p className="text-muted-foreground text-editorial mx-auto">Roligt afstemte par. Ingen hast.</p>
+            {c.story_section_body && (
+              <p className="text-muted-foreground text-editorial mx-auto">{c.story_section_body}</p>
+            )}
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {BUNDLES.map((b) => (
@@ -125,9 +147,9 @@ function SkarpPage() {
       </section>
 
       <CalmCTASection
-        headline="Gør din kniv skarp igen"
-        text="Begynd med ét trin. Resten følger med tiden."
-        cta={{ label: "Start sliberitualet", to: "/ritualer/hold-kniven-skarp" }}
+        headline={c.final_cta_headline!}
+        text={c.final_cta_body}
+        cta={{ label: c.final_cta_button_text!, to: c.final_cta_button_url! }}
         variant="warm"
       />
     </div>
