@@ -28,7 +28,7 @@ import {
 } from "@/lib/shopify";
 import { parseProductDescription, type ParsedSection } from "@/lib/parse-product-description";
 import { trackEvent } from "@/lib/analytics";
-import { Loader2, Minus, Plus, CreditCard, Truck, RotateCcw } from "lucide-react";
+import { Loader2, Minus, Plus, CreditCard, Truck, RotateCcw, Package } from "lucide-react";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/product/$handle")({
@@ -450,6 +450,11 @@ function ProductPage() {
               <span className="inline-flex items-center gap-1.5">
                 <RotateCcw className="w-4 h-4 text-cta" strokeWidth={1.5} />
                 30 dages returret
+              </span>
+              <span className="text-border">·</span>
+              <span className="inline-flex items-center gap-1.5">
+                <Package className="w-4 h-4 text-cta" strokeWidth={1.5} />
+                Pakket med omhu
               </span>
             </div>
           </div>

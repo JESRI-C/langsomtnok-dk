@@ -102,6 +102,16 @@ function ContactPage() {
             answer:
               "Alle ordrer pakkes og sendes fra Danmark. Vi pakker i rolig rytme og bruger materialer, der passer til indholdet.",
           },
+          {
+            question: "Hvordan kan jeg være tryg ved at handle hos jer?",
+            answer:
+              "Du betaler sikkert via webshoppen, din ordre sendes fra Danmark, og du har 30 dages returret. Har du spørgsmål, kan du altid kontakte os.",
+          },
+          {
+            question: "Har I Trustpilot?",
+            answer:
+              "Vi er stadig et nyt brand og har endnu ikke samlet anmeldelser på Trustpilot. Indtil da gør vi os umage med tydelige vilkår, tryg betaling, ordentlig pakning og direkte kontakt, hvis du har spørgsmål.",
+          },
         ]}
       />
 

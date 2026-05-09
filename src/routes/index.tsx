@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState, useEffect } from "react";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Truck, ShieldCheck, RotateCcw, MessageCircle } from "lucide-react";
 
 import { ProductCard } from "@/components/ProductCard";
 import { NewsletterSignup } from "@/components/NewsletterSignup";
@@ -152,6 +152,35 @@ function HomePage() {
             <p className="text-xs md:text-sm text-deep-foreground/55 tracking-wide">
               Sendes fra Danmark · 30 dages returret · Pakket med omhu
             </p>
+          </div>
+        </div>
+      </section>
+
+      {/* ─────────────────── TRUST: Handel med ro i maven ─────────────────── */}
+      <section className="section-padding bg-soft/50">
+        <div className="container-calm max-w-5xl">
+          <div className="text-center max-w-2xl mx-auto mb-12">
+            <span className="text-[11px] tracking-[0.25em] uppercase text-copper">Tryghed</span>
+            <h2 className="font-serif text-3xl md:text-4xl mt-2 mb-4">Handel med ro i maven</h2>
+            <p className="text-muted-foreground leading-relaxed">
+              Vi er et nyt dansk køkkenunivers. Derfor bygger vi tillid på det enkle: tryg betaling, tydelige vilkår, ærlige produktbilleder og omhyggelig pakning.
+            </p>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 md:gap-6">
+            {[
+              { icon: Truck, title: "Sendes fra Danmark", text: "Din ordre pakkes med omhu og sendes fra Danmark." },
+              { icon: ShieldCheck, title: "Tryg betaling", text: "Betaling foregår sikkert via webshoppen." },
+              { icon: RotateCcw, title: "30 dages returret", text: "Du har tid til at mærke efter." },
+              { icon: MessageCircle, title: "Direkte kontakt", text: "Skriv til os, hvis du er i tvivl om et produkt." },
+            ].map((item) => (
+              <div key={item.title} className="flex items-start gap-4 p-6 rounded-lg bg-background/60 border border-border/40">
+                <item.icon className="w-5 h-5 text-cta flex-shrink-0 mt-0.5" strokeWidth={1.5} />
+                <div>
+                  <h3 className="font-serif text-lg mb-1.5 text-foreground">{item.title}</h3>
+                  <p className="text-sm text-muted-foreground leading-relaxed">{item.text}</p>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </section>
