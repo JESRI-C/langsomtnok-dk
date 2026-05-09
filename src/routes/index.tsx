@@ -1,212 +1,378 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState, useEffect } from "react";
-import { Link } from "@tanstack/react-router";
+import { ArrowRight } from "lucide-react";
 
 import { ProductCard } from "@/components/ProductCard";
 import { NewsletterSignup } from "@/components/NewsletterSignup";
 import { ImageSlot, IMAGE_SLOTS } from "@/components/ImageSlot";
-import { CollectionCard } from "@/components/landing/CollectionCard";
-import { RitualBlock } from "@/components/landing/RitualBlock";
-import { MaterialBlock } from "@/components/landing/MaterialBlock";
-import { BundleRecommendationBlock } from "@/components/landing/BundleRecommendationBlock";
-import { TrustBar } from "@/components/landing/TrustBar";
-import { CalmCTASection } from "@/components/landing/CalmCTASection";
-import { storefrontApiRequest, PRODUCTS_QUERY, formatPrice, type ShopifyProduct } from "@/lib/shopify";
-import { ArrowRight } from "lucide-react";
+import { HeroVideo } from "@/components/landing/HeroVideo";
+import { storefrontApiRequest, PRODUCTS_QUERY, type ShopifyProduct } from "@/lib/shopify";
+
+import heroPoster from "@/assets/hero-kitchen.jpg";
+import materialSteel from "@/assets/material-steel.jpg";
+import materialWalnut from "@/assets/material-walnut.jpg";
+import materialStone from "@/assets/material-stone.jpg";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
       { title: "Langsomt Nok — Tid. Håndværk. Ro." },
-      { name: "description", content: "Køkkenredskaber skabt til dem, der ikke skynder sig gennem det vigtige. Knive, slibesten, holdere og plejeritualer." },
+      {
+        name: "description",
+        content:
+          "Nordisk premium køkkenbrand. Knive, slibesten og magnetiske holdere i træ, stål og sten — skabt til hænder, der gerne vil mærke forskellen.",
+      },
       { property: "og:title", content: "Langsomt Nok — Tid. Håndværk. Ro." },
-      { property: "og:description", content: "Køkkenredskaber skabt til dem, der ikke skynder sig gennem det vigtige." },
+      {
+        property: "og:description",
+        content: "Køkkenredskaber til hænder, der gerne vil mærke forskellen.",
+      },
+      { property: "og:image", content: heroPoster },
     ],
   }),
   component: HomePage,
 });
 
+const CATEGORIES = [
+  {
+    title: "Knive",
+    text: "Når skarphed bliver en del af roen.",
+    handle: "knive",
+    slot: IMAGE_SLOTS.categories.knives,
+  },
+  {
+    title: "Slibning & pleje",
+    text: "Fordi gode redskaber fortjener tid.",
+    handle: "slibesten",
+    slot: IMAGE_SLOTS.categories.sharpeningStones,
+  },
+  {
+    title: "Magnetisk opbevaring",
+    text: "Når værktøjet gerne må være synligt.",
+    handle: "magnetiske-holdere",
+    slot: IMAGE_SLOTS.categories.magneticHolders,
+  },
+  {
+    title: "Gaver",
+    text: "Til dem, der værdsætter det brugbare.",
+    handle: "gaver",
+    slot: IMAGE_SLOTS.categories.giftSets,
+  },
+] as const;
+
+const RITUAL_CHOICES = [
+  {
+    title: "Jeg vil have min første rigtige kniv",
+    text: "Til dig, der vil starte med ét godt redskab.",
+    to: "/collections/knive",
+    cta: "Se knivene",
+  },
+  {
+    title: "Jeg vil passe bedre på mine redskaber",
+    text: "Slibning, olie og pleje til hverdagen.",
+    to: "/collections/pleje-ritualer",
+    cta: "Se plejen",
+  },
+  {
+    title: "Jeg vil give en gave med mening",
+    text: "Noget der bliver brugt — og husket.",
+    to: "/collections/gaver",
+    cta: "Se gaverne",
+  },
+] as const;
+
+const GUIDES = [
+  {
+    title: "Sådan vælger du din første kokkekniv",
+    excerpt: "Stål, balance og greb. Tre ting, der gør forskellen — roligt forklaret.",
+    slug: "hvilken-kokkekniv-skal-jeg-vaelge",
+  },
+  {
+    title: "Slibning som ritual",
+    excerpt: "Hvordan en slibesten forvandler vedligehold til et stille øjeblik.",
+    slug: "hvordan-sliber-man-en-kniv",
+  },
+  {
+    title: "Træ, stål og tid",
+    excerpt: "Hvorfor materialer, der ældes smukt, er en investering værd.",
+    slug: "gode-koekkenredskaber-der-holder",
+  },
+] as const;
+
 function HomePage() {
   const [products, setProducts] = useState<ShopifyProduct[]>([]);
 
   useEffect(() => {
-    storefrontApiRequest(PRODUCTS_QUERY, { first: 6 })
+    storefrontApiRequest(PRODUCTS_QUERY, { first: 8 })
       .then((data) => {
-        if (data?.data?.products?.edges) {
-          setProducts(data.data.products.edges);
-        }
+        if (data?.data?.products?.edges) setProducts(data.data.products.edges);
       })
       .catch(console.error);
   }, []);
 
+  const featured = products.slice(0, 4);
+
   return (
-    <div>
-      {/* ── 1. Hero ─────────────────────────────────────────────────── */}
-      <section className="relative min-h-[85vh] flex items-center">
-        <div className="absolute inset-0">
-          <ImageSlot
-            name={IMAGE_SLOTS.heroes.homepageHeroMain.name}
-            ratio="16/9"
-            motif={IMAGE_SLOTS.heroes.homepageHeroMain.motif}
-            alt={IMAGE_SLOTS.heroes.homepageHeroMain.alt}
-            variant="dark"
-            className="w-full h-full rounded-none"
-            priority
-          />
-          <div className="absolute inset-0 bg-gradient-to-r from-deep/80 via-deep/50 to-transparent" />
-        </div>
-        <div className="container-calm relative z-10 pt-12 pb-16">
-          <div className="max-w-xl fade-in-up">
-            <h1 className="font-serif text-5xl md:text-7xl lg:text-8xl text-deep-foreground leading-[0.95] mb-6">
+    <div className="bg-background">
+      {/* ─────────────────── 1. HERO VIDEO ─────────────────── */}
+      <section className="relative min-h-[88vh] md:min-h-[92vh] flex items-end md:items-center">
+        <HeroVideo poster={heroPoster} alt="Damascus kokkekniv på valnøddetræ" />
+        <div className="container-calm relative z-10 pb-16 md:pb-0 pt-24">
+          <div className="max-w-2xl fade-in-up">
+            <span className="inline-block text-[11px] tracking-[0.25em] uppercase text-deep-foreground/60 mb-6">
+              Nordic Calm · Crafted Sharpness
+            </span>
+            <h1 className="font-serif text-deep-foreground leading-[0.95] text-5xl sm:text-6xl md:text-7xl lg:text-8xl mb-7">
               Tid.<br />Håndværk.<br />Ro.
             </h1>
-            <p className="text-lg md:text-xl text-deep-foreground/70 leading-relaxed mb-10 max-w-md">
-              Køkkenredskaber skabt til dem, der ikke skynder sig gennem det vigtige.
+            <p className="text-base md:text-lg text-deep-foreground/75 leading-relaxed mb-10 max-w-md">
+              Køkkenredskaber til hænder, der gerne vil mærke forskellen.
             </p>
-            <div className="flex flex-wrap gap-4">
+            <div className="flex flex-wrap gap-3 mb-8">
               <Link
                 to="/shop"
-                className="inline-flex items-center justify-center rounded-md bg-cta text-cta-foreground px-7 py-3.5 text-sm font-medium transition-colors duration-500 hover:bg-[#3F4B3D]"
+                className="inline-flex items-center justify-center rounded-md bg-cta text-cta-foreground px-7 py-3.5 text-sm font-medium tracking-wide transition-colors duration-500 hover:bg-[#3F4B3D]"
               >
                 Udforsk ritualerne
               </Link>
               <Link
-                to="/pages/den-forste-rigtige-kokkekniv"
-                className="inline-flex items-center justify-center rounded-md border border-deep-foreground/30 text-deep-foreground px-7 py-3.5 text-sm font-medium transition-colors duration-500 hover:bg-deep-foreground/10"
+                to="/collections/$handle"
+                params={{ handle: "knive" }}
+                className="inline-flex items-center justify-center rounded-md border border-deep-foreground/30 text-deep-foreground px-7 py-3.5 text-sm font-medium tracking-wide transition-colors duration-500 hover:bg-deep-foreground/10"
               >
                 Find din første kniv
               </Link>
             </div>
+            <p className="text-xs md:text-sm text-deep-foreground/55 tracking-wide">
+              Sendes fra Danmark · 30 dages returret · Pakket med omhu
+            </p>
           </div>
         </div>
       </section>
 
-      {/* ── 1b. Trust Credibility ────────────────────────────────────── */}
-      <section className="py-12 md:py-16 bg-soft/50">
-        <div className="container-calm text-center max-w-3xl mx-auto">
-          <h2 className="font-serif text-2xl md:text-3xl mb-8 text-foreground">Skabt til roligere køkkener</h2>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-            {[
-              { text: "Udvalgte materialer i træ, stål og sten" },
-              { text: "Pakket med omhu" },
-              { text: "Sendes fra Danmark" },
-              { text: "Enkel retur og sikker betaling" },
-            ].map((item) => (
-              <p key={item.text} className="text-sm text-muted-foreground leading-relaxed">{item.text}</p>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ── 2. Manifest ─────────────────────────────────────────────── */}
-      <section className="section-padding bg-soft">
-        <div className="container-calm text-center max-w-3xl mx-auto fade-in-up">
-          <p className="font-serif text-2xl md:text-4xl leading-relaxed mb-6 text-walnut">
-            Træ, stål, olie, tid.
-          </p>
-          <p className="font-serif text-xl md:text-2xl text-copper mb-8">
-            Fire elementer. Ét formål.
-          </p>
-          <p className="text-editorial mx-auto text-muted-foreground">
-            Langsomt Nok er skabt til køkkenet som fristed. Til hænder, der mærker forskellen. Til måltider, der gerne må tage lidt længere tid.
-          </p>
-        </div>
-      </section>
-
-      {/* ── Trust Bar ───────────────────────────────────────────────── */}
-      <TrustBar />
-
-      {/* ── 3. Product Categories with ImageSlot ────────────────────── */}
+      {/* ─────────────────── 2. CATEGORIES ─────────────────── */}
       <section className="section-padding">
         <div className="container-calm">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {[
-              { title: "Knive", desc: "Hvert snit fortæller en historie om stål og tålmodighed.", handle: "knive", slot: IMAGE_SLOTS.categories.knives },
-              { title: "Slibesten", desc: "Giv bladet nyt liv. Langsomt og med omtanke.", handle: "slibesten", slot: IMAGE_SLOTS.categories.sharpeningStones },
-              { title: "Magnetiske holdere", desc: "Træ møder stål. Ophæng med sjæl.", handle: "magnetiske-holdere", slot: IMAGE_SLOTS.categories.magneticHolders },
-              { title: "Pleje & ritualer", desc: "Forlæng glæden. Olie, voks og nærvær.", handle: "pleje-ritualer", slot: IMAGE_SLOTS.categories.careProducts },
-            ].map((cat) => (
-              <Link key={cat.title} to="/collections/$handle" params={{ handle: cat.handle }} className="group block">
-                <ImageSlot
-                  name={cat.slot.name}
-                  ratio="3/4"
-                  motif={cat.slot.motif}
-                  alt={cat.title}
-                  variant="warm"
-                  className="mb-4"
-                />
-                <h3 className="font-serif text-xl mb-1 group-hover:text-walnut transition-colors">{cat.title}</h3>
-                <p className="text-sm text-muted-foreground mb-2">{cat.desc}</p>
-                <span className="text-sm font-medium text-cta">Udforsk →</span>
+          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-12">
+            <div>
+              <span className="text-[11px] tracking-[0.25em] uppercase text-copper">Kategorier</span>
+              <h2 className="font-serif text-3xl md:text-5xl mt-2">Vælg dit ritual</h2>
+            </div>
+            <p className="text-muted-foreground max-w-sm">
+              Fire indgange til et roligere køkken. Vælg dér, hvor dine hænder gerne vil begynde.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 lg:gap-6">
+            {CATEGORIES.map((cat) => (
+              <Link
+                key={cat.handle}
+                to="/collections/$handle"
+                params={{ handle: cat.handle }}
+                className="group block"
+              >
+                <div className="overflow-hidden rounded-lg bg-soft mb-5">
+                  <div className="transition-transform duration-700 ease-out group-hover:scale-[1.03]">
+                    <ImageSlot
+                      name={cat.slot.name}
+                      ratio="4/5"
+                      motif={cat.slot.motif}
+                      alt={cat.title}
+                      variant="warm"
+                      className="rounded-none"
+                    />
+                  </div>
+                </div>
+                <h3 className="font-serif text-xl mb-1.5 group-hover:text-walnut transition-colors">
+                  {cat.title}
+                </h3>
+                <p className="text-sm text-muted-foreground mb-3 leading-relaxed">{cat.text}</p>
+                <span className="inline-flex items-center gap-1.5 text-sm font-medium text-cta opacity-80 group-hover:opacity-100 group-hover:gap-2.5 transition-all">
+                  Se kollektionen <ArrowRight className="w-3.5 h-3.5" />
+                </span>
               </Link>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ── 4. Find dit køkkenritual ────────────────────────────────── */}
-      <RitualBlock />
-
-      {/* ── 5. Featured Products from Shopify ───────────────────────── */}
-      <section className="section-padding">
-        <div className="container-calm">
-          <div className="flex items-end justify-between mb-10">
-            <div>
-              <h2 className="font-serif text-3xl md:text-4xl">Udvalgte redskaber</h2>
-              <p className="text-muted-foreground mt-2">Skabt til dem, der mærker forskellen.</p>
+      {/* ─────────────────── 3. FEATURED PRODUCTS ─────────────────── */}
+      {featured.length > 0 && (
+        <section className="section-padding bg-soft/40">
+          <div className="container-calm">
+            <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-12">
+              <div>
+                <span className="text-[11px] tracking-[0.25em] uppercase text-copper">Udvalg</span>
+                <h2 className="font-serif text-3xl md:text-5xl mt-2">Udvalgte redskaber</h2>
+              </div>
+              <Link
+                to="/shop"
+                className="text-sm font-medium text-cta inline-flex items-center gap-1.5 hover:gap-2.5 transition-all"
+              >
+                Se alle produkter <ArrowRight className="w-4 h-4" />
+              </Link>
             </div>
-            <Link to="/shop" className="text-sm font-medium text-cta hover:text-cta/80 hidden md:flex items-center gap-1">
-              Se alle <ArrowRight className="w-4 h-4" />
-            </Link>
-          </div>
-          {products.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {products.slice(0, 3).map((product) => (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
+              {featured.map((product) => (
                 <ProductCard key={product.node.id} product={product} />
               ))}
             </div>
-          ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {[1, 2, 3].map((i) => (
-                <div key={i}>
-                  <ImageSlot name={`product-placeholder-${i}`} ratio="4/5" motif="Produktbillede" variant="warm" className="mb-4" />
-                  <div className="h-4 bg-soft rounded w-3/4 mb-2" />
-                  <div className="h-3 bg-soft rounded w-1/2" />
+          </div>
+        </section>
+      )}
+
+      {/* ─────────────────── 4. MATERIALS ─────────────────── */}
+      <section className="section-padding bg-deep text-deep-foreground">
+        <div className="container-calm">
+          <div className="max-w-2xl mb-14">
+            <span className="text-[11px] tracking-[0.25em] uppercase text-copper">Materialer</span>
+            <h2 className="font-serif text-3xl md:text-5xl mt-2 leading-tight">
+              Materialer, der bliver smukkere med brug.
+            </h2>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-10">
+            {[
+              { name: "Stål", text: "Lagdelt. Skarpt. Skabt til præcision.", img: materialSteel },
+              { name: "Træ", text: "Varmt, levende og forskelligt fra håndtag til håndtag.", img: materialWalnut },
+              { name: "Sten", text: "Skarphed kræver tålmodighed.", img: materialStone },
+            ].map((m) => (
+              <article key={m.name} className="group">
+                <div className="overflow-hidden rounded-lg mb-6 aspect-[4/5]">
+                  <img
+                    src={m.img}
+                    alt={`Langsomt Nok ${m.name.toLowerCase()} close-up`}
+                    loading="lazy"
+                    className="w-full h-full object-cover transition-transform duration-[1200ms] ease-out group-hover:scale-[1.04]"
+                  />
                 </div>
-              ))}
-            </div>
-          )}
+                <h3 className="font-serif text-2xl mb-2">{m.name}</h3>
+                <p className="text-sm text-deep-foreground/65 leading-relaxed max-w-xs">{m.text}</p>
+              </article>
+            ))}
+          </div>
         </div>
       </section>
 
-      {/* ── 6. Materials ────────────────────────────────────────────── */}
-      <MaterialBlock
-        title="Materialerne bag ritualet"
-        subtitle="Hvert materiale er valgt med omtanke. Ingen tilfældigheder."
-        materials={[
-          { name: "Damascus stål", description: "Lag på lag af stål smedet til ét formål: et snit der holder.", imageSlotName: IMAGE_SLOTS.materials.damascusSteel.name, motif: IMAGE_SLOTS.materials.damascusSteel.motif, src: "https://cdn.shopify.com/s/files/1/0915/7227/3488/files/ln-material-damascus-01.png?v=1778143706", alt: "Langsomt Nok Damascus stål makro med lagdelt mønster" },
-          { name: "Valnøddetræ", description: "Varme og dybde i hvert greb. Ældes smukt med tiden.", imageSlotName: IMAGE_SLOTS.materials.walnut.name, motif: IMAGE_SLOTS.materials.walnut.motif, src: "https://cdn.shopify.com/s/files/1/0915/7227/3488/files/ln-material-walnut-01.png?v=1778143731", alt: "Langsomt Nok valnøddetræ makro med varm åretegning" },
-          { name: "Oliventræ", description: "Blødere i hånden. Levende i sit mønster. Naturens egen kunst.", imageSlotName: IMAGE_SLOTS.materials.oliveWood.name, motif: IMAGE_SLOTS.materials.oliveWood.motif, src: "https://cdn.shopify.com/s/files/1/0915/7227/3488/files/ln-material-olivewood-01.png?v=1778143751", alt: "Langsomt Nok oliventræ makro med gylden åretegning" },
-          { name: "Slibesten", description: "Tålmodighedens redskab. Langsomt giver den bladet nyt liv.", imageSlotName: IMAGE_SLOTS.materials.sharpeningStone.name, motif: IMAGE_SLOTS.materials.sharpeningStone.motif, src: "https://cdn.shopify.com/s/files/1/0915/7227/3488/files/ln-material-whetstone-01.png?v=1778143769", alt: "Langsomt Nok slibesten med vanddråber og stille tekstur" },
-        ]}
-      />
+      {/* ─────────────────── 5. FIND YOUR FIRST RITUAL ─────────────────── */}
+      <section className="section-padding">
+        <div className="container-calm">
+          <div className="text-center max-w-2xl mx-auto mb-14">
+            <span className="text-[11px] tracking-[0.25em] uppercase text-copper">Vejledning</span>
+            <h2 className="font-serif text-3xl md:text-5xl mt-2 mb-4">Find dit første ritual</h2>
+            <p className="text-muted-foreground">
+              Tre stille indgange. Vælg den, der passer til dig — vi guider dig roligt videre.
+            </p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-5 lg:gap-6">
+            {RITUAL_CHOICES.map((c, i) => (
+              <Link
+                key={c.title}
+                to={c.to}
+                className="group block p-8 lg:p-10 rounded-lg bg-soft/60 hover:bg-soft transition-colors duration-500 border border-border/40"
+              >
+                <span className="block font-serif text-copper/70 text-sm mb-6">0{i + 1}</span>
+                <h3 className="font-serif text-xl lg:text-2xl mb-3 leading-snug group-hover:text-walnut transition-colors">
+                  {c.title}
+                </h3>
+                <p className="text-sm text-muted-foreground mb-6 leading-relaxed">{c.text}</p>
+                <span className="inline-flex items-center gap-1.5 text-sm font-medium text-cta group-hover:gap-2.5 transition-all">
+                  {c.cta} <ArrowRight className="w-3.5 h-3.5" />
+                </span>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
 
-      {/* ── 7. Bundles ──────────────────────────────────────────────── */}
-      <BundleRecommendationBlock
-        title="Sæt ro sammen"
-        subtitle="Sammensatte ritualer for det komplette køkken."
-      />
+      {/* ─────────────────── 6. BRAND PROOF ─────────────────── */}
+      <section className="section-padding bg-linen/60">
+        <div className="container-calm">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-center">
+            <div className="lg:col-span-6 order-2 lg:order-1">
+              <div className="overflow-hidden rounded-lg aspect-[4/5] lg:aspect-[5/6]">
+                <img
+                  src={materialSteel}
+                  alt="Damascus stål close-up med synligt lagmønster"
+                  loading="lazy"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+            </div>
+            <div className="lg:col-span-6 lg:pl-6 order-1 lg:order-2">
+              <span className="text-[11px] tracking-[0.25em] uppercase text-copper">Manifest</span>
+              <h2 className="font-serif text-3xl md:text-5xl lg:text-6xl mt-3 mb-8 leading-[1.05]">
+                Ikke skabt til fart.
+              </h2>
+              <div className="space-y-5 text-base md:text-lg text-foreground/75 leading-relaxed max-w-xl">
+                <p>
+                  Langsomt Nok er køkkenredskaber med vægt, ro og materialer, der gerne må mærkes.
+                </p>
+                <p>Til madlavning, der begynder før gryden koger.</p>
+                <p>Til hænder, der vælger med omhu.</p>
+              </div>
+              <div className="mt-10">
+                <Link
+                  to="/om"
+                  className="inline-flex items-center gap-2 text-sm font-medium text-walnut hover:gap-3 transition-all border-b border-walnut/30 pb-1"
+                >
+                  Læs vores historie <ArrowRight className="w-4 h-4" />
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
 
-      {/* ── 8. Cirklen Teaser ───────────────────────────────────────── */}
-      <CalmCTASection
-        headline="Et stille fællesskab for dem, der tror på tid."
-        text="Langsomt Cirklen er vores rum for guides, ritualer, historier og små breve fra køkkenet."
-        cta={{ label: "Bliv en del af Cirklen", to: "/cirklen" }}
-        variant="warm"
-      />
-
-      {/* ── 9. Newsletter ───────────────────────────────────────────── */}
+      {/* ─────────────────── 7. NEWSLETTER ─────────────────── */}
       <NewsletterSignup />
+
+      {/* ─────────────────── 8. GUIDES ─────────────────── */}
+      <section className="section-padding">
+        <div className="container-calm">
+          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-12">
+            <div>
+              <span className="text-[11px] tracking-[0.25em] uppercase text-copper">Læs</span>
+              <h2 className="font-serif text-3xl md:text-5xl mt-2">Fra guiden</h2>
+            </div>
+            <Link
+              to="/guides"
+              className="text-sm font-medium text-cta inline-flex items-center gap-1.5 hover:gap-2.5 transition-all"
+            >
+              Alle guides <ArrowRight className="w-4 h-4" />
+            </Link>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
+            {GUIDES.map((g) => (
+              <Link
+                key={g.slug}
+                to="/guides/$slug"
+                params={{ slug: g.slug }}
+                className="group block"
+              >
+                <div className="overflow-hidden rounded-lg mb-5 aspect-[4/3] bg-soft">
+                  <div className="transition-transform duration-700 ease-out group-hover:scale-[1.03] h-full">
+                    <ImageSlot
+                      name={`guide-card-${g.slug}`}
+                      ratio="4/3"
+                      motif="Atmosfærisk køkkenbillede"
+                      alt={g.title}
+                      variant="warm"
+                      className="rounded-none h-full"
+                    />
+                  </div>
+                </div>
+                <h3 className="font-serif text-xl mb-2 leading-snug group-hover:text-walnut transition-colors">
+                  {g.title}
+                </h3>
+                <p className="text-sm text-muted-foreground leading-relaxed mb-3">{g.excerpt}</p>
+                <span className="inline-flex items-center gap-1.5 text-sm font-medium text-cta group-hover:gap-2.5 transition-all">
+                  Læs guiden <ArrowRight className="w-3.5 h-3.5" />
+                </span>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
     </div>
   );
 }
