@@ -7,29 +7,44 @@ import { CalmCTASection } from "@/components/landing/CalmCTASection";
 import { IMAGE_SLOTS } from "@/components/ImageSlot";
 import { fetchProductsByQuery, type ShopifyProduct } from "@/lib/shopify";
 import { trackEvent } from "@/lib/analytics";
+import { useCampaignContent } from "@/hooks/useCampaignContent";
+import type { CampaignContent } from "@/lib/campaign-content";
+
+// Edit live in: Shopify Admin → Content → Metaobjects → Campaign Landing Page → "rolig-opbevaring"
+const FALLBACK: CampaignContent = {
+  seo_title: "Magnetiske knivholdere i træ | Langsomt Nok",
+  seo_description:
+    "Magnetiske knivlister og knivstandere i træ til rolig, synlig og smuk opbevaring af dine køkkenknive.",
+  hero_eyebrow: "Rolig opbevaring",
+  hero_headline: "Når knivene får en fast plads, falder køkkenet til ro.",
+  hero_subheading: "Magnetiske knivlister og standere i træ til redskaber, der gerne må være synlige.",
+  primary_cta_text: "Find din holder",
+  primary_cta_url: "#opbevaring-produkter",
+  intro_section_title: "Væk fra skuffen",
+  intro_section_body:
+    "Knive, der ligger løst, mister både plads og nærvær.\nNår de får en fast plads, bliver køkkenet lettere at bruge.",
+  guide_cards: [
+    { title: "Knivliste på væggen", text: "Mere plads på bordet · ro på væggen · synlige redskaber." },
+    { title: "Knivstander på bordet", text: "Ingen boring · tæt på hånden · roligt objekt i køkkenet." },
+  ],
+  story_section_body: "Når redskaberne har et hjem, har hverdagen et.",
+  final_cta_headline: "Skab ro i køkkenet",
+  final_cta_body: "Når redskaberne har et hjem, har hverdagen et.",
+  final_cta_button_text: "Find din holder",
+  final_cta_button_url: "#opbevaring-produkter",
+};
 
 export const Route = createFileRoute("/ritualer/rolig-opbevaring")({
   head: () => ({
     meta: [
-      { title: "Magnetiske knivholdere i træ | Langsomt Nok" },
-      { name: "description", content: "Magnetiske knivlister og knivstandere i træ til rolig, synlig og smuk opbevaring af dine køkkenknive." },
-      { property: "og:title", content: "Magnetiske knivholdere i træ | Langsomt Nok" },
-      { property: "og:description", content: "Rolig opbevaring af dine køkkenknive — magnetisk, synlig, smuk." },
+      { title: FALLBACK.seo_title! },
+      { name: "description", content: FALLBACK.seo_description! },
+      { property: "og:title", content: FALLBACK.seo_title! },
+      { property: "og:description", content: FALLBACK.seo_description! },
     ],
   }),
   component: OpbevaringPage,
 });
-
-const CHOICES = [
-  {
-    title: "Knivliste på væggen",
-    bullets: ["giver mere plads på bordet", "skaber ro på væggen", "holder redskaberne synlige"],
-  },
-  {
-    title: "Knivstander på bordet",
-    bullets: ["kræver ingen boring", "står tæt på hånden", "fungerer som et roligt objekt i køkkenet"],
-  },
-];
 
 const MATERIALS = [
   { title: "Valnød", text: "Varm, mørk og rolig." },
@@ -37,6 +52,7 @@ const MATERIALS = [
 ];
 
 function OpbevaringPage() {
+  const c = useCampaignContent("rolig-opbevaring", FALLBACK);
   const [products, setProducts] = useState<ShopifyProduct[]>([]);
 
   useEffect(() => {
@@ -47,27 +63,27 @@ function OpbevaringPage() {
   return (
     <div data-page-type="campaign_landing" data-campaign="rolig_opbevaring" data-product-category="storage">
       <LandingPageHero
-        headline="Når knivene får en fast plads, falder køkkenet til ro."
-        subheadline="Magnetiske knivlister og standere i træ til redskaber, der gerne må være synlige."
-        primaryCta={{ label: "Find din holder", to: "/ritualer/rolig-opbevaring" }}
-        imageSlot={{ name: IMAGE_SLOTS.heroes.giftLandingHero.name, motif: "Lyst skandinavisk køkken med magnetisk knivlist i valnød over stenbordplade" }}
+        headline={c.hero_headline!}
+        subheadline={c.hero_subheading!}
+        primaryCta={{ label: c.primary_cta_text!, to: c.primary_cta_url! }}
+        imageSlot={{
+          name: IMAGE_SLOTS.heroes.giftLandingHero.name,
+          motif: "Lyst skandinavisk køkken med magnetisk knivlist i valnød over stenbordplade",
+        }}
         variant="overlay"
       />
 
       <TrustBar />
 
-      {/* Problem */}
       <section className="section-padding">
         <div className="container-calm max-w-2xl text-center">
-          <h2 className="font-serif text-2xl md:text-3xl mb-6">Væk fra skuffen</h2>
-          <p className="text-editorial text-muted-foreground">
-            Knive, der ligger løst, mister både plads og nærvær.<br />
-            Når de får en fast plads, bliver køkkenet lettere at bruge.
-          </p>
+          <h2 className="font-serif text-2xl md:text-3xl mb-6">{c.intro_section_title}</h2>
+          {c.intro_section_body && (
+            <p className="text-editorial text-muted-foreground whitespace-pre-line">{c.intro_section_body}</p>
+          )}
         </div>
       </section>
 
-      {/* Choice guide */}
       <section className="section-padding bg-soft">
         <div className="container-calm max-w-4xl">
           <div className="text-center mb-10">
@@ -75,30 +91,28 @@ function OpbevaringPage() {
             <p className="text-muted-foreground text-editorial mx-auto">To rolige måder at give knivene en fast plads.</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {CHOICES.map((c) => (
-              <div key={c.title} className="p-6 rounded-lg border border-border bg-background">
-                <h3 className="font-serif text-lg mb-4">{c.title}</h3>
-                <ul className="space-y-2">
-                  {c.bullets.map((b) => (
-                    <li key={b} className="text-sm text-muted-foreground flex gap-2">
-                      <span className="text-copper">·</span>
-                      <span>{b}</span>
-                    </li>
-                  ))}
-                </ul>
+            {(c.guide_cards ?? []).map((card) => (
+              <div
+                key={card.title}
+                data-event="ritual_card_click"
+                className="p-6 rounded-lg border border-border bg-background"
+              >
+                <h3 className="font-serif text-lg mb-3">{card.title}</h3>
+                <p className="text-sm text-muted-foreground whitespace-pre-line">{card.text}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      <ProductRecommendationBlock
-        title="Knivlister og standere"
-        subtitle="Rolig opbevaring i træ, hvor knivene gerne må ses."
-        products={products}
-      />
+      <div id="opbevaring-produkter">
+        <ProductRecommendationBlock
+          title="Knivlister og standere"
+          subtitle="Rolig opbevaring i træ, hvor knivene gerne må ses."
+          products={products}
+        />
+      </div>
 
-      {/* Material guide */}
       <section className="section-padding bg-soft">
         <div className="container-calm max-w-3xl">
           <div className="text-center mb-10">
@@ -116,9 +130,9 @@ function OpbevaringPage() {
       </section>
 
       <CalmCTASection
-        headline="Skab ro i køkkenet"
-        text="Når redskaberne har et hjem, har hverdagen et."
-        cta={{ label: "Find din holder", to: "/ritualer/rolig-opbevaring" }}
+        headline={c.final_cta_headline!}
+        text={c.final_cta_body}
+        cta={{ label: c.final_cta_button_text!, to: c.final_cta_button_url! }}
         variant="warm"
       />
     </div>
