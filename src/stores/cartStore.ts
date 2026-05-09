@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
-import { storefrontApiRequest, type ShopifyProduct } from '@/lib/shopify';
+import { storefrontApiRequest, SHOPIFY_STORE_PERMANENT_DOMAIN, type ShopifyProduct } from '@/lib/shopify';
 
 export interface CartItem {
   lineId: string | null;
