@@ -66,6 +66,13 @@ const CART_LINES_REMOVE_MUTATION = `
 function formatCheckoutUrl(checkoutUrl: string): string {
   try {
     const url = new URL(checkoutUrl);
+    // Force checkout to run on Shopify's myshopify.com domain.
+    // The store's primary domain (langsomtnok.dk) is pointed at the Lovable
+    // frontend, which has no /cart/c/ route — using it returns 404.
+    if (SHOPIFY_STORE_PERMANENT_DOMAIN) {
+      url.host = SHOPIFY_STORE_PERMANENT_DOMAIN;
+      url.protocol = 'https:';
+    }
     url.searchParams.set('channel', 'online_store');
     return url.toString();
   } catch {
