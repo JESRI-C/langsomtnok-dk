@@ -382,6 +382,32 @@ function HomePage() {
           </div>
         </div>
       </section>
+
+      {/* ── Universet — fortællinger ──────────────────────────────── */}
+      <section className="section-padding bg-background">
+        <div className="container-calm">
+          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-12">
+            <div>
+              <span className="text-[11px] tracking-[0.25em] uppercase text-copper">Et roligt univers</span>
+              <h2 className="font-serif text-3xl md:text-5xl mt-2">Langsomt Nok Universet</h2>
+              <p className="text-muted-foreground mt-3 max-w-xl">
+                Fortællinger om ritualer, håndværk og de små bevægelser, der gør hverdagen mere nærværende.
+              </p>
+            </div>
+            <Link
+              to="/universet"
+              className="text-sm font-medium text-cta inline-flex items-center gap-1.5 hover:gap-2.5 transition-all"
+            >
+              Træd ind i Universet <ArrowRight className="w-4 h-4" />
+            </Link>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-x-8 md:gap-y-14">
+            {UNIVERSET_HOME_STORIES.map((s) => (
+              <UniversetHomeStoryCard key={s.slug} story={s} />
+            ))}
+          </div>
+        </div>
+      </section>
     </div>
   );
 }
