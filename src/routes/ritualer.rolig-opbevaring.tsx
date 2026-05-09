@@ -93,6 +93,18 @@ function OpbevaringPage() {
         </div>
       </section>
 
+      <section className="pb-16">
+        <div className="container-calm max-w-2xl">
+          <div className="p-6 md:p-8 rounded-lg bg-soft/60 border border-border/40">
+            <p className="text-editorial text-foreground/80 leading-relaxed">
+              Knive holder sig bedst, når de opbevares sikkert, synligt og uden at slå mod andre
+              redskaber. En magnetisk knivliste eller knivstander i træ giver både bedre overblik
+              og mere ro i køkkenet.
+            </p>
+          </div>
+        </div>
+      </section>
+
       <section className="section-padding bg-soft">
         <div className="container-calm max-w-4xl">
           <div className="text-center mb-10">
