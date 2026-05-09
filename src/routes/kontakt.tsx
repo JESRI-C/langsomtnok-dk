@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
 import { NewsletterSignup } from "@/components/NewsletterSignup";
+import { FAQAccordion } from "@/components/landing/FAQAccordion";
 import { Mail, MapPin } from "lucide-react";
 
 export const Route = createFileRoute("/kontakt")({
@@ -82,6 +83,27 @@ function ContactPage() {
           </div>
         </div>
       </section>
+
+      <FAQAccordion
+        title="Korte svar"
+        items={[
+          {
+            question: "Hvordan kan jeg betale?",
+            answer:
+              "Du betaler sikkert via vores webshop. Du kan bruge almindelige betalingskort og de betalingsmuligheder, der vises i checkout. Din ordre pakkes med omhu og sendes fra Danmark.",
+          },
+          {
+            question: "Er betalingen sikker?",
+            answer:
+              "Ja. Når du handler hos Langsomt Nok, betaler du trygt via vores webshop med kort og de betalingsmuligheder, der vises i checkout. Vi pakker din ordre i rolig rytme og sender fra Danmark.",
+          },
+          {
+            question: "Hvor sendes ordren fra?",
+            answer:
+              "Alle ordrer pakkes og sendes fra Danmark. Vi pakker i rolig rytme og bruger materialer, der passer til indholdet.",
+          },
+        ]}
+      />
 
       <NewsletterSignup />
     </div>
