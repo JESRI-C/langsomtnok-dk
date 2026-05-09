@@ -40,25 +40,26 @@ const FALLBACK: CampaignContent = {
   final_cta_button_url: "#farsdag-produkter",
 };
 
+const HEAD = buildCampaignHead({
+  pathname: "/gaver/fars-dag",
+  title: FALLBACK.seo_title!,
+  description: FALLBACK.seo_description!,
+  breadcrumbs: [
+    { name: "Forside", url: `${SITE_ORIGIN}/` },
+    { name: "Gaver", url: `${SITE_ORIGIN}/collections/gaver` },
+    { name: "Farsdagsgaver", url: `${SITE_ORIGIN}/gaver/fars-dag` },
+  ],
+  itemListName: "Farsdagsgaver — guideudvalg",
+  itemList: (FALLBACK.guide_cards ?? []).map((c) => ({
+    name: c.title,
+    url: c.href?.startsWith("http")
+      ? c.href
+      : `${SITE_ORIGIN}/gaver/fars-dag${c.href ?? ""}`,
+  })),
+});
+
 export const Route = createFileRoute("/gaver/fars-dag")({
-  head: () =>
-    buildCampaignHead({
-      pathname: "/gaver/fars-dag",
-      title: FALLBACK.seo_title!,
-      description: FALLBACK.seo_description!,
-      breadcrumbs: [
-        { name: "Forside", url: `${SITE_ORIGIN}/` },
-        { name: "Gaver", url: `${SITE_ORIGIN}/collections/gaver` },
-        { name: "Farsdagsgaver", url: `${SITE_ORIGIN}/gaver/fars-dag` },
-      ],
-      itemListName: "Farsdagsgaver — guideudvalg",
-      itemList: (FALLBACK.guide_cards ?? []).map((c) => ({
-        name: c.title,
-        url: c.href?.startsWith("http")
-          ? c.href
-          : `${SITE_ORIGIN}/gaver/fars-dag${c.href ?? ""}`,
-      })),
-    }),
+  head: () => HEAD,
   component: FarsdagPage,
 });
 

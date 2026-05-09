@@ -44,22 +44,23 @@ const FALLBACK: CampaignContent = {
   ],
 };
 
+const HEAD = buildCampaignHead({
+  pathname: "/find-dit-ritual",
+  title: FALLBACK.seo_title!,
+  description: FALLBACK.seo_description!,
+  breadcrumbs: [
+    { name: "Forside", url: `${SITE_ORIGIN}/` },
+    { name: "Find dit ritual", url: `${SITE_ORIGIN}/find-dit-ritual` },
+  ],
+  itemListName: "Find dit køkkenritual",
+  itemList: (FALLBACK.guide_cards ?? []).map((c) => ({
+    name: c.title,
+    url: c.href?.startsWith("http") ? c.href : `${SITE_ORIGIN}${c.href ?? "/find-dit-ritual"}`,
+  })),
+});
+
 export const Route = createFileRoute("/find-dit-ritual")({
-  head: () =>
-    buildCampaignHead({
-      pathname: "/find-dit-ritual",
-      title: FALLBACK.seo_title!,
-      description: FALLBACK.seo_description!,
-      breadcrumbs: [
-        { name: "Forside", url: `${SITE_ORIGIN}/` },
-        { name: "Find dit ritual", url: `${SITE_ORIGIN}/find-dit-ritual` },
-      ],
-      itemListName: "Find dit køkkenritual",
-      itemList: (FALLBACK.guide_cards ?? []).map((c) => ({
-        name: c.title,
-        url: c.href?.startsWith("http") ? c.href : `${SITE_ORIGIN}${c.href ?? "/find-dit-ritual"}`,
-      })),
-    }),
+  head: () => HEAD,
   component: FindRitualPage,
 });
 
