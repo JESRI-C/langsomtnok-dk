@@ -20,6 +20,7 @@ import { Route as CirklenRouteImport } from './routes/cirklen'
 import { Route as AuditRouteImport } from './routes/audit'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as GuidesIndexRouteImport } from './routes/guides.index'
+import { Route as RitualerRoligOpbevaringRouteImport } from './routes/ritualer.rolig-opbevaring'
 import { Route as RitualerHoldKnivenSkarpRouteImport } from './routes/ritualer.hold-kniven-skarp'
 import { Route as ProductHandleRouteImport } from './routes/product.$handle'
 import { Route as PagesSadanHolderDuDinKnivSkarpRouteImport } from './routes/pages.sadan-holder-du-din-kniv-skarp'
@@ -84,6 +85,11 @@ const IndexRoute = IndexRouteImport.update({
 const GuidesIndexRoute = GuidesIndexRouteImport.update({
   id: '/guides/',
   path: '/guides/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RitualerRoligOpbevaringRoute = RitualerRoligOpbevaringRouteImport.update({
+  id: '/ritualer/rolig-opbevaring',
+  path: '/ritualer/rolig-opbevaring',
   getParentRoute: () => rootRouteImport,
 } as any)
 const RitualerHoldKnivenSkarpRoute = RitualerHoldKnivenSkarpRouteImport.update({
@@ -160,6 +166,7 @@ export interface FileRoutesByFullPath {
   '/pages/sadan-holder-du-din-kniv-skarp': typeof PagesSadanHolderDuDinKnivSkarpRoute
   '/product/$handle': typeof ProductHandleRoute
   '/ritualer/hold-kniven-skarp': typeof RitualerHoldKnivenSkarpRoute
+  '/ritualer/rolig-opbevaring': typeof RitualerRoligOpbevaringRoute
   '/guides/': typeof GuidesIndexRoute
 }
 export interface FileRoutesByTo {
@@ -183,6 +190,7 @@ export interface FileRoutesByTo {
   '/pages/sadan-holder-du-din-kniv-skarp': typeof PagesSadanHolderDuDinKnivSkarpRoute
   '/product/$handle': typeof ProductHandleRoute
   '/ritualer/hold-kniven-skarp': typeof RitualerHoldKnivenSkarpRoute
+  '/ritualer/rolig-opbevaring': typeof RitualerRoligOpbevaringRoute
   '/guides': typeof GuidesIndexRoute
 }
 export interface FileRoutesById {
@@ -207,6 +215,7 @@ export interface FileRoutesById {
   '/pages/sadan-holder-du-din-kniv-skarp': typeof PagesSadanHolderDuDinKnivSkarpRoute
   '/product/$handle': typeof ProductHandleRoute
   '/ritualer/hold-kniven-skarp': typeof RitualerHoldKnivenSkarpRoute
+  '/ritualer/rolig-opbevaring': typeof RitualerRoligOpbevaringRoute
   '/guides/': typeof GuidesIndexRoute
 }
 export interface FileRouteTypes {
@@ -232,6 +241,7 @@ export interface FileRouteTypes {
     | '/pages/sadan-holder-du-din-kniv-skarp'
     | '/product/$handle'
     | '/ritualer/hold-kniven-skarp'
+    | '/ritualer/rolig-opbevaring'
     | '/guides/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -255,6 +265,7 @@ export interface FileRouteTypes {
     | '/pages/sadan-holder-du-din-kniv-skarp'
     | '/product/$handle'
     | '/ritualer/hold-kniven-skarp'
+    | '/ritualer/rolig-opbevaring'
     | '/guides'
   id:
     | '__root__'
@@ -278,6 +289,7 @@ export interface FileRouteTypes {
     | '/pages/sadan-holder-du-din-kniv-skarp'
     | '/product/$handle'
     | '/ritualer/hold-kniven-skarp'
+    | '/ritualer/rolig-opbevaring'
     | '/guides/'
   fileRoutesById: FileRoutesById
 }
@@ -302,6 +314,7 @@ export interface RootRouteChildren {
   PagesSadanHolderDuDinKnivSkarpRoute: typeof PagesSadanHolderDuDinKnivSkarpRoute
   ProductHandleRoute: typeof ProductHandleRoute
   RitualerHoldKnivenSkarpRoute: typeof RitualerHoldKnivenSkarpRoute
+  RitualerRoligOpbevaringRoute: typeof RitualerRoligOpbevaringRoute
   GuidesIndexRoute: typeof GuidesIndexRoute
 }
 
@@ -382,6 +395,13 @@ declare module '@tanstack/react-router' {
       path: '/guides'
       fullPath: '/guides/'
       preLoaderRoute: typeof GuidesIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/ritualer/rolig-opbevaring': {
+      id: '/ritualer/rolig-opbevaring'
+      path: '/ritualer/rolig-opbevaring'
+      fullPath: '/ritualer/rolig-opbevaring'
+      preLoaderRoute: typeof RitualerRoligOpbevaringRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/ritualer/hold-kniven-skarp': {
@@ -478,6 +498,7 @@ const rootRouteChildren: RootRouteChildren = {
   PagesSadanHolderDuDinKnivSkarpRoute: PagesSadanHolderDuDinKnivSkarpRoute,
   ProductHandleRoute: ProductHandleRoute,
   RitualerHoldKnivenSkarpRoute: RitualerHoldKnivenSkarpRoute,
+  RitualerRoligOpbevaringRoute: RitualerRoligOpbevaringRoute,
   GuidesIndexRoute: GuidesIndexRoute,
 }
 export const routeTree = rootRouteImport
