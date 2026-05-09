@@ -38,8 +38,8 @@ function SkarpPage() {
   const [products, setProducts] = useState<ShopifyProduct[]>([]);
 
   useEffect(() => {
-    trackEvent("landing_page_view" as never, { page: "slibning_ritual" });
-    fetchProductsByQuery("product_type:'The Ritual Set'", 20).then(setProducts);
+    trackEvent("landing_page_view", { page: "slibning_ritual" });
+    fetchProductsByQuery('product_type:"The Ritual Set"', 20).then(setProducts);
   }, []);
 
   return (
