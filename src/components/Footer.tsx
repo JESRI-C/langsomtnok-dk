@@ -34,8 +34,11 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 lg:gap-8">
           <div className="lg:col-span-2">
             <h2 className="font-serif text-2xl mb-4">Langsomt Nok</h2>
-            <p className="text-deep-foreground/60 text-sm leading-relaxed max-w-sm">
+            <p className="text-deep-foreground/60 text-sm leading-relaxed max-w-sm mb-3">
               Køkkenredskaber skabt til dem, der ikke skynder sig gennem det vigtige. Træ, stål, olie, tid.
+            </p>
+            <p className="text-deep-foreground/40 text-xs italic tracking-wide">
+              Langsomt Nok — Nordic calm meets crafted sharpness.
             </p>
             <div className="flex gap-4 mt-6">
               <a
