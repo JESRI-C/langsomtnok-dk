@@ -6,6 +6,7 @@ const footerLinks = {
     { label: "Knive", to: "/collections/knive" },
     { label: "Slibesten", to: "/collections/slibesten" },
     { label: "Magnetiske holdere", to: "/collections/magnetiske-holdere" },
+    { label: "Håndlavet keramik", to: "/collections/handlavet-keramik" },
     { label: "Pleje & ritualer", to: "/collections/pleje-ritualer" },
   ],
   guides: [
