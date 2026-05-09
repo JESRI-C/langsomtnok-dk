@@ -68,7 +68,7 @@ function FarsdagPage() {
               <a
                 key={c.title}
                 href={c.anchor}
-                onClick={() => trackEvent("cta_click_landing_secondary" as never, { label: c.title })}
+                onClick={() => trackEvent("gift_card_click", { label: c.title })}
                 data-event="gift_card_click"
                 className="group block p-6 rounded-lg border border-border hover:border-walnut/30 hover:shadow-sm transition-all duration-300 bg-background"
               >
