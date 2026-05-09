@@ -85,6 +85,18 @@ function FindRitualPage() {
 
       <TrustBar />
 
+      <section className="pt-12">
+        <div className="container-calm max-w-2xl">
+          <div className="p-6 md:p-8 rounded-lg bg-soft/60 border border-border/40 text-center">
+            <p className="text-editorial text-foreground/80 leading-relaxed">
+              Et køkkenritual er en lille gentagen handling, der gør madlavningen mere rolig. Det
+              kan være at slibe en kniv, pleje et redskab, rydde op på bordet eller give tingene
+              en fast plads.
+            </p>
+          </div>
+        </div>
+      </section>
+
       <section id="ritual-valg" className="section-padding">
         <div className="container-calm max-w-5xl">
           <div className="text-center mb-12">
