@@ -11,6 +11,7 @@ const navItems = [
   { label: "Magnetisk opbevaring", to: "/collections/magnetiske-holdere" },
   { label: "Gaver", to: "/collections/gaver" },
   { label: "Guides", to: "/guides" },
+  { label: "Universet", to: "/universet" },
   { label: "Langsomt Cirklen", to: "/cirklen" },
 ];
 

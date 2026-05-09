@@ -37,7 +37,12 @@ export type AnalyticsEvent =
   | 'initiate_checkout'
   | 'purchase'
   | 'scroll_depth_50'
-  | 'scroll_depth_75';
+  | 'scroll_depth_75'
+  | 'universet_view'
+  | 'universet_story_click'
+  | 'universet_category_filter'
+  | 'related_products_click'
+  | 'cirklen_signup_click';
 
 interface AnalyticsParams {
   label?: string;

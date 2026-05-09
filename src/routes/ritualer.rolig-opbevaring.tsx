@@ -35,23 +35,24 @@ const FALLBACK: CampaignContent = {
   final_cta_button_url: "#opbevaring-produkter",
 };
 
+const HEAD = buildCampaignHead({
+  pathname: "/ritualer/rolig-opbevaring",
+  title: FALLBACK.seo_title!,
+  description: FALLBACK.seo_description!,
+  breadcrumbs: [
+    { name: "Forside", url: `${SITE_ORIGIN}/` },
+    { name: "Ritualer", url: `${SITE_ORIGIN}/find-dit-ritual` },
+    { name: "Rolig opbevaring", url: `${SITE_ORIGIN}/ritualer/rolig-opbevaring` },
+  ],
+  itemListName: "Rolig opbevaring — guide",
+  itemList: (FALLBACK.guide_cards ?? []).map(() => ({
+    name: "Rolig opbevaring",
+    url: `${SITE_ORIGIN}/ritualer/rolig-opbevaring`,
+  })),
+});
+
 export const Route = createFileRoute("/ritualer/rolig-opbevaring")({
-  head: () =>
-    buildCampaignHead({
-      pathname: "/ritualer/rolig-opbevaring",
-      title: FALLBACK.seo_title!,
-      description: FALLBACK.seo_description!,
-      breadcrumbs: [
-        { name: "Forside", url: `${SITE_ORIGIN}/` },
-        { name: "Ritualer", url: `${SITE_ORIGIN}/find-dit-ritual` },
-        { name: "Rolig opbevaring", url: `${SITE_ORIGIN}/ritualer/rolig-opbevaring` },
-      ],
-      itemListName: "Rolig opbevaring — guide",
-      itemList: (FALLBACK.guide_cards ?? []).map((c) => ({
-        name: c.title,
-        url: `${SITE_ORIGIN}/ritualer/rolig-opbevaring`,
-      })),
-    }),
+  head: () => HEAD,
   component: OpbevaringPage,
 });
 
