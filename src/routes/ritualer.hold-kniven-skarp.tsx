@@ -97,6 +97,18 @@ function SkarpPage() {
         </div>
       </section>
 
+      <section className="pb-16">
+        <div className="container-calm max-w-2xl">
+          <div className="p-6 md:p-8 rounded-lg bg-soft/60 border border-border/40">
+            <p className="text-editorial text-foreground/80 leading-relaxed">
+              Den bedste måde at holde en køkkenkniv skarp på er at vedligeholde æggen løbende med
+              slibesten, strop eller en enkel knivsliber. Det forlænger knivens levetid og gør
+              madlavningen mere rolig og præcis.
+            </p>
+          </div>
+        </div>
+      </section>
+
       <section id="sliberitual" className="section-padding bg-soft">
         <div className="container-calm">
           <div className="text-center mb-12">
