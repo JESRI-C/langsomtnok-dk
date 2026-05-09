@@ -9,6 +9,7 @@ import { fetchProductsByQuery, type ShopifyProduct } from "@/lib/shopify";
 import { trackEvent } from "@/lib/analytics";
 import { useCampaignContent } from "@/hooks/useCampaignContent";
 import type { CampaignContent } from "@/lib/campaign-content";
+import { buildCampaignHead, SITE_ORIGIN } from "@/lib/campaign-seo";
 
 // Fallback copy — used when Shopify Metaobject is missing or empty.
 // Edit live in: Shopify Admin → Content → Metaobjects → Campaign Landing Page → "fars-dag"
