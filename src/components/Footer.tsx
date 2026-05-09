@@ -15,6 +15,7 @@ const footerLinks = {
     { label: "Materialer", to: "/guides" },
   ],
   rituals: [
+    { label: "Universet", href: "/universet" },
     { label: "Farsdagsgaver", href: "/gaver/fars-dag" },
     { label: "Hold din kniv skarp", href: "/ritualer/hold-kniven-skarp" },
     { label: "Rolig opbevaring", href: "/ritualer/rolig-opbevaring" },

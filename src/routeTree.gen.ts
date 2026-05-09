@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as UniversetRouteImport } from './routes/universet'
 import { Route as ShopRouteImport } from './routes/shop'
 import { Route as ReturpolitikRouteImport } from './routes/returpolitik'
 import { Route as PrivatlivspolitikRouteImport } from './routes/privatlivspolitik'
@@ -21,6 +22,7 @@ import { Route as CirklenRouteImport } from './routes/cirklen'
 import { Route as AuditRouteImport } from './routes/audit'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as GuidesIndexRouteImport } from './routes/guides.index'
+import { Route as UniversetSlugRouteImport } from './routes/universet.$slug'
 import { Route as RitualerRoligOpbevaringRouteImport } from './routes/ritualer.rolig-opbevaring'
 import { Route as RitualerHoldKnivenSkarpRouteImport } from './routes/ritualer.hold-kniven-skarp'
 import { Route as ProductHandleRouteImport } from './routes/product.$handle'
@@ -33,6 +35,11 @@ import { Route as GuidesSlugRouteImport } from './routes/guides.$slug'
 import { Route as GaverFarsDagRouteImport } from './routes/gaver.fars-dag'
 import { Route as CollectionsHandleRouteImport } from './routes/collections.$handle'
 
+const UniversetRoute = UniversetRouteImport.update({
+  id: '/universet',
+  path: '/universet',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ShopRoute = ShopRouteImport.update({
   id: '/shop',
   path: '/shop',
@@ -92,6 +99,11 @@ const GuidesIndexRoute = GuidesIndexRouteImport.update({
   id: '/guides/',
   path: '/guides/',
   getParentRoute: () => rootRouteImport,
+} as any)
+const UniversetSlugRoute = UniversetSlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => UniversetRoute,
 } as any)
 const RitualerRoligOpbevaringRoute = RitualerRoligOpbevaringRouteImport.update({
   id: '/ritualer/rolig-opbevaring',
@@ -163,6 +175,7 @@ export interface FileRoutesByFullPath {
   '/privatlivspolitik': typeof PrivatlivspolitikRoute
   '/returpolitik': typeof ReturpolitikRoute
   '/shop': typeof ShopRoute
+  '/universet': typeof UniversetRouteWithChildren
   '/collections/$handle': typeof CollectionsHandleRoute
   '/gaver/fars-dag': typeof GaverFarsDagRoute
   '/guides/$slug': typeof GuidesSlugRoute
@@ -174,6 +187,7 @@ export interface FileRoutesByFullPath {
   '/product/$handle': typeof ProductHandleRoute
   '/ritualer/hold-kniven-skarp': typeof RitualerHoldKnivenSkarpRoute
   '/ritualer/rolig-opbevaring': typeof RitualerRoligOpbevaringRoute
+  '/universet/$slug': typeof UniversetSlugRoute
   '/guides/': typeof GuidesIndexRoute
 }
 export interface FileRoutesByTo {
@@ -188,6 +202,7 @@ export interface FileRoutesByTo {
   '/privatlivspolitik': typeof PrivatlivspolitikRoute
   '/returpolitik': typeof ReturpolitikRoute
   '/shop': typeof ShopRoute
+  '/universet': typeof UniversetRouteWithChildren
   '/collections/$handle': typeof CollectionsHandleRoute
   '/gaver/fars-dag': typeof GaverFarsDagRoute
   '/guides/$slug': typeof GuidesSlugRoute
@@ -199,6 +214,7 @@ export interface FileRoutesByTo {
   '/product/$handle': typeof ProductHandleRoute
   '/ritualer/hold-kniven-skarp': typeof RitualerHoldKnivenSkarpRoute
   '/ritualer/rolig-opbevaring': typeof RitualerRoligOpbevaringRoute
+  '/universet/$slug': typeof UniversetSlugRoute
   '/guides': typeof GuidesIndexRoute
 }
 export interface FileRoutesById {
@@ -214,6 +230,7 @@ export interface FileRoutesById {
   '/privatlivspolitik': typeof PrivatlivspolitikRoute
   '/returpolitik': typeof ReturpolitikRoute
   '/shop': typeof ShopRoute
+  '/universet': typeof UniversetRouteWithChildren
   '/collections/$handle': typeof CollectionsHandleRoute
   '/gaver/fars-dag': typeof GaverFarsDagRoute
   '/guides/$slug': typeof GuidesSlugRoute
@@ -225,6 +242,7 @@ export interface FileRoutesById {
   '/product/$handle': typeof ProductHandleRoute
   '/ritualer/hold-kniven-skarp': typeof RitualerHoldKnivenSkarpRoute
   '/ritualer/rolig-opbevaring': typeof RitualerRoligOpbevaringRoute
+  '/universet/$slug': typeof UniversetSlugRoute
   '/guides/': typeof GuidesIndexRoute
 }
 export interface FileRouteTypes {
@@ -241,6 +259,7 @@ export interface FileRouteTypes {
     | '/privatlivspolitik'
     | '/returpolitik'
     | '/shop'
+    | '/universet'
     | '/collections/$handle'
     | '/gaver/fars-dag'
     | '/guides/$slug'
@@ -252,6 +271,7 @@ export interface FileRouteTypes {
     | '/product/$handle'
     | '/ritualer/hold-kniven-skarp'
     | '/ritualer/rolig-opbevaring'
+    | '/universet/$slug'
     | '/guides/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -266,6 +286,7 @@ export interface FileRouteTypes {
     | '/privatlivspolitik'
     | '/returpolitik'
     | '/shop'
+    | '/universet'
     | '/collections/$handle'
     | '/gaver/fars-dag'
     | '/guides/$slug'
@@ -277,6 +298,7 @@ export interface FileRouteTypes {
     | '/product/$handle'
     | '/ritualer/hold-kniven-skarp'
     | '/ritualer/rolig-opbevaring'
+    | '/universet/$slug'
     | '/guides'
   id:
     | '__root__'
@@ -291,6 +313,7 @@ export interface FileRouteTypes {
     | '/privatlivspolitik'
     | '/returpolitik'
     | '/shop'
+    | '/universet'
     | '/collections/$handle'
     | '/gaver/fars-dag'
     | '/guides/$slug'
@@ -302,6 +325,7 @@ export interface FileRouteTypes {
     | '/product/$handle'
     | '/ritualer/hold-kniven-skarp'
     | '/ritualer/rolig-opbevaring'
+    | '/universet/$slug'
     | '/guides/'
   fileRoutesById: FileRoutesById
 }
@@ -317,6 +341,7 @@ export interface RootRouteChildren {
   PrivatlivspolitikRoute: typeof PrivatlivspolitikRoute
   ReturpolitikRoute: typeof ReturpolitikRoute
   ShopRoute: typeof ShopRoute
+  UniversetRoute: typeof UniversetRouteWithChildren
   CollectionsHandleRoute: typeof CollectionsHandleRoute
   GaverFarsDagRoute: typeof GaverFarsDagRoute
   GuidesSlugRoute: typeof GuidesSlugRoute
@@ -333,6 +358,13 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/universet': {
+      id: '/universet'
+      path: '/universet'
+      fullPath: '/universet'
+      preLoaderRoute: typeof UniversetRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/shop': {
       id: '/shop'
       path: '/shop'
@@ -417,6 +449,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof GuidesIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/universet/$slug': {
+      id: '/universet/$slug'
+      path: '/$slug'
+      fullPath: '/universet/$slug'
+      preLoaderRoute: typeof UniversetSlugRouteImport
+      parentRoute: typeof UniversetRoute
+    }
     '/ritualer/rolig-opbevaring': {
       id: '/ritualer/rolig-opbevaring'
       path: '/ritualer/rolig-opbevaring'
@@ -497,6 +536,18 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface UniversetRouteChildren {
+  UniversetSlugRoute: typeof UniversetSlugRoute
+}
+
+const UniversetRouteChildren: UniversetRouteChildren = {
+  UniversetSlugRoute: UniversetSlugRoute,
+}
+
+const UniversetRouteWithChildren = UniversetRoute._addFileChildren(
+  UniversetRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuditRoute: AuditRoute,
@@ -509,6 +560,7 @@ const rootRouteChildren: RootRouteChildren = {
   PrivatlivspolitikRoute: PrivatlivspolitikRoute,
   ReturpolitikRoute: ReturpolitikRoute,
   ShopRoute: ShopRoute,
+  UniversetRoute: UniversetRouteWithChildren,
   CollectionsHandleRoute: CollectionsHandleRoute,
   GaverFarsDagRoute: GaverFarsDagRoute,
   GuidesSlugRoute: GuidesSlugRoute,
