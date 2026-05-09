@@ -28,7 +28,7 @@ import {
 } from "@/lib/shopify";
 import { parseProductDescription, type ParsedSection } from "@/lib/parse-product-description";
 import { trackEvent } from "@/lib/analytics";
-import { Loader2, Minus, Plus } from "lucide-react";
+import { Loader2, Minus, Plus, CreditCard, Truck, RotateCcw } from "lucide-react";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/product/$handle")({
@@ -436,9 +436,22 @@ function ProductPage() {
             </div>
 
             {/* Trust line */}
-            <p className="text-xs text-muted-foreground text-center italic mt-3">
-              Pakket med omhu. Sendes trygt fra Danmark.
-            </p>
+            <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 text-xs text-muted-foreground mt-3">
+              <span className="inline-flex items-center gap-1.5">
+                <CreditCard className="w-4 h-4 text-cta" strokeWidth={1.5} />
+                Tryg betaling
+              </span>
+              <span className="text-border">·</span>
+              <span className="inline-flex items-center gap-1.5">
+                <Truck className="w-4 h-4 text-cta" strokeWidth={1.5} />
+                Sendes fra Danmark
+              </span>
+              <span className="text-border">·</span>
+              <span className="inline-flex items-center gap-1.5">
+                <RotateCcw className="w-4 h-4 text-cta" strokeWidth={1.5} />
+                30 dages returret
+              </span>
+            </div>
           </div>
         </div>
 
