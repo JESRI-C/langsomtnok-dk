@@ -33,6 +33,7 @@ import { Route as PagesDenForsteRigtigeKokkeknivRouteImport } from './routes/pag
 import { Route as PagesDamaskusKnivRouteImport } from './routes/pages.damaskus-kniv'
 import { Route as GuidesSlugRouteImport } from './routes/guides.$slug'
 import { Route as GaverFarsDagRouteImport } from './routes/gaver.fars-dag'
+import { Route as CollectionsHandlavetKeramikRouteImport } from './routes/collections.handlavet-keramik'
 import { Route as CollectionsHandleRouteImport } from './routes/collections.$handle'
 
 const UniversetRoute = UniversetRouteImport.update({
@@ -157,6 +158,12 @@ const GaverFarsDagRoute = GaverFarsDagRouteImport.update({
   path: '/gaver/fars-dag',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CollectionsHandlavetKeramikRoute =
+  CollectionsHandlavetKeramikRouteImport.update({
+    id: '/collections/handlavet-keramik',
+    path: '/collections/handlavet-keramik',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const CollectionsHandleRoute = CollectionsHandleRouteImport.update({
   id: '/collections/$handle',
   path: '/collections/$handle',
@@ -177,6 +184,7 @@ export interface FileRoutesByFullPath {
   '/shop': typeof ShopRoute
   '/universet': typeof UniversetRouteWithChildren
   '/collections/$handle': typeof CollectionsHandleRoute
+  '/collections/handlavet-keramik': typeof CollectionsHandlavetKeramikRoute
   '/gaver/fars-dag': typeof GaverFarsDagRoute
   '/guides/$slug': typeof GuidesSlugRoute
   '/pages/damaskus-kniv': typeof PagesDamaskusKnivRoute
@@ -204,6 +212,7 @@ export interface FileRoutesByTo {
   '/shop': typeof ShopRoute
   '/universet': typeof UniversetRouteWithChildren
   '/collections/$handle': typeof CollectionsHandleRoute
+  '/collections/handlavet-keramik': typeof CollectionsHandlavetKeramikRoute
   '/gaver/fars-dag': typeof GaverFarsDagRoute
   '/guides/$slug': typeof GuidesSlugRoute
   '/pages/damaskus-kniv': typeof PagesDamaskusKnivRoute
@@ -232,6 +241,7 @@ export interface FileRoutesById {
   '/shop': typeof ShopRoute
   '/universet': typeof UniversetRouteWithChildren
   '/collections/$handle': typeof CollectionsHandleRoute
+  '/collections/handlavet-keramik': typeof CollectionsHandlavetKeramikRoute
   '/gaver/fars-dag': typeof GaverFarsDagRoute
   '/guides/$slug': typeof GuidesSlugRoute
   '/pages/damaskus-kniv': typeof PagesDamaskusKnivRoute
@@ -261,6 +271,7 @@ export interface FileRouteTypes {
     | '/shop'
     | '/universet'
     | '/collections/$handle'
+    | '/collections/handlavet-keramik'
     | '/gaver/fars-dag'
     | '/guides/$slug'
     | '/pages/damaskus-kniv'
@@ -288,6 +299,7 @@ export interface FileRouteTypes {
     | '/shop'
     | '/universet'
     | '/collections/$handle'
+    | '/collections/handlavet-keramik'
     | '/gaver/fars-dag'
     | '/guides/$slug'
     | '/pages/damaskus-kniv'
@@ -315,6 +327,7 @@ export interface FileRouteTypes {
     | '/shop'
     | '/universet'
     | '/collections/$handle'
+    | '/collections/handlavet-keramik'
     | '/gaver/fars-dag'
     | '/guides/$slug'
     | '/pages/damaskus-kniv'
@@ -343,6 +356,7 @@ export interface RootRouteChildren {
   ShopRoute: typeof ShopRoute
   UniversetRoute: typeof UniversetRouteWithChildren
   CollectionsHandleRoute: typeof CollectionsHandleRoute
+  CollectionsHandlavetKeramikRoute: typeof CollectionsHandlavetKeramikRoute
   GaverFarsDagRoute: typeof GaverFarsDagRoute
   GuidesSlugRoute: typeof GuidesSlugRoute
   PagesDamaskusKnivRoute: typeof PagesDamaskusKnivRoute
@@ -526,6 +540,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof GaverFarsDagRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/collections/handlavet-keramik': {
+      id: '/collections/handlavet-keramik'
+      path: '/collections/handlavet-keramik'
+      fullPath: '/collections/handlavet-keramik'
+      preLoaderRoute: typeof CollectionsHandlavetKeramikRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/collections/$handle': {
       id: '/collections/$handle'
       path: '/collections/$handle'
@@ -562,6 +583,7 @@ const rootRouteChildren: RootRouteChildren = {
   ShopRoute: ShopRoute,
   UniversetRoute: UniversetRouteWithChildren,
   CollectionsHandleRoute: CollectionsHandleRoute,
+  CollectionsHandlavetKeramikRoute: CollectionsHandlavetKeramikRoute,
   GaverFarsDagRoute: GaverFarsDagRoute,
   GuidesSlugRoute: GuidesSlugRoute,
   PagesDamaskusKnivRoute: PagesDamaskusKnivRoute,

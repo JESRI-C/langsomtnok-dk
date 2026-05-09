@@ -9,6 +9,7 @@ const navItems = [
   { label: "Knive", to: "/collections/knive" },
   { label: "Slibning & pleje", to: "/collections/slibning-pleje" },
   { label: "Magnetisk opbevaring", to: "/collections/magnetiske-holdere" },
+  { label: "Keramik", to: "/collections/handlavet-keramik" },
   { label: "Gaver", to: "/collections/gaver" },
   { label: "Guides", to: "/guides" },
   { label: "Universet", to: "/universet" },

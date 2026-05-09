@@ -51,6 +51,26 @@ const COLLECTION_INTROS: Record<string, { tagline: string; intro: string }> = {
     tagline: "Begynd her",
     intro: "Begynd med det, du faktisk får lyst til at bruge igen.",
   },
+  "susan-riel": {
+    tagline: "Atelier",
+    intro: "Keramik fra Susan Riel — levende glasurer, rolige former og tydelige spor af hænder.",
+  },
+  keramikkopper: {
+    tagline: "Håndlavet keramik",
+    intro: "Kopper til kaffe, te og små pauser i dagen.",
+  },
+  keramikskale: {
+    tagline: "Håndlavet keramik",
+    intro: "Skåle til servering, samling og stille hverdagsritualer.",
+  },
+  keramikvaser: {
+    tagline: "Håndlavet keramik",
+    intro: "Små former til grene, blomster og rolige rum.",
+  },
+  keramikunika: {
+    tagline: "Håndlavet keramik",
+    intro: "Ét værk. Ét hjem. Én stille videre rejse.",
+  },
 };
 
 /** Fallback: map collection handle → product_type query (until real Shopify collections exist) */
