@@ -78,7 +78,7 @@ function SkarpPage() {
                 key={card.title}
                 to="/product/$handle"
                 params={{ handle: card.handle }}
-                onClick={() => trackEvent("cta_click_landing_secondary" as never, { label: card.title })}
+                onClick={() => trackEvent("ritual_card_click", { label: card.title })}
                 data-event="ritual_card_click"
                 className="group block p-5 rounded-lg border border-border hover:border-walnut/30 hover:shadow-sm transition-all duration-300 bg-background"
               >
