@@ -9,6 +9,7 @@ import { fetchProductsByQuery, type ShopifyProduct } from "@/lib/shopify";
 import { trackEvent } from "@/lib/analytics";
 import { useCampaignContent } from "@/hooks/useCampaignContent";
 import type { CampaignContent } from "@/lib/campaign-content";
+import { buildCampaignHead, SITE_ORIGIN } from "@/lib/campaign-seo";
 
 // Edit live in: Shopify Admin → Content → Metaobjects → Campaign Landing Page → "rolig-opbevaring"
 const FALLBACK: CampaignContent = {
