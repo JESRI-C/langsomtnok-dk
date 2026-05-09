@@ -91,7 +91,7 @@ export function ProductCard({ product }: { product: ShopifyProduct }) {
             disabled={isLoading || !variant?.availableForSale}
             className="text-xs font-medium text-cta hover:text-cta/80 transition-colors disabled:opacity-50"
           >
-            {isLoading ? <Loader2 className="w-3 h-3 animate-spin" /> : !variant?.availableForSale ? "Udsolgt" : "Tilføj til ritualet"}
+            {isLoading ? <Loader2 className="w-3 h-3 animate-spin" /> : soldOut ? soldLabel : "Tilføj til ritualet"}
           </button>
         </div>
       </div>
