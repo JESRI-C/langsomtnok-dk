@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
-import { storefrontApiRequest, SHOPIFY_STORE_PERMANENT_DOMAIN, type ShopifyProduct } from '@/lib/shopify';
+import { storefrontApiRequest, type ShopifyProduct } from '@/lib/shopify';
 
 export interface CartItem {
   lineId: string | null;
@@ -66,13 +66,6 @@ const CART_LINES_REMOVE_MUTATION = `
 function formatCheckoutUrl(checkoutUrl: string): string {
   try {
     const url = new URL(checkoutUrl);
-    // Force checkout to run on Shopify's myshopify.com domain.
-    // The store's primary domain (langsomtnok.dk) is pointed at the Lovable
-    // frontend, which has no /cart/c/ route — using it returns 404.
-    if (SHOPIFY_STORE_PERMANENT_DOMAIN) {
-      url.host = SHOPIFY_STORE_PERMANENT_DOMAIN;
-      url.protocol = 'https:';
-    }
     url.searchParams.set('channel', 'online_store');
     return url.toString();
   } catch {
@@ -195,10 +188,7 @@ export const useCartStore = create<CartStore>()(
       },
 
       clearCart: () => set({ items: [], cartId: null, checkoutUrl: null }),
-      getCheckoutUrl: () => {
-        const url = get().checkoutUrl;
-        return url ? formatCheckoutUrl(url) : null;
-      },
+      getCheckoutUrl: () => get().checkoutUrl,
 
       syncCart: async () => {
         const { cartId, isSyncing, clearCart } = get();
