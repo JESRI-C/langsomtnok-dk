@@ -22,6 +22,11 @@ export function ProductCard({ product }: { product: ShopifyProduct }) {
   const price = node.priceRange.minVariantPrice;
   const isOnSale = hasDiscount(product);
   const discountPct = getDiscountPercentage(product);
+  const tagsLower = (node.tags || []).map((t) => t.toLowerCase());
+  const isUnika = tagsLower.includes("unika");
+  const isLilleSerie = tagsLower.includes("lille serie") || tagsLower.includes("lille-serie");
+  const soldOut = !variant?.availableForSale;
+  const soldLabel = isUnika && soldOut ? "Solgt — videre til et nyt hjem" : "Udsolgt";
 
   const handleAddToCart = async (e: React.MouseEvent) => {
     e.preventDefault();
@@ -55,9 +60,14 @@ export function ProductCard({ product }: { product: ShopifyProduct }) {
             <span className="text-xs text-copper/50">Billede mangler</span>
           </div>
         )}
-        {isOnSale && (
+        {isOnSale && !soldOut && (
           <span className="absolute top-3 left-3 bg-copper text-cta-foreground text-[10px] font-medium px-2 py-0.5 rounded">
             -{discountPct}%
+          </span>
+        )}
+        {(isUnika || isLilleSerie) && (
+          <span className="absolute top-3 right-3 bg-background/85 backdrop-blur-sm text-foreground/70 text-[10px] font-medium tracking-wide px-2 py-0.5 rounded border border-border/40">
+            {isUnika ? "Unika" : "Lille serie"}
           </span>
         )}
       </div>
