@@ -483,6 +483,16 @@ export async function fetchProductsByHandles(handles: string[]): Promise<Shopify
   }
 }
 
+/** Fetch products by a Shopify search query (e.g. "product_type:'The Ritual Set'"). */
+export async function fetchProductsByQuery(query: string, first = 20): Promise<ShopifyProduct[]> {
+  try {
+    const data = await storefrontApiRequest(PRODUCTS_QUERY, { first, query });
+    return data?.data?.products?.edges || [];
+  } catch {
+    return [];
+  }
+}
+
 // ── Utility Functions ────────────────────────────────────────────────────────
 
 /** Format price in Danish locale (e.g. "1.499,00 kr.") */

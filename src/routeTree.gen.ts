@@ -16,10 +16,13 @@ import { Route as OmRouteImport } from './routes/om'
 import { Route as KontaktRouteImport } from './routes/kontakt'
 import { Route as HandelsbetingelserRouteImport } from './routes/handelsbetingelser'
 import { Route as FragtRouteImport } from './routes/fragt'
+import { Route as FindDitRitualRouteImport } from './routes/find-dit-ritual'
 import { Route as CirklenRouteImport } from './routes/cirklen'
 import { Route as AuditRouteImport } from './routes/audit'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as GuidesIndexRouteImport } from './routes/guides.index'
+import { Route as RitualerRoligOpbevaringRouteImport } from './routes/ritualer.rolig-opbevaring'
+import { Route as RitualerHoldKnivenSkarpRouteImport } from './routes/ritualer.hold-kniven-skarp'
 import { Route as ProductHandleRouteImport } from './routes/product.$handle'
 import { Route as PagesSadanHolderDuDinKnivSkarpRouteImport } from './routes/pages.sadan-holder-du-din-kniv-skarp'
 import { Route as PagesKnivholderITraeRouteImport } from './routes/pages.knivholder-i-trae'
@@ -27,6 +30,7 @@ import { Route as PagesGaveTilMadelskerenRouteImport } from './routes/pages.gave
 import { Route as PagesDenForsteRigtigeKokkeknivRouteImport } from './routes/pages.den-forste-rigtige-kokkekniv'
 import { Route as PagesDamaskusKnivRouteImport } from './routes/pages.damaskus-kniv'
 import { Route as GuidesSlugRouteImport } from './routes/guides.$slug'
+import { Route as GaverFarsDagRouteImport } from './routes/gaver.fars-dag'
 import { Route as CollectionsHandleRouteImport } from './routes/collections.$handle'
 
 const ShopRoute = ShopRouteImport.update({
@@ -64,6 +68,11 @@ const FragtRoute = FragtRouteImport.update({
   path: '/fragt',
   getParentRoute: () => rootRouteImport,
 } as any)
+const FindDitRitualRoute = FindDitRitualRouteImport.update({
+  id: '/find-dit-ritual',
+  path: '/find-dit-ritual',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const CirklenRoute = CirklenRouteImport.update({
   id: '/cirklen',
   path: '/cirklen',
@@ -82,6 +91,16 @@ const IndexRoute = IndexRouteImport.update({
 const GuidesIndexRoute = GuidesIndexRouteImport.update({
   id: '/guides/',
   path: '/guides/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RitualerRoligOpbevaringRoute = RitualerRoligOpbevaringRouteImport.update({
+  id: '/ritualer/rolig-opbevaring',
+  path: '/ritualer/rolig-opbevaring',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RitualerHoldKnivenSkarpRoute = RitualerHoldKnivenSkarpRouteImport.update({
+  id: '/ritualer/hold-kniven-skarp',
+  path: '/ritualer/hold-kniven-skarp',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ProductHandleRoute = ProductHandleRouteImport.update({
@@ -121,6 +140,11 @@ const GuidesSlugRoute = GuidesSlugRouteImport.update({
   path: '/guides/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const GaverFarsDagRoute = GaverFarsDagRouteImport.update({
+  id: '/gaver/fars-dag',
+  path: '/gaver/fars-dag',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const CollectionsHandleRoute = CollectionsHandleRouteImport.update({
   id: '/collections/$handle',
   path: '/collections/$handle',
@@ -131,6 +155,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/audit': typeof AuditRoute
   '/cirklen': typeof CirklenRoute
+  '/find-dit-ritual': typeof FindDitRitualRoute
   '/fragt': typeof FragtRoute
   '/handelsbetingelser': typeof HandelsbetingelserRoute
   '/kontakt': typeof KontaktRoute
@@ -139,6 +164,7 @@ export interface FileRoutesByFullPath {
   '/returpolitik': typeof ReturpolitikRoute
   '/shop': typeof ShopRoute
   '/collections/$handle': typeof CollectionsHandleRoute
+  '/gaver/fars-dag': typeof GaverFarsDagRoute
   '/guides/$slug': typeof GuidesSlugRoute
   '/pages/damaskus-kniv': typeof PagesDamaskusKnivRoute
   '/pages/den-forste-rigtige-kokkekniv': typeof PagesDenForsteRigtigeKokkeknivRoute
@@ -146,12 +172,15 @@ export interface FileRoutesByFullPath {
   '/pages/knivholder-i-trae': typeof PagesKnivholderITraeRoute
   '/pages/sadan-holder-du-din-kniv-skarp': typeof PagesSadanHolderDuDinKnivSkarpRoute
   '/product/$handle': typeof ProductHandleRoute
+  '/ritualer/hold-kniven-skarp': typeof RitualerHoldKnivenSkarpRoute
+  '/ritualer/rolig-opbevaring': typeof RitualerRoligOpbevaringRoute
   '/guides/': typeof GuidesIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/audit': typeof AuditRoute
   '/cirklen': typeof CirklenRoute
+  '/find-dit-ritual': typeof FindDitRitualRoute
   '/fragt': typeof FragtRoute
   '/handelsbetingelser': typeof HandelsbetingelserRoute
   '/kontakt': typeof KontaktRoute
@@ -160,6 +189,7 @@ export interface FileRoutesByTo {
   '/returpolitik': typeof ReturpolitikRoute
   '/shop': typeof ShopRoute
   '/collections/$handle': typeof CollectionsHandleRoute
+  '/gaver/fars-dag': typeof GaverFarsDagRoute
   '/guides/$slug': typeof GuidesSlugRoute
   '/pages/damaskus-kniv': typeof PagesDamaskusKnivRoute
   '/pages/den-forste-rigtige-kokkekniv': typeof PagesDenForsteRigtigeKokkeknivRoute
@@ -167,6 +197,8 @@ export interface FileRoutesByTo {
   '/pages/knivholder-i-trae': typeof PagesKnivholderITraeRoute
   '/pages/sadan-holder-du-din-kniv-skarp': typeof PagesSadanHolderDuDinKnivSkarpRoute
   '/product/$handle': typeof ProductHandleRoute
+  '/ritualer/hold-kniven-skarp': typeof RitualerHoldKnivenSkarpRoute
+  '/ritualer/rolig-opbevaring': typeof RitualerRoligOpbevaringRoute
   '/guides': typeof GuidesIndexRoute
 }
 export interface FileRoutesById {
@@ -174,6 +206,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/audit': typeof AuditRoute
   '/cirklen': typeof CirklenRoute
+  '/find-dit-ritual': typeof FindDitRitualRoute
   '/fragt': typeof FragtRoute
   '/handelsbetingelser': typeof HandelsbetingelserRoute
   '/kontakt': typeof KontaktRoute
@@ -182,6 +215,7 @@ export interface FileRoutesById {
   '/returpolitik': typeof ReturpolitikRoute
   '/shop': typeof ShopRoute
   '/collections/$handle': typeof CollectionsHandleRoute
+  '/gaver/fars-dag': typeof GaverFarsDagRoute
   '/guides/$slug': typeof GuidesSlugRoute
   '/pages/damaskus-kniv': typeof PagesDamaskusKnivRoute
   '/pages/den-forste-rigtige-kokkekniv': typeof PagesDenForsteRigtigeKokkeknivRoute
@@ -189,6 +223,8 @@ export interface FileRoutesById {
   '/pages/knivholder-i-trae': typeof PagesKnivholderITraeRoute
   '/pages/sadan-holder-du-din-kniv-skarp': typeof PagesSadanHolderDuDinKnivSkarpRoute
   '/product/$handle': typeof ProductHandleRoute
+  '/ritualer/hold-kniven-skarp': typeof RitualerHoldKnivenSkarpRoute
+  '/ritualer/rolig-opbevaring': typeof RitualerRoligOpbevaringRoute
   '/guides/': typeof GuidesIndexRoute
 }
 export interface FileRouteTypes {
@@ -197,6 +233,7 @@ export interface FileRouteTypes {
     | '/'
     | '/audit'
     | '/cirklen'
+    | '/find-dit-ritual'
     | '/fragt'
     | '/handelsbetingelser'
     | '/kontakt'
@@ -205,6 +242,7 @@ export interface FileRouteTypes {
     | '/returpolitik'
     | '/shop'
     | '/collections/$handle'
+    | '/gaver/fars-dag'
     | '/guides/$slug'
     | '/pages/damaskus-kniv'
     | '/pages/den-forste-rigtige-kokkekniv'
@@ -212,12 +250,15 @@ export interface FileRouteTypes {
     | '/pages/knivholder-i-trae'
     | '/pages/sadan-holder-du-din-kniv-skarp'
     | '/product/$handle'
+    | '/ritualer/hold-kniven-skarp'
+    | '/ritualer/rolig-opbevaring'
     | '/guides/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/audit'
     | '/cirklen'
+    | '/find-dit-ritual'
     | '/fragt'
     | '/handelsbetingelser'
     | '/kontakt'
@@ -226,6 +267,7 @@ export interface FileRouteTypes {
     | '/returpolitik'
     | '/shop'
     | '/collections/$handle'
+    | '/gaver/fars-dag'
     | '/guides/$slug'
     | '/pages/damaskus-kniv'
     | '/pages/den-forste-rigtige-kokkekniv'
@@ -233,12 +275,15 @@ export interface FileRouteTypes {
     | '/pages/knivholder-i-trae'
     | '/pages/sadan-holder-du-din-kniv-skarp'
     | '/product/$handle'
+    | '/ritualer/hold-kniven-skarp'
+    | '/ritualer/rolig-opbevaring'
     | '/guides'
   id:
     | '__root__'
     | '/'
     | '/audit'
     | '/cirklen'
+    | '/find-dit-ritual'
     | '/fragt'
     | '/handelsbetingelser'
     | '/kontakt'
@@ -247,6 +292,7 @@ export interface FileRouteTypes {
     | '/returpolitik'
     | '/shop'
     | '/collections/$handle'
+    | '/gaver/fars-dag'
     | '/guides/$slug'
     | '/pages/damaskus-kniv'
     | '/pages/den-forste-rigtige-kokkekniv'
@@ -254,6 +300,8 @@ export interface FileRouteTypes {
     | '/pages/knivholder-i-trae'
     | '/pages/sadan-holder-du-din-kniv-skarp'
     | '/product/$handle'
+    | '/ritualer/hold-kniven-skarp'
+    | '/ritualer/rolig-opbevaring'
     | '/guides/'
   fileRoutesById: FileRoutesById
 }
@@ -261,6 +309,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuditRoute: typeof AuditRoute
   CirklenRoute: typeof CirklenRoute
+  FindDitRitualRoute: typeof FindDitRitualRoute
   FragtRoute: typeof FragtRoute
   HandelsbetingelserRoute: typeof HandelsbetingelserRoute
   KontaktRoute: typeof KontaktRoute
@@ -269,6 +318,7 @@ export interface RootRouteChildren {
   ReturpolitikRoute: typeof ReturpolitikRoute
   ShopRoute: typeof ShopRoute
   CollectionsHandleRoute: typeof CollectionsHandleRoute
+  GaverFarsDagRoute: typeof GaverFarsDagRoute
   GuidesSlugRoute: typeof GuidesSlugRoute
   PagesDamaskusKnivRoute: typeof PagesDamaskusKnivRoute
   PagesDenForsteRigtigeKokkeknivRoute: typeof PagesDenForsteRigtigeKokkeknivRoute
@@ -276,6 +326,8 @@ export interface RootRouteChildren {
   PagesKnivholderITraeRoute: typeof PagesKnivholderITraeRoute
   PagesSadanHolderDuDinKnivSkarpRoute: typeof PagesSadanHolderDuDinKnivSkarpRoute
   ProductHandleRoute: typeof ProductHandleRoute
+  RitualerHoldKnivenSkarpRoute: typeof RitualerHoldKnivenSkarpRoute
+  RitualerRoligOpbevaringRoute: typeof RitualerRoligOpbevaringRoute
   GuidesIndexRoute: typeof GuidesIndexRoute
 }
 
@@ -330,6 +382,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof FragtRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/find-dit-ritual': {
+      id: '/find-dit-ritual'
+      path: '/find-dit-ritual'
+      fullPath: '/find-dit-ritual'
+      preLoaderRoute: typeof FindDitRitualRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/cirklen': {
       id: '/cirklen'
       path: '/cirklen'
@@ -356,6 +415,20 @@ declare module '@tanstack/react-router' {
       path: '/guides'
       fullPath: '/guides/'
       preLoaderRoute: typeof GuidesIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/ritualer/rolig-opbevaring': {
+      id: '/ritualer/rolig-opbevaring'
+      path: '/ritualer/rolig-opbevaring'
+      fullPath: '/ritualer/rolig-opbevaring'
+      preLoaderRoute: typeof RitualerRoligOpbevaringRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/ritualer/hold-kniven-skarp': {
+      id: '/ritualer/hold-kniven-skarp'
+      path: '/ritualer/hold-kniven-skarp'
+      fullPath: '/ritualer/hold-kniven-skarp'
+      preLoaderRoute: typeof RitualerHoldKnivenSkarpRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/product/$handle': {
@@ -407,6 +480,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof GuidesSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/gaver/fars-dag': {
+      id: '/gaver/fars-dag'
+      path: '/gaver/fars-dag'
+      fullPath: '/gaver/fars-dag'
+      preLoaderRoute: typeof GaverFarsDagRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/collections/$handle': {
       id: '/collections/$handle'
       path: '/collections/$handle'
@@ -421,6 +501,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuditRoute: AuditRoute,
   CirklenRoute: CirklenRoute,
+  FindDitRitualRoute: FindDitRitualRoute,
   FragtRoute: FragtRoute,
   HandelsbetingelserRoute: HandelsbetingelserRoute,
   KontaktRoute: KontaktRoute,
@@ -429,6 +510,7 @@ const rootRouteChildren: RootRouteChildren = {
   ReturpolitikRoute: ReturpolitikRoute,
   ShopRoute: ShopRoute,
   CollectionsHandleRoute: CollectionsHandleRoute,
+  GaverFarsDagRoute: GaverFarsDagRoute,
   GuidesSlugRoute: GuidesSlugRoute,
   PagesDamaskusKnivRoute: PagesDamaskusKnivRoute,
   PagesDenForsteRigtigeKokkeknivRoute: PagesDenForsteRigtigeKokkeknivRoute,
@@ -436,6 +518,8 @@ const rootRouteChildren: RootRouteChildren = {
   PagesKnivholderITraeRoute: PagesKnivholderITraeRoute,
   PagesSadanHolderDuDinKnivSkarpRoute: PagesSadanHolderDuDinKnivSkarpRoute,
   ProductHandleRoute: ProductHandleRoute,
+  RitualerHoldKnivenSkarpRoute: RitualerHoldKnivenSkarpRoute,
+  RitualerRoligOpbevaringRoute: RitualerRoligOpbevaringRoute,
   GuidesIndexRoute: GuidesIndexRoute,
 }
 export const routeTree = rootRouteImport
