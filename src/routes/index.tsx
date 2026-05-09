@@ -9,9 +9,10 @@ import { HeroVideo } from "@/components/landing/HeroVideo";
 import { storefrontApiRequest, PRODUCTS_QUERY, type ShopifyProduct } from "@/lib/shopify";
 
 import heroPoster from "@/assets/hero-kitchen.jpg";
-import materialSteel from "@/assets/material-steel.jpg";
-import materialWalnut from "@/assets/material-walnut.jpg";
-import materialStone from "@/assets/material-stone.jpg";
+
+const MATERIAL_STEEL = "https://cdn.shopify.com/s/files/1/0915/7227/3488/files/ln-material-damascus-01.png?v=1778143706";
+const MATERIAL_WALNUT = "https://cdn.shopify.com/s/files/1/0915/7227/3488/files/ln-material-walnut-01.png?v=1778143731";
+const MATERIAL_STONE = "https://cdn.shopify.com/s/files/1/0915/7227/3488/files/ln-material-whetstone-01.png?v=1778143769";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -232,15 +233,15 @@ function HomePage() {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-10">
             {[
-              { name: "Stål", text: "Lagdelt. Skarpt. Skabt til præcision.", img: materialSteel },
-              { name: "Træ", text: "Varmt, levende og forskelligt fra håndtag til håndtag.", img: materialWalnut },
-              { name: "Sten", text: "Skarphed kræver tålmodighed.", img: materialStone },
+              { name: "Stål", text: "Lagdelt. Skarpt. Skabt til præcision.", img: MATERIAL_STEEL, alt: "Langsomt Nok Damascus stål makro med lagdelt mønster" },
+              { name: "Træ", text: "Varmt, levende og forskelligt fra håndtag til håndtag.", img: MATERIAL_WALNUT, alt: "Langsomt Nok valnøddetræ makro med varm åretegning" },
+              { name: "Sten", text: "Skarphed kræver tålmodighed.", img: MATERIAL_STONE, alt: "Langsomt Nok slibesten med vanddråber og stille tekstur" },
             ].map((m) => (
               <article key={m.name} className="group">
                 <div className="overflow-hidden rounded-lg mb-6 aspect-[4/5]">
                   <img
                     src={m.img}
-                    alt={`Langsomt Nok ${m.name.toLowerCase()} close-up`}
+                    alt={m.alt}
                     loading="lazy"
                     className="w-full h-full object-cover transition-transform duration-[1200ms] ease-out group-hover:scale-[1.04]"
                   />
@@ -291,8 +292,8 @@ function HomePage() {
             <div className="lg:col-span-6 order-2 lg:order-1">
               <div className="overflow-hidden rounded-lg aspect-[4/5] lg:aspect-[5/6]">
                 <img
-                  src={materialSteel}
-                  alt="Damascus stål close-up med synligt lagmønster"
+                  src={MATERIAL_STEEL}
+                  alt="Langsomt Nok Damascus stål makro med lagdelt mønster"
                   loading="lazy"
                   className="w-full h-full object-cover"
                 />
