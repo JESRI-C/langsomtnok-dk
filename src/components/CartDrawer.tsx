@@ -20,7 +20,7 @@
 
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
-import { Minus, Plus, Trash2, Loader2, ArrowRight } from "lucide-react";
+import { Minus, Plus, Trash2, Loader2, ArrowRight, ShieldCheck } from "lucide-react";
 import { useCartStore } from "@/stores/cartStore";
 import { formatPrice } from "@/lib/shopify";
 
