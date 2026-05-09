@@ -40,8 +40,8 @@ function OpbevaringPage() {
   const [products, setProducts] = useState<ShopifyProduct[]>([]);
 
   useEffect(() => {
-    trackEvent("landing_page_view" as never, { page: "rolig_opbevaring" });
-    fetchProductsByQuery("product_type:'The Calm Kitchen'", 20).then(setProducts);
+    trackEvent("landing_page_view", { page: "rolig_opbevaring" });
+    fetchProductsByQuery('product_type:"The Calm Kitchen"', 20).then(setProducts);
   }, []);
 
   return (
