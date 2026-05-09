@@ -45,14 +45,21 @@ const FALLBACK: CampaignContent = {
 };
 
 export const Route = createFileRoute("/find-dit-ritual")({
-  head: () => ({
-    meta: [
-      { title: FALLBACK.seo_title! },
-      { name: "description", content: FALLBACK.seo_description! },
-      { property: "og:title", content: FALLBACK.seo_title! },
-      { property: "og:description", content: FALLBACK.seo_description! },
-    ],
-  }),
+  head: () =>
+    buildCampaignHead({
+      pathname: "/find-dit-ritual",
+      title: FALLBACK.seo_title!,
+      description: FALLBACK.seo_description!,
+      breadcrumbs: [
+        { name: "Forside", url: `${SITE_ORIGIN}/` },
+        { name: "Find dit ritual", url: `${SITE_ORIGIN}/find-dit-ritual` },
+      ],
+      itemListName: "Find dit køkkenritual",
+      itemList: (FALLBACK.guide_cards ?? []).map((c) => ({
+        name: c.title,
+        url: c.href?.startsWith("http") ? c.href : `${SITE_ORIGIN}${c.href ?? "/find-dit-ritual"}`,
+      })),
+    }),
   component: FindRitualPage,
 });
 
