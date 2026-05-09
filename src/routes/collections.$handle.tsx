@@ -82,6 +82,14 @@ const COLLECTION_PRODUCT_TYPE_FALLBACK: Record<string, string> = {
   "magnetisk-opbevaring": 'product_type:"The Calm Kitchen"',
   gaver: 'product_type:"The Gift Chapter"',
   "start-dit-ritual": "",
+  // Keramik — bruges hvis Shopify-kollektionerne endnu ikke er publiceret
+  // til Storefront API sales channel (Headless / Online Store).
+  "handlavet-keramik": "product_type:Keramik",
+  "susan-riel": 'vendor:"Susan Riel"',
+  keramikkopper: "product_type:Keramik AND tag:kop",
+  keramikskale: "product_type:Keramik AND (tag:skål OR tag:skaal)",
+  keramikvaser: "product_type:Keramik AND tag:vase",
+  keramikunika: "product_type:Keramik AND tag:unika",
 };
 
 export const Route = createFileRoute("/collections/$handle")({

@@ -11,6 +11,7 @@ import { ImageSlot } from "@/components/ImageSlot";
 import {
   storefrontApiRequest,
   COLLECTION_BY_HANDLE_QUERY,
+  PRODUCTS_QUERY,
   type ShopifyProduct,
 } from "@/lib/shopify";
 
@@ -69,9 +70,19 @@ function KeramikCollectionPage() {
       sortKey: "COLLECTION_DEFAULT",
       reverse: false,
     })
-      .then((data) => {
+      .then(async (data) => {
         const edges = data?.data?.collection?.products?.edges ?? [];
-        setProducts(edges);
+        if (edges.length > 0) {
+          setProducts(edges);
+          return;
+        }
+        // Fallback: Storefront API kan ikke se kollektionen (ikke publiceret
+        // til Headless/Online Store sales channel) — hent på product_type.
+        const fb = await storefrontApiRequest(PRODUCTS_QUERY, {
+          first: 50,
+          query: "product_type:Keramik",
+        });
+        setProducts(fb?.data?.products?.edges ?? []);
       })
       .catch(console.error)
       .finally(() => setLoading(false));
