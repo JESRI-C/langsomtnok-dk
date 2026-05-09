@@ -16,6 +16,7 @@ import { Route as OmRouteImport } from './routes/om'
 import { Route as KontaktRouteImport } from './routes/kontakt'
 import { Route as HandelsbetingelserRouteImport } from './routes/handelsbetingelser'
 import { Route as FragtRouteImport } from './routes/fragt'
+import { Route as FindDitRitualRouteImport } from './routes/find-dit-ritual'
 import { Route as CirklenRouteImport } from './routes/cirklen'
 import { Route as AuditRouteImport } from './routes/audit'
 import { Route as IndexRouteImport } from './routes/index'
@@ -65,6 +66,11 @@ const HandelsbetingelserRoute = HandelsbetingelserRouteImport.update({
 const FragtRoute = FragtRouteImport.update({
   id: '/fragt',
   path: '/fragt',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FindDitRitualRoute = FindDitRitualRouteImport.update({
+  id: '/find-dit-ritual',
+  path: '/find-dit-ritual',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CirklenRoute = CirklenRouteImport.update({
@@ -149,6 +155,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/audit': typeof AuditRoute
   '/cirklen': typeof CirklenRoute
+  '/find-dit-ritual': typeof FindDitRitualRoute
   '/fragt': typeof FragtRoute
   '/handelsbetingelser': typeof HandelsbetingelserRoute
   '/kontakt': typeof KontaktRoute
@@ -173,6 +180,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/audit': typeof AuditRoute
   '/cirklen': typeof CirklenRoute
+  '/find-dit-ritual': typeof FindDitRitualRoute
   '/fragt': typeof FragtRoute
   '/handelsbetingelser': typeof HandelsbetingelserRoute
   '/kontakt': typeof KontaktRoute
@@ -198,6 +206,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/audit': typeof AuditRoute
   '/cirklen': typeof CirklenRoute
+  '/find-dit-ritual': typeof FindDitRitualRoute
   '/fragt': typeof FragtRoute
   '/handelsbetingelser': typeof HandelsbetingelserRoute
   '/kontakt': typeof KontaktRoute
@@ -224,6 +233,7 @@ export interface FileRouteTypes {
     | '/'
     | '/audit'
     | '/cirklen'
+    | '/find-dit-ritual'
     | '/fragt'
     | '/handelsbetingelser'
     | '/kontakt'
@@ -248,6 +258,7 @@ export interface FileRouteTypes {
     | '/'
     | '/audit'
     | '/cirklen'
+    | '/find-dit-ritual'
     | '/fragt'
     | '/handelsbetingelser'
     | '/kontakt'
@@ -272,6 +283,7 @@ export interface FileRouteTypes {
     | '/'
     | '/audit'
     | '/cirklen'
+    | '/find-dit-ritual'
     | '/fragt'
     | '/handelsbetingelser'
     | '/kontakt'
@@ -297,6 +309,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuditRoute: typeof AuditRoute
   CirklenRoute: typeof CirklenRoute
+  FindDitRitualRoute: typeof FindDitRitualRoute
   FragtRoute: typeof FragtRoute
   HandelsbetingelserRoute: typeof HandelsbetingelserRoute
   KontaktRoute: typeof KontaktRoute
@@ -367,6 +380,13 @@ declare module '@tanstack/react-router' {
       path: '/fragt'
       fullPath: '/fragt'
       preLoaderRoute: typeof FragtRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/find-dit-ritual': {
+      id: '/find-dit-ritual'
+      path: '/find-dit-ritual'
+      fullPath: '/find-dit-ritual'
+      preLoaderRoute: typeof FindDitRitualRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/cirklen': {
@@ -481,6 +501,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuditRoute: AuditRoute,
   CirklenRoute: CirklenRoute,
+  FindDitRitualRoute: FindDitRitualRoute,
   FragtRoute: FragtRoute,
   HandelsbetingelserRoute: HandelsbetingelserRoute,
   KontaktRoute: KontaktRoute,
