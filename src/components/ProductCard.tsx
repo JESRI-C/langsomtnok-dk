@@ -92,10 +92,10 @@ export function ProductCard({ product }: { product: ShopifyProduct }) {
           </div>
           <button
             onClick={handleAddToCart}
-            disabled={isLoading || !variant?.availableForSale}
+            disabled={isLoading || !variant?.availableForSale || parseFloat(price.amount) <= 0}
             className="text-xs font-medium text-cta hover:text-cta/80 transition-colors disabled:opacity-50"
           >
-            {isLoading ? <Loader2 className="w-3 h-3 animate-spin" /> : soldOut ? soldLabel : "Tilføj til ritualet"}
+            {isLoading ? <Loader2 className="w-3 h-3 animate-spin" /> : parseFloat(price.amount) <= 0 ? "På vej" : soldOut ? soldLabel : "Tilføj til ritualet"}
           </button>
         </div>
       </div>
