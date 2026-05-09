@@ -81,8 +81,9 @@ function SkarpPage() {
         subheadline={c.hero_subheading!}
         primaryCta={{ label: c.primary_cta_text!, to: c.primary_cta_url! }}
         imageSlot={{
-          name: IMAGE_SLOTS.heroes.giftLandingHero.name,
+          name: IMAGE_SLOTS.heroes.sharpeningLandingHero.name,
           motif: "Slibesten på valnøddetræ med vanddråber og linned i naturligt sidelys",
+          src: "https://cdn.shopify.com/s/files/1/0915/7227/3488/files/ChatGPT_Image_9._maj_2026_21.36.26.png?v=1778355436",
         }}
         variant="overlay"
       />
