@@ -282,6 +282,14 @@ function HomePage() {
               </Link>
             ))}
           </div>
+          <div className="mt-10 text-center">
+            <a
+              href="/find-dit-ritual"
+              className="inline-flex items-center gap-2 text-sm font-medium text-walnut border-b border-walnut/30 pb-1 hover:gap-3 transition-all"
+            >
+              Find dit køkkenritual <ArrowRight className="w-3.5 h-3.5" />
+            </a>
+          </div>
         </div>
       </section>
 
