@@ -6,8 +6,20 @@ import { TrustBar } from "@/components/landing/TrustBar";
 import { FAQAccordion } from "@/components/landing/FAQAccordion";
 import { CalmCTASection } from "@/components/landing/CalmCTASection";
 import { NewsletterSignup } from "@/components/NewsletterSignup";
-import { ImageSlot, IMAGE_SLOTS } from "@/components/ImageSlot";
+import { ImageSlot } from "@/components/ImageSlot";
+import { InternalLinksSection } from "@/components/landing/InternalLinksSection";
+import { PaymentTrustSection } from "@/components/landing/PaymentTrustSection";
 import { fetchProductsByHandles, type ShopifyProduct } from "@/lib/shopify";
+import { buildFaqSchemaScript } from "@/lib/faq-schema";
+
+const PAGE_SLUG = "slibesten-guide";
+const CATEGORY = "sharpening";
+
+const FAQ_ITEMS = [
+  { question: "Hvor tit skal jeg slibe min kniv?", answer: "Til hjemmebrug typisk hver 2.–3. måned. Bruger du kniven dagligt, måske oftere." },
+  { question: "Kan jeg slibe alle knive på samme sten?", answer: "Næsten alle. Meget hårde japanske knive (over HRC 62) trives bedst med japanske vandsten." },
+  { question: "Hvad gør jeg, hvis jeg ikke kan finde vinklen?", answer: "Læg en mønt under bagkanten af bladet — det giver en god udgangsvinkel." },
+];
 
 export const Route = createFileRoute("/pages/slibesten-guide")({
   head: () => ({
@@ -16,7 +28,10 @@ export const Route = createFileRoute("/pages/slibesten-guide")({
       { name: "description", content: "Vælg den rette slibesten og lær teknikken trin for trin. En rolig guide til skarpe knive derhjemme." },
       { property: "og:title", content: "Slibning behøver ikke være svært" },
       { property: "og:description", content: "Vælg den rette slibesten og lær teknikken trin for trin." },
+      { property: "og:image", content: "https://cdn.shopify.com/s/files/1/0915/7227/3488/files/minimal_wooden_Sharpening_stone_setup.png?v=1778398237" },
     ],
+    links: [{ rel: "canonical", href: "https://langsomtnok.dk/pages/slibesten-guide" }],
+    scripts: [buildFaqSchemaScript(FAQ_ITEMS)],
   }),
   component: Page,
 });
@@ -39,10 +54,17 @@ function Page() {
       <LandingPageHero
         headline="Slibning behøver ikke være svært."
         subheadline="En rolig stund. Lidt vand. Den rette sten. Resten kommer af sig selv."
-        primaryCta={{ label: "Begynd her", to: "#guide" }}
-        secondaryCta={{ label: "Se slibesten", to: "/shop" }}
-        imageSlot={{ name: "image_slibesten_hero", motif: IMAGE_SLOTS.heroes.sharpeningLandingHero.motif, src: "https://cdn.shopify.com/s/files/1/0915/7227/3488/files/minimal_wooden_Sharpening_stone_setup.png?v=1778398237" }}
+        primaryCta={{ label: "Begynd her", to: "/shop", intent: "view_products" }}
+        secondaryCta={{ label: "Se hvordan det føles", to: "/pages/saadan-sliber-du-din-kniv", intent: "watch_guide" }}
+        imageSlot={{
+          name: "image_slibesten_hero",
+          motif: "Slibesten på træbord med kniv og vand i naturligt lys",
+          alt: "Slibesten på træbord med kniv og vand i naturligt lys",
+          src: "https://cdn.shopify.com/s/files/1/0915/7227/3488/files/minimal_wooden_Sharpening_stone_setup.png?v=1778398237",
+        }}
         variant="overlay"
+        trackingPage={PAGE_SLUG}
+        trackingCategory={CATEGORY}
       />
 
       <TrustBar />
@@ -93,11 +115,21 @@ function Page() {
               </li>
             ))}
           </ol>
-          <div className="mt-10 aspect-video rounded-lg overflow-hidden">
-            <ImageSlot name="video_slibning" ratio="16/9" motif="Video: slibning trin for trin på en japansk slibesten" variant="warm" />
+          <div className="mt-10">
+            <ImageSlot name="video_slibning" ratio="16/9" motif="Video: slibning trin for trin på en japansk slibesten" alt="Video: slibning trin for trin på en japansk slibesten" variant="warm" />
+            <p className="text-center text-sm text-muted-foreground mt-4 max-w-xl mx-auto">
+              Videoen lægges ind her, når optagelsen er klar. Indtil da kan du gå direkte til produkterne eller læse guiden trin for trin.
+            </p>
           </div>
           <div className="text-center mt-6">
-            <Link to="/pages/saadan-sliber-du-din-kniv" className="cta-secondary text-sm font-medium text-cta hover:text-cta/80">
+            <Link
+              to="/pages/saadan-sliber-du-din-kniv"
+              className="cta-video-watch text-sm font-medium text-cta hover:text-cta/80"
+              data-track-event="landing_video_cta_click"
+              data-track-page={PAGE_SLUG}
+              data-track-intent="watch_guide"
+              data-track-product-category={CATEGORY}
+            >
               Se den fulde video-guide →
             </Link>
           </div>
@@ -106,11 +138,9 @@ function Page() {
 
       <ProductRecommendationBlock title="Slibesten og plejeudstyr" subtitle="De redskaber, der gør ritualet roligt." products={products} />
 
-      <FAQAccordion items={[
-        { question: "Hvor tit skal jeg slibe min kniv?", answer: "Til hjemmebrug typisk hver 2.–3. måned. Bruger du kniven dagligt, måske oftere." },
-        { question: "Kan jeg slibe alle knive på samme sten?", answer: "Næsten alle. Meget hårde japanske knive (over HRC 62) trives bedst med japanske vandsten." },
-        { question: "Hvad gør jeg, hvis jeg ikke kan finde vinklen?", answer: "Læg en mønt under bagkanten af bladet — det giver en god udgangsvinkel." },
-      ]} />
+      <PaymentTrustSection />
+
+      <FAQAccordion items={FAQ_ITEMS} />
 
       <CalmCTASection
         headline="Find roen i ritualet."
@@ -118,6 +148,17 @@ function Page() {
         cta={{ label: "Se slibesten", to: "/shop" }}
         secondaryCta={{ label: "Find dit ritual", to: "/find-dit-ritual" }}
         variant="warm"
+        trackingPage={PAGE_SLUG}
+        trackingCategory={CATEGORY}
+      />
+
+      <InternalLinksSection
+        page={PAGE_SLUG}
+        links={[
+          { to: "/pages/saadan-sliber-du-din-kniv", title: "Sådan sliber du din kniv", description: "Video og trin-for-trin gennemgang.", category: "sharpening" },
+          { to: "/pages/gaver-med-ro", title: "Gaver, der bliver brugt", description: "En slibesten er en gave til den, der allerede har en kniv.", category: "gifts" },
+          { to: "/pages/koekkenet-som-fristed", title: "Køkkenet som fristed", description: "Hele Langsomt Noks univers samlet.", category: "brand_universe" },
+        ]}
       />
 
       <NewsletterSignup variant="dark" />

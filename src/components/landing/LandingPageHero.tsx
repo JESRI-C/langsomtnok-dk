@@ -2,18 +2,29 @@ import { Button } from "@/components/ui/button";
 import { Link } from "@tanstack/react-router";
 import { ImageSlot } from "@/components/ImageSlot";
 
+interface CTAConfig {
+  label: string;
+  to: string;
+  className?: string;
+  intent?: string;
+}
+
 interface LandingPageHeroProps {
   headline: string;
   subheadline: string;
-  primaryCta: { label: string; to: string };
-  secondaryCta?: { label: string; to: string };
+  primaryCta: CTAConfig;
+  secondaryCta?: CTAConfig;
   /** ImageSlot props for the background */
   imageSlot?: {
     name: string;
     motif: string;
     src?: string;
+    alt?: string;
   };
   variant?: "light" | "dark" | "overlay";
+  /** Tracking metadata propagated to both CTAs */
+  trackingPage?: string;
+  trackingCategory?: string;
 }
 
 export function LandingPageHero({
@@ -23,8 +34,19 @@ export function LandingPageHero({
   secondaryCta,
   imageSlot,
   variant = "overlay",
+  trackingPage = "",
+  trackingCategory = "brand_universe",
 }: LandingPageHeroProps) {
   const isDark = variant === "dark" || variant === "overlay";
+  const heroAlt = imageSlot?.alt || imageSlot?.motif || "";
+
+  const trackProps = (intent: string, cls: string) => ({
+    className: cls,
+    "data-track-event": "hero_cta_click",
+    "data-track-page": trackingPage,
+    "data-track-intent": intent,
+    "data-track-product-category": trackingCategory,
+  });
 
   // Overlay variant: image as background with text on top
   if (variant === "overlay" && imageSlot) {
@@ -32,12 +54,12 @@ export function LandingPageHero({
       <section className="relative min-h-[70vh] flex items-center justify-center overflow-hidden">
         {imageSlot.src ? (
           <>
-            <img src={imageSlot.src} alt={imageSlot.motif} className="absolute inset-0 w-full h-full object-cover" />
+            <img src={imageSlot.src} alt={heroAlt} className="absolute inset-0 w-full h-full object-cover" />
             <div className="absolute inset-0 bg-deep/60" />
           </>
         ) : (
           <div className="absolute inset-0">
-            <ImageSlot name={imageSlot.name} ratio="16/9" motif={imageSlot.motif} variant="dark" className="w-full h-full rounded-none" />
+            <ImageSlot name={imageSlot.name} ratio="16/9" motif={imageSlot.motif} alt={heroAlt} variant="dark" className="w-full h-full rounded-none" />
             <div className="absolute inset-0 bg-deep/40" />
           </div>
         )}
@@ -50,11 +72,15 @@ export function LandingPageHero({
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <Button asChild variant="cta" size="lg" className="min-w-[200px]">
-              <Link to={primaryCta.to}>{primaryCta.label}</Link>
+              <Link to={primaryCta.to} {...trackProps(primaryCta.intent || "view_products", `cta-primary ${primaryCta.className || ""}`.trim())}>
+                {primaryCta.label}
+              </Link>
             </Button>
             {secondaryCta && (
               <Button asChild variant="hero-outline" size="lg" className="min-w-[200px] border-deep-foreground/30 text-deep-foreground hover:bg-deep-foreground/10">
-                <Link to={secondaryCta.to}>{secondaryCta.label}</Link>
+                <Link to={secondaryCta.to} {...trackProps(secondaryCta.intent || "explore_related", `cta-secondary ${secondaryCta.className || ""}`.trim())}>
+                  {secondaryCta.label}
+                </Link>
               </Button>
             )}
           </div>
@@ -76,11 +102,15 @@ export function LandingPageHero({
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <Button asChild variant="cta" size="lg" className="min-w-[200px]">
-              <Link to={primaryCta.to}>{primaryCta.label}</Link>
+              <Link to={primaryCta.to} {...trackProps(primaryCta.intent || "view_products", `cta-primary ${primaryCta.className || ""}`.trim())}>
+                {primaryCta.label}
+              </Link>
             </Button>
             {secondaryCta && (
               <Button asChild variant="outline" size="lg" className={`min-w-[200px] ${isDark ? "border-deep-foreground/20 text-deep-foreground hover:bg-deep-foreground/5" : ""}`}>
-                <Link to={secondaryCta.to}>{secondaryCta.label}</Link>
+                <Link to={secondaryCta.to} {...trackProps(secondaryCta.intent || "explore_related", `cta-secondary ${secondaryCta.className || ""}`.trim())}>
+                  {secondaryCta.label}
+                </Link>
               </Button>
             )}
           </div>
@@ -92,7 +122,7 @@ export function LandingPageHero({
               ratio="21/9"
               src={imageSlot.src}
               motif={imageSlot.motif}
-              alt={imageSlot.motif}
+              alt={heroAlt}
               variant={isDark ? "dark" : "warm"}
             />
           </div>

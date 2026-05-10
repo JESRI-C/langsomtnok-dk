@@ -6,8 +6,19 @@ import { TrustBar } from "@/components/landing/TrustBar";
 import { FAQAccordion } from "@/components/landing/FAQAccordion";
 import { CalmCTASection } from "@/components/landing/CalmCTASection";
 import { NewsletterSignup } from "@/components/NewsletterSignup";
-import { ImageSlot, IMAGE_SLOTS } from "@/components/ImageSlot";
+import { InternalLinksSection } from "@/components/landing/InternalLinksSection";
+import { PaymentTrustSection } from "@/components/landing/PaymentTrustSection";
 import { fetchProductsByHandles, type ShopifyProduct } from "@/lib/shopify";
+import { buildFaqSchemaScript } from "@/lib/faq-schema";
+
+const PAGE_SLUG = "hvilken-knivholder-skal-jeg-vaelge";
+const CATEGORY = "knife_holder";
+
+const FAQ_ITEMS = [
+  { question: "Kan jeg flytte en magnetisk stander?", answer: "Ja. Den står frit på bordpladen — ingen montering, ingen huller." },
+  { question: "Hvor stærk skal magneten være?", answer: "Stærk nok til at holde de tungeste knive uden at de glider. Vores holdere er testet til kokkeknive på 250 g+." },
+  { question: "Hvad med rustfri knive?", answer: "Næsten alle køkkenknive indeholder nok jern til at hænge magnetisk." },
+];
 
 export const Route = createFileRoute("/pages/hvilken-knivholder-skal-jeg-vaelge")({
   head: () => ({
@@ -16,7 +27,10 @@ export const Route = createFileRoute("/pages/hvilken-knivholder-skal-jeg-vaelge"
       { name: "description", content: "Magnetisk knivlist, knivblok eller frit-stående stander? En rolig guide til at vælge den rette knivholder til dit køkken." },
       { property: "og:title", content: "Hvilken knivholder passer til dit køkken?" },
       { property: "og:description", content: "En rolig guide til at vælge mellem væglist, blok og stander." },
+      { property: "og:image", content: "https://cdn.shopify.com/s/files/1/0915/7227/3488/files/IMG_6147.jpg?v=1773564482" },
     ],
+    links: [{ rel: "canonical", href: "https://langsomtnok.dk/pages/hvilken-knivholder-skal-jeg-vaelge" }],
+    scripts: [buildFaqSchemaScript(FAQ_ITEMS)],
   }),
   component: Page,
 });
@@ -42,10 +56,17 @@ function Page() {
       <LandingPageHero
         headline="Hvilken knivholder passer til dit køkken?"
         subheadline="Tre typer. Tre forskellige liv i køkkenet. Find den, der hører til dit."
-        primaryCta={{ label: "Se sammenligning", to: "#sammenligning" }}
-        secondaryCta={{ label: "Se udvalget", to: "/shop" }}
-        imageSlot={{ name: IMAGE_SLOTS.heroes.woodenKnifeHolderLandingHero.name, motif: IMAGE_SLOTS.heroes.woodenKnifeHolderLandingHero.motif }}
+        primaryCta={{ label: "Se sammenligning", to: "/pages/hvilken-knivholder-skal-jeg-vaelge", intent: "view_comparison" }}
+        secondaryCta={{ label: "Se udvalget", to: "/shop", intent: "view_products" }}
+        imageSlot={{
+          name: "image_knivholder_guide_hero",
+          motif: "Magnetisk knivholder i træ med køkkenknive i roligt nordisk køkken",
+          alt: "Magnetisk knivholder i træ med køkkenknive i roligt nordisk køkken",
+          src: "https://cdn.shopify.com/s/files/1/0915/7227/3488/files/IMG_6147.jpg?v=1773564482",
+        }}
         variant="overlay"
+        trackingPage={PAGE_SLUG}
+        trackingCategory={CATEGORY}
       />
 
       <TrustBar />
@@ -90,20 +111,25 @@ function Page() {
 
       <ProductRecommendationBlock title="Vores anbefalede holdere" subtitle="Håndlavet i træ. Stærke magneter. Roligt udtryk." products={products} />
 
+      <PaymentTrustSection />
+
       <section className="section-padding">
         <div className="container-calm max-w-3xl text-center">
           <p className="text-muted-foreground text-editorial mb-4">Brug for at se den i sit eget køkken først?</p>
-          <Link to="/pages/knivholder-til-koekkenet" className="cta-secondary text-sm font-medium text-cta hover:text-cta/80">
+          <Link
+            to="/pages/knivholder-til-koekkenet"
+            className="cta-secondary text-sm font-medium text-cta hover:text-cta/80"
+            data-track-event="landing_internal_link_click"
+            data-track-page={PAGE_SLUG}
+            data-track-intent="explore_related"
+            data-track-product-category={CATEGORY}
+          >
             Læs mere om knivholderen, der samler køkkenet →
           </Link>
         </div>
       </section>
 
-      <FAQAccordion items={[
-        { question: "Kan jeg flytte en magnetisk stander?", answer: "Ja. Den står frit på bordpladen — ingen montering, ingen huller." },
-        { question: "Hvor stærk skal magneten være?", answer: "Stærk nok til at holde de tungeste knive uden at de glider. Vores holdere er testet til kokkeknive på 250 g+." },
-        { question: "Hvad med rustfri knive?", answer: "Næsten alle køkkenknive indeholder nok jern til at hænge magnetisk." },
-      ]} />
+      <FAQAccordion items={FAQ_ITEMS} />
 
       <CalmCTASection
         headline="Vælg den, der passer til dit liv."
@@ -111,6 +137,17 @@ function Page() {
         cta={{ label: "Se udvalget", to: "/shop" }}
         secondaryCta={{ label: "Find dit ritual", to: "/find-dit-ritual" }}
         variant="warm"
+        trackingPage={PAGE_SLUG}
+        trackingCategory={CATEGORY}
+      />
+
+      <InternalLinksSection
+        page={PAGE_SLUG}
+        links={[
+          { to: "/pages/knivholder-til-koekkenet", title: "Knivholderen, der samler køkkenet", description: "Hovedsiden om magnetiske holdere.", category: "knife_holder" },
+          { to: "/pages/gaver-med-ro", title: "Gaver, der bliver brugt", description: "Find en gave med ro.", category: "gifts" },
+          { to: "/pages/koekkenet-som-fristed", title: "Køkkenet som fristed", description: "Hele Langsomt Noks univers.", category: "brand_universe" },
+        ]}
       />
 
       <NewsletterSignup variant="dark" />
