@@ -27,8 +27,16 @@ import { Route as UniversetSlugRouteImport } from './routes/universet.$slug'
 import { Route as RitualerRoligOpbevaringRouteImport } from './routes/ritualer.rolig-opbevaring'
 import { Route as RitualerHoldKnivenSkarpRouteImport } from './routes/ritualer.hold-kniven-skarp'
 import { Route as ProductHandleRouteImport } from './routes/product.$handle'
+import { Route as PagesSommerbordMedKeramikRouteImport } from './routes/pages.sommerbord-med-keramik'
+import { Route as PagesSlibestenGuideRouteImport } from './routes/pages.slibesten-guide'
 import { Route as PagesSadanHolderDuDinKnivSkarpRouteImport } from './routes/pages.sadan-holder-du-din-kniv-skarp'
+import { Route as PagesSaadanSliberDuDinKnivRouteImport } from './routes/pages.saadan-sliber-du-din-kniv'
+import { Route as PagesKoekkenetSomFristedRouteImport } from './routes/pages.koekkenet-som-fristed'
+import { Route as PagesKnivholderTilKoekkenetRouteImport } from './routes/pages.knivholder-til-koekkenet'
 import { Route as PagesKnivholderITraeRouteImport } from './routes/pages.knivholder-i-trae'
+import { Route as PagesHvilkenKnivholderSkalJegVaelgeRouteImport } from './routes/pages.hvilken-knivholder-skal-jeg-vaelge'
+import { Route as PagesHaandlavetKeramikRouteImport } from './routes/pages.haandlavet-keramik'
+import { Route as PagesGaverMedRoRouteImport } from './routes/pages.gaver-med-ro'
 import { Route as PagesGaveTilMadelskerenRouteImport } from './routes/pages.gave-til-madelskeren'
 import { Route as PagesDenForsteRigtigeKokkeknivRouteImport } from './routes/pages.den-forste-rigtige-kokkekniv'
 import { Route as PagesDamaskusKnivRouteImport } from './routes/pages.damaskus-kniv'
@@ -129,15 +137,60 @@ const ProductHandleRoute = ProductHandleRouteImport.update({
   path: '/product/$handle',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PagesSommerbordMedKeramikRoute =
+  PagesSommerbordMedKeramikRouteImport.update({
+    id: '/pages/sommerbord-med-keramik',
+    path: '/pages/sommerbord-med-keramik',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const PagesSlibestenGuideRoute = PagesSlibestenGuideRouteImport.update({
+  id: '/pages/slibesten-guide',
+  path: '/pages/slibesten-guide',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PagesSadanHolderDuDinKnivSkarpRoute =
   PagesSadanHolderDuDinKnivSkarpRouteImport.update({
     id: '/pages/sadan-holder-du-din-kniv-skarp',
     path: '/pages/sadan-holder-du-din-kniv-skarp',
     getParentRoute: () => rootRouteImport,
   } as any)
+const PagesSaadanSliberDuDinKnivRoute =
+  PagesSaadanSliberDuDinKnivRouteImport.update({
+    id: '/pages/saadan-sliber-du-din-kniv',
+    path: '/pages/saadan-sliber-du-din-kniv',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const PagesKoekkenetSomFristedRoute =
+  PagesKoekkenetSomFristedRouteImport.update({
+    id: '/pages/koekkenet-som-fristed',
+    path: '/pages/koekkenet-som-fristed',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const PagesKnivholderTilKoekkenetRoute =
+  PagesKnivholderTilKoekkenetRouteImport.update({
+    id: '/pages/knivholder-til-koekkenet',
+    path: '/pages/knivholder-til-koekkenet',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const PagesKnivholderITraeRoute = PagesKnivholderITraeRouteImport.update({
   id: '/pages/knivholder-i-trae',
   path: '/pages/knivholder-i-trae',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PagesHvilkenKnivholderSkalJegVaelgeRoute =
+  PagesHvilkenKnivholderSkalJegVaelgeRouteImport.update({
+    id: '/pages/hvilken-knivholder-skal-jeg-vaelge',
+    path: '/pages/hvilken-knivholder-skal-jeg-vaelge',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const PagesHaandlavetKeramikRoute = PagesHaandlavetKeramikRouteImport.update({
+  id: '/pages/haandlavet-keramik',
+  path: '/pages/haandlavet-keramik',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PagesGaverMedRoRoute = PagesGaverMedRoRouteImport.update({
+  id: '/pages/gaver-med-ro',
+  path: '/pages/gaver-med-ro',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PagesGaveTilMadelskerenRoute = PagesGaveTilMadelskerenRouteImport.update({
@@ -211,8 +264,16 @@ export interface FileRoutesByFullPath {
   '/pages/damaskus-kniv': typeof PagesDamaskusKnivRoute
   '/pages/den-forste-rigtige-kokkekniv': typeof PagesDenForsteRigtigeKokkeknivRoute
   '/pages/gave-til-madelskeren': typeof PagesGaveTilMadelskerenRoute
+  '/pages/gaver-med-ro': typeof PagesGaverMedRoRoute
+  '/pages/haandlavet-keramik': typeof PagesHaandlavetKeramikRoute
+  '/pages/hvilken-knivholder-skal-jeg-vaelge': typeof PagesHvilkenKnivholderSkalJegVaelgeRoute
   '/pages/knivholder-i-trae': typeof PagesKnivholderITraeRoute
+  '/pages/knivholder-til-koekkenet': typeof PagesKnivholderTilKoekkenetRoute
+  '/pages/koekkenet-som-fristed': typeof PagesKoekkenetSomFristedRoute
+  '/pages/saadan-sliber-du-din-kniv': typeof PagesSaadanSliberDuDinKnivRoute
   '/pages/sadan-holder-du-din-kniv-skarp': typeof PagesSadanHolderDuDinKnivSkarpRoute
+  '/pages/slibesten-guide': typeof PagesSlibestenGuideRoute
+  '/pages/sommerbord-med-keramik': typeof PagesSommerbordMedKeramikRoute
   '/product/$handle': typeof ProductHandleRoute
   '/ritualer/hold-kniven-skarp': typeof RitualerHoldKnivenSkarpRoute
   '/ritualer/rolig-opbevaring': typeof RitualerRoligOpbevaringRoute
@@ -242,8 +303,16 @@ export interface FileRoutesByTo {
   '/pages/damaskus-kniv': typeof PagesDamaskusKnivRoute
   '/pages/den-forste-rigtige-kokkekniv': typeof PagesDenForsteRigtigeKokkeknivRoute
   '/pages/gave-til-madelskeren': typeof PagesGaveTilMadelskerenRoute
+  '/pages/gaver-med-ro': typeof PagesGaverMedRoRoute
+  '/pages/haandlavet-keramik': typeof PagesHaandlavetKeramikRoute
+  '/pages/hvilken-knivholder-skal-jeg-vaelge': typeof PagesHvilkenKnivholderSkalJegVaelgeRoute
   '/pages/knivholder-i-trae': typeof PagesKnivholderITraeRoute
+  '/pages/knivholder-til-koekkenet': typeof PagesKnivholderTilKoekkenetRoute
+  '/pages/koekkenet-som-fristed': typeof PagesKoekkenetSomFristedRoute
+  '/pages/saadan-sliber-du-din-kniv': typeof PagesSaadanSliberDuDinKnivRoute
   '/pages/sadan-holder-du-din-kniv-skarp': typeof PagesSadanHolderDuDinKnivSkarpRoute
+  '/pages/slibesten-guide': typeof PagesSlibestenGuideRoute
+  '/pages/sommerbord-med-keramik': typeof PagesSommerbordMedKeramikRoute
   '/product/$handle': typeof ProductHandleRoute
   '/ritualer/hold-kniven-skarp': typeof RitualerHoldKnivenSkarpRoute
   '/ritualer/rolig-opbevaring': typeof RitualerRoligOpbevaringRoute
@@ -274,8 +343,16 @@ export interface FileRoutesById {
   '/pages/damaskus-kniv': typeof PagesDamaskusKnivRoute
   '/pages/den-forste-rigtige-kokkekniv': typeof PagesDenForsteRigtigeKokkeknivRoute
   '/pages/gave-til-madelskeren': typeof PagesGaveTilMadelskerenRoute
+  '/pages/gaver-med-ro': typeof PagesGaverMedRoRoute
+  '/pages/haandlavet-keramik': typeof PagesHaandlavetKeramikRoute
+  '/pages/hvilken-knivholder-skal-jeg-vaelge': typeof PagesHvilkenKnivholderSkalJegVaelgeRoute
   '/pages/knivholder-i-trae': typeof PagesKnivholderITraeRoute
+  '/pages/knivholder-til-koekkenet': typeof PagesKnivholderTilKoekkenetRoute
+  '/pages/koekkenet-som-fristed': typeof PagesKoekkenetSomFristedRoute
+  '/pages/saadan-sliber-du-din-kniv': typeof PagesSaadanSliberDuDinKnivRoute
   '/pages/sadan-holder-du-din-kniv-skarp': typeof PagesSadanHolderDuDinKnivSkarpRoute
+  '/pages/slibesten-guide': typeof PagesSlibestenGuideRoute
+  '/pages/sommerbord-med-keramik': typeof PagesSommerbordMedKeramikRoute
   '/product/$handle': typeof ProductHandleRoute
   '/ritualer/hold-kniven-skarp': typeof RitualerHoldKnivenSkarpRoute
   '/ritualer/rolig-opbevaring': typeof RitualerRoligOpbevaringRoute
@@ -307,8 +384,16 @@ export interface FileRouteTypes {
     | '/pages/damaskus-kniv'
     | '/pages/den-forste-rigtige-kokkekniv'
     | '/pages/gave-til-madelskeren'
+    | '/pages/gaver-med-ro'
+    | '/pages/haandlavet-keramik'
+    | '/pages/hvilken-knivholder-skal-jeg-vaelge'
     | '/pages/knivholder-i-trae'
+    | '/pages/knivholder-til-koekkenet'
+    | '/pages/koekkenet-som-fristed'
+    | '/pages/saadan-sliber-du-din-kniv'
     | '/pages/sadan-holder-du-din-kniv-skarp'
+    | '/pages/slibesten-guide'
+    | '/pages/sommerbord-med-keramik'
     | '/product/$handle'
     | '/ritualer/hold-kniven-skarp'
     | '/ritualer/rolig-opbevaring'
@@ -338,8 +423,16 @@ export interface FileRouteTypes {
     | '/pages/damaskus-kniv'
     | '/pages/den-forste-rigtige-kokkekniv'
     | '/pages/gave-til-madelskeren'
+    | '/pages/gaver-med-ro'
+    | '/pages/haandlavet-keramik'
+    | '/pages/hvilken-knivholder-skal-jeg-vaelge'
     | '/pages/knivholder-i-trae'
+    | '/pages/knivholder-til-koekkenet'
+    | '/pages/koekkenet-som-fristed'
+    | '/pages/saadan-sliber-du-din-kniv'
     | '/pages/sadan-holder-du-din-kniv-skarp'
+    | '/pages/slibesten-guide'
+    | '/pages/sommerbord-med-keramik'
     | '/product/$handle'
     | '/ritualer/hold-kniven-skarp'
     | '/ritualer/rolig-opbevaring'
@@ -369,8 +462,16 @@ export interface FileRouteTypes {
     | '/pages/damaskus-kniv'
     | '/pages/den-forste-rigtige-kokkekniv'
     | '/pages/gave-til-madelskeren'
+    | '/pages/gaver-med-ro'
+    | '/pages/haandlavet-keramik'
+    | '/pages/hvilken-knivholder-skal-jeg-vaelge'
     | '/pages/knivholder-i-trae'
+    | '/pages/knivholder-til-koekkenet'
+    | '/pages/koekkenet-som-fristed'
+    | '/pages/saadan-sliber-du-din-kniv'
     | '/pages/sadan-holder-du-din-kniv-skarp'
+    | '/pages/slibesten-guide'
+    | '/pages/sommerbord-med-keramik'
     | '/product/$handle'
     | '/ritualer/hold-kniven-skarp'
     | '/ritualer/rolig-opbevaring'
@@ -399,8 +500,16 @@ export interface RootRouteChildren {
   PagesDamaskusKnivRoute: typeof PagesDamaskusKnivRoute
   PagesDenForsteRigtigeKokkeknivRoute: typeof PagesDenForsteRigtigeKokkeknivRoute
   PagesGaveTilMadelskerenRoute: typeof PagesGaveTilMadelskerenRoute
+  PagesGaverMedRoRoute: typeof PagesGaverMedRoRoute
+  PagesHaandlavetKeramikRoute: typeof PagesHaandlavetKeramikRoute
+  PagesHvilkenKnivholderSkalJegVaelgeRoute: typeof PagesHvilkenKnivholderSkalJegVaelgeRoute
   PagesKnivholderITraeRoute: typeof PagesKnivholderITraeRoute
+  PagesKnivholderTilKoekkenetRoute: typeof PagesKnivholderTilKoekkenetRoute
+  PagesKoekkenetSomFristedRoute: typeof PagesKoekkenetSomFristedRoute
+  PagesSaadanSliberDuDinKnivRoute: typeof PagesSaadanSliberDuDinKnivRoute
   PagesSadanHolderDuDinKnivSkarpRoute: typeof PagesSadanHolderDuDinKnivSkarpRoute
+  PagesSlibestenGuideRoute: typeof PagesSlibestenGuideRoute
+  PagesSommerbordMedKeramikRoute: typeof PagesSommerbordMedKeramikRoute
   ProductHandleRoute: typeof ProductHandleRoute
   RitualerHoldKnivenSkarpRoute: typeof RitualerHoldKnivenSkarpRoute
   RitualerRoligOpbevaringRoute: typeof RitualerRoligOpbevaringRoute
@@ -535,6 +644,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProductHandleRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/pages/sommerbord-med-keramik': {
+      id: '/pages/sommerbord-med-keramik'
+      path: '/pages/sommerbord-med-keramik'
+      fullPath: '/pages/sommerbord-med-keramik'
+      preLoaderRoute: typeof PagesSommerbordMedKeramikRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/pages/slibesten-guide': {
+      id: '/pages/slibesten-guide'
+      path: '/pages/slibesten-guide'
+      fullPath: '/pages/slibesten-guide'
+      preLoaderRoute: typeof PagesSlibestenGuideRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/pages/sadan-holder-du-din-kniv-skarp': {
       id: '/pages/sadan-holder-du-din-kniv-skarp'
       path: '/pages/sadan-holder-du-din-kniv-skarp'
@@ -542,11 +665,53 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PagesSadanHolderDuDinKnivSkarpRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/pages/saadan-sliber-du-din-kniv': {
+      id: '/pages/saadan-sliber-du-din-kniv'
+      path: '/pages/saadan-sliber-du-din-kniv'
+      fullPath: '/pages/saadan-sliber-du-din-kniv'
+      preLoaderRoute: typeof PagesSaadanSliberDuDinKnivRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/pages/koekkenet-som-fristed': {
+      id: '/pages/koekkenet-som-fristed'
+      path: '/pages/koekkenet-som-fristed'
+      fullPath: '/pages/koekkenet-som-fristed'
+      preLoaderRoute: typeof PagesKoekkenetSomFristedRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/pages/knivholder-til-koekkenet': {
+      id: '/pages/knivholder-til-koekkenet'
+      path: '/pages/knivholder-til-koekkenet'
+      fullPath: '/pages/knivholder-til-koekkenet'
+      preLoaderRoute: typeof PagesKnivholderTilKoekkenetRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/pages/knivholder-i-trae': {
       id: '/pages/knivholder-i-trae'
       path: '/pages/knivholder-i-trae'
       fullPath: '/pages/knivholder-i-trae'
       preLoaderRoute: typeof PagesKnivholderITraeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/pages/hvilken-knivholder-skal-jeg-vaelge': {
+      id: '/pages/hvilken-knivholder-skal-jeg-vaelge'
+      path: '/pages/hvilken-knivholder-skal-jeg-vaelge'
+      fullPath: '/pages/hvilken-knivholder-skal-jeg-vaelge'
+      preLoaderRoute: typeof PagesHvilkenKnivholderSkalJegVaelgeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/pages/haandlavet-keramik': {
+      id: '/pages/haandlavet-keramik'
+      path: '/pages/haandlavet-keramik'
+      fullPath: '/pages/haandlavet-keramik'
+      preLoaderRoute: typeof PagesHaandlavetKeramikRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/pages/gaver-med-ro': {
+      id: '/pages/gaver-med-ro'
+      path: '/pages/gaver-med-ro'
+      fullPath: '/pages/gaver-med-ro'
+      preLoaderRoute: typeof PagesGaverMedRoRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/pages/gave-til-madelskeren': {
@@ -661,8 +826,17 @@ const rootRouteChildren: RootRouteChildren = {
   PagesDamaskusKnivRoute: PagesDamaskusKnivRoute,
   PagesDenForsteRigtigeKokkeknivRoute: PagesDenForsteRigtigeKokkeknivRoute,
   PagesGaveTilMadelskerenRoute: PagesGaveTilMadelskerenRoute,
+  PagesGaverMedRoRoute: PagesGaverMedRoRoute,
+  PagesHaandlavetKeramikRoute: PagesHaandlavetKeramikRoute,
+  PagesHvilkenKnivholderSkalJegVaelgeRoute:
+    PagesHvilkenKnivholderSkalJegVaelgeRoute,
   PagesKnivholderITraeRoute: PagesKnivholderITraeRoute,
+  PagesKnivholderTilKoekkenetRoute: PagesKnivholderTilKoekkenetRoute,
+  PagesKoekkenetSomFristedRoute: PagesKoekkenetSomFristedRoute,
+  PagesSaadanSliberDuDinKnivRoute: PagesSaadanSliberDuDinKnivRoute,
   PagesSadanHolderDuDinKnivSkarpRoute: PagesSadanHolderDuDinKnivSkarpRoute,
+  PagesSlibestenGuideRoute: PagesSlibestenGuideRoute,
+  PagesSommerbordMedKeramikRoute: PagesSommerbordMedKeramikRoute,
   ProductHandleRoute: ProductHandleRoute,
   RitualerHoldKnivenSkarpRoute: RitualerHoldKnivenSkarpRoute,
   RitualerRoligOpbevaringRoute: RitualerRoligOpbevaringRoute,
