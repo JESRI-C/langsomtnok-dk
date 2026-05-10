@@ -186,6 +186,7 @@ export const ARTICLES: ArticleData[] = [
     ],
     relatedSlugs: ["hvilken-kokkekniv-skal-jeg-vaelge", "gode-koekkenredskaber-der-holder", "kokkenet-som-fristed"],
     relatedCollections: ["gaver", "startkits"],
+    image: "https://cdn.shopify.com/s/files/1/0915/7227/3488/files/Gaveindpakning_med_naturlige_detaljer.png?v=1778399967",
   },
   {
     slug: "gode-koekkenredskaber-der-holder",
