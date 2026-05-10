@@ -224,6 +224,7 @@ export const ARTICLES: ArticleData[] = [
     ],
     relatedSlugs: ["hvilken-kokkekniv-skal-jeg-vaelge", "gave-til-den-der-elsker-mad", "gode-koekkenredskaber-der-holder"],
     relatedCollections: ["knive", "pleje-ritualer"],
+    image: "https://cdn.shopify.com/s/files/1/0915/7227/3488/files/Rusic_ceramics_on_a_cozy_shelf.png?v=1778397635",
   },
 ];
 
