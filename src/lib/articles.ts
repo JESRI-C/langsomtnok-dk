@@ -167,6 +167,7 @@ export const ARTICLES: ArticleData[] = [
     ],
     relatedSlugs: ["hvordan-sliber-man-en-kniv", "slibesten-1000-5000-hvad-betyder-det", "hvilken-kokkekniv-skal-jeg-vaelge"],
     relatedCollections: ["slibesten", "pleje-ritualer"],
+    image: "https://cdn.shopify.com/s/files/1/0915/7227/3488/files/minimal_wooden_Sharpening_stone_setup.png?v=1778398237",
   },
   {
     slug: "gave-til-den-der-elsker-mad",
