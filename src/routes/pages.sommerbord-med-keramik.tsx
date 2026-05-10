@@ -14,7 +14,14 @@ import { fetchProductsByHandles, type ShopifyProduct } from "@/lib/shopify";
 const PAGE_SLUG = "sommerbord-med-keramik";
 const CATEGORY = "ceramics";
 
-const HANDLES: string[] = [];
+const HANDLES: string[] = [
+  "lille-kop-i-perlemor-glasur-susan-riel",
+  "spiralskal-i-lys-bla-glasur-susan-riel",
+  "handformet-skal-i-mork-gronbla-glasur-susan-riel",
+  "skal-i-gron-og-bla-glasur-susan-riel",
+  "indskudte-skale-i-stenbla-glasur-susan-riel",
+  "rillet-kop-i-lys-blagron-glasur-susan-riel",
+];
 
 export const Route = createFileRoute("/pages/sommerbord-med-keramik")({
   head: () => ({
