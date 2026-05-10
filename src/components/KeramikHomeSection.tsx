@@ -45,6 +45,7 @@ export function KeramikHomeSection() {
               <ImageSlot
                 name="keramik-hero-home"
                 ratio="4/5"
+                src="https://cdn.shopify.com/s/files/1/0915/7227/3488/files/Keramik_paa_hylde.png?v=1778397388"
                 motif="Stilleben af håndlavet stentøjsskål og kop på linned i blødt morgenlys, rolige nordiske toner"
                 alt="Håndlavet keramik fra Langsomt Nok"
                 variant="warm"
