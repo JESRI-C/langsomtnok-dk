@@ -109,6 +109,7 @@ export const ARTICLES: ArticleData[] = [
     ],
     relatedSlugs: ["damaskus-kniv-hvad-betyder-det", "hvilken-kokkekniv-skal-jeg-vaelge", "japansk-eller-europaeisk-kokkekniv"],
     relatedCollections: ["knive"],
+    image: "https://cdn.shopify.com/s/files/1/0915/7227/3488/files/Damascus_Steel_Close_up.png?v=1778398103",
   },
   {
     slug: "hvordan-sliber-man-en-kniv",
