@@ -718,6 +718,8 @@ export const SLOT_IMAGE_MAP: Record<string, string> = {
   "category-sharpening-stones": "category-sharpening-stones",
   "category-magnetic-holders": "category-magnetic-holders",
   "category-care-products": "category-care-products",
+  "category-gift-sets": "category-gift-sets",
+  "gift-packaging": "landing-gift",
 
   // Materials
   "material-damascus-steel": "material-damascus-steel",
