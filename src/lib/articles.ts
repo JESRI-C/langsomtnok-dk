@@ -205,6 +205,7 @@ export const ARTICLES: ArticleData[] = [
     ],
     relatedSlugs: ["hvilken-kokkekniv-skal-jeg-vaelge", "damaskus-kniv-hvad-betyder-det", "gave-til-den-der-elsker-mad"],
     relatedCollections: ["knive", "magnetiske-holdere"],
+    image: "https://cdn.shopify.com/s/files/1/0915/7227/3488/files/Damascus_Steel_Close_up.png?v=1778398103",
   },
   {
     slug: "kokkenet-som-fristed",
