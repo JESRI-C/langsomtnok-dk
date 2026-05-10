@@ -28,6 +28,12 @@ import {
 } from "@/lib/shopify";
 import { parseProductDescription, type ParsedSection } from "@/lib/parse-product-description";
 import { trackEvent } from "@/lib/analytics";
+import DOMPurify from "isomorphic-dompurify";
+
+const sanitizeHtml = (html: string) => DOMPurify.sanitize(html, {
+  ALLOWED_TAGS: ["p", "br", "ul", "ol", "li", "strong", "em", "b", "i", "h3", "h4", "a", "span"],
+  ALLOWED_ATTR: ["href", "target", "rel"],
+});
 import { Loader2, Minus, Plus, CreditCard, Truck, RotateCcw, Package } from "lucide-react";
 import { toast } from "sonner";
 
