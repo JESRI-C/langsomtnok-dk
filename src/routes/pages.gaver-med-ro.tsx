@@ -7,7 +7,27 @@ import { FAQAccordion } from "@/components/landing/FAQAccordion";
 import { CalmCTASection } from "@/components/landing/CalmCTASection";
 import { NewsletterSignup } from "@/components/NewsletterSignup";
 import { ImageSlot } from "@/components/ImageSlot";
+import { InternalLinksSection } from "@/components/landing/InternalLinksSection";
+import { PaymentTrustSection } from "@/components/landing/PaymentTrustSection";
+import { EmptyProductsFallback } from "@/components/landing/EmptyProductsFallback";
 import { fetchProductsByHandles, type ShopifyProduct } from "@/lib/shopify";
+import { buildFaqSchemaScript } from "@/lib/faq-schema";
+
+const PAGE_SLUG = "gaver-med-ro";
+const CATEGORY = "gifts";
+
+const FAQ_ITEMS = [
+  { question: "Kan jeg tilføje et personligt kort?", answer: "Ja. Skriv din besked i kassen — vi skriver det i hånden på vores kort." },
+  { question: "Kan modtageren bytte gaven?", answer: "Ja. Vi har 30 dages returret — også på gaver, uden at modtageren ser prisen." },
+  { question: "Sender I direkte til modtageren?", answer: "Ja. Vælg leveringsadresse i kassen og tilføj en personlig hilsen." },
+];
+
+const HANDLES = [
+  "damascus-chef-knife-8-5-olive-wood",
+  "walnut-sharpener-xz-mdq01-htm",
+  "magnetic-knife-display-stand-acacia",
+  "sharpening-stone-1000-5000",
+];
 
 export const Route = createFileRoute("/pages/gaver-med-ro")({
   head: () => ({
@@ -16,17 +36,13 @@ export const Route = createFileRoute("/pages/gaver-med-ro")({
       { name: "description", content: "Gaver med ro. Find den rette gave efter pris eller modtager — pakket i naturpapir, klar til at blive brugt." },
       { property: "og:title", content: "Gaver, der bliver brugt" },
       { property: "og:description", content: "Find gaven efter pris eller modtager. Pakket i naturpapir." },
+      { property: "og:image", content: "https://cdn.shopify.com/s/files/1/0915/7227/3488/files/Gaveindpakning_med_naturlige_detaljer.png?v=1778399967" },
     ],
+    links: [{ rel: "canonical", href: "https://langsomtnok.dk/pages/gaver-med-ro" }],
+    scripts: [buildFaqSchemaScript(FAQ_ITEMS)],
   }),
   component: Page,
 });
-
-const HANDLES = [
-  "damascus-chef-knife-8-5-olive-wood",
-  "walnut-sharpener-xz-mdq01-htm",
-  "magnetic-knife-display-stand-acacia",
-  "sharpening-stone-1000-5000",
-];
 
 function Page() {
   const [products, setProducts] = useState<ShopifyProduct[]>([]);
@@ -49,10 +65,17 @@ function Page() {
       <LandingPageHero
         headline="Gaver, der bliver brugt."
         subheadline="Ikke pyntet væk i en skuffe. Brugt — hver morgen, hver aften."
-        primaryCta={{ label: "Se udvalget", to: "/shop" }}
-        secondaryCta={{ label: "Find gaven", to: "#gavefinder" }}
-        imageSlot={{ name: "image_gave_hero", motif: "Gaveindpakning i naturpapir med tørret lavendel", src: "https://cdn.shopify.com/s/files/1/0915/7227/3488/files/Gaveindpakning_med_naturlige_detaljer.png?v=1778399967" }}
+        primaryCta={{ label: "Se udvalget", to: "/shop", intent: "view_products" }}
+        secondaryCta={{ label: "Find gaven", to: "/find-dit-ritual", intent: "find_gift" }}
+        imageSlot={{
+          name: "image_gave_hero",
+          motif: "Indpakket gave fra Langsomt Nok i naturpapir og bomuldssnor",
+          alt: "Indpakket gave fra Langsomt Nok i naturpapir og bomuldssnor",
+          src: "https://cdn.shopify.com/s/files/1/0915/7227/3488/files/Gaveindpakning_med_naturlige_detaljer.png?v=1778399967",
+        }}
         variant="overlay"
+        trackingPage={PAGE_SLUG}
+        trackingCategory={CATEGORY}
       />
 
       <TrustBar />
@@ -62,11 +85,19 @@ function Page() {
           <h2 className="font-serif text-2xl md:text-3xl mb-8">Find gaven efter pris</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {byPrice.map((p) => (
-              <div key={p.tier} className="p-5 rounded-lg border border-border bg-background">
+              <Link
+                key={p.tier}
+                to="/shop"
+                className="cta-product-grid p-5 rounded-lg border border-border bg-background hover:border-walnut/40 transition-colors block"
+                data-track-event="gift_finder_price_click"
+                data-track-page={PAGE_SLUG}
+                data-track-intent="filter_by_price"
+                data-track-product-category={CATEGORY}
+              >
                 <span className="text-[10px] font-medium text-copper uppercase tracking-wider">Prisinterval</span>
                 <h3 className="font-serif text-lg mt-1 mb-2">{p.tier}</h3>
                 <p className="text-sm text-muted-foreground">{p.desc}</p>
-              </div>
+              </Link>
             ))}
           </div>
         </div>
@@ -77,21 +108,42 @@ function Page() {
           <h2 className="font-serif text-2xl md:text-3xl mb-8">Find gaven efter modtager</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {byRecipient.map((r) => (
-              <div key={r.who} className="p-5 rounded-lg border border-border">
+              <Link
+                key={r.who}
+                to="/shop"
+                className="cta-product-grid p-5 rounded-lg border border-border hover:border-walnut/40 transition-colors block"
+                data-track-event="gift_finder_recipient_click"
+                data-track-page={PAGE_SLUG}
+                data-track-intent="filter_by_recipient"
+                data-track-product-category={CATEGORY}
+              >
                 <h3 className="font-serif text-lg mb-2">{r.who}</h3>
                 <p className="text-sm text-muted-foreground">{r.desc}</p>
-              </div>
+              </Link>
             ))}
           </div>
         </div>
       </section>
 
-      <ProductRecommendationBlock title="Gaver med ro" subtitle="Udvalgte produkter, der bliver en del af hverdagen." products={products} />
+      {products.length > 0 ? (
+        <ProductRecommendationBlock title="Gaver med ro" subtitle="Udvalgte produkter, der bliver en del af hverdagen." products={products} />
+      ) : (
+        <EmptyProductsFallback
+          title="Anbefalingerne er på vej"
+          subtitle="Kuratet i ro"
+          body="Vi henter de varmeste gaver frem — knive, slibesten, holdere og keramik. Imens kan du gå direkte til hele udvalget."
+          ctaLabel="Se hele udvalget"
+          ctaTo="/shop"
+          trackingPage={PAGE_SLUG}
+          trackingCategory={CATEGORY}
+          imageSlot={{ name: "image_gave_hero", motif: "Gaveindpakning i naturpapir", src: "https://cdn.shopify.com/s/files/1/0915/7227/3488/files/Gaveindpakning_med_naturlige_detaljer.png?v=1778399967" }}
+        />
+      )}
 
       <section className="section-padding bg-soft">
         <div className="container-calm max-w-3xl">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-            <ImageSlot name="gift-packaging" ratio="4/3" motif="Gaveindpakning i naturpapir med snor og kort" variant="warm" />
+            <ImageSlot name="gift-packaging" ratio="4/3" motif="Indpakket gave fra Langsomt Nok i naturpapir og bomuldssnor" alt="Indpakket gave fra Langsomt Nok i naturpapir og bomuldssnor" variant="warm" />
             <div>
               <h2 className="font-serif text-2xl md:text-3xl mb-4">Pakket med ro</h2>
               <p className="text-muted-foreground text-editorial mb-3">Naturpapir, bomuldssnor og et håndskrevet kort, hvis du ønsker det. Indpakningen er en del af gaven.</p>
@@ -101,11 +153,9 @@ function Page() {
         </div>
       </section>
 
-      <FAQAccordion items={[
-        { question: "Kan jeg tilføje et personligt kort?", answer: "Ja. Skriv din besked i kassen — vi skriver det i hånden på vores kort." },
-        { question: "Kan modtageren bytte gaven?", answer: "Ja. Vi har 30 dages returret — også på gaver, uden at modtageren ser prisen." },
-        { question: "Sender I direkte til modtageren?", answer: "Ja. Vælg leveringsadresse i kassen og tilføj en personlig hilsen." },
-      ]} />
+      <PaymentTrustSection />
+
+      <FAQAccordion items={FAQ_ITEMS} />
 
       <CalmCTASection
         headline="En gave, der bliver brugt."
@@ -113,6 +163,17 @@ function Page() {
         cta={{ label: "Se udvalget", to: "/shop" }}
         secondaryCta={{ label: "Se keramik", to: "/pages/haandlavet-keramik" }}
         variant="warm"
+        trackingPage={PAGE_SLUG}
+        trackingCategory={CATEGORY}
+      />
+
+      <InternalLinksSection
+        page={PAGE_SLUG}
+        links={[
+          { to: "/pages/haandlavet-keramik", title: "Keramik med spor af hænder", description: "Hånddrejet keramik af Susan Riel.", category: "ceramics" },
+          { to: "/pages/slibesten-guide", title: "Slibesten — en rolig guide", description: "Den perfekte gave til den, der har en kniv.", category: "sharpening" },
+          { to: "/pages/knivholder-til-koekkenet", title: "Knivholderen, der samler køkkenet", description: "Et magnetisk hjem til kniven.", category: "knife_holder" },
+        ]}
       />
 
       <NewsletterSignup variant="dark" />

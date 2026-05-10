@@ -6,8 +6,20 @@ import { TrustBar } from "@/components/landing/TrustBar";
 import { FAQAccordion } from "@/components/landing/FAQAccordion";
 import { CalmCTASection } from "@/components/landing/CalmCTASection";
 import { NewsletterSignup } from "@/components/NewsletterSignup";
-import { ImageSlot, IMAGE_SLOTS } from "@/components/ImageSlot";
+import { ImageSlot } from "@/components/ImageSlot";
+import { InternalLinksSection } from "@/components/landing/InternalLinksSection";
+import { PaymentTrustSection } from "@/components/landing/PaymentTrustSection";
 import { fetchProductsByHandles, type ShopifyProduct } from "@/lib/shopify";
+import { buildFaqSchemaScript } from "@/lib/faq-schema";
+
+const PAGE_SLUG = "saadan-sliber-du-din-kniv";
+const CATEGORY = "sharpening";
+
+const FAQ_ITEMS = [
+  { question: "Hvor lang tid tager det?", answer: "Cirka 10–15 minutter for en almindelig kokkekniv. Mindre, når du kender ritualet." },
+  { question: "Kan jeg ødelægge min kniv?", answer: "Det er svært. Med rolige strøg og korrekt vinkel sliber du kun det, der skal væk." },
+  { question: "Hvad gør jeg, hvis bladet stadig er sløvt?", answer: "Du har sandsynligvis ikke nået helt ud til ægget. Mærk efter en lille bøjet kant — det er tegnet på, at du er der." },
+];
 
 export const Route = createFileRoute("/pages/saadan-sliber-du-din-kniv")({
   head: () => ({
@@ -16,7 +28,10 @@ export const Route = createFileRoute("/pages/saadan-sliber-du-din-kniv")({
       { name: "description", content: "Video-guide og trin-for-trin gennemgang af, hvordan du sliber din kniv på en japansk vandsten. Roligt, præcist og uden hast." },
       { property: "og:title", content: "Sådan sliber du din kniv med slibesten" },
       { property: "og:description", content: "Video og trin-for-trin guide til slibning på vandsten." },
+      { property: "og:image", content: "https://cdn.shopify.com/s/files/1/0915/7227/3488/files/minimal_wooden_Sharpening_stone_setup.png?v=1778398237" },
     ],
+    links: [{ rel: "canonical", href: "https://langsomtnok.dk/pages/saadan-sliber-du-din-kniv" }],
+    scripts: [buildFaqSchemaScript(FAQ_ITEMS)],
   }),
   component: Page,
 });
@@ -32,20 +47,27 @@ function Page() {
       <LandingPageHero
         headline="Sådan sliber du din kniv."
         subheadline="Se hvordan det føles. Træk roligt. Find vinklen. Lad stenen gøre arbejdet."
-        primaryCta={{ label: "Se hvordan det føles", to: "#video" }}
-        secondaryCta={{ label: "Se slibesten", to: "/shop" }}
-        imageSlot={{ name: IMAGE_SLOTS.heroes.sharpeningLandingHero.name, motif: IMAGE_SLOTS.heroes.sharpeningLandingHero.motif, src: "https://cdn.shopify.com/s/files/1/0915/7227/3488/files/minimal_wooden_Sharpening_stone_setup.png?v=1778398237" }}
+        primaryCta={{ label: "Se hvordan det føles", to: "/pages/saadan-sliber-du-din-kniv", intent: "watch_video" }}
+        secondaryCta={{ label: "Se slibesten", to: "/shop", intent: "view_products" }}
+        imageSlot={{
+          name: "image_slibning_video_hero",
+          motif: "Slibesten på træbord med kniv og vand i naturligt lys",
+          alt: "Slibesten på træbord med kniv og vand i naturligt lys",
+          src: "https://cdn.shopify.com/s/files/1/0915/7227/3488/files/minimal_wooden_Sharpening_stone_setup.png?v=1778398237",
+        }}
         variant="overlay"
+        trackingPage={PAGE_SLUG}
+        trackingCategory={CATEGORY}
       />
 
       <TrustBar />
 
-      <section id="video" className="section-padding">
+      <section className="section-padding">
         <div className="container-calm max-w-4xl">
-          <div className="aspect-video rounded-lg overflow-hidden mb-6">
-            <ImageSlot name="video_slibning" ratio="16/9" motif="Video: hånd sliber kniv på japansk vandsten i roligt lys" variant="warm" />
-          </div>
-          <p className="text-center text-sm text-muted-foreground">Video kommer her — fuld guide, fra første dråbe vand til sidste polering.</p>
+          <ImageSlot name="video_slibning" ratio="16/9" motif="Video: hånd sliber kniv på japansk vandsten i roligt lys" alt="Video: hånd sliber kniv på japansk vandsten i roligt lys" variant="warm" />
+          <p className="text-center text-sm text-muted-foreground mt-4 max-w-xl mx-auto">
+            Videoen lægges ind her, når optagelsen er klar. Indtil da kan du gå direkte til produkterne eller læse guiden trin for trin.
+          </p>
         </div>
       </section>
 
@@ -94,20 +116,25 @@ function Page() {
 
       <ProductRecommendationBlock title="Anbefalet til ritualet" subtitle="En sten, en sliber, en plads ved vasken." products={products} />
 
+      <PaymentTrustSection />
+
       <section className="section-padding bg-soft">
         <div className="container-calm max-w-3xl text-center">
           <p className="text-muted-foreground text-editorial mb-4">Vil du forstå, hvilken grit du skal vælge?</p>
-          <Link to="/pages/slibesten-guide" className="cta-secondary text-sm font-medium text-cta hover:text-cta/80">
+          <Link
+            to="/pages/slibesten-guide"
+            className="cta-secondary text-sm font-medium text-cta hover:text-cta/80"
+            data-track-event="landing_internal_link_click"
+            data-track-page={PAGE_SLUG}
+            data-track-intent="explore_related"
+            data-track-product-category={CATEGORY}
+          >
             Læs vores rolige slibesten-guide →
           </Link>
         </div>
       </section>
 
-      <FAQAccordion items={[
-        { question: "Hvor lang tid tager det?", answer: "Cirka 10–15 minutter for en almindelig kokkekniv. Mindre, når du kender ritualet." },
-        { question: "Kan jeg ødelægge min kniv?", answer: "Det er svært. Med rolige strøg og korrekt vinkel sliber du kun det, der skal væk." },
-        { question: "Hvad gør jeg, hvis bladet stadig er sløvt?", answer: "Du har sandsynligvis ikke nået helt ud til ægget. Mærk efter en lille bøjet kant — det er tegnet på, at du er der." },
-      ]} />
+      <FAQAccordion items={FAQ_ITEMS} />
 
       <CalmCTASection
         headline="Slib én gang. Skær roligt resten af året."
@@ -115,6 +142,17 @@ function Page() {
         cta={{ label: "Se slibesten", to: "/shop" }}
         secondaryCta={{ label: "Find dit ritual", to: "/find-dit-ritual" }}
         variant="warm"
+        trackingPage={PAGE_SLUG}
+        trackingCategory={CATEGORY}
+      />
+
+      <InternalLinksSection
+        page={PAGE_SLUG}
+        links={[
+          { to: "/pages/slibesten-guide", title: "Slibesten — en rolig guide", description: "Vælg den rette grit og lær teknikken.", category: "sharpening" },
+          { to: "/pages/gaver-med-ro", title: "Gaver, der bliver brugt", description: "Slibesten som gave til den, der elsker mad.", category: "gifts" },
+          { to: "/pages/koekkenet-som-fristed", title: "Køkkenet som fristed", description: "Hele Langsomt Noks univers.", category: "brand_universe" },
+        ]}
       />
 
       <NewsletterSignup variant="dark" />
