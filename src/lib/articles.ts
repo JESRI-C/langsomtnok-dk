@@ -19,6 +19,7 @@ export interface ArticleData {
   sections: Array<{ heading: string; content: string }>;
   relatedSlugs: string[];
   relatedCollections: string[];
+  image?: string;
 }
 
 export const ARTICLE_CATEGORIES = [
@@ -49,6 +50,7 @@ export const ARTICLES: ArticleData[] = [
     ],
     relatedSlugs: ["damaskus-kniv-hvad-betyder-det", "japansk-eller-europaeisk-kokkekniv", "hvad-betyder-hrc-paa-en-kniv"],
     relatedCollections: ["knive"],
+    image: "https://cdn.shopify.com/s/files/1/0915/7227/3488/files/Hvilken_kniv_skal_jeg_vaelge.png?v=1778396730",
   },
   {
     slug: "damaskus-kniv-hvad-betyder-det",

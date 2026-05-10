@@ -76,6 +76,7 @@ function GuidesPage() {
                 intro={article.intro}
                 category={article.category}
                 readTime={article.readTime}
+                image={article.image}
               />
             ))}
           </div>
