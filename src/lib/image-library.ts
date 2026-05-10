@@ -374,7 +374,7 @@ export const langsomtNokImageLibrary: ShopifyImage[] = [
   },
   {
     id: "category-gift-sets",
-    src: PASTE,
+    src: "https://cdn.shopify.com/s/files/1/0915/7227/3488/files/Gaveindpakning_med_naturlige_detaljer.png?v=1778399967",
     alt: "Gaveæske med køkkenkniv, linned og håndskrevet kort",
     category: "gift",
     recommendedUse: "Gift collection card",
