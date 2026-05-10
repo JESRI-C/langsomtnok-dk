@@ -164,6 +164,7 @@ function storyFromArticle(a: ArticleData): UniversetStory {
     modifiedAt: MODIFIED,
     imageSlot: `universet-story-${a.slug}`,
     imageMotif: a.title,
+    imageSrc: a.image,
     relatedProductQuery: PRODUCT_QUERY_BY_RITUAL[ritual],
     relatedProductBlockTitle: "Det hører til ritualet",
     faq: FAQS[a.slug],
