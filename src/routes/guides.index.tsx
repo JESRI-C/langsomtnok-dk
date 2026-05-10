@@ -86,7 +86,43 @@ function GuidesPage() {
         </div>
       </section>
 
+      {/* Dybdegående guider — landing pages */}
+      <section className="section-padding bg-soft border-t border-border">
+        <div className="container-calm">
+          <div className="max-w-2xl mb-10">
+            <span className="text-[10px] font-medium text-copper uppercase tracking-wider">Dybdegående guider</span>
+            <h2 className="font-serif text-3xl md:text-4xl mt-2 mb-3">Tematiske universer</h2>
+            <p className="text-muted-foreground">Længere fortællinger samlet i ro — om knivholdere, slibning, keramik og gaver.</p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {LANDING_GUIDES.map((g) => (
+              <Link
+                key={g.to}
+                to={g.to}
+                className="group block p-6 rounded-lg border border-border bg-background hover:border-cta transition-colors"
+              >
+                <span className="text-[10px] font-medium text-copper uppercase tracking-wider">{g.category}</span>
+                <h3 className="font-serif text-xl mt-2 mb-2 group-hover:text-walnut transition-colors">{g.title}</h3>
+                <p className="text-sm text-muted-foreground mb-3">{g.description}</p>
+                <span className="text-xs text-cta font-medium">Læs guiden →</span>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
       <NewsletterSignup />
     </div>
   );
 }
+
+const LANDING_GUIDES: Array<{ to: string; title: string; description: string; category: string }> = [
+  { to: "/pages/knivholder-til-koekkenet", title: "Knivholderen, der samler køkkenet", description: "Hvorfor magnetiske holdere giver kniven et hjem — og dig overblik.", category: "Knivholdere" },
+  { to: "/pages/hvilken-knivholder-skal-jeg-vaelge", title: "Hvilken knivholder skal jeg vælge?", description: "Magnetisk væglist, knivblok eller stander — find den rette til dit køkken.", category: "Knivholdere" },
+  { to: "/pages/slibesten-guide", title: "Slibesten — den rolige guide", description: "Grit, teknik og det 5-trins ritual, der holder kniven skarp.", category: "Slibning" },
+  { to: "/pages/saadan-sliber-du-din-kniv", title: "Sådan sliber du din kniv", description: "En tålmodig, video-baseret introduktion til slibning trin for trin.", category: "Slibning" },
+  { to: "/pages/haandlavet-keramik", title: "Håndlavet keramik fra Susan Riel", description: "Fortællingen om leret, hænderne og det stille håndværk.", category: "Keramik" },
+  { to: "/pages/sommerbord-med-keramik", title: "Sommerbord med keramik", description: "Sæsonens rolige borddækning — keramik, lin og lys.", category: "Keramik" },
+  { to: "/pages/gaver-med-ro", title: "Gaver med ro", description: "Gaver, der bliver brugt — fundet efter pris og modtager.", category: "Gaver" },
+  { to: "/pages/koekkenet-som-fristed", title: "Køkkenet som fristed", description: "Langsomt Noks manifest og indgangen til hele universet.", category: "Brand" },
+];
