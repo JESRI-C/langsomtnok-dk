@@ -70,6 +70,7 @@ export const ARTICLES: ArticleData[] = [
     ],
     relatedSlugs: ["hvilken-kokkekniv-skal-jeg-vaelge", "hvad-betyder-hrc-paa-en-kniv", "japansk-eller-europaeisk-kokkekniv"],
     relatedCollections: ["knive"],
+    image: "https://cdn.shopify.com/s/files/1/0915/7227/3488/files/Damascus_Steel_Close_up.png?v=1778398103",
   },
   {
     slug: "japansk-eller-europaeisk-kokkekniv",
