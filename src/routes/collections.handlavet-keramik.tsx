@@ -198,6 +198,7 @@ function KeramikCollectionPage() {
               <ImageSlot
                 name="susan-riel-portrait"
                 ratio="4/5"
+                src="https://cdn.shopify.com/s/files/1/0915/7227/3488/files/Kunsteren_Susan_Riel.png?v=1778398741"
                 motif="Rolig portræt eller atelierbillede af keramiker Susan Riel ved drejeskive med ler og glasurer, blødt naturligt lys"
                 alt="Susan Riel i sit atelier"
                 variant="warm"
