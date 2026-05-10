@@ -91,8 +91,17 @@ function KeramikCollectionPage() {
   return (
     <div className="bg-background">
       {/* ── Hero / intro ───────────────────────────── */}
-      <section className="pt-28 pb-16 md:pb-24 bg-soft/50">
-        <div className="container-calm">
+      <section className="relative pt-28 pb-16 md:pb-24 bg-soft/50 overflow-hidden">
+        <div
+          className="absolute inset-0 bg-cover bg-center"
+          style={{
+            backgroundImage:
+              "url('https://cdn.shopify.com/s/files/1/0915/7227/3488/files/Rusic_ceramics_on_a_cozy_shelf.png?v=1778397635')",
+          }}
+          aria-hidden="true"
+        />
+        <div className="absolute inset-0 bg-background/70 md:bg-gradient-to-r md:from-background/85 md:via-background/65 md:to-background/20" aria-hidden="true" />
+        <div className="container-calm relative">
           <div className="max-w-2xl">
             <span className="text-[11px] tracking-[0.25em] uppercase text-copper">
               Atelier
