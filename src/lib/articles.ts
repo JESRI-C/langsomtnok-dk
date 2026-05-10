@@ -19,6 +19,7 @@ export interface ArticleData {
   sections: Array<{ heading: string; content: string }>;
   relatedSlugs: string[];
   relatedCollections: string[];
+  image?: string;
 }
 
 export const ARTICLE_CATEGORIES = [
