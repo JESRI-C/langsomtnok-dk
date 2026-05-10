@@ -145,10 +145,13 @@ function KeramikHub() {
                 Mød Susan →
               </Link>
             </div>
-            <div className="aspect-[4/5] rounded-lg overflow-hidden bg-linen/40 border border-border/30 flex items-center justify-center">
-              <span className="text-xs text-muted-foreground italic px-6 text-center">
-                Portræt af Susan i atelieret
-              </span>
+            <div className="aspect-[4/5] rounded-lg overflow-hidden bg-linen/40 border border-border/30">
+              <img
+                src="https://cdn.shopify.com/s/files/1/0915/7227/3488/files/Rusic_ceramics_on_a_cozy_shelf.png?v=1778397635"
+                alt="Keramik fra Susan Riels atelier"
+                className="w-full h-full object-cover"
+                loading="lazy"
+              />
             </div>
           </div>
         </div>
