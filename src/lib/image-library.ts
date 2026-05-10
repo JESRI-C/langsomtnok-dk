@@ -374,7 +374,7 @@ export const langsomtNokImageLibrary: ShopifyImage[] = [
   },
   {
     id: "category-gift-sets",
-    src: PASTE,
+    src: "https://cdn.shopify.com/s/files/1/0915/7227/3488/files/Gaveindpakning_med_naturlige_detaljer.png?v=1778399967",
     alt: "Gaveæske med køkkenkniv, linned og håndskrevet kort",
     category: "gift",
     recommendedUse: "Gift collection card",
@@ -474,7 +474,7 @@ export const langsomtNokImageLibrary: ShopifyImage[] = [
   },
   {
     id: "landing-gift",
-    src: PASTE,
+    src: "https://cdn.shopify.com/s/files/1/0915/7227/3488/files/Gaveindpakning_med_naturlige_detaljer.png?v=1778399967",
     alt: "Gaveindpakning med køkkenredskaber i naturpapir",
     category: "gift",
     recommendedUse: "Gift landing page hero",
@@ -718,6 +718,8 @@ export const SLOT_IMAGE_MAP: Record<string, string> = {
   "category-sharpening-stones": "category-sharpening-stones",
   "category-magnetic-holders": "category-magnetic-holders",
   "category-care-products": "category-care-products",
+  "category-gift-sets": "category-gift-sets",
+  "gift-packaging": "landing-gift",
 
   // Materials
   "material-damascus-steel": "material-damascus-steel",
