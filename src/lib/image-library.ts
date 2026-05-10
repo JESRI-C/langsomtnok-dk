@@ -474,7 +474,7 @@ export const langsomtNokImageLibrary: ShopifyImage[] = [
   },
   {
     id: "landing-gift",
-    src: PASTE,
+    src: "https://cdn.shopify.com/s/files/1/0915/7227/3488/files/Gaveindpakning_med_naturlige_detaljer.png?v=1778399967",
     alt: "Gaveindpakning med køkkenredskaber i naturpapir",
     category: "gift",
     recommendedUse: "Gift landing page hero",
