@@ -62,6 +62,14 @@ const LANDING_PAGE_MAPPINGS = [
 ];
 
 function AuditPage() {
+  if (import.meta.env.PROD) {
+    return (
+      <div className="pt-24 container-calm min-h-screen">
+        <h1 className="font-serif text-2xl">Ikke tilgængelig</h1>
+        <p className="text-muted-foreground mt-2">Denne side er kun tilgængelig i udviklingsmiljøet.</p>
+      </div>
+    );
+  }
   const [products, setProducts] = useState<AuditProduct[]>([]);
   const [loading, setLoading] = useState(true);
 
