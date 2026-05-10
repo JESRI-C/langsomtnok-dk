@@ -148,7 +148,7 @@ function EditorialSection({
           <h2 className="font-serif text-2xl mb-4">{heading}</h2>
           <div
             className="text-muted-foreground leading-relaxed text-sm [&>p]:mb-3 [&>p:last-child]:mb-0 [&>ul]:list-disc [&>ul]:pl-5 [&>ul]:space-y-2"
-            dangerouslySetInnerHTML={{ __html: content }}
+            dangerouslySetInnerHTML={{ __html: sanitizeHtml(content) }}
           />
         </div>
       </section>
@@ -162,7 +162,7 @@ function EditorialSection({
         <h2 className="font-serif text-2xl mb-4">{heading}</h2>
         <div
           className="text-muted-foreground leading-relaxed mb-8 max-w-3xl [&>p]:mb-3"
-          dangerouslySetInnerHTML={{ __html: content }}
+          dangerouslySetInnerHTML={{ __html: sanitizeHtml(content) }}
         />
         {relatedProducts.length > 0 && (
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
@@ -184,7 +184,7 @@ function EditorialSection({
         {content.includes("<p") && (
           <div
             className="text-muted-foreground leading-relaxed mb-4 [&>p]:mb-3 [&>p:last-child]:mb-0"
-            dangerouslySetInnerHTML={{ __html: content.replace(/<ul[\s\S]*<\/ul>/gi, "") }}
+            dangerouslySetInnerHTML={{ __html: sanitizeHtml(content.replace(/<ul[\s\S]*<\/ul>/gi, "")) }}
           />
         )}
         <div className="p-5 rounded-lg bg-soft/40 border border-border/20">
@@ -207,7 +207,7 @@ function EditorialSection({
       <h2 className="font-serif text-2xl mb-4">{heading}</h2>
       <div
         className="text-muted-foreground leading-relaxed [&>p]:mb-4 [&>p:last-child]:mb-0"
-        dangerouslySetInnerHTML={{ __html: content }}
+        dangerouslySetInnerHTML={{ __html: sanitizeHtml(content) }}
       />
     </section>
   );
@@ -371,7 +371,7 @@ function ProductPage() {
               {parsed.intro && (
                 <div
                   className="text-muted-foreground leading-relaxed [&>p]:mb-2 [&>p:last-child]:mb-0"
-                  dangerouslySetInnerHTML={{ __html: parsed.intro }}
+                  dangerouslySetInnerHTML={{ __html: sanitizeHtml(parsed.intro) }}
                 />
               )}
             </div>
