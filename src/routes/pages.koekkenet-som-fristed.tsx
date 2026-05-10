@@ -70,7 +70,7 @@ function Page() {
         <div className="container-calm max-w-2xl text-center">
           <h2 className="font-serif text-2xl md:text-3xl mb-3">Langsomt Brev</h2>
           <p className="text-muted-foreground text-editorial mb-6">Et brev hver måned. Om ritualer, materialer og små stunder i køkkenet. Aldrig støj.</p>
-          <NewsletterSignup variant="light" />
+          <NewsletterSignup variant="default" />
         </div>
       </section>
 
