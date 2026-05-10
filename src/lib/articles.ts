@@ -90,6 +90,7 @@ export const ARTICLES: ArticleData[] = [
     ],
     relatedSlugs: ["hvilken-kokkekniv-skal-jeg-vaelge", "damaskus-kniv-hvad-betyder-det", "hvad-betyder-hrc-paa-en-kniv"],
     relatedCollections: ["knive"],
+    image: "https://cdn.shopify.com/s/files/1/0915/7227/3488/files/Hvilken_kniv_skal_jeg_vaelge.png?v=1778396730",
   },
   {
     slug: "hvad-betyder-hrc-paa-en-kniv",
