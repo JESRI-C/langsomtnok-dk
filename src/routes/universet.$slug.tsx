@@ -144,6 +144,7 @@ function UniversetStoryPage() {
           <div className="max-w-5xl mx-auto">
             <ImageSlot
               name={story.imageSlot}
+              src={story.imageSrc}
               ratio="21/9"
               motif={story.imageMotif}
               alt={story.title}

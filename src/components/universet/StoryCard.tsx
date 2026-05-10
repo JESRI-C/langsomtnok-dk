@@ -18,6 +18,7 @@ export function StoryCard({ story, size = "default" }: StoryCardProps) {
       <ImageSlot
         name={story.imageSlot}
         ratio="4/5"
+        src={story.imageSrc}
         motif={story.imageMotif}
         alt={story.title}
         variant="warm"
