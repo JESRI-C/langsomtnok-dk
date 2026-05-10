@@ -11,7 +11,7 @@ import type { CampaignContent } from "@/lib/campaign-content";
 import { buildCampaignHead, SITE_ORIGIN } from "@/lib/campaign-seo";
 
 const HERO_IMAGE =
-  "https://cdn.shopify.com/s/files/1/0915/7227/3488/files/ChatGPT_Image_9._maj_2026_21.36.26.png?v=1778355436";
+  "https://cdn.shopify.com/s/files/1/0915/7227/3488/files/Keramik_header.png?v=1778396909";
 
 const FALLBACK: CampaignContent = {
   seo_title: "Håndlavet keramik | Langsomt Nok Universet",
