@@ -22,8 +22,14 @@ const FAQ_ITEMS = [
   { question: "Kan keramikken bruges i ovn?", answer: "Mindre skåle og fade tåler ovn op til 180°C. Vi mærker hvert produkt med dets brug." },
 ];
 
-// Keramik-handles tilføjes når Shopify-produkter er klar.
-const HANDLES: string[] = [];
+const HANDLES: string[] = [
+  "lille-kop-i-perlemor-glasur-susan-riel",
+  "rillet-kop-i-lys-blagron-glasur-susan-riel",
+  "spiralskal-i-lys-bla-glasur-susan-riel",
+  "handformet-skal-i-mork-gronbla-glasur-susan-riel",
+  "skal-i-gron-og-bla-glasur-susan-riel",
+  "indskudte-skale-i-stenbla-glasur-susan-riel",
+];
 
 export const Route = createFileRoute("/pages/haandlavet-keramik")({
   head: () => ({
