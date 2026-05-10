@@ -90,6 +90,7 @@ export const ARTICLES: ArticleData[] = [
     ],
     relatedSlugs: ["hvilken-kokkekniv-skal-jeg-vaelge", "damaskus-kniv-hvad-betyder-det", "hvad-betyder-hrc-paa-en-kniv"],
     relatedCollections: ["knive"],
+    image: "https://cdn.shopify.com/s/files/1/0915/7227/3488/files/Hvilken_kniv_skal_jeg_vaelge.png?v=1778396730",
   },
   {
     slug: "hvad-betyder-hrc-paa-en-kniv",
@@ -108,6 +109,7 @@ export const ARTICLES: ArticleData[] = [
     ],
     relatedSlugs: ["damaskus-kniv-hvad-betyder-det", "hvilken-kokkekniv-skal-jeg-vaelge", "japansk-eller-europaeisk-kokkekniv"],
     relatedCollections: ["knive"],
+    image: "https://cdn.shopify.com/s/files/1/0915/7227/3488/files/Damascus_Steel_Close_up.png?v=1778398103",
   },
   {
     slug: "hvordan-sliber-man-en-kniv",
@@ -127,6 +129,7 @@ export const ARTICLES: ArticleData[] = [
     ],
     relatedSlugs: ["slibesten-1000-5000-hvad-betyder-det", "hvor-ofte-skal-man-slibe-sin-kniv", "hvilken-kokkekniv-skal-jeg-vaelge"],
     relatedCollections: ["slibesten", "pleje-ritualer"],
+    image: "https://cdn.shopify.com/s/files/1/0915/7227/3488/files/minimal_wooden_Sharpening_stone_setup.png?v=1778398237",
   },
   {
     slug: "slibesten-1000-5000-hvad-betyder-det",
@@ -164,6 +167,7 @@ export const ARTICLES: ArticleData[] = [
     ],
     relatedSlugs: ["hvordan-sliber-man-en-kniv", "slibesten-1000-5000-hvad-betyder-det", "hvilken-kokkekniv-skal-jeg-vaelge"],
     relatedCollections: ["slibesten", "pleje-ritualer"],
+    image: "https://cdn.shopify.com/s/files/1/0915/7227/3488/files/minimal_wooden_Sharpening_stone_setup.png?v=1778398237",
   },
   {
     slug: "gave-til-den-der-elsker-mad",
@@ -182,6 +186,7 @@ export const ARTICLES: ArticleData[] = [
     ],
     relatedSlugs: ["hvilken-kokkekniv-skal-jeg-vaelge", "gode-koekkenredskaber-der-holder", "kokkenet-som-fristed"],
     relatedCollections: ["gaver", "startkits"],
+    image: "https://cdn.shopify.com/s/files/1/0915/7227/3488/files/Gaveindpakning_med_naturlige_detaljer.png?v=1778399967",
   },
   {
     slug: "gode-koekkenredskaber-der-holder",
@@ -200,6 +205,7 @@ export const ARTICLES: ArticleData[] = [
     ],
     relatedSlugs: ["hvilken-kokkekniv-skal-jeg-vaelge", "damaskus-kniv-hvad-betyder-det", "gave-til-den-der-elsker-mad"],
     relatedCollections: ["knive", "magnetiske-holdere"],
+    image: "https://cdn.shopify.com/s/files/1/0915/7227/3488/files/Damascus_Steel_Close_up.png?v=1778398103",
   },
   {
     slug: "kokkenet-som-fristed",
@@ -218,6 +224,7 @@ export const ARTICLES: ArticleData[] = [
     ],
     relatedSlugs: ["hvilken-kokkekniv-skal-jeg-vaelge", "gave-til-den-der-elsker-mad", "gode-koekkenredskaber-der-holder"],
     relatedCollections: ["knive", "pleje-ritualer"],
+    image: "https://cdn.shopify.com/s/files/1/0915/7227/3488/files/Rusic_ceramics_on_a_cozy_shelf.png?v=1778397635",
   },
 ];
 
