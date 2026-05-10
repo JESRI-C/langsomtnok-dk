@@ -100,7 +100,7 @@ function KeramikCollectionPage() {
           }}
           aria-hidden="true"
         />
-        <div className="absolute inset-0 bg-background/70 md:bg-gradient-to-r md:from-background/85 md:via-background/65 md:to-background/20" aria-hidden="true" />
+        <div className="absolute inset-0 bg-background/40 md:bg-gradient-to-r md:from-background/75 md:via-background/35 md:to-transparent" aria-hidden="true" />
         <div className="container-calm relative">
           <div className="max-w-2xl">
             <span className="text-[11px] tracking-[0.25em] uppercase text-copper">
