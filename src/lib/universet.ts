@@ -45,6 +45,7 @@ export interface UniversetStory {
   modifiedAt: string;         // ISO
   imageSlot: string;          // ImageSlot name
   imageMotif: string;
+  imageSrc?: string;          // Eksplicit billede-URL (overrider slot)
   /** Shopify product type/tag query for "Det hører til ritualet" */
   relatedProductQuery?: string;
   relatedProductBlockTitle?: string;
