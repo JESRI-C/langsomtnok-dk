@@ -2,14 +2,22 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
 import { NewsletterSignup } from "@/components/NewsletterSignup";
 import { FAQAccordion } from "@/components/landing/FAQAccordion";
-import { Mail, MapPin } from "lucide-react";
+import { COMPANY, organizationSchema } from "@/components/legal/LegalPageLayout";
+import { Mail, MapPin, Phone } from "lucide-react";
 
 export const Route = createFileRoute("/kontakt")({
   head: () => ({
     meta: [
-      { title: "Kontakt — Langsomt Nok" },
-      { name: "description", content: "Har du spørgsmål? Vi svarer med ro og omtanke." },
-      { property: "og:title", content: "Kontakt — Langsomt Nok" },
+      { title: "Kontakt | Langsomt Nok" },
+      { name: "description", content: "Kontakt Langsomt Nok, drevet af JBR Freelance, CVR 30782240." },
+      { property: "og:title", content: "Kontakt | Langsomt Nok" },
+      { property: "og:description", content: "Kontakt Langsomt Nok, drevet af JBR Freelance, CVR 30782240." },
+    ],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify(organizationSchema),
+      },
     ],
   }),
   component: ContactPage,
@@ -24,7 +32,7 @@ function ContactPage() {
             <div>
               <h1 className="font-serif text-4xl md:text-5xl mb-6">Kontakt</h1>
               <p className="text-editorial text-muted-foreground mb-8">
-                Har du spørgsmål om produkter, pleje eller bestillinger? Vi svarer med ro og omtanke.
+                Har du spørgsmål til en ordre, et produkt eller noget, du gerne vil finde ud af i ro og mag, så skriv til os.
               </p>
 
               <div className="space-y-6">
@@ -32,14 +40,31 @@ function ContactPage() {
                   <Mail className="w-5 h-5 text-copper mt-0.5" />
                   <div>
                     <h3 className="text-sm font-medium mb-1">E-mail</h3>
-                    <p className="text-sm text-muted-foreground">hej@langsomtnok.dk</p>
+                    <a className="text-sm text-muted-foreground hover:text-cta" href={`mailto:${COMPANY.email}`}>
+                      {COMPANY.email}
+                    </a>
+                  </div>
+                </div>
+                <div className="flex items-start gap-4">
+                  <Phone className="w-5 h-5 text-copper mt-0.5" />
+                  <div>
+                    <h3 className="text-sm font-medium mb-1">Telefon</h3>
+                    <a className="text-sm text-muted-foreground hover:text-cta" href="tel:+4527128497">
+                      {COMPANY.phone}
+                    </a>
                   </div>
                 </div>
                 <div className="flex items-start gap-4">
                   <MapPin className="w-5 h-5 text-copper mt-0.5" />
                   <div>
                     <h3 className="text-sm font-medium mb-1">Adresse</h3>
-                    <p className="text-sm text-muted-foreground">København, Danmark</p>
+                    <p className="text-sm text-muted-foreground">
+                      {COMPANY.legalName}<br />
+                      CVR-nr.: {COMPANY.cvr}<br />
+                      {COMPANY.addressLine}<br />
+                      {COMPANY.postalCity}<br />
+                      {COMPANY.country}
+                    </p>
                   </div>
                 </div>
               </div>
@@ -65,6 +90,14 @@ function ContactPage() {
                     type="email"
                     className="w-full h-12 px-4 rounded-lg border border-border bg-background text-sm focus:outline-none focus:ring-2 focus:ring-cta/30"
                     placeholder="Din e-mail"
+                  />
+                </div>
+                <div>
+                  <label className="text-sm font-medium mb-1.5 block">Ordrenummer, hvis relevant</label>
+                  <input
+                    type="text"
+                    className="w-full h-12 px-4 rounded-lg border border-border bg-background text-sm focus:outline-none focus:ring-2 focus:ring-cta/30"
+                    placeholder="Fx #1001"
                   />
                 </div>
                 <div>
@@ -105,7 +138,7 @@ function ContactPage() {
           {
             question: "Hvordan kan jeg være tryg ved at handle hos jer?",
             answer:
-              "Du betaler sikkert via webshoppen, din ordre sendes fra Danmark, og du har 30 dages returret. Har du spørgsmål, kan du altid kontakte os.",
+              "Du betaler sikkert via webshoppen, din ordre sendes fra Danmark, og du kan altid kontakte os direkte på hej@langsomtnok.dk.",
           },
           {
             question: "Har I Trustpilot?",
