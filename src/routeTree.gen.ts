@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as UniversetRouteImport } from './routes/universet'
 import { Route as ShopRouteImport } from './routes/shop'
 import { Route as ReturpolitikRouteImport } from './routes/returpolitik'
+import { Route as ReklamationRouteImport } from './routes/reklamation'
 import { Route as PrivatlivspolitikRouteImport } from './routes/privatlivspolitik'
 import { Route as OmRouteImport } from './routes/om'
 import { Route as KontaktRouteImport } from './routes/kontakt'
@@ -19,6 +20,7 @@ import { Route as KeramikRouteImport } from './routes/keramik'
 import { Route as HandelsbetingelserRouteImport } from './routes/handelsbetingelser'
 import { Route as FragtRouteImport } from './routes/fragt'
 import { Route as FindDitRitualRouteImport } from './routes/find-dit-ritual'
+import { Route as CookiepolitikRouteImport } from './routes/cookiepolitik'
 import { Route as CirklenRouteImport } from './routes/cirklen'
 import { Route as AuditRouteImport } from './routes/audit'
 import { Route as IndexRouteImport } from './routes/index'
@@ -62,6 +64,11 @@ const ReturpolitikRoute = ReturpolitikRouteImport.update({
   path: '/returpolitik',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ReklamationRoute = ReklamationRouteImport.update({
+  id: '/reklamation',
+  path: '/reklamation',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PrivatlivspolitikRoute = PrivatlivspolitikRouteImport.update({
   id: '/privatlivspolitik',
   path: '/privatlivspolitik',
@@ -95,6 +102,11 @@ const FragtRoute = FragtRouteImport.update({
 const FindDitRitualRoute = FindDitRitualRouteImport.update({
   id: '/find-dit-ritual',
   path: '/find-dit-ritual',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CookiepolitikRoute = CookiepolitikRouteImport.update({
+  id: '/cookiepolitik',
+  path: '/cookiepolitik',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CirklenRoute = CirklenRouteImport.update({
@@ -245,6 +257,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/audit': typeof AuditRoute
   '/cirklen': typeof CirklenRoute
+  '/cookiepolitik': typeof CookiepolitikRoute
   '/find-dit-ritual': typeof FindDitRitualRoute
   '/fragt': typeof FragtRoute
   '/handelsbetingelser': typeof HandelsbetingelserRoute
@@ -252,6 +265,7 @@ export interface FileRoutesByFullPath {
   '/kontakt': typeof KontaktRoute
   '/om': typeof OmRoute
   '/privatlivspolitik': typeof PrivatlivspolitikRoute
+  '/reklamation': typeof ReklamationRoute
   '/returpolitik': typeof ReturpolitikRoute
   '/shop': typeof ShopRoute
   '/universet': typeof UniversetRouteWithChildren
@@ -284,6 +298,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/audit': typeof AuditRoute
   '/cirklen': typeof CirklenRoute
+  '/cookiepolitik': typeof CookiepolitikRoute
   '/find-dit-ritual': typeof FindDitRitualRoute
   '/fragt': typeof FragtRoute
   '/handelsbetingelser': typeof HandelsbetingelserRoute
@@ -291,6 +306,7 @@ export interface FileRoutesByTo {
   '/kontakt': typeof KontaktRoute
   '/om': typeof OmRoute
   '/privatlivspolitik': typeof PrivatlivspolitikRoute
+  '/reklamation': typeof ReklamationRoute
   '/returpolitik': typeof ReturpolitikRoute
   '/shop': typeof ShopRoute
   '/universet': typeof UniversetRouteWithChildren
@@ -324,6 +340,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/audit': typeof AuditRoute
   '/cirklen': typeof CirklenRoute
+  '/cookiepolitik': typeof CookiepolitikRoute
   '/find-dit-ritual': typeof FindDitRitualRoute
   '/fragt': typeof FragtRoute
   '/handelsbetingelser': typeof HandelsbetingelserRoute
@@ -331,6 +348,7 @@ export interface FileRoutesById {
   '/kontakt': typeof KontaktRoute
   '/om': typeof OmRoute
   '/privatlivspolitik': typeof PrivatlivspolitikRoute
+  '/reklamation': typeof ReklamationRoute
   '/returpolitik': typeof ReturpolitikRoute
   '/shop': typeof ShopRoute
   '/universet': typeof UniversetRouteWithChildren
@@ -365,6 +383,7 @@ export interface FileRouteTypes {
     | '/'
     | '/audit'
     | '/cirklen'
+    | '/cookiepolitik'
     | '/find-dit-ritual'
     | '/fragt'
     | '/handelsbetingelser'
@@ -372,6 +391,7 @@ export interface FileRouteTypes {
     | '/kontakt'
     | '/om'
     | '/privatlivspolitik'
+    | '/reklamation'
     | '/returpolitik'
     | '/shop'
     | '/universet'
@@ -404,6 +424,7 @@ export interface FileRouteTypes {
     | '/'
     | '/audit'
     | '/cirklen'
+    | '/cookiepolitik'
     | '/find-dit-ritual'
     | '/fragt'
     | '/handelsbetingelser'
@@ -411,6 +432,7 @@ export interface FileRouteTypes {
     | '/kontakt'
     | '/om'
     | '/privatlivspolitik'
+    | '/reklamation'
     | '/returpolitik'
     | '/shop'
     | '/universet'
@@ -443,6 +465,7 @@ export interface FileRouteTypes {
     | '/'
     | '/audit'
     | '/cirklen'
+    | '/cookiepolitik'
     | '/find-dit-ritual'
     | '/fragt'
     | '/handelsbetingelser'
@@ -450,6 +473,7 @@ export interface FileRouteTypes {
     | '/kontakt'
     | '/om'
     | '/privatlivspolitik'
+    | '/reklamation'
     | '/returpolitik'
     | '/shop'
     | '/universet'
@@ -483,6 +507,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuditRoute: typeof AuditRoute
   CirklenRoute: typeof CirklenRoute
+  CookiepolitikRoute: typeof CookiepolitikRoute
   FindDitRitualRoute: typeof FindDitRitualRoute
   FragtRoute: typeof FragtRoute
   HandelsbetingelserRoute: typeof HandelsbetingelserRoute
@@ -490,6 +515,7 @@ export interface RootRouteChildren {
   KontaktRoute: typeof KontaktRoute
   OmRoute: typeof OmRoute
   PrivatlivspolitikRoute: typeof PrivatlivspolitikRoute
+  ReklamationRoute: typeof ReklamationRoute
   ReturpolitikRoute: typeof ReturpolitikRoute
   ShopRoute: typeof ShopRoute
   UniversetRoute: typeof UniversetRouteWithChildren
@@ -539,6 +565,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ReturpolitikRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/reklamation': {
+      id: '/reklamation'
+      path: '/reklamation'
+      fullPath: '/reklamation'
+      preLoaderRoute: typeof ReklamationRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/privatlivspolitik': {
       id: '/privatlivspolitik'
       path: '/privatlivspolitik'
@@ -586,6 +619,13 @@ declare module '@tanstack/react-router' {
       path: '/find-dit-ritual'
       fullPath: '/find-dit-ritual'
       preLoaderRoute: typeof FindDitRitualRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/cookiepolitik': {
+      id: '/cookiepolitik'
+      path: '/cookiepolitik'
+      fullPath: '/cookiepolitik'
+      preLoaderRoute: typeof CookiepolitikRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/cirklen': {
@@ -809,6 +849,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuditRoute: AuditRoute,
   CirklenRoute: CirklenRoute,
+  CookiepolitikRoute: CookiepolitikRoute,
   FindDitRitualRoute: FindDitRitualRoute,
   FragtRoute: FragtRoute,
   HandelsbetingelserRoute: HandelsbetingelserRoute,
@@ -816,6 +857,7 @@ const rootRouteChildren: RootRouteChildren = {
   KontaktRoute: KontaktRoute,
   OmRoute: OmRoute,
   PrivatlivspolitikRoute: PrivatlivspolitikRoute,
+  ReklamationRoute: ReklamationRoute,
   ReturpolitikRoute: ReturpolitikRoute,
   ShopRoute: ShopRoute,
   UniversetRoute: UniversetRouteWithChildren,
