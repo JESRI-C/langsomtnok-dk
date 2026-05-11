@@ -1,6 +1,8 @@
 User-agent: *
 Allow: /
-
-Sitemap: https://langsomtnok-dk.lovable.app/sitemap.xml
-
 Disallow: /audit
+
+Sitemap: https://langsomtnok.dk/sitemap.xml
+
+# AI / LLM site overview
+# https://langsomtnok.dk/llms.txt
