@@ -3,6 +3,8 @@
  * COLLECTION PAGE — /collections/{handle}
  * ============================================================================
  * Fetches collection from Shopify with editorial intro copy per collection.
+ * Also supports older/internal alias handles so existing links do not lead to
+ * empty collection experiences.
  * ============================================================================
  */
 
@@ -21,17 +23,33 @@ const SORT_OPTIONS = [
   { label: "Titel: A-Å", key: "TITLE", reverse: false },
 ];
 
-/** Editorial intro copy for known collections */
+/** Editorial intro copy for known collections and legacy aliases */
 const COLLECTION_INTROS: Record<string, { tagline: string; intro: string }> = {
   knive: {
     tagline: "The Chef Line",
     intro: "Knive til hænder, der gerne vil mærke forskellen.",
+  },
+  "the-chef-line": {
+    tagline: "The Chef Line",
+    intro: "Knive til hænder, der gerne vil mærke forskellen.",
+  },
+  "damascus-kollektionen-stal-tid-og-handvaerk": {
+    tagline: "Damascus-kollektionen",
+    intro: "Stål, tid og håndværk samlet i knive med karakter.",
   },
   slibesten: {
     tagline: "The Ritual Set",
     intro: "Skarphed er ikke tilfældig. Den er plejet.",
   },
   "slibning-pleje": {
+    tagline: "The Ritual Set",
+    intro: "Skarphed er ikke tilfældig. Den er plejet.",
+  },
+  "pleje-ritualer": {
+    tagline: "The Ritual Set",
+    intro: "Pleje, slibning og små ritualer til redskaber, der gerne må holde længe.",
+  },
+  "the-ritual-set": {
     tagline: "The Ritual Set",
     intro: "Skarphed er ikke tilfældig. Den er plejet.",
   },
@@ -43,7 +61,15 @@ const COLLECTION_INTROS: Record<string, { tagline: string; intro: string }> = {
     tagline: "The Calm Kitchen",
     intro: "Når værktøjet er smukt, skal det ikke gemmes væk.",
   },
+  "the-calm-kitchen": {
+    tagline: "The Calm Kitchen",
+    intro: "Når værktøjet er smukt, skal det ikke gemmes væk.",
+  },
   gaver: {
+    tagline: "The Gift Chapter",
+    intro: "Gaver, der bliver brugt. Ikke bare pakket ud.",
+  },
+  "the-gift-chapter": {
     tagline: "The Gift Chapter",
     intro: "Gaver, der bliver brugt. Ikke bare pakket ud.",
   },
@@ -51,9 +77,13 @@ const COLLECTION_INTROS: Record<string, { tagline: string; intro: string }> = {
     tagline: "Begynd her",
     intro: "Begynd med det, du faktisk får lyst til at bruge igen.",
   },
+  "handlavet-keramik": {
+    tagline: "Håndlavet keramik",
+    intro: "Keramik skabt i hænder. Til rolige morgener, små serveringer og hverdage, der gerne må gå lidt langsommere.",
+  },
   "susan-riel": {
     tagline: "Atelier",
-    intro: "Keramik fra Susan Riel — levende glasurer, rolige former og tydelige spor af hænder.",
+    intro: "Keramik fra Susan Riel - levende glasurer, rolige former og tydelige spor af hænder.",
   },
   keramikkopper: {
     tagline: "Håndlavet keramik",
@@ -73,16 +103,22 @@ const COLLECTION_INTROS: Record<string, { tagline: string; intro: string }> = {
   },
 };
 
-/** Fallback: map collection handle → product_type query (until real Shopify collections exist) */
+/** Fallback: map collection handle → product query if real Shopify collection is missing or empty */
 const COLLECTION_PRODUCT_TYPE_FALLBACK: Record<string, string> = {
   knive: 'product_type:"The Chef Line"',
+  "the-chef-line": 'product_type:"The Chef Line"',
+  "damascus-kollektionen-stal-tid-og-handvaerk": "damascus OR damaskus",
   slibesten: 'product_type:"The Ritual Set"',
   "slibning-pleje": 'product_type:"The Ritual Set"',
+  "pleje-ritualer": 'product_type:"The Ritual Set"',
+  "the-ritual-set": 'product_type:"The Ritual Set"',
   "magnetiske-holdere": 'product_type:"The Calm Kitchen"',
   "magnetisk-opbevaring": 'product_type:"The Calm Kitchen"',
+  "the-calm-kitchen": 'product_type:"The Calm Kitchen"',
   gaver: 'product_type:"The Gift Chapter"',
+  "the-gift-chapter": 'product_type:"The Gift Chapter"',
   "start-dit-ritual": "",
-  // Keramik — bruges hvis Shopify-kollektionerne endnu ikke er publiceret
+  // Keramik - bruges hvis Shopify-kollektionerne endnu ikke er publiceret
   // til Storefront API sales channel (Headless / Online Store).
   "handlavet-keramik": "product_type:Keramik",
   "susan-riel": 'vendor:"Susan Riel"',
@@ -95,7 +131,7 @@ const COLLECTION_PRODUCT_TYPE_FALLBACK: Record<string, string> = {
 export const Route = createFileRoute("/collections/$handle")({
   head: ({ params }) => {
     const info = COLLECTION_INTROS[params.handle];
-    const title = info ? `${info.tagline} — Langsomt Nok` : `${params.handle} — Langsomt Nok`;
+    const title = info ? `${info.tagline} | Langsomt Nok` : `${params.handle} | Langsomt Nok`;
     const desc = info?.intro || `Udforsk vores ${params.handle} kollektion.`;
     return {
       meta: [
@@ -135,15 +171,15 @@ function CollectionPage() {
           setCollection({ title: col.title, description: col.description });
           setProducts(col.products.edges);
         } else {
-          // Fallback: use product_type filter
+          // Fallback: use product filter for friendly/legacy handles and empty manual collections
           const fallbackQuery = COLLECTION_PRODUCT_TYPE_FALLBACK[handle];
           if (fallbackQuery !== undefined) {
-            const fallbackTitle = editorialInfo?.tagline || handle;
-            setCollection({ title: fallbackTitle, description: editorialInfo?.intro || "" });
+            const fallbackTitle = editorialInfo?.tagline || col?.title || handle;
+            setCollection({ title: fallbackTitle, description: editorialInfo?.intro || col?.description || "" });
             const fbData = await storefrontApiRequest(PRODUCTS_QUERY, { first: 50, ...(fallbackQuery ? { query: fallbackQuery } : {}) });
             setProducts(fbData?.data?.products?.edges || []);
           } else {
-            setCollection(null);
+            setCollection(col ? { title: col.title, description: col.description } : null);
             setProducts([]);
           }
         }
