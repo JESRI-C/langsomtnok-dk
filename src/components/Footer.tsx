@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { CreditCard, ShieldCheck, Package, RotateCcw } from "lucide-react";
 import { trackEvent } from "@/lib/analytics";
+import { COMPANY } from "@/components/legal/LegalPageLayout";
 
 const footerLinks = {
   shop: [
@@ -29,10 +30,13 @@ const footerLinks = {
     { label: "Kontakt", to: "/kontakt" },
   ],
   legal: [
-    { label: "Handelsbetingelser", to: "/handelsbetingelser" },
-    { label: "Privatlivspolitik", to: "/privatlivspolitik" },
-    { label: "Returpolitik", to: "/returpolitik" },
-    { label: "Fragt", to: "/fragt" },
+    { label: "Kontakt", href: "/kontakt" },
+    { label: "Handelsbetingelser", href: "/handelsbetingelser" },
+    { label: "Privatlivspolitik", href: "/privatlivspolitik" },
+    { label: "Cookiepolitik", href: "/cookiepolitik" },
+    { label: "Returnering og fortrydelse", href: "/returpolitik" },
+    { label: "Levering", href: "/fragt" },
+    { label: "Reklamation", href: "/reklamation" },
   ],
 };
 
@@ -70,11 +74,18 @@ export function Footer() {
 
             <div className="mt-8 pt-6 border-t border-deep-foreground/10 max-w-sm">
               <h3 className="text-sm font-medium tracking-wider uppercase mb-3 text-deep-foreground/40">
-                Et nyt dansk køkkenunivers
+                Juridisk information
               </h3>
-              <p className="text-sm text-deep-foreground/60 leading-relaxed">
-                Langsomt Nok er skabt med fokus på knive, keramik og køkkenudstyr i ærlige materialer. Vi bygger langsomt, ordentligt og med respekt for den gode købsoplevelse.
+              <p className="text-sm text-deep-foreground/60 leading-relaxed mb-4">
+                Langsomt Nok drives af {COMPANY.legalName} - en dansk virksomhed med fokus på ro, håndværk og brugbare produkter til hjemmet.
               </p>
+              <address className="not-italic text-xs text-deep-foreground/45 leading-6">
+                {COMPANY.legalName}<br />
+                CVR-nr.: {COMPANY.cvr}<br />
+                {COMPANY.addressLine}, {COMPANY.postalCity}, {COMPANY.country}<br />
+                E-mail: <a href={`mailto:${COMPANY.email}`} className="hover:text-deep-foreground transition-colors">{COMPANY.email}</a><br />
+                Telefon: <a href="tel:+4527128497" className="hover:text-deep-foreground transition-colors">{COMPANY.phone}</a>
+              </address>
             </div>
           </div>
 
@@ -131,12 +142,13 @@ export function Footer() {
                 </li>
               ))}
             </ul>
-            <ul className="space-y-3 mt-6">
+            <h3 className="text-sm font-medium tracking-wider uppercase mt-8 mb-4 text-deep-foreground/40">Vilkår</h3>
+            <ul className="space-y-3">
               {footerLinks.legal.map((link) => (
                 <li key={link.label}>
-                  <Link to={link.to} className="text-sm text-deep-foreground/40 hover:text-deep-foreground/60 transition-colors">
+                  <a href={link.href} className="text-sm text-deep-foreground/40 hover:text-deep-foreground/60 transition-colors">
                     {link.label}
-                  </Link>
+                  </a>
                 </li>
               ))}
             </ul>
@@ -196,7 +208,7 @@ export function Footer() {
               </span>
               <span className="inline-flex items-center gap-2 text-xs">
                 <RotateCcw className="w-4 h-4 text-cta" strokeWidth={1.5} />
-                30 dages returret
+                14 dages fortrydelsesret
               </span>
             </div>
           </div>
