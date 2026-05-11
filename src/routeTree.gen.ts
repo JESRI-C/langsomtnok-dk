@@ -25,7 +25,7 @@ import { Route as CirklenRouteImport } from './routes/cirklen'
 import { Route as AuditRouteImport } from './routes/audit'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as GuidesIndexRouteImport } from './routes/guides.index'
-import { Route as UniversetSlugRouteImport } from './routes/universet.$slug'
+import { Route as UniversetSlugRouteImport } from './routes/universet_.$slug'
 import { Route as RitualerRoligOpbevaringRouteImport } from './routes/ritualer.rolig-opbevaring'
 import { Route as RitualerHoldKnivenSkarpRouteImport } from './routes/ritualer.hold-kniven-skarp'
 import { Route as ProductHandleRouteImport } from './routes/product.$handle'
@@ -130,9 +130,9 @@ const GuidesIndexRoute = GuidesIndexRouteImport.update({
   getParentRoute: () => rootRouteImport,
 } as any)
 const UniversetSlugRoute = UniversetSlugRouteImport.update({
-  id: '/$slug',
-  path: '/$slug',
-  getParentRoute: () => UniversetRoute,
+  id: '/universet_/$slug',
+  path: '/universet/$slug',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const RitualerRoligOpbevaringRoute = RitualerRoligOpbevaringRouteImport.update({
   id: '/ritualer/rolig-opbevaring',
@@ -268,7 +268,7 @@ export interface FileRoutesByFullPath {
   '/reklamation': typeof ReklamationRoute
   '/returpolitik': typeof ReturpolitikRoute
   '/shop': typeof ShopRoute
-  '/universet': typeof UniversetRouteWithChildren
+  '/universet': typeof UniversetRoute
   '/collections/$handle': typeof CollectionsHandleRoute
   '/collections/handlavet-keramik': typeof CollectionsHandlavetKeramikRoute
   '/gaver/fars-dag': typeof GaverFarsDagRoute
@@ -309,7 +309,7 @@ export interface FileRoutesByTo {
   '/reklamation': typeof ReklamationRoute
   '/returpolitik': typeof ReturpolitikRoute
   '/shop': typeof ShopRoute
-  '/universet': typeof UniversetRouteWithChildren
+  '/universet': typeof UniversetRoute
   '/collections/$handle': typeof CollectionsHandleRoute
   '/collections/handlavet-keramik': typeof CollectionsHandlavetKeramikRoute
   '/gaver/fars-dag': typeof GaverFarsDagRoute
@@ -351,7 +351,7 @@ export interface FileRoutesById {
   '/reklamation': typeof ReklamationRoute
   '/returpolitik': typeof ReturpolitikRoute
   '/shop': typeof ShopRoute
-  '/universet': typeof UniversetRouteWithChildren
+  '/universet': typeof UniversetRoute
   '/collections/$handle': typeof CollectionsHandleRoute
   '/collections/handlavet-keramik': typeof CollectionsHandlavetKeramikRoute
   '/gaver/fars-dag': typeof GaverFarsDagRoute
@@ -374,7 +374,7 @@ export interface FileRoutesById {
   '/product/$handle': typeof ProductHandleRoute
   '/ritualer/hold-kniven-skarp': typeof RitualerHoldKnivenSkarpRoute
   '/ritualer/rolig-opbevaring': typeof RitualerRoligOpbevaringRoute
-  '/universet/$slug': typeof UniversetSlugRoute
+  '/universet_/$slug': typeof UniversetSlugRoute
   '/guides/': typeof GuidesIndexRoute
 }
 export interface FileRouteTypes {
@@ -499,7 +499,7 @@ export interface FileRouteTypes {
     | '/product/$handle'
     | '/ritualer/hold-kniven-skarp'
     | '/ritualer/rolig-opbevaring'
-    | '/universet/$slug'
+    | '/universet_/$slug'
     | '/guides/'
   fileRoutesById: FileRoutesById
 }
@@ -518,7 +518,7 @@ export interface RootRouteChildren {
   ReklamationRoute: typeof ReklamationRoute
   ReturpolitikRoute: typeof ReturpolitikRoute
   ShopRoute: typeof ShopRoute
-  UniversetRoute: typeof UniversetRouteWithChildren
+  UniversetRoute: typeof UniversetRoute
   CollectionsHandleRoute: typeof CollectionsHandleRoute
   CollectionsHandlavetKeramikRoute: typeof CollectionsHandlavetKeramikRoute
   GaverFarsDagRoute: typeof GaverFarsDagRoute
@@ -539,6 +539,7 @@ export interface RootRouteChildren {
   ProductHandleRoute: typeof ProductHandleRoute
   RitualerHoldKnivenSkarpRoute: typeof RitualerHoldKnivenSkarpRoute
   RitualerRoligOpbevaringRoute: typeof RitualerRoligOpbevaringRoute
+  UniversetSlugRoute: typeof UniversetSlugRoute
   GuidesIndexRoute: typeof GuidesIndexRoute
 }
 
@@ -656,12 +657,12 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof GuidesIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/universet/$slug': {
-      id: '/universet/$slug'
-      path: '/$slug'
+    '/universet_/$slug': {
+      id: '/universet_/$slug'
+      path: '/universet/$slug'
       fullPath: '/universet/$slug'
       preLoaderRoute: typeof UniversetSlugRouteImport
-      parentRoute: typeof UniversetRoute
+      parentRoute: typeof rootRouteImport
     }
     '/ritualer/rolig-opbevaring': {
       id: '/ritualer/rolig-opbevaring'
@@ -833,18 +834,6 @@ const KeramikRouteChildren: KeramikRouteChildren = {
 const KeramikRouteWithChildren =
   KeramikRoute._addFileChildren(KeramikRouteChildren)
 
-interface UniversetRouteChildren {
-  UniversetSlugRoute: typeof UniversetSlugRoute
-}
-
-const UniversetRouteChildren: UniversetRouteChildren = {
-  UniversetSlugRoute: UniversetSlugRoute,
-}
-
-const UniversetRouteWithChildren = UniversetRoute._addFileChildren(
-  UniversetRouteChildren,
-)
-
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuditRoute: AuditRoute,
@@ -860,7 +849,7 @@ const rootRouteChildren: RootRouteChildren = {
   ReklamationRoute: ReklamationRoute,
   ReturpolitikRoute: ReturpolitikRoute,
   ShopRoute: ShopRoute,
-  UniversetRoute: UniversetRouteWithChildren,
+  UniversetRoute: UniversetRoute,
   CollectionsHandleRoute: CollectionsHandleRoute,
   CollectionsHandlavetKeramikRoute: CollectionsHandlavetKeramikRoute,
   GaverFarsDagRoute: GaverFarsDagRoute,
@@ -882,8 +871,19 @@ const rootRouteChildren: RootRouteChildren = {
   ProductHandleRoute: ProductHandleRoute,
   RitualerHoldKnivenSkarpRoute: RitualerHoldKnivenSkarpRoute,
   RitualerRoligOpbevaringRoute: RitualerRoligOpbevaringRoute,
+  UniversetSlugRoute: UniversetSlugRoute,
   GuidesIndexRoute: GuidesIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
