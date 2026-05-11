@@ -92,7 +92,7 @@ function buildHeadForStory(slug: string) {
   };
 }
 
-export const Route = createFileRoute("/universet/$slug")({
+export const Route = createFileRoute("/universet_/$slug")({
   head: ({ params }) => buildHeadForStory(params.slug),
   component: UniversetStoryPage,
   notFoundComponent: () => (
