@@ -18,7 +18,7 @@ const navItems = [
 
 const trustItems = [
   { icon: Truck, text: "Sendes fra Danmark" },
-  { icon: RotateCcw, text: "30 dages returret" },
+  { icon: RotateCcw, text: "14 dages fortrydelsesret" },
   { icon: Shield, text: "Sikker betaling" },
   { icon: Package, text: "Pakket med omhu" },
 ];
