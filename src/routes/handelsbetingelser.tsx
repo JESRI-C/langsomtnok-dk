@@ -9,6 +9,7 @@ export const Route = createFileRoute("/handelsbetingelser")({
       { property: "og:title", content: "Handelsbetingelser | Langsomt Nok" },
       { property: "og:description", content: "Læs handelsbetingelser for køb hos Langsomt Nok, herunder betaling, levering, fortrydelsesret, returnering og reklamation." },
     ],
+    links: [{ rel: "canonical", href: "https://langsomtnok.dk/handelsbetingelser" }],
   }),
   component: HandelsbetingelserPage,
 });

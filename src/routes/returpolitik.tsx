@@ -9,6 +9,7 @@ export const Route = createFileRoute("/returpolitik")({
       { property: "og:title", content: "Returnering og fortrydelse | Langsomt Nok" },
       { property: "og:description", content: "Læs hvordan du returnerer en vare eller bruger din fortrydelsesret hos Langsomt Nok." },
     ],
+    links: [{ rel: "canonical", href: "https://langsomtnok.dk/returpolitik" }],
   }),
   component: ReturpolitikPage,
 });

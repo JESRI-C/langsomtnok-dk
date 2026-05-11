@@ -17,6 +17,7 @@ export const Route = createFileRoute("/pages/gave-til-madelskeren")({
       { property: "og:title", content: "Gave til madelskeren — Langsomt Nok" },
       { property: "og:description", content: "En gave, der bliver brugt. Ikke bare pakket ud." },
     ],
+    links: [{ rel: "canonical", href: "https://langsomtnok.dk/pages/gave-til-madelskeren" }],
   }),
   component: GiftPage,
 });

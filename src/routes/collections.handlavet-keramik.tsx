@@ -55,6 +55,7 @@ export const Route = createFileRoute("/collections/handlavet-keramik")({
       { property: "og:title", content: PAGE_TITLE },
       { property: "og:description", content: PAGE_DESC },
     ],
+    links: [{ rel: "canonical", href: "https://langsomtnok.dk/collections/handlavet-keramik" }],
   }),
   component: KeramikCollectionPage,
 });

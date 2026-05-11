@@ -14,6 +14,7 @@ export const Route = createFileRoute("/shop")({
       { property: "og:title", content: "Shop — Langsomt Nok" },
       { property: "og:description", content: "Udforsk vores samling af kokkeknive, slibesten, holdere og plejeritualer." },
     ],
+    links: [{ rel: "canonical", href: "https://langsomtnok.dk/shop" }],
   }),
   component: ShopPage,
 });

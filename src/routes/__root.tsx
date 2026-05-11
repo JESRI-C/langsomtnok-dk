@@ -79,6 +79,9 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { property: "og:title", content: "Langsomt Nok — Tid. Håndværk. Ro." },
       { property: "og:description", content: "Køkkenredskaber skabt til dem, der ikke skynder sig gennem det vigtige." },
       { property: "og:type", content: "website" },
+      { property: "og:site_name", content: "Langsomt Nok" },
+      { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:site", content: "@langsomtnok" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },

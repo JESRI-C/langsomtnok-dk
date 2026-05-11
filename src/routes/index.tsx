@@ -35,6 +35,7 @@ export const Route = createFileRoute("/")({
       },
       { property: "og:image", content: heroPoster },
     ],
+    links: [{ rel: "canonical", href: "https://langsomtnok.dk" }],
   }),
   component: HomePage,
 });

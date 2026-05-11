@@ -9,6 +9,7 @@ export const Route = createFileRoute("/fragt")({
       { property: "og:title", content: "Levering | Langsomt Nok" },
       { property: "og:description", content: "Læs om levering, fragt, leveringstid og håndtering af beskadigede eller manglende pakker hos Langsomt Nok." },
     ],
+    links: [{ rel: "canonical", href: "https://langsomtnok.dk/fragt" }],
   }),
   component: FragtPage,
 });

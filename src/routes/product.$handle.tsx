@@ -38,11 +38,19 @@ import { Loader2, Minus, Plus, CreditCard, Truck, RotateCcw, Package } from "luc
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/product/$handle")({
-  head: ({ params }) => ({
-    meta: [
-      { title: `${params.handle} — Langsomt Nok` },
-    ],
-  }),
+  head: ({ params }) => {
+    const url = `https://langsomtnok.dk/product/${params.handle}`;
+    const title = `${params.handle.replace(/-/g, " ")} — Langsomt Nok`;
+    return {
+      meta: [
+        { title },
+        { property: "og:title", content: title },
+        { property: "og:type", content: "product" },
+        { property: "og:url", content: url },
+      ],
+      links: [{ rel: "canonical", href: url }],
+    };
+  },
   component: ProductPage,
 });
 
@@ -308,8 +316,30 @@ function ProductPage() {
     ? { label: "Se knivene", to: "/shop" }
     : { label: "Udforsk ritualerne", to: "/shop" };
 
+  const productSchema = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: product.title,
+    description: product.description,
+    image: images.map((e) => e.node.url),
+    sku: variant?.sku || product.handle,
+    brand: { "@type": "Brand", name: "Langsomt Nok" },
+    url: `https://langsomtnok.dk/product/${product.handle}`,
+    offers: {
+      "@type": "Offer",
+      price: variant?.price?.amount || product.priceRange.minVariantPrice.amount,
+      priceCurrency: variant?.price?.currencyCode || product.priceRange.minVariantPrice.currencyCode || "DKK",
+      availability: variant?.availableForSale ? "https://schema.org/InStock" : "https://schema.org/OutOfStock",
+      url: `https://langsomtnok.dk/product/${product.handle}`,
+    },
+  };
+
   return (
     <div className="pt-24 pb-16">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(productSchema) }}
+      />
       <div className="container-calm">
         <Link to="/shop" className="text-sm text-muted-foreground hover:text-foreground mb-8 inline-block">
           ← Tilbage til shop

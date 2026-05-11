@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { NewsletterSignup } from "@/components/NewsletterSignup";
 import { FAQAccordion } from "@/components/landing/FAQAccordion";
 import { COMPANY, organizationSchema } from "@/components/legal/LegalPageLayout";
+import { onlineStoreSchema, canonical } from "@/lib/seo";
 import { Mail, MapPin, Phone } from "lucide-react";
 
 export const Route = createFileRoute("/kontakt")({
@@ -13,11 +14,10 @@ export const Route = createFileRoute("/kontakt")({
       { property: "og:title", content: "Kontakt | Langsomt Nok" },
       { property: "og:description", content: "Kontakt Langsomt Nok, drevet af JBR Freelance, CVR 30782240." },
     ],
+    links: [canonical("/kontakt")],
     scripts: [
-      {
-        type: "application/ld+json",
-        children: JSON.stringify(organizationSchema),
-      },
+      { type: "application/ld+json", children: JSON.stringify(organizationSchema) },
+      { type: "application/ld+json", children: JSON.stringify(onlineStoreSchema) },
     ],
   }),
   component: ContactPage,

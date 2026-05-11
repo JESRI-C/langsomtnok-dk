@@ -17,6 +17,7 @@ export const Route = createFileRoute("/pages/sadan-holder-du-din-kniv-skarp")({
       { property: "og:title", content: "Sådan holder du din kniv skarp — Langsomt Nok" },
       { property: "og:description", content: "En skarp kniv er ikke tilfældig. Den er plejet." },
     ],
+    links: [{ rel: "canonical", href: "https://langsomtnok.dk/pages/sadan-holder-du-din-kniv-skarp" }],
   }),
   component: SharpeningPage,
 });

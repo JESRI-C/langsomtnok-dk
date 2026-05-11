@@ -11,6 +11,7 @@ export const Route = createFileRoute("/om")({
       { property: "og:title", content: "Om Langsomt Nok — Tid. Håndværk. Ro." },
       { property: "og:description", content: "Langsomt Nok er skabt til køkkenet som fristed." },
     ],
+    links: [{ rel: "canonical", href: "https://langsomtnok.dk/om" }],
   }),
   component: AboutPage,
 });
