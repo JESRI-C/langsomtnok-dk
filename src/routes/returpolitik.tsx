@@ -1,11 +1,13 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { LegalPageLayout, LegalSection } from "@/components/legal/LegalPageLayout";
 
 export const Route = createFileRoute("/returpolitik")({
   head: () => ({
     meta: [
-      { title: "Returpolitik — Langsomt Nok" },
-      { name: "description", content: "30 dages returret hos Langsomt Nok. Læs om vores returproces." },
-      { property: "og:title", content: "Returpolitik — Langsomt Nok" },
+      { title: "Returnering og fortrydelse | Langsomt Nok" },
+      { name: "description", content: "Læs hvordan du returnerer en vare eller bruger din fortrydelsesret hos Langsomt Nok." },
+      { property: "og:title", content: "Returnering og fortrydelse | Langsomt Nok" },
+      { property: "og:description", content: "Læs hvordan du returnerer en vare eller bruger din fortrydelsesret hos Langsomt Nok." },
     ],
   }),
   component: ReturpolitikPage,
@@ -13,21 +15,48 @@ export const Route = createFileRoute("/returpolitik")({
 
 function ReturpolitikPage() {
   return (
-    <div className="pt-24 pb-16">
-      <div className="container-calm max-w-2xl mx-auto">
-        <h1 className="font-serif text-4xl mb-8">Returpolitik</h1>
-        <div className="prose prose-neutral max-w-none space-y-6 text-muted-foreground text-editorial">
-          <p>
-            Vi ønsker, at du er helt tilfreds med dit køb. Hvis ikke, har du 30 dages returret fra modtagelsesdagen.
-          </p>
-          <h2 className="font-serif text-xl text-foreground">Betingelser for retur</h2>
-          <p>Varen skal returneres i ubrugt og original stand med al original emballage. Knive, der har været brugt eller slebet, kan ikke returneres.</p>
-          <h2 className="font-serif text-xl text-foreground">Sådan returnerer du</h2>
-          <p>Kontakt os via <a href="/kontakt" className="text-cta hover:underline">kontaktsiden</a>, så sender vi en returlabel og vejledning.</p>
-          <h2 className="font-serif text-xl text-foreground">Refundering</h2>
-          <p>Når vi har modtaget og godkendt din retur, refunderer vi beløbet inden for 5–7 hverdage til den betalingsmetode, du brugte ved købet.</p>
+    <LegalPageLayout
+      title="Returnering og fortrydelse"
+      intro="Hos Langsomt Nok ønsker vi, at du handler i ro. Hvis du fortryder dit køb, har du som forbruger som udgangspunkt 14 dages fortrydelsesret."
+    >
+      <LegalSection title="1. Sådan fortryder du">
+        <p>
+          Skriv til os på <a className="text-cta hover:underline" href="mailto:hej@langsomtnok.dk">hej@langsomtnok.dk</a> med dit ordrenummer og besked om, at du ønsker at fortryde købet.
+        </p>
+        <p>Fristen er 14 dage fra den dag, du eller en person valgt af dig modtager varen.</p>
+      </LegalSection>
+
+      <LegalSection title="2. Returnering">
+        <p>Når du har givet besked om fortrydelse, skal varen sendes retur uden unødig forsinkelse og senest 14 dage efter.</p>
+        <div className="rounded-lg border border-border/60 bg-card/60 p-5 text-sm leading-7">
+          <strong className="block text-foreground">Returadresse</strong>
+          JBR Freelance<br />
+          Bøgevej 4<br />
+          7160 Tørring<br />
+          Danmark
         </div>
-      </div>
-    </div>
+      </LegalSection>
+
+      <LegalSection title="3. Returfragt">
+        <p>Du betaler som udgangspunkt selv for returfragten, medmindre andet er aftalt.</p>
+        <p>Vi anbefaler, at du sender varen med tracking, så pakken kan spores.</p>
+      </LegalSection>
+
+      <LegalSection title="4. Varens stand">
+        <p>
+          Du må undersøge varen på samme måde, som du ville gøre i en fysisk butik. Hvis varen er brugt mere end nødvendigt for at fastslå dens art, egenskaber og funktion, kan der ske en værdiforringelse.
+        </p>
+        <p>Varen skal sendes forsvarligt emballeret.</p>
+      </LegalSection>
+
+      <LegalSection title="5. Tilbagebetaling">
+        <p>
+          Når returneringen er godkendt, tilbagebetaler vi beløbet hurtigst muligt og senest 14 dage efter, at du har givet besked om fortrydelse.
+        </p>
+        <p>
+          Vi kan tilbageholde betalingen, indtil vi har modtaget varen retur, eller du har fremlagt dokumentation for returnering.
+        </p>
+      </LegalSection>
+    </LegalPageLayout>
   );
 }
