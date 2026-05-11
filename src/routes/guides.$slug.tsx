@@ -9,12 +9,43 @@ import { getArticleBySlug, getRelatedArticles } from "@/lib/articles";
 export const Route = createFileRoute("/guides/$slug")({
   head: ({ params }) => {
     const article = getArticleBySlug(params.slug);
+    const url = `https://langsomtnok.dk/guides/${params.slug}`;
+    const title = article?.seoTitle || `${params.slug} — Langsomt Nok Guides`;
+    const desc = article?.metaDescription || "Guide fra Langsomt Nok.";
+    const articleLd = article
+      ? {
+          "@context": "https://schema.org",
+          "@type": "Article",
+          headline: article.title,
+          description: article.metaDescription,
+          author: { "@type": "Organization", name: "Langsomt Nok" },
+          publisher: { "@type": "Organization", name: "Langsomt Nok", url: "https://langsomtnok.dk" },
+          mainEntityOfPage: { "@type": "WebPage", "@id": url },
+          url,
+        }
+      : null;
+    const breadcrumbLd = {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Forside", item: "https://langsomtnok.dk/" },
+        { "@type": "ListItem", position: 2, name: "Guides", item: "https://langsomtnok.dk/guides" },
+        { "@type": "ListItem", position: 3, name: article?.title || params.slug, item: url },
+      ],
+    };
     return {
       meta: [
-        { title: article?.seoTitle || `${params.slug} — Langsomt Nok Guides` },
-        ...(article ? [{ name: "description", content: article.metaDescription }] : []),
-        { property: "og:title", content: article?.seoTitle || params.slug },
-        ...(article ? [{ property: "og:description", content: article.metaDescription }] : []),
+        { title },
+        { name: "description", content: desc },
+        { property: "og:title", content: title },
+        { property: "og:description", content: desc },
+        { property: "og:url", content: url },
+        { property: "og:type", content: "article" },
+      ],
+      links: [{ rel: "canonical", href: url }],
+      scripts: [
+        ...(articleLd ? [{ type: "application/ld+json", children: JSON.stringify(articleLd) }] : []),
+        { type: "application/ld+json", children: JSON.stringify(breadcrumbLd) },
       ],
     };
   },

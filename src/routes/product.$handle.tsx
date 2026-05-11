@@ -38,11 +38,19 @@ import { Loader2, Minus, Plus, CreditCard, Truck, RotateCcw, Package } from "luc
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/product/$handle")({
-  head: ({ params }) => ({
-    meta: [
-      { title: `${params.handle} — Langsomt Nok` },
-    ],
-  }),
+  head: ({ params }) => {
+    const url = `https://langsomtnok.dk/product/${params.handle}`;
+    const title = `${params.handle.replace(/-/g, " ")} — Langsomt Nok`;
+    return {
+      meta: [
+        { title },
+        { property: "og:title", content: title },
+        { property: "og:type", content: "product" },
+        { property: "og:url", content: url },
+      ],
+      links: [{ rel: "canonical", href: url }],
+    };
+  },
   component: ProductPage,
 });
 

@@ -133,12 +133,37 @@ export const Route = createFileRoute("/collections/$handle")({
     const info = COLLECTION_INTROS[params.handle];
     const title = info ? `${info.tagline} | Langsomt Nok` : `${params.handle} | Langsomt Nok`;
     const desc = info?.intro || `Udforsk vores ${params.handle} kollektion.`;
+    const url = `https://langsomtnok.dk/collections/${params.handle}`;
+    const collectionLd = {
+      "@context": "https://schema.org",
+      "@type": "CollectionPage",
+      name: title,
+      description: desc,
+      url,
+      isPartOf: { "@type": "WebSite", name: "Langsomt Nok", url: "https://langsomtnok.dk" },
+    };
+    const breadcrumbLd = {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Forside", item: "https://langsomtnok.dk/" },
+        { "@type": "ListItem", position: 2, name: "Shop", item: "https://langsomtnok.dk/shop" },
+        { "@type": "ListItem", position: 3, name: info?.tagline || params.handle, item: url },
+      ],
+    };
     return {
       meta: [
         { title },
         { name: "description", content: desc },
         { property: "og:title", content: title },
         { property: "og:description", content: desc },
+        { property: "og:url", content: url },
+        { property: "og:type", content: "website" },
+      ],
+      links: [{ rel: "canonical", href: url }],
+      scripts: [
+        { type: "application/ld+json", children: JSON.stringify(collectionLd) },
+        { type: "application/ld+json", children: JSON.stringify(breadcrumbLd) },
       ],
     };
   },
