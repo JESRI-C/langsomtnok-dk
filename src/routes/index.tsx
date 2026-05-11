@@ -150,7 +150,7 @@ function HomePage() {
               </Link>
             </div>
             <p className="text-xs md:text-sm text-deep-foreground/55 tracking-wide">
-              Sendes fra Danmark · 14 dages fortrydelsesret · Pakket med omhu
+              Sendes fra Danmark · 30 dages returret · Pakket med omhu
             </p>
           </div>
         </div>
@@ -170,7 +170,7 @@ function HomePage() {
             {[
               { icon: Truck, title: "Sendes fra Danmark", text: "Din ordre pakkes med omhu og sendes fra Danmark." },
               { icon: ShieldCheck, title: "Tryg betaling", text: "Betaling foregår sikkert via webshoppen." },
-              { icon: RotateCcw, title: "14 dages fortrydelsesret", text: "Du har tid til at mærke efter." },
+              { icon: RotateCcw, title: "30 dages returret", text: "Du har tid til at mærke efter." },
               { icon: MessageCircle, title: "Direkte kontakt", text: "Skriv til os, hvis du er i tvivl om et produkt." },
             ].map((item) => (
               <div key={item.title} className="flex items-start gap-4 p-6 rounded-lg bg-background/60 border border-border/40">

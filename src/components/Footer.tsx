@@ -208,7 +208,7 @@ export function Footer() {
               </span>
               <span className="inline-flex items-center gap-2 text-xs">
                 <RotateCcw className="w-4 h-4 text-cta" strokeWidth={1.5} />
-                14 dages fortrydelsesret
+                30 dages returret
               </span>
             </div>
           </div>
