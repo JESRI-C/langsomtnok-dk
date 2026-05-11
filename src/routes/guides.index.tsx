@@ -12,6 +12,7 @@ export const Route = createFileRoute("/guides/")({
       { property: "og:title", content: "Guides til roligere køkkenritualer — Langsomt Nok" },
       { property: "og:description", content: "Viden, teknikker og historier for dem, der vil forstå deres redskaber bedre." },
     ],
+    links: [{ rel: "canonical", href: "https://langsomtnok.dk/guides" }],
   }),
   component: GuidesPage,
 });

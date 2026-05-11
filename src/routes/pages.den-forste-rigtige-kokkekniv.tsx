@@ -17,6 +17,7 @@ export const Route = createFileRoute("/pages/den-forste-rigtige-kokkekniv")({
       { property: "og:title", content: "Den første rigtige kokkekniv — Langsomt Nok" },
       { property: "og:description", content: "Din første rigtige kokkekniv skal ikke vælges i hast." },
     ],
+    links: [{ rel: "canonical", href: "https://langsomtnok.dk/pages/den-forste-rigtige-kokkekniv" }],
   }),
   component: FirstKnifePage,
 });

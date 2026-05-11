@@ -9,6 +9,7 @@ export const Route = createFileRoute("/cookiepolitik")({
       { property: "og:title", content: "Cookiepolitik | Langsomt Nok" },
       { property: "og:description", content: "Læs hvordan Langsomt Nok bruger cookies, og hvordan du kan ændre dit samtykke." },
     ],
+    links: [{ rel: "canonical", href: "https://langsomtnok.dk/cookiepolitik" }],
   }),
   component: CookiepolitikPage,
 });

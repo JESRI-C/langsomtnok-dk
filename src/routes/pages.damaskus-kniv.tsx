@@ -17,6 +17,7 @@ export const Route = createFileRoute("/pages/damaskus-kniv")({
       { property: "og:title", content: "Damaskus kniv — Langsomt Nok" },
       { property: "og:description", content: "Damaskus-stål er ikke kun mønster. Det er lag, rytme og tradition." },
     ],
+    links: [{ rel: "canonical", href: "https://langsomtnok.dk/pages/damaskus-kniv" }],
   }),
   component: DamascusPage,
 });

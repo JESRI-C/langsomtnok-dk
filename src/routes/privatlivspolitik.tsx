@@ -9,6 +9,7 @@ export const Route = createFileRoute("/privatlivspolitik")({
       { property: "og:title", content: "Privatlivspolitik | Langsomt Nok" },
       { property: "og:description", content: "Læs hvordan JBR Freelance behandler personoplysninger i forbindelse med køb, kundeservice, levering og markedsføring hos Langsomt Nok." },
     ],
+    links: [{ rel: "canonical", href: "https://langsomtnok.dk/privatlivspolitik" }],
   }),
   component: PrivatlivspolitikPage,
 });

@@ -9,6 +9,7 @@ export const Route = createFileRoute("/reklamation")({
       { property: "og:title", content: "Reklamation | Langsomt Nok" },
       { property: "og:description", content: "Læs om reklamationsret og hvordan du kontakter Langsomt Nok, hvis en vare har en fejl eller mangel." },
     ],
+    links: [{ rel: "canonical", href: "https://langsomtnok.dk/reklamation" }],
   }),
   component: ReklamationPage,
 });

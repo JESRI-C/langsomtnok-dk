@@ -12,6 +12,7 @@ export const Route = createFileRoute("/cirklen")({
       { property: "og:title", content: "Langsomt Cirklen — Langsomt Nok" },
       { property: "og:description", content: "Et stille fællesskab for dem, der tror på tid, håndværk og gode måltider." },
     ],
+    links: [{ rel: "canonical", href: "https://langsomtnok.dk/cirklen" }],
   }),
   component: CirklenPage,
 });

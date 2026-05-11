@@ -17,6 +17,7 @@ export const Route = createFileRoute("/pages/knivholder-i-trae")({
       { property: "og:title", content: "Knivholder i træ — Langsomt Nok" },
       { property: "og:description", content: "Magnetiske knivholdere i træ skaber ro, overblik og varme i køkkenet." },
     ],
+    links: [{ rel: "canonical", href: "https://langsomtnok.dk/pages/knivholder-i-trae" }],
   }),
   component: KnifeHolderPage,
 });
