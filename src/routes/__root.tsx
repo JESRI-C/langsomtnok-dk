@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import {
   Outlet,
@@ -102,11 +103,6 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         type: "application/ld+json",
         children: JSON.stringify(websiteSchema),
       },
-      {
-        async: true,
-        src: "https://cdn.shopify.com/shopifycloud/shopify_chat/storefront/shopify_chat.js",
-        "data-shop-id": "aqwut5-0n.myshopify.com",
-      },
     ],
   }),
   shellComponent: RootShell,
@@ -149,6 +145,16 @@ function RootComponent() {
 
 function AppShell() {
   useCartSync();
+
+  useEffect(() => {
+    const SRC = "https://cdn.shopify.com/shopifycloud/shopify_chat/storefront/shopify_chat.js";
+    if (document.querySelector(`script[src="${SRC}"]`)) return;
+    const s = document.createElement("script");
+    s.async = true;
+    s.src = SRC;
+    s.setAttribute("data-shop-id", "aqwut5-0n.myshopify.com");
+    document.body.appendChild(s);
+  }, []);
 
   return (
     <>

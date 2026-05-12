@@ -177,3 +177,12 @@ iframe[title="Shopify Inbox Chat"],
   display: block !important;
   visibility: visible !important;
 }
+
+/* Løft chat-bubble på mobil så den ikke dækker sticky CTA */
+@media (max-width: 768px) {
+  #ShopifyChat,
+  iframe[title="Shopify Inbox Chat"],
+  .shopify-chat {
+    bottom: 88px !important;
+  }
+}
