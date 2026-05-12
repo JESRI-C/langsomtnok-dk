@@ -102,6 +102,11 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         type: "application/ld+json",
         children: JSON.stringify(websiteSchema),
       },
+      {
+        async: true,
+        src: "https://cdn.shopify.com/shopifycloud/shopify_chat/storefront/shopify_chat.js",
+        "data-shop-id": "aqwut5-0n.myshopify.com",
+      },
     ],
   }),
   shellComponent: RootShell,
