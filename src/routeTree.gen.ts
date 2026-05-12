@@ -16,7 +16,6 @@ import { Route as ReklamationRouteImport } from './routes/reklamation'
 import { Route as PrivatlivspolitikRouteImport } from './routes/privatlivspolitik'
 import { Route as OmRouteImport } from './routes/om'
 import { Route as KontaktRouteImport } from './routes/kontakt'
-import { Route as KeramikRouteImport } from './routes/keramik'
 import { Route as HandelsbetingelserRouteImport } from './routes/handelsbetingelser'
 import { Route as FragtRouteImport } from './routes/fragt'
 import { Route as FindDitRitualRouteImport } from './routes/find-dit-ritual'
@@ -24,6 +23,7 @@ import { Route as CookiepolitikRouteImport } from './routes/cookiepolitik'
 import { Route as CirklenRouteImport } from './routes/cirklen'
 import { Route as AuditRouteImport } from './routes/audit'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as KeramikIndexRouteImport } from './routes/keramik.index'
 import { Route as GuidesIndexRouteImport } from './routes/guides.index'
 import { Route as UniversetSlugRouteImport } from './routes/universet_.$slug'
 import { Route as RitualerRoligOpbevaringRouteImport } from './routes/ritualer.rolig-opbevaring'
@@ -84,11 +84,6 @@ const KontaktRoute = KontaktRouteImport.update({
   path: '/kontakt',
   getParentRoute: () => rootRouteImport,
 } as any)
-const KeramikRoute = KeramikRouteImport.update({
-  id: '/keramik',
-  path: '/keramik',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const HandelsbetingelserRoute = HandelsbetingelserRouteImport.update({
   id: '/handelsbetingelser',
   path: '/handelsbetingelser',
@@ -122,6 +117,11 @@ const AuditRoute = AuditRouteImport.update({
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const KeramikIndexRoute = KeramikIndexRouteImport.update({
+  id: '/keramik/',
+  path: '/keramik/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const GuidesIndexRoute = GuidesIndexRouteImport.update({
@@ -261,7 +261,6 @@ export interface FileRoutesByFullPath {
   '/find-dit-ritual': typeof FindDitRitualRoute
   '/fragt': typeof FragtRoute
   '/handelsbetingelser': typeof HandelsbetingelserRoute
-  '/keramik': typeof KeramikRouteWithChildren
   '/kontakt': typeof KontaktRoute
   '/om': typeof OmRoute
   '/privatlivspolitik': typeof PrivatlivspolitikRoute
@@ -293,6 +292,7 @@ export interface FileRoutesByFullPath {
   '/ritualer/rolig-opbevaring': typeof RitualerRoligOpbevaringRoute
   '/universet/$slug': typeof UniversetSlugRoute
   '/guides/': typeof GuidesIndexRoute
+  '/keramik/': typeof KeramikIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -302,7 +302,6 @@ export interface FileRoutesByTo {
   '/find-dit-ritual': typeof FindDitRitualRoute
   '/fragt': typeof FragtRoute
   '/handelsbetingelser': typeof HandelsbetingelserRoute
-  '/keramik': typeof KeramikRouteWithChildren
   '/kontakt': typeof KontaktRoute
   '/om': typeof OmRoute
   '/privatlivspolitik': typeof PrivatlivspolitikRoute
@@ -334,6 +333,7 @@ export interface FileRoutesByTo {
   '/ritualer/rolig-opbevaring': typeof RitualerRoligOpbevaringRoute
   '/universet/$slug': typeof UniversetSlugRoute
   '/guides': typeof GuidesIndexRoute
+  '/keramik': typeof KeramikIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -344,7 +344,6 @@ export interface FileRoutesById {
   '/find-dit-ritual': typeof FindDitRitualRoute
   '/fragt': typeof FragtRoute
   '/handelsbetingelser': typeof HandelsbetingelserRoute
-  '/keramik': typeof KeramikRouteWithChildren
   '/kontakt': typeof KontaktRoute
   '/om': typeof OmRoute
   '/privatlivspolitik': typeof PrivatlivspolitikRoute
@@ -376,6 +375,7 @@ export interface FileRoutesById {
   '/ritualer/rolig-opbevaring': typeof RitualerRoligOpbevaringRoute
   '/universet_/$slug': typeof UniversetSlugRoute
   '/guides/': typeof GuidesIndexRoute
+  '/keramik/': typeof KeramikIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -387,7 +387,6 @@ export interface FileRouteTypes {
     | '/find-dit-ritual'
     | '/fragt'
     | '/handelsbetingelser'
-    | '/keramik'
     | '/kontakt'
     | '/om'
     | '/privatlivspolitik'
@@ -419,6 +418,7 @@ export interface FileRouteTypes {
     | '/ritualer/rolig-opbevaring'
     | '/universet/$slug'
     | '/guides/'
+    | '/keramik/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -428,7 +428,6 @@ export interface FileRouteTypes {
     | '/find-dit-ritual'
     | '/fragt'
     | '/handelsbetingelser'
-    | '/keramik'
     | '/kontakt'
     | '/om'
     | '/privatlivspolitik'
@@ -460,6 +459,7 @@ export interface FileRouteTypes {
     | '/ritualer/rolig-opbevaring'
     | '/universet/$slug'
     | '/guides'
+    | '/keramik'
   id:
     | '__root__'
     | '/'
@@ -469,7 +469,6 @@ export interface FileRouteTypes {
     | '/find-dit-ritual'
     | '/fragt'
     | '/handelsbetingelser'
-    | '/keramik'
     | '/kontakt'
     | '/om'
     | '/privatlivspolitik'
@@ -501,6 +500,7 @@ export interface FileRouteTypes {
     | '/ritualer/rolig-opbevaring'
     | '/universet_/$slug'
     | '/guides/'
+    | '/keramik/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -511,7 +511,6 @@ export interface RootRouteChildren {
   FindDitRitualRoute: typeof FindDitRitualRoute
   FragtRoute: typeof FragtRoute
   HandelsbetingelserRoute: typeof HandelsbetingelserRoute
-  KeramikRoute: typeof KeramikRouteWithChildren
   KontaktRoute: typeof KontaktRoute
   OmRoute: typeof OmRoute
   PrivatlivspolitikRoute: typeof PrivatlivspolitikRoute
@@ -541,6 +540,7 @@ export interface RootRouteChildren {
   RitualerRoligOpbevaringRoute: typeof RitualerRoligOpbevaringRoute
   UniversetSlugRoute: typeof UniversetSlugRoute
   GuidesIndexRoute: typeof GuidesIndexRoute
+  KeramikIndexRoute: typeof KeramikIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -594,13 +594,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof KontaktRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/keramik': {
-      id: '/keramik'
-      path: '/keramik'
-      fullPath: '/keramik'
-      preLoaderRoute: typeof KeramikRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/handelsbetingelser': {
       id: '/handelsbetingelser'
       path: '/handelsbetingelser'
@@ -648,6 +641,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/keramik/': {
+      id: '/keramik/'
+      path: '/keramik'
+      fullPath: '/keramik/'
+      preLoaderRoute: typeof KeramikIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/guides/': {
@@ -821,19 +821,6 @@ declare module '@tanstack/react-router' {
   }
 }
 
-interface KeramikRouteChildren {
-  KeramikSlugRoute: typeof KeramikSlugRoute
-  KeramikSusanRielRoute: typeof KeramikSusanRielRoute
-}
-
-const KeramikRouteChildren: KeramikRouteChildren = {
-  KeramikSlugRoute: KeramikSlugRoute,
-  KeramikSusanRielRoute: KeramikSusanRielRoute,
-}
-
-const KeramikRouteWithChildren =
-  KeramikRoute._addFileChildren(KeramikRouteChildren)
-
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuditRoute: AuditRoute,
@@ -842,7 +829,6 @@ const rootRouteChildren: RootRouteChildren = {
   FindDitRitualRoute: FindDitRitualRoute,
   FragtRoute: FragtRoute,
   HandelsbetingelserRoute: HandelsbetingelserRoute,
-  KeramikRoute: KeramikRouteWithChildren,
   KontaktRoute: KontaktRoute,
   OmRoute: OmRoute,
   PrivatlivspolitikRoute: PrivatlivspolitikRoute,
@@ -873,7 +859,18 @@ const rootRouteChildren: RootRouteChildren = {
   RitualerRoligOpbevaringRoute: RitualerRoligOpbevaringRoute,
   UniversetSlugRoute: UniversetSlugRoute,
   GuidesIndexRoute: GuidesIndexRoute,
+  KeramikIndexRoute: KeramikIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
