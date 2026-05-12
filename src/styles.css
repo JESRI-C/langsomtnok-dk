@@ -51,6 +51,7 @@
   --color-walnut: var(--walnut);
   --color-copper: var(--copper);
   --color-cta: var(--cta);
+  --color-cta-hover: var(--cta-hover);
   --color-cta-foreground: var(--cta-foreground);
   --color-linen: var(--linen);
   --color-deep: var(--deep);
