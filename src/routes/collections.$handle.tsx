@@ -30,6 +30,8 @@ const HERO_BACKGROUNDS: Record<string, string> = {
   "magnetiske-holdere": holdereHero,
   "magnetisk-opbevaring": holdereHero,
   "the-calm-kitchen": holdereHero,
+  gaver: gaverHero,
+  "the-gift-chapter": gaverHero,
 };
 
 const SORT_OPTIONS = [
