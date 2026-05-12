@@ -17,6 +17,7 @@ import { TrustBar } from "@/components/landing/TrustBar";
 import { storefrontApiRequest, COLLECTION_BY_HANDLE_QUERY, PRODUCTS_QUERY, type ShopifyProduct } from "@/lib/shopify";
 import kniveHero from "@/assets/knive-hero.png";
 import slibningHero from "@/assets/slibning-hero.png";
+import holdereHero from "@/assets/holdere-hero.png";
 
 const HERO_BACKGROUNDS: Record<string, string> = {
   knive: kniveHero,
@@ -25,6 +26,9 @@ const HERO_BACKGROUNDS: Record<string, string> = {
   "slibning-pleje": slibningHero,
   "pleje-ritualer": slibningHero,
   "the-ritual-set": slibningHero,
+  "magnetiske-holdere": holdereHero,
+  "magnetisk-opbevaring": holdereHero,
+  "the-calm-kitchen": holdereHero,
 };
 
 const SORT_OPTIONS = [
