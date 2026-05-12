@@ -5,15 +5,15 @@ import { useCartStore } from "@/stores/cartStore";
 import logoHorizontal from "@/assets/logo-horizontal.png";
 
 const navItems = [
-  { label: "Shop", to: "/shop" },
+  { label: "Køkken", to: "/shop" },
   { label: "Knive", to: "/collections/knive" },
-  { label: "Slibning & pleje", to: "/collections/slibning-pleje" },
+  { label: "Slibning", to: "/collections/slibning-pleje" },
   { label: "Magnetisk opbevaring", to: "/collections/magnetiske-holdere" },
   { label: "Keramik", to: "/keramik" },
   { label: "Gaver", to: "/collections/gaver" },
-  { label: "Guides", to: "/guides" },
   { label: "Universet", to: "/universet" },
-  { label: "Langsomt Cirklen", to: "/cirklen" },
+  { label: "Om", to: "/om" },
+  { label: "Kontakt", to: "/kontakt" },
 ];
 
 const trustItems = [
