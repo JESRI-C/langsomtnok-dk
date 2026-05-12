@@ -168,3 +168,12 @@
     100% { transform: scale(1.1)  translate3d(-1%, -2%, 0); }
   }
 }
+
+/* Shopify Inbox chat widget — sikrer at chatten altid er synlig */
+#ShopifyChat,
+iframe[title="Shopify Inbox Chat"],
+.shopify-chat {
+  z-index: 999999 !important;
+  display: block !important;
+  visibility: visible !important;
+}
