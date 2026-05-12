@@ -217,10 +217,10 @@ function HomePage() {
           <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-12">
             <div>
               <span className="text-[11px] tracking-[0.25em] uppercase text-copper">Kategorier</span>
-              <h2 className="font-serif text-3xl md:text-5xl mt-2">Vælg dit ritual</h2>
+              <h2 className="font-serif text-3xl md:text-5xl mt-2">Find det, du leder efter</h2>
             </div>
             <p className="text-muted-foreground max-w-sm">
-              Fire indgange til et roligere køkken. Vælg dér, hvor dine hænder gerne vil begynde.
+              Fire indgange til et roligere køkken. Vælg dér, hvor du gerne vil starte.
             </p>
           </div>
 
