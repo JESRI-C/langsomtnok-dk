@@ -14,6 +14,7 @@ import { ProductCard } from "@/components/ProductCard";
 import { ProductFitSection } from "@/components/ProductFitSection";
 import { StickyMobileCTA } from "@/components/StickyMobileCTA";
 import { TrustBar } from "@/components/landing/TrustBar";
+import { VideoShowcase } from "@/components/VideoShowcase";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { useCartStore } from "@/stores/cartStore";
 import {
@@ -500,6 +501,22 @@ function ProductPage() {
         <div className="mt-12">
           <TrustBar />
         </div>
+
+        {/* ── Video: Så nemt sættes den op (kun magnetiske knivholdere) ── */}
+        {(product.productType === "The Calm Kitchen" ||
+          /knivholder|magnet/i.test(product.handle) ||
+          /knivholder|magnet/i.test(product.title)) && (
+          <div className="mt-16 -mx-6 md:-mx-10">
+            <VideoShowcase
+              eyebrow="Så nemt sættes den op"
+              title="Monteret på få minutter — uden boremaskine."
+              body="Monteres med dobbeltklæbende tape, som følger med. Brug en laser eller et vaterpas, ret den ind og tryk den fast."
+              background="soft"
+              videoSide="left"
+              compact
+            />
+          </div>
+        )}
 
         {/* ── Contextual ritual / gift guide link (1 per product) ── */}
         {(() => {

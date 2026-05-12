@@ -14,6 +14,7 @@ import { ArrowRight, CheckCircle2, HelpCircle, Package, ShieldCheck, Sparkles } 
 import { ProductCard } from "@/components/ProductCard";
 import { NewsletterSignup } from "@/components/NewsletterSignup";
 import { TrustBar } from "@/components/landing/TrustBar";
+import { VideoShowcase } from "@/components/VideoShowcase";
 import { storefrontApiRequest, COLLECTION_BY_HANDLE_QUERY, PRODUCTS_QUERY, type ShopifyProduct } from "@/lib/shopify";
 import kniveHero from "@/assets/knive-hero.png";
 import slibningHero from "@/assets/slibning-hero.png";
@@ -577,6 +578,17 @@ function CollectionPage() {
           </div>
         </div>
       </section>
+
+      {(handle === "magnetiske-holdere" || handle === "magnetisk-opbevaring" || handle === "the-calm-kitchen") && (
+        <VideoShowcase
+          eyebrow="Så nemt sættes den op"
+          title="Monteret på få minutter — uden boremaskine."
+          body="Holderen monteres med dobbeltklæbende tape, som følger med. Brug en laser eller et vaterpas, ret den ind og tryk den fast. Så er køkkenet et roligere sted."
+          background="linen"
+          videoSide="left"
+          compact
+        />
+      )}
 
       <TrustBar />
       <NewsletterSignup />

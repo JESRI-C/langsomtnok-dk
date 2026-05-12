@@ -6,6 +6,7 @@ import { ProductCard } from "@/components/ProductCard";
 import { NewsletterSignup } from "@/components/NewsletterSignup";
 import { ImageSlot, IMAGE_SLOTS } from "@/components/ImageSlot";
 import { HeroVideo } from "@/components/landing/HeroVideo";
+import { VideoShowcase } from "@/components/VideoShowcase";
 import { storefrontApiRequest, PRODUCTS_QUERY, type ShopifyProduct } from "@/lib/shopify";
 import { STORIES as UNIVERSET_STORIES } from "@/lib/universet";
 import { StoryCard as UniversetHomeStoryCard } from "@/components/universet/StoryCard";
@@ -186,7 +187,24 @@ function HomePage() {
         </div>
       </section>
 
-      {/* ─────────────────── 2. CATEGORIES ─────────────────── */}
+      {/* ─────────────────── VIDEO: Magnetisk knivholder ─────────────────── */}
+      <VideoShowcase
+        eyebrow="Et roligere køkken"
+        title="En lille opgradering. Mere ro i køkkenet."
+        body="Se hvor enkelt den magnetiske knivholder finder sin plads. Uden boremaskine. Uden støv. Bare ro, orden og knive lige ved hånden."
+        background="soft"
+        videoSide="right"
+        cta={{
+          label: "Se knivholderen",
+          // TODO: opdatér til specifik produkt-handle, fx /product/$handle med rigtigt handle
+          to: "/collections/magnetiske-holdere",
+          dataEvent: "video_section_cta_click",
+          dataSection: "homepage_knifeholder_video",
+          dataProduct: "magnetic_knife_holder",
+        }}
+      />
+
+
       <section className="section-padding">
         <div className="container-calm">
           <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-12">
