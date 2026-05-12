@@ -266,12 +266,15 @@ function HomePage() {
           <div className="container-calm">
             <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-12">
               <div>
-                <span className="text-[11px] tracking-[0.25em] uppercase text-copper">Udvalg</span>
-                <h2 className="font-serif text-3xl md:text-5xl mt-2">Udvalgte redskaber</h2>
+                <span className="text-[11px] tracking-[0.25em] uppercase text-copper">Udvalgt lige nu</span>
+                <h2 className="font-serif text-3xl md:text-5xl mt-2">Et godt sted at starte</h2>
               </div>
               <Link
                 to="/shop"
-                className="text-sm font-medium text-cta inline-flex items-center gap-1.5 hover:gap-2.5 transition-all"
+                className="text-sm font-semibold text-cta inline-flex items-center gap-1.5 hover:gap-2.5 transition-all"
+                data-event="section_cta_click"
+                data-section="featured_products"
+                data-target="all_products"
               >
                 Se alle produkter <ArrowRight className="w-4 h-4" />
               </Link>
