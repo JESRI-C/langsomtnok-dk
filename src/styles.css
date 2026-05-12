@@ -169,6 +169,53 @@
     50%  { transform: scale(1.18) translate3d(2%, -1.5%, 0); }
     100% { transform: scale(1.1)  translate3d(-1%, -2%, 0); }
   }
+
+  /* CRO: rolig hover-løft til kort */
+  .lift-on-hover {
+    transition: transform 400ms ease-out, box-shadow 400ms ease-out, border-color 400ms ease-out;
+    will-change: transform;
+  }
+  .lift-on-hover:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 28px -16px color-mix(in oklab, var(--foreground) 22%, transparent);
+    border-color: color-mix(in oklab, var(--cta) 35%, var(--border));
+  }
+
+  /* CRO: primær mosgrøn knap-stil – tydelig, men rolig */
+  .btn-cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    background: var(--cta);
+    color: var(--cta-foreground);
+    padding: 0.875rem 1.75rem;
+    border-radius: 0.5rem;
+    font-size: 0.95rem;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+    min-height: 48px;
+    transition: background 250ms ease, transform 250ms ease, box-shadow 250ms ease;
+    box-shadow: 0 1px 2px color-mix(in oklab, var(--cta) 30%, transparent);
+  }
+  .btn-cta:hover { background: var(--cta-hover); box-shadow: 0 6px 16px -8px color-mix(in oklab, var(--cta) 55%, transparent); }
+
+  .btn-outline-calm {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    background: transparent;
+    color: var(--foreground);
+    border: 1px solid color-mix(in oklab, var(--foreground) 30%, transparent);
+    padding: 0.8125rem 1.75rem;
+    border-radius: 0.5rem;
+    font-size: 0.95rem;
+    font-weight: 500;
+    min-height: 48px;
+    transition: background 250ms ease, border-color 250ms ease, color 250ms ease;
+  }
+  .btn-outline-calm:hover { background: color-mix(in oklab, var(--foreground) 5%, transparent); border-color: var(--foreground); }
 }
 
 /* Shopify Inbox chat widget — sikrer at chatten altid er synlig */
