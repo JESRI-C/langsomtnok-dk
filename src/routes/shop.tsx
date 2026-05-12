@@ -50,10 +50,10 @@ function ShopPage() {
       <section className="section-padding pb-0">
         <div className="container-calm">
           <div className="max-w-2xl mb-12 fade-in-up">
-            <span className="text-xs font-medium text-copper uppercase tracking-widest mb-3 block">Kollektion</span>
-            <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl mb-4">Udvalgte redskaber</h1>
+            <span className="text-xs font-medium text-copper uppercase tracking-widest mb-3 block">Køkkenfavoritter</span>
+            <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl mb-4">Små opgraderinger til hverdagen i køkkenet</h1>
             <p className="text-editorial text-muted-foreground">
-              Køkkenredskaber skabt med tålmodighed. Hvert produkt er valgt for sin kvalitet, sit materiale og den ro, det bringer til dit køkken.
+              Udvalgte produkter i træ, stål og keramik — valgt fordi de gør køkkenet mere brugbart, roligt og rart at være i.
             </p>
           </div>
 
