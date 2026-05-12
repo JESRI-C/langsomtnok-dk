@@ -14,6 +14,7 @@ import { ArrowRight, CheckCircle2, HelpCircle, Package, ShieldCheck, Sparkles } 
 import { ProductCard } from "@/components/ProductCard";
 import { NewsletterSignup } from "@/components/NewsletterSignup";
 import { TrustBar } from "@/components/landing/TrustBar";
+import { VideoShowcase } from "@/components/VideoShowcase";
 import { storefrontApiRequest, COLLECTION_BY_HANDLE_QUERY, PRODUCTS_QUERY, type ShopifyProduct } from "@/lib/shopify";
 import kniveHero from "@/assets/knive-hero.png";
 import slibningHero from "@/assets/slibning-hero.png";
