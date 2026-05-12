@@ -18,6 +18,7 @@ import { storefrontApiRequest, COLLECTION_BY_HANDLE_QUERY, PRODUCTS_QUERY, type 
 import kniveHero from "@/assets/knive-hero.png";
 import slibningHero from "@/assets/slibning-hero.png";
 import holdereHero from "@/assets/holdere-hero.png";
+import gaverHero from "@/assets/gaver-hero.png";
 
 const HERO_BACKGROUNDS: Record<string, string> = {
   knive: kniveHero,
