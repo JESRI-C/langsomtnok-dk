@@ -15,7 +15,7 @@ const TRUST_ITEMS = [
 
 export function TrustBar({ variant = "light", layout = "horizontal" }: TrustBarProps) {
   const isDark = variant === "dark";
-  const items = layout === "horizontal" ? TRUST_ITEMS.slice(0, 4) : TRUST_ITEMS;
+  const items = layout === "horizontal" ? TRUST_ITEMS.slice(0, 5) : TRUST_ITEMS;
 
   if (layout === "grid") {
     return (
