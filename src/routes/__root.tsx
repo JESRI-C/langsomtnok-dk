@@ -146,6 +146,16 @@ function RootComponent() {
 function AppShell() {
   useCartSync();
 
+  useEffect(() => {
+    const SRC = "https://cdn.shopify.com/shopifycloud/shopify_chat/storefront/shopify_chat.js";
+    if (document.querySelector(`script[src="${SRC}"]`)) return;
+    const s = document.createElement("script");
+    s.async = true;
+    s.src = SRC;
+    s.setAttribute("data-shop-id", "aqwut5-0n.myshopify.com");
+    document.body.appendChild(s);
+  }, []);
+
   return (
     <>
       <Header />
