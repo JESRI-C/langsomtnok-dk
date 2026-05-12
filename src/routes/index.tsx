@@ -230,7 +230,10 @@ function HomePage() {
                 key={cat.handle}
                 to="/collections/$handle"
                 params={{ handle: cat.handle }}
-                className="group block"
+                className="group block rounded-xl border border-border/70 bg-card p-3 lift-on-hover"
+                data-event="category_card_click"
+                data-section="homepage_categories"
+                data-target={cat.handle}
               >
                 <div className="overflow-hidden rounded-lg bg-soft mb-5">
                   <div className="transition-transform duration-700 ease-out group-hover:scale-[1.03]">
@@ -244,11 +247,11 @@ function HomePage() {
                     />
                   </div>
                 </div>
-                <h3 className="font-serif text-xl mb-1.5 group-hover:text-walnut transition-colors">
+                <h3 className="font-serif text-xl mb-1.5 text-foreground group-hover:text-walnut transition-colors px-1">
                   {cat.title}
                 </h3>
-                <p className="text-sm text-muted-foreground mb-3 leading-relaxed">{cat.text}</p>
-                <span className="inline-flex items-center gap-1.5 text-sm font-medium text-cta opacity-80 group-hover:opacity-100 group-hover:gap-2.5 transition-all">
+                <p className="text-sm text-muted-foreground mb-3 leading-relaxed px-1">{cat.text}</p>
+                <span className="inline-flex items-center gap-1.5 text-sm font-semibold text-cta px-1 group-hover:gap-2.5 transition-all">
                   Se kollektionen <ArrowRight className="w-3.5 h-3.5" />
                 </span>
               </Link>
