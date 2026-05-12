@@ -78,7 +78,7 @@ const HEAD = buildCampaignHead({
   })),
 });
 
-export const Route = createFileRoute("/keramik")({
+export const Route = createFileRoute("/keramik/")({
   head: () => HEAD,
   component: KeramikHub,
 });
