@@ -222,14 +222,14 @@ const PagesDamaskusKnivRoute = PagesDamaskusKnivRouteImport.update({
   getParentRoute: () => rootRouteImport,
 } as any)
 const KeramikSusanRielRoute = KeramikSusanRielRouteImport.update({
-  id: '/susan-riel',
-  path: '/susan-riel',
-  getParentRoute: () => KeramikRoute,
+  id: '/keramik/susan-riel',
+  path: '/keramik/susan-riel',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const KeramikSlugRoute = KeramikSlugRouteImport.update({
-  id: '/$slug',
-  path: '/$slug',
-  getParentRoute: () => KeramikRoute,
+  id: '/keramik/$slug',
+  path: '/keramik/$slug',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const GuidesSlugRoute = GuidesSlugRouteImport.update({
   id: '/guides/$slug',
@@ -522,6 +522,8 @@ export interface RootRouteChildren {
   CollectionsHandlavetKeramikRoute: typeof CollectionsHandlavetKeramikRoute
   GaverFarsDagRoute: typeof GaverFarsDagRoute
   GuidesSlugRoute: typeof GuidesSlugRoute
+  KeramikSlugRoute: typeof KeramikSlugRoute
+  KeramikSusanRielRoute: typeof KeramikSusanRielRoute
   PagesDamaskusKnivRoute: typeof PagesDamaskusKnivRoute
   PagesDenForsteRigtigeKokkeknivRoute: typeof PagesDenForsteRigtigeKokkeknivRoute
   PagesGaveTilMadelskerenRoute: typeof PagesGaveTilMadelskerenRoute
@@ -778,17 +780,17 @@ declare module '@tanstack/react-router' {
     }
     '/keramik/susan-riel': {
       id: '/keramik/susan-riel'
-      path: '/susan-riel'
+      path: '/keramik/susan-riel'
       fullPath: '/keramik/susan-riel'
       preLoaderRoute: typeof KeramikSusanRielRouteImport
-      parentRoute: typeof KeramikRoute
+      parentRoute: typeof rootRouteImport
     }
     '/keramik/$slug': {
       id: '/keramik/$slug'
-      path: '/$slug'
+      path: '/keramik/$slug'
       fullPath: '/keramik/$slug'
       preLoaderRoute: typeof KeramikSlugRouteImport
-      parentRoute: typeof KeramikRoute
+      parentRoute: typeof rootRouteImport
     }
     '/guides/$slug': {
       id: '/guides/$slug'
@@ -840,6 +842,8 @@ const rootRouteChildren: RootRouteChildren = {
   CollectionsHandlavetKeramikRoute: CollectionsHandlavetKeramikRoute,
   GaverFarsDagRoute: GaverFarsDagRoute,
   GuidesSlugRoute: GuidesSlugRoute,
+  KeramikSlugRoute: KeramikSlugRoute,
+  KeramikSusanRielRoute: KeramikSusanRielRoute,
   PagesDamaskusKnivRoute: PagesDamaskusKnivRoute,
   PagesDenForsteRigtigeKokkeknivRoute: PagesDenForsteRigtigeKokkeknivRoute,
   PagesGaveTilMadelskerenRoute: PagesGaveTilMadelskerenRoute,
