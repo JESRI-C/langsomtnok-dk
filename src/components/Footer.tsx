@@ -47,11 +47,15 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-12 lg:gap-8">
           <div className="lg:col-span-2">
             <h2 className="font-serif text-2xl mb-4">Langsomt Nok</h2>
-            <p className="text-deep-foreground/60 text-sm leading-relaxed max-w-sm mb-3">
-              Køkkenredskaber skabt til dem, der ikke skynder sig gennem det vigtige. Træ, stål, olie, tid.
+            <p className="text-deep-foreground/65 text-sm leading-relaxed max-w-sm mb-4">
+              Køkkenredskaber og keramik skabt til dem, der ikke skynder sig gennem det vigtige. Træ, stål, olie, tid.
             </p>
-            <p className="text-deep-foreground/40 text-xs italic tracking-wide">
-              Langsomt Nok — Nordic calm meets crafted sharpness.
+            <p className="text-deep-foreground/55 text-sm mb-3">
+              Spørgsmål til et produkt? Skriv til{" "}
+              <a href={`mailto:${COMPANY.email}`} className="text-deep-foreground underline-offset-4 hover:underline">
+                {COMPANY.email}
+              </a>
+              {" "}— vi svarer roligt og hurtigt.
             </p>
             <div className="flex gap-4 mt-6">
               <a
