@@ -69,7 +69,6 @@ export function VideoShowcase({
                 loop
                 playsInline
                 preload="metadata"
-                // @ts-expect-error — non-standard but widely supported
                 disablePictureInPicture
                 aria-label={title}
               />
