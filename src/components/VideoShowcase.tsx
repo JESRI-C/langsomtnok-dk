@@ -33,7 +33,7 @@ export function VideoShowcase({
   cta,
   background = "background",
   videoSide = "right",
-  poster,
+  poster = VIDEO_POSTER,
   videoSrc = VIDEO_SRC,
   compact = false,
 }: VideoShowcaseProps) {
