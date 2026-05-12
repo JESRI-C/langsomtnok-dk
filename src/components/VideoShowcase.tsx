@@ -88,15 +88,15 @@ export function VideoShowcase({
               {body}
             </p>
             {cta && (
-              <Link
-                to={cta.to}
+              <a
+                href={cta.to}
                 data-event={cta.dataEvent}
                 data-section={cta.dataSection}
                 data-product={cta.dataProduct}
                 className="inline-flex items-center gap-2 rounded-md bg-cta text-cta-foreground px-7 py-3.5 text-sm font-medium tracking-wide transition-colors duration-500 hover:bg-[#3F4B3D]"
               >
                 {cta.label} <ArrowRight className="w-3.5 h-3.5" />
-              </Link>
+              </a>
             )}
           </div>
         </div>
