@@ -129,32 +129,37 @@ function HomePage() {
         <HeroVideo src={HERO_VIDEO_SRC} poster={heroPoster} alt="Roligt nordisk køkken med damaskus kokkekniv" />
         <div className="container-calm relative z-10 pb-16 md:pb-0 pt-24">
           <div className="max-w-2xl fade-in-up">
-            <span className="inline-block text-[11px] tracking-[0.25em] uppercase text-deep-foreground/60 mb-6">
-              Nordic Calm · Crafted Sharpness
+            <span className="inline-block text-[11px] tracking-[0.25em] uppercase text-deep-foreground/65 mb-6">
+              Køkken · Keramik · Hverdagsritualer
             </span>
-            <h1 className="font-serif text-deep-foreground leading-[0.95] text-5xl sm:text-6xl md:text-7xl lg:text-8xl mb-7">
-              Tid.<br />Håndværk.<br />Ro.
+            <h1 className="font-serif text-deep-foreground leading-[1.02] text-4xl sm:text-5xl md:text-6xl lg:text-7xl mb-6">
+              Et roligere køkken<br />starter med de ting,<br />du bruger hver dag.
             </h1>
-            <p className="text-base md:text-lg text-deep-foreground/75 leading-relaxed mb-10 max-w-md">
-              Køkkenredskaber til hænder, der gerne vil mærke forskellen.
+            <p className="text-base md:text-lg text-deep-foreground/80 leading-relaxed mb-9 max-w-lg">
+              Udvalgte produkter i træ, stål og keramik — skabt til mere orden, bedre hverdagsritualer og et hjem, der føles rart at være i.
             </p>
-            <div className="flex flex-wrap gap-3 mb-8">
+            <div className="flex flex-col sm:flex-row gap-3 mb-7">
               <Link
                 to="/shop"
-                className="inline-flex items-center justify-center rounded-md bg-cta text-cta-foreground px-7 py-3.5 text-sm font-medium tracking-wide transition-colors duration-500 hover:bg-[#3F4B3D]"
+                className="btn-cta"
+                data-event="hero_cta_click"
+                data-section="homepage_hero"
+                data-target="kitchen_collection"
               >
-                Udforsk ritualerne
+                Se køkkenfavoritter
               </Link>
               <Link
-                to="/collections/$handle"
-                params={{ handle: "knive" }}
-                className="inline-flex items-center justify-center rounded-md border border-deep-foreground/30 text-deep-foreground px-7 py-3.5 text-sm font-medium tracking-wide transition-colors duration-500 hover:bg-deep-foreground/10"
+                to="/keramik"
+                className="btn-outline-calm border-deep-foreground/35 text-deep-foreground hover:bg-deep-foreground/10"
+                data-event="hero_cta_click"
+                data-section="homepage_hero"
+                data-target="ceramic_collection"
               >
-                Find din første kniv
+                Udforsk keramik
               </Link>
             </div>
             <p className="text-xs md:text-sm text-deep-foreground/55 tracking-wide">
-              Sendes fra Danmark · 30 dages returret · Pakket med omhu
+              Sendes fra Danmark · Hurtig levering · Sikker betaling · Nem retur
             </p>
           </div>
         </div>
