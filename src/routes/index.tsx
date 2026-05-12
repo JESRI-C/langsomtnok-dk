@@ -15,7 +15,8 @@ import { KeramikHomeSection } from "@/components/KeramikHomeSection";
 const UNIVERSET_HOME_STORIES = UNIVERSET_STORIES.slice(0, 3);
 
 import heroPoster from "@/assets/hero-kitchen.jpg";
-import heroVideoAsset from "../../public/videos/frontpage-hero.mp4.asset.json";
+
+const HERO_VIDEO_SRC = "/videos/frontpage-hero-loop.mp4";
 
 const MATERIAL_STEEL = "https://cdn.shopify.com/s/files/1/0915/7227/3488/files/ln-material-damascus-01.png?v=1778143706";
 const MATERIAL_WALNUT = "https://cdn.shopify.com/s/files/1/0915/7227/3488/files/ln-material-walnut-01.png?v=1778143731";
