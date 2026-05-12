@@ -15,6 +15,12 @@ import { ProductCard } from "@/components/ProductCard";
 import { NewsletterSignup } from "@/components/NewsletterSignup";
 import { TrustBar } from "@/components/landing/TrustBar";
 import { storefrontApiRequest, COLLECTION_BY_HANDLE_QUERY, PRODUCTS_QUERY, type ShopifyProduct } from "@/lib/shopify";
+import kniveHero from "@/assets/knive-hero.png";
+
+const HERO_BACKGROUNDS: Record<string, string> = {
+  knive: kniveHero,
+  "the-chef-line": kniveHero,
+};
 
 const SORT_OPTIONS = [
   { label: "Anbefalet", key: "COLLECTION_DEFAULT", reverse: false },
