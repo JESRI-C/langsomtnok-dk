@@ -15,6 +15,12 @@ import { ProductCard } from "@/components/ProductCard";
 import { NewsletterSignup } from "@/components/NewsletterSignup";
 import { TrustBar } from "@/components/landing/TrustBar";
 import { storefrontApiRequest, COLLECTION_BY_HANDLE_QUERY, PRODUCTS_QUERY, type ShopifyProduct } from "@/lib/shopify";
+import kniveHero from "@/assets/knive-hero.png";
+
+const HERO_BACKGROUNDS: Record<string, string> = {
+  knive: kniveHero,
+  "the-chef-line": kniveHero,
+};
 
 const SORT_OPTIONS = [
   { label: "Anbefalet", key: "COLLECTION_DEFAULT", reverse: false },
@@ -351,10 +357,31 @@ function CollectionPage() {
       .finally(() => setLoading(false));
   }, [handle, sortIdx]);
 
+  const heroBg = HERO_BACKGROUNDS[handle];
+
   return (
     <div className="pt-24 bg-background">
-      <section className="section-padding pb-10">
-        <div className="container-calm">
+      <section className={`section-padding pb-10 relative overflow-hidden ${heroBg ? "isolate" : ""}`}>
+        {heroBg && (
+          <>
+            <div className="absolute inset-0 -z-10 overflow-hidden">
+              <img
+                src={heroBg}
+                alt=""
+                aria-hidden="true"
+                className="w-full h-full object-cover ken-burns"
+              />
+            </div>
+            <div
+              className="absolute inset-0 -z-10 pointer-events-none"
+              style={{
+                background:
+                  "linear-gradient(100deg, rgba(248,246,243,1) 0%, rgba(248,246,243,0.94) 40%, rgba(248,246,243,0.6) 68%, rgba(248,246,243,0.2) 100%)",
+              }}
+            />
+          </>
+        )}
+        <div className="container-calm relative">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-end">
             <div className="lg:col-span-7">
               <div className="flex flex-wrap items-center gap-2 mb-6 text-xs text-muted-foreground">
