@@ -46,25 +46,25 @@ export const Route = createFileRoute("/")({
 const CATEGORIES = [
   {
     title: "Knive",
-    text: "Når skarphed bliver en del af roen.",
+    text: "Til dig, der vil lave mad med bedre grej.",
     handle: "knive",
     slot: IMAGE_SLOTS.categories.knives,
   },
   {
     title: "Slibning & pleje",
-    text: "Fordi gode redskaber fortjener tid.",
+    text: "Gør dine knive skarpe igen — i ro og mag.",
     handle: "slibesten",
     slot: IMAGE_SLOTS.categories.sharpeningStones,
   },
   {
     title: "Magnetisk opbevaring",
-    text: "Når værktøjet gerne må være synligt.",
+    text: "Få knivene væk fra skuffen. Sættes op uden boremaskine.",
     handle: "magnetiske-holdere",
     slot: IMAGE_SLOTS.categories.magneticHolders,
   },
   {
     title: "Gaver",
-    text: "Til dem, der værdsætter det brugbare.",
+    text: "Gaver, der føles udvalgt — ikke tilfældige.",
     handle: "gaver",
     slot: IMAGE_SLOTS.categories.giftSets,
   },
