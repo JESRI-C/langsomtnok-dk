@@ -23,8 +23,8 @@ interface VideoShowcaseProps {
   compact?: boolean;
 }
 
-const VIDEO_SRC =
-  "https://cdn.shopify.com/videos/c/o/v/f82da50efa7648338516e03844b0cce1.mp4";
+const VIDEO_SRC = "/videos/knivholder-montering.mp4";
+const VIDEO_POSTER = "/videos/knivholder-montering-poster.jpg";
 
 export function VideoShowcase({
   eyebrow,
@@ -33,7 +33,7 @@ export function VideoShowcase({
   cta,
   background = "background",
   videoSide = "right",
-  poster,
+  poster = VIDEO_POSTER,
   videoSrc = VIDEO_SRC,
   compact = false,
 }: VideoShowcaseProps) {
