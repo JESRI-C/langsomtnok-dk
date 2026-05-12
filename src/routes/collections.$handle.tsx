@@ -376,7 +376,7 @@ function CollectionPage() {
               className="absolute inset-0 -z-10 pointer-events-none"
               style={{
                 background:
-                  "linear-gradient(100deg, hsl(var(--background)) 0%, hsl(var(--background)/0.92) 38%, hsl(var(--background)/0.55) 65%, hsl(var(--background)/0.2) 100%)",
+                  "linear-gradient(100deg, rgba(248,246,243,1) 0%, rgba(248,246,243,0.94) 40%, rgba(248,246,243,0.6) 68%, rgba(248,246,243,0.2) 100%)",
               }}
             />
           </>
