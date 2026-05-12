@@ -148,11 +148,16 @@ function AppShell() {
 
   useEffect(() => {
     const SRC = "https://cdn.shopify.com/shopifycloud/shopify_chat/storefront/shopify_chat.js";
-    if (document.querySelector(`script[src="${SRC}"]`)) return;
+    if (document.querySelector(`script[src="${SRC}"]`)) {
+      console.log("Shopify Inbox script already loaded");
+      return;
+    }
     const s = document.createElement("script");
     s.async = true;
     s.src = SRC;
-    s.setAttribute("data-shop-id", "aqwut5-0n.myshopify.com");
+    s.setAttribute("data-shop-id", "91572273488");
+    s.onload = () => console.log("Shopify Inbox script loaded");
+    s.onerror = () => console.error("Shopify Inbox script failed to load");
     document.body.appendChild(s);
   }, []);
 
