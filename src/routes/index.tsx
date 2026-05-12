@@ -15,6 +15,7 @@ import { KeramikHomeSection } from "@/components/KeramikHomeSection";
 const UNIVERSET_HOME_STORIES = UNIVERSET_STORIES.slice(0, 3);
 
 import heroPoster from "@/assets/hero-kitchen.jpg";
+import heroVideoAsset from "../../public/videos/frontpage-hero.mp4.asset.json";
 
 const MATERIAL_STEEL = "https://cdn.shopify.com/s/files/1/0915/7227/3488/files/ln-material-damascus-01.png?v=1778143706";
 const MATERIAL_WALNUT = "https://cdn.shopify.com/s/files/1/0915/7227/3488/files/ln-material-walnut-01.png?v=1778143731";
@@ -124,7 +125,7 @@ function HomePage() {
     <div className="bg-background">
       {/* ─────────────────── 1. HERO VIDEO ─────────────────── */}
       <section className="relative min-h-[88vh] md:min-h-[92vh] flex items-end md:items-center">
-        <HeroVideo poster={heroPoster} alt="Damascus kokkekniv på valnøddetræ" />
+        <HeroVideo src={heroVideoAsset.url} poster={heroPoster} alt="Roligt nordisk køkken med damaskus kokkekniv" />
         <div className="container-calm relative z-10 pb-16 md:pb-0 pt-24">
           <div className="max-w-2xl fade-in-up">
             <span className="inline-block text-[11px] tracking-[0.25em] uppercase text-deep-foreground/60 mb-6">
