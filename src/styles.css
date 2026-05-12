@@ -155,4 +155,16 @@
       transform: translateY(0);
     }
   }
+
+  .ken-burns {
+    animation: kenBurns 28s ease-in-out infinite alternate;
+    transform-origin: center center;
+    will-change: transform;
+  }
+
+  @keyframes kenBurns {
+    0%   { transform: scale(1.08) translate3d(-1.5%, 1%, 0); }
+    50%  { transform: scale(1.18) translate3d(2%, -1.5%, 0); }
+    100% { transform: scale(1.1)  translate3d(-1%, -2%, 0); }
+  }
 }
