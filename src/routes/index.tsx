@@ -6,6 +6,7 @@ import { ProductCard } from "@/components/ProductCard";
 import { NewsletterSignup } from "@/components/NewsletterSignup";
 import { ImageSlot, IMAGE_SLOTS } from "@/components/ImageSlot";
 import { HeroVideo } from "@/components/landing/HeroVideo";
+import { VideoShowcase } from "@/components/VideoShowcase";
 import { storefrontApiRequest, PRODUCTS_QUERY, type ShopifyProduct } from "@/lib/shopify";
 import { STORIES as UNIVERSET_STORIES } from "@/lib/universet";
 import { StoryCard as UniversetHomeStoryCard } from "@/components/universet/StoryCard";
