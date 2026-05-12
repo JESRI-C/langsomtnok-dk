@@ -13,7 +13,18 @@ import { trackEvent } from "@/lib/analytics";
 import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
 
-export function ProductCard({ product }: { product: ShopifyProduct }) {
+/** Map produkt-handle/type til en kort, konkret benefit-linje */
+function getBenefitLine(handle: string, productType?: string, tags: string[] = []): string | null {
+  const h = (handle + " " + (productType || "") + " " + tags.join(" ")).toLowerCase();
+  if (/knivholder|magnet/.test(h)) return "Sættes op uden boremaskine";
+  if (/slibest|whetstone|sliber/.test(h)) return "Gør dine knive skarpe igen";
+  if (/keramik|kop|skål|skaal|ceramic/.test(h)) return "Håndlavet — hvert stykke er unikt";
+  if (/kniv|knife/.test(h)) return "Til dig, der vil lave mad med bedre grej";
+  if (/gave|gift/.test(h)) return "Udvalgt med omtanke";
+  return null;
+}
+
+export function ProductCard({ product, section = "product_grid" }: { product: ShopifyProduct; section?: string }) {
   const addItem = useCartStore((s) => s.addItem);
   const isLoading = useCartStore((s) => s.isLoading);
   const { node } = product;
@@ -27,6 +38,7 @@ export function ProductCard({ product }: { product: ShopifyProduct }) {
   const isLilleSerie = tagsLower.includes("lille serie") || tagsLower.includes("lille-serie");
   const soldOut = !variant?.availableForSale;
   const soldLabel = isUnika && soldOut ? "Solgt — videre til et nyt hjem" : "Udsolgt";
+  const benefit = getBenefitLine(node.handle, node.productType, node.tags);
 
   const handleAddToCart = async (e: React.MouseEvent) => {
     e.preventDefault();
@@ -40,12 +52,19 @@ export function ProductCard({ product }: { product: ShopifyProduct }) {
       quantity: 1,
       selectedOptions: variant.selectedOptions || [],
     });
-    trackEvent('add_to_cart_product_card', { product_id: node.id, product_title: node.title });
+    trackEvent('add_to_cart_product_card', { product_id: node.id, product_title: node.title, section });
     toast.success("Tilføjet med ro.", { description: node.title, position: "top-center" });
   };
 
   return (
-    <Link to="/product/$handle" params={{ handle: node.handle }} className="group block">
+    <Link
+      to="/product/$handle"
+      params={{ handle: node.handle }}
+      className="group block rounded-xl border border-border/70 bg-card p-3 lift-on-hover"
+      data-event="product_card_click"
+      data-section={section}
+      data-target={node.handle}
+    >
       <div className="aspect-[4/5] rounded-lg overflow-hidden bg-linen mb-4 relative">
         {image ? (
           <img
@@ -71,21 +90,25 @@ export function ProductCard({ product }: { product: ShopifyProduct }) {
           </span>
         )}
       </div>
-      <div className="space-y-1">
+      <div className="space-y-1.5 px-1 pb-1">
         {node.productType && (
           <span className="text-[10px] font-medium text-copper uppercase tracking-wider">{node.productType}</span>
         )}
-        <h3 className="font-serif text-base leading-tight group-hover:text-walnut transition-colors">{node.title}</h3>
-        
-        <div className="flex items-center justify-between pt-1">
+        <h3 className="font-serif text-base md:text-lg leading-tight text-foreground group-hover:text-walnut transition-colors">{node.title}</h3>
+
+        {benefit && (
+          <p className="text-xs text-muted-foreground leading-snug pt-0.5">{benefit}</p>
+        )}
+
+        <div className="flex items-center justify-between pt-2">
           <div className="flex items-baseline gap-2">
             {parseFloat(price.amount) > 0 ? (
-              <span className="text-sm font-medium">{formatPrice(price.amount, price.currencyCode)}</span>
+              <span className="text-base font-semibold text-foreground">{formatPrice(price.amount, price.currencyCode)}</span>
             ) : (
               <span className="text-xs text-muted-foreground italic">Pris kommer snart</span>
             )}
             {isOnSale && parseFloat(price.amount) > 0 && product.node.compareAtPriceRange?.minVariantPrice && (
-              <span className="text-xs text-muted-foreground/50 line-through">
+              <span className="text-xs text-muted-foreground/60 line-through">
                 {formatPrice(product.node.compareAtPriceRange.minVariantPrice.amount, product.node.compareAtPriceRange.minVariantPrice.currencyCode)}
               </span>
             )}
@@ -93,9 +116,11 @@ export function ProductCard({ product }: { product: ShopifyProduct }) {
           <button
             onClick={handleAddToCart}
             disabled={isLoading || !variant?.availableForSale || parseFloat(price.amount) <= 0}
-            className="text-xs font-medium text-cta hover:text-cta/80 transition-colors disabled:opacity-50"
+            className="text-xs font-semibold text-cta hover:text-cta-hover transition-colors disabled:opacity-50 underline-offset-4 group-hover:underline"
+            data-event="add_to_cart_click"
+            data-section={section}
           >
-            {isLoading ? <Loader2 className="w-3 h-3 animate-spin" /> : parseFloat(price.amount) <= 0 ? "På vej" : soldOut ? soldLabel : "Tilføj til ritualet"}
+            {isLoading ? <Loader2 className="w-3 h-3 animate-spin" /> : parseFloat(price.amount) <= 0 ? "På vej" : soldOut ? soldLabel : "Læg i kurv"}
           </button>
         </div>
       </div>

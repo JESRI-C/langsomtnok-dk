@@ -1,72 +1,137 @@
-## Langsomt Nok Universet — Plan
 
-### Approach: Repurpose existing article system, ikke duplikere
-Vi har allerede 10 artikler i `src/lib/articles.ts` og routes `/guides` + `/guides/$slug`. I stedet for at bygge en parallel blog-stak, gør vi følgende:
+# CRO-opstramning af Langsomt Nok
 
-- Tilføjer **rituelle kategorier** (ritual_category) ovenpå eksisterende artikel-data — så samme indhold kan optræde både som "guide" og som "fortælling i Universet" uden duplikering.
-- Bygger en ny **/universet** rute med Universet-look (hero, fremhævet artikel, grid, kategori-spor, Cirklen-blok).
-- Opgraderer `/guides/$slug` blogpost-template med Universet-DNA (tilbage-link, citat-blokke, "Det hører til ritualet"-produktblok, FAQ, Cirklen-CTA, BlogPosting schema).
-- Tilføjer "Universet" i header-nav og footer.
-- Tilføjer Universet-sektion på forsiden (3 fremhævede fortællinger).
-- Tilføjer "Det hører til ritualet" på relevante produktsider via tag-mapping.
+Målet er at gøre det eksisterende site skarpere og mere konverteringsvenligt — ikke et redesign. Vi bevarer billeder, produkter, brand-DNA og slow living-tonen, men strammer hierarki, kontrast, CTA'er og mikrotekster.
 
-### Filer der oprettes
-- `src/routes/universet.tsx` — landingsside `/universet`
-- `src/routes/universet.$slug.tsx` — single fortælling `/universet/<slug>` (genbruger ARTICLES-data, ny styling)
-- `src/components/universet/UniversetHero.tsx`
-- `src/components/universet/FeaturedStoryBlock.tsx`
-- `src/components/universet/StoryCard.tsx`
-- `src/components/universet/RitualCategoryFilter.tsx`
-- `src/components/universet/CirklenSignupBlock.tsx`
-- `src/components/universet/RelatedRitualProducts.tsx` — "Det hører til ritualet" (henter Shopify produkter via tag/produkttype)
-- `src/components/universet/UniversetFAQ.tsx`
-- `src/lib/universet.ts` — ritualkategorier + mapping (slug → ritual_category, related product type/tag, FAQ)
+## 1. Designtokens (src/styles.css)
 
-### Filer der opdateres
-- `src/lib/articles.ts` — tilføj felter: `ritualCategory`, `excerpt`, `faq?`, `relatedProductQuery?` til hver artikel
-- `src/components/Header.tsx` — tilføj "Universet" nav-punkt
-- `src/components/Footer.tsx` — tilføj "Universet" link
-- `src/routes/index.tsx` — tilføj Universet-fortællingssektion (3 kort)
-- `src/routes/guides.$slug.tsx` — opgrader til Universet-template (eller redirect til `/universet/$slug`); tilføj BlogPosting + Breadcrumb + FAQ schema
-- `public/sitemap.xml` — registrér nye URL'er
-- Stille fix: runtime-fejl `buildCampaignHead is not defined` (TanStack code-splitter problem) — løses ved at flytte head()-konstruktion inline eller via en lille utility importeret korrekt.
+Justér eksisterende tokens for stærkere kontrast, uden at bryde paletten:
 
-### Designsystem
-- Baggrund: `bg-background` (#F8F6F3) og `bg-soft` (#E6E0D7) — allerede tokens
-- CTA: `bg-cta` (mosgrøn) — allerede tokens
-- Typografi: serif headlines (`font-serif`), Inter brødtekst
-- Kort: `rounded-md` (6px), bløde shadows, ingen hårde borders, masser af whitespace
-- Tekstmaks bredde: 760px, line-height 1.8
-- ImageSlot bruges til alle billed-pladser (ingen AI-billeder per memory)
+- `--background` → #F8F6F3
+- `--foreground` → #2D2D2D
+- `--soft` (varm baggrund) → #E6E0D7
+- `--cta` → #4C574A (mosgrøn, mere mættet)
+- `--cta-hover` → #3D463B (ny token til hover)
+- `--copper`/sekundær accent → #B7A68B
+- `--border` → #D8D1C7
+- `--card` → #FAF8F4
 
-### Ritualkategorier (ritual_category)
-- Køkkenritualer
-- Espresso & morgenro
-- Knive & slibning
-- Materialer & pleje
-- Slow living
-- Gaver med mening
+Tilføj utility-klasser: `.shadow-card-hover`, `.lift-on-hover` (rolig 4px translate + skygge).
 
-Mapping fra eksisterende kategorier (Knivvalg, Slibning, Pleje, Materialer, Gaver, Langsom mad) → ritual_category.
+Typografi: skærp H1/H2 vægt og letter-spacing en smule. Sikr brødtekst på min. 16px og line-height 1.7.
 
-### SEO / GEO
-- BlogPosting JSON-LD på single fortælling med headline, image, datePublished, author "Langsomt Nok"
-- BreadcrumbList: Forside → Universet → [Fortælling]
-- FAQPage schema når artiklen har FAQ-sektion
-- Canonical, OG image, Twitter cards
-- Per-route `head()` med unik title/description
+## 2. Hero (src/routes/index.tsx)
 
-### Shopify-integration
-- "Det hører til ritualet" bruger eksisterende `fetchProductsByQuery` med product_type/tag baseret på artiklens `relatedProductQuery`
-- Ingen ændringer i Shopify Admin krævet — bruger eksisterende produkter
-- Cirklen-blok linker til eksisterende `/cirklen` route (ingen Klaviyo-integration nu)
+Ny tekst:
+- H1: "Et roligere køkken starter med de ting, du bruger hver dag."
+- Underrubrik: "Udvalgte produkter i træ, stål og keramik – skabt til mere orden, bedre hverdagsritualer og et hjem, der føles rart at være i."
+- Primær CTA: "Se køkkenfavoritter" → /shop (mosgrøn, fuld styrke)
+- Sekundær CTA: "Udforsk keramik" → /keramik (outline)
+- Mobil: CTA'er stables, min højde 48px, fuld bredde, tydelig kontrast mod hero-overlay.
 
-### Acceptkriterier verifikation
-- [x] /universet rendrer korrekt med hero, featured, grid, kategorier, Cirklen-blok
-- [x] /universet/$slug rendrer som rolig blogpost med citater, produktblok, FAQ, schema
-- [x] Universet i header + footer + forsidesektion
-- [x] Schema markup verificeres i HTML output
-- [x] Mobile single-column layout
-- [x] Build + lint grønne
+## 3. Trustbar (src/components/landing/TrustBar.tsx)
 
-Vil du have mig til at gå direkte i gang med implementeringen?
+Opdater til:
+✓ Dansk webshop · ✓ Hurtig levering · ✓ Sikker betaling · ✓ Nem retur · ✓ hej@langsomtnok.dk
+
+Placér umiddelbart under hero på forsiden og øverst på collection-/produktsider. Kompakt på mobil (2 kolonner grid, ikoner mindre).
+
+## 4. Kategoriindgange på forsiden
+
+Tre kort (Køkkenfavoritter, Keramik, Gaver) med:
+- Kort konkret tekst (som specificeret)
+- Tydelig CTA ("Se køkkenprodukter" / "Se keramik" / "Find en gave")
+- Hover: subtil løft + dybere skygge + CTA bliver mosgrøn
+- Hele kortet klikbart, men med visuel "→" CTA
+
+Bygges/justeres i `CollectionCard` + ny sektion på forsiden.
+
+## 5. Produktsektioner (forsiden)
+
+Omdøb evt. "Bestseller" → "Udvalgt lige nu" / "Et godt sted at starte".
+Strukturer forsiden så rækkefølgen er: Hero → Trustbar → Kategorier → Udvalgt lige nu → Keramik-sektion → Gaver med ro i → Brand/intro → Cirklen-signup → Footer.
+
+## 6. Produktkort (src/components/ProductCard.tsx)
+
+Tilføj:
+- Tydeligere border (`--border`) + hvid kortbaggrund
+- Pris i fed, mosgrøn farve
+- Kort benefit-linje (1 linje, valgfri prop)
+- "Se produkt"-CTA der vises tydeligere på hover (desktop) og altid på mobil
+- "På lager" / "Sendes fra Danmark" mikrotekst hvis data findes
+- Rolig hover: lift 4px + skygge + CTA mætter farve
+
+Benefit-tekster mappes via produkt-handle (knivholder, slibesten, keramik osv.) — fallback til ingen tekst.
+
+## 7. Produktsider (src/routes/product.$handle.tsx)
+
+Tæt på pris/købsknap:
+- "Levering 1–3 hverdage" · "Sikker betaling" · "Nem retur" · "Spørgsmål? hej@langsomtnok.dk"
+- Fordelspunkter (4 ✓) — for magnetisk knivholder de specificerede
+
+Sticky mobil-CTA (`StickyMobileCTA`): allerede findes — strammes visuelt (tydeligere baggrund, bedre skygge, sikr at den ikke dækker chat).
+
+## 8. Collection-sider (src/routes/collections.$handle.tsx + keramik-template)
+
+Hver collection-header får:
+- H1 med konkret værdi-tekst
+- Kort intro (2–3 linjer)
+- Trust-/leveringslinje under intro
+- Bedre produktgrid spacing
+- Internt link-blok i bunden ("Du kan også kigge på …")
+
+## 9. Navigation & Footer
+
+Header: tydeliggør Køkken / Keramik / Gaver / Om / Kontakt.
+Footer: tilføj mail, levering, retur, handelsbetingelser, privatliv, om, CVR (hvis tilgængelig). Varm tone bevares.
+
+## 10. Tracking
+
+Tilføj `data-event` / `data-section` / `data-target` attributter på:
+- Hero CTA'er
+- Kategori-kort
+- Produktkort
+- Collection-CTA'er
+- Sticky mobil-CTA
+
+Eksisterende `trackEvent`-kald bevares.
+
+## 11. Mikrotekster
+
+Drys ind hvor relevant: "Pakket med omtanke", "Sendes fra Danmark", "Små partier", "Udvalgt til hverdagen". Kun hvor det giver mening — ikke spam.
+
+## 12. Mobil & kontrast-pas
+
+- CTA min-højde 48px på mobil
+- Sikr ingen beige-på-beige tekst (linjer på links og priser tjekkes)
+- Sticky CTA bottom: 0 på mobil; chat-bubble løftes 88px (allerede gjort)
+- Lazy-loading på alle billeder uden for viewport
+
+## Tekniske noter
+
+- Ingen nye store libraries
+- Ingen ændring af Shopify-integration eller cart-logic
+- Ingen migrations nødvendige
+- Bevarer alt eksisterende tracking
+- Image slots og produktbilleder forbliver uændrede
+
+## Filer der ændres
+
+- `src/styles.css` (tokens, hover-utilities)
+- `src/routes/index.tsx` (hero-tekst, sektionsrækkefølge)
+- `src/components/landing/LandingPageHero.tsx` (CTA-kontrast på mobil)
+- `src/components/landing/TrustBar.tsx` (nye items + placering)
+- `src/components/landing/CollectionCard.tsx` (hover, CTA)
+- `src/components/ProductCard.tsx` (benefit-linje, hover, tracking)
+- `src/components/StickyMobileCTA.tsx` (visuel polish)
+- `src/components/Header.tsx` + `src/components/Footer.tsx` (nav + trust)
+- `src/routes/product.$handle.tsx` (trust-linje + fordelspunkter)
+- `src/routes/collections.$handle.tsx` (header + intro)
+- `src/routes/shop.tsx` (header tekst)
+
+## Ude af scope
+
+- Nye produktbilleder eller AI-billeder
+- Ændringer i Shopify-data eller cart-store
+- Database/auth/edge functions
+- Komplet nye sider eller routes

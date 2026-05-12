@@ -473,20 +473,20 @@ function ProductPage() {
             </div>
 
             {/* Trust line */}
-            <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 text-xs text-muted-foreground mt-3">
+            <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-xs text-foreground/70 mt-4">
               <span className="inline-flex items-center gap-1.5">
-                <CreditCard className="w-4 h-4 text-cta" strokeWidth={1.5} />
-                Tryg betaling
+                <Truck className="w-4 h-4 text-cta" strokeWidth={1.5} />
+                Levering 1–3 hverdage
               </span>
               <span className="text-border">·</span>
               <span className="inline-flex items-center gap-1.5">
-                <Truck className="w-4 h-4 text-cta" strokeWidth={1.5} />
-                Sendes fra Danmark
+                <CreditCard className="w-4 h-4 text-cta" strokeWidth={1.5} />
+                Sikker betaling
               </span>
               <span className="text-border">·</span>
               <span className="inline-flex items-center gap-1.5">
                 <RotateCcw className="w-4 h-4 text-cta" strokeWidth={1.5} />
-                30 dages returret
+                Nem retur
               </span>
               <span className="text-border">·</span>
               <span className="inline-flex items-center gap-1.5">
@@ -494,6 +494,29 @@ function ProductPage() {
                 Pakket med omhu
               </span>
             </div>
+            <p className="text-xs text-muted-foreground mt-2">
+              Spørgsmål? Skriv til{" "}
+              <a href="mailto:hej@langsomtnok.dk" className="text-cta font-medium hover:text-cta-hover">
+                hej@langsomtnok.dk
+              </a>
+            </p>
+
+            {/* Fordelspunkter — magnetiske knivholdere */}
+            {(/knivholder|magnet/i.test(product.handle) || /knivholder|magnet/i.test(product.title)) && (
+              <ul className="mt-5 grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-2 text-sm text-foreground/80">
+                {[
+                  "Knivene væk fra skuffen",
+                  "Mere orden på køkkenbordet",
+                  "Sættes op med tape — uden boremaskine",
+                  "En rolig opgradering til køkkenet",
+                ].map((b) => (
+                  <li key={b} className="flex items-start gap-2">
+                    <span className="text-cta mt-0.5">✓</span>
+                    <span>{b}</span>
+                  </li>
+                ))}
+              </ul>
+            )}
           </div>
         </div>
 

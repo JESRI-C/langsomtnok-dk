@@ -51,6 +51,7 @@
   --color-walnut: var(--walnut);
   --color-copper: var(--copper);
   --color-cta: var(--cta);
+  --color-cta-hover: var(--cta-hover);
   --color-cta-foreground: var(--cta-foreground);
   --color-linen: var(--linen);
   --color-deep: var(--deep);
@@ -64,33 +65,34 @@
 :root {
   --radius: 0.5rem;
   --background: oklch(0.973 0.006 80);
-  --foreground: oklch(0.231 0.005 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.231 0.005 0);
+  --foreground: oklch(0.215 0.006 60);
+  --card: oklch(0.985 0.005 80);
+  --card-foreground: oklch(0.215 0.006 60);
   --popover: oklch(0.973 0.006 80);
-  --popover-foreground: oklch(0.231 0.005 0);
+  --popover-foreground: oklch(0.215 0.006 60);
   --primary: oklch(0.371 0.044 40);
   --primary-foreground: oklch(0.973 0.006 80);
   --secondary: oklch(0.916 0.015 75);
-  --secondary-foreground: oklch(0.231 0.005 0);
+  --secondary-foreground: oklch(0.215 0.006 60);
   --muted: oklch(0.916 0.015 75);
-  --muted-foreground: oklch(0.5 0.01 60);
+  --muted-foreground: oklch(0.42 0.012 60);
   --accent: oklch(0.916 0.015 75);
-  --accent-foreground: oklch(0.231 0.005 0);
+  --accent-foreground: oklch(0.215 0.006 60);
   --destructive: oklch(0.577 0.245 27.325);
   --destructive-foreground: oklch(0.984 0.003 247.858);
-  --border: oklch(0.88 0.015 75);
-  --input: oklch(0.88 0.015 75);
-  --ring: oklch(0.6 0.04 50);
+  --border: oklch(0.84 0.018 75);
+  --input: oklch(0.84 0.018 75);
+  --ring: oklch(0.45 0.04 150);
 
   --walnut: oklch(0.371 0.065 40);
-  --copper: oklch(0.6 0.1 60);
-  --cta: oklch(0.39 0.03 150);
+  --copper: oklch(0.55 0.07 60);
+  --cta: oklch(0.36 0.035 150);
+  --cta-hover: oklch(0.30 0.035 150);
   --cta-foreground: oklch(0.97 0.006 80);
   --linen: oklch(0.855 0.022 75);
   --deep: oklch(0.19 0.005 0);
   --deep-foreground: oklch(0.92 0.01 75);
-  --soft: oklch(0.916 0.015 75);
+  --soft: oklch(0.905 0.018 75);
 
   --chart-1: oklch(0.371 0.065 40);
   --chart-2: oklch(0.6 0.1 60);
@@ -167,6 +169,53 @@
     50%  { transform: scale(1.18) translate3d(2%, -1.5%, 0); }
     100% { transform: scale(1.1)  translate3d(-1%, -2%, 0); }
   }
+
+  /* CRO: rolig hover-løft til kort */
+  .lift-on-hover {
+    transition: transform 400ms ease-out, box-shadow 400ms ease-out, border-color 400ms ease-out;
+    will-change: transform;
+  }
+  .lift-on-hover:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 28px -16px color-mix(in oklab, var(--foreground) 22%, transparent);
+    border-color: color-mix(in oklab, var(--cta) 35%, var(--border));
+  }
+
+  /* CRO: primær mosgrøn knap-stil – tydelig, men rolig */
+  .btn-cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    background: var(--cta);
+    color: var(--cta-foreground);
+    padding: 0.875rem 1.75rem;
+    border-radius: 0.5rem;
+    font-size: 0.95rem;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+    min-height: 48px;
+    transition: background 250ms ease, transform 250ms ease, box-shadow 250ms ease;
+    box-shadow: 0 1px 2px color-mix(in oklab, var(--cta) 30%, transparent);
+  }
+  .btn-cta:hover { background: var(--cta-hover); box-shadow: 0 6px 16px -8px color-mix(in oklab, var(--cta) 55%, transparent); }
+
+  .btn-outline-calm {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    background: transparent;
+    color: var(--foreground);
+    border: 1px solid color-mix(in oklab, var(--foreground) 30%, transparent);
+    padding: 0.8125rem 1.75rem;
+    border-radius: 0.5rem;
+    font-size: 0.95rem;
+    font-weight: 500;
+    min-height: 48px;
+    transition: background 250ms ease, border-color 250ms ease, color 250ms ease;
+  }
+  .btn-outline-calm:hover { background: color-mix(in oklab, var(--foreground) 5%, transparent); border-color: var(--foreground); }
 }
 
 /* Shopify Inbox chat widget — sikrer at chatten altid er synlig */

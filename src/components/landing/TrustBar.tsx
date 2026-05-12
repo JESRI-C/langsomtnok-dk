@@ -1,4 +1,4 @@
-import { Truck, RotateCcw, Shield, Package, Heart, Leaf } from "lucide-react";
+import { Truck, RotateCcw, Shield, MapPin, Mail } from "lucide-react";
 
 interface TrustBarProps {
   variant?: "light" | "dark";
@@ -6,17 +6,16 @@ interface TrustBarProps {
 }
 
 const TRUST_ITEMS = [
-  { icon: Package, text: "Pakket med omhu" },
+  { icon: MapPin, text: "Dansk webshop" },
+  { icon: Truck, text: "Hurtig levering" },
   { icon: Shield, text: "Sikker betaling" },
-  { icon: RotateCcw, text: "30 dages returret" },
-  { icon: Truck, text: "Sendes fra Danmark" },
-  { icon: Heart, text: "Plejeguide medfølger" },
-  { icon: Leaf, text: "Skabt til at vare" },
+  { icon: RotateCcw, text: "Nem retur" },
+  { icon: Mail, text: "hej@langsomtnok.dk" },
 ];
 
 export function TrustBar({ variant = "light", layout = "horizontal" }: TrustBarProps) {
   const isDark = variant === "dark";
-  const items = layout === "horizontal" ? TRUST_ITEMS.slice(0, 4) : TRUST_ITEMS;
+  const items = layout === "horizontal" ? TRUST_ITEMS.slice(0, 5) : TRUST_ITEMS;
 
   if (layout === "grid") {
     return (

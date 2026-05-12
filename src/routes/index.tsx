@@ -46,25 +46,25 @@ export const Route = createFileRoute("/")({
 const CATEGORIES = [
   {
     title: "Knive",
-    text: "Når skarphed bliver en del af roen.",
+    text: "Til dig, der vil lave mad med bedre grej.",
     handle: "knive",
     slot: IMAGE_SLOTS.categories.knives,
   },
   {
     title: "Slibning & pleje",
-    text: "Fordi gode redskaber fortjener tid.",
+    text: "Gør dine knive skarpe igen — i ro og mag.",
     handle: "slibesten",
     slot: IMAGE_SLOTS.categories.sharpeningStones,
   },
   {
     title: "Magnetisk opbevaring",
-    text: "Når værktøjet gerne må være synligt.",
+    text: "Få knivene væk fra skuffen. Sættes op uden boremaskine.",
     handle: "magnetiske-holdere",
     slot: IMAGE_SLOTS.categories.magneticHolders,
   },
   {
     title: "Gaver",
-    text: "Til dem, der værdsætter det brugbare.",
+    text: "Gaver, der føles udvalgt — ikke tilfældige.",
     handle: "gaver",
     slot: IMAGE_SLOTS.categories.giftSets,
   },
@@ -129,32 +129,37 @@ function HomePage() {
         <HeroVideo src={HERO_VIDEO_SRC} poster={heroPoster} alt="Roligt nordisk køkken med damaskus kokkekniv" />
         <div className="container-calm relative z-10 pb-16 md:pb-0 pt-24">
           <div className="max-w-2xl fade-in-up">
-            <span className="inline-block text-[11px] tracking-[0.25em] uppercase text-deep-foreground/60 mb-6">
-              Nordic Calm · Crafted Sharpness
+            <span className="inline-block text-[11px] tracking-[0.25em] uppercase text-deep-foreground/65 mb-6">
+              Køkken · Keramik · Hverdagsritualer
             </span>
-            <h1 className="font-serif text-deep-foreground leading-[0.95] text-5xl sm:text-6xl md:text-7xl lg:text-8xl mb-7">
-              Tid.<br />Håndværk.<br />Ro.
+            <h1 className="font-serif text-deep-foreground leading-[1.02] text-4xl sm:text-5xl md:text-6xl lg:text-7xl mb-6">
+              Et roligere køkken<br />starter med de ting,<br />du bruger hver dag.
             </h1>
-            <p className="text-base md:text-lg text-deep-foreground/75 leading-relaxed mb-10 max-w-md">
-              Køkkenredskaber til hænder, der gerne vil mærke forskellen.
+            <p className="text-base md:text-lg text-deep-foreground/80 leading-relaxed mb-9 max-w-lg">
+              Udvalgte produkter i træ, stål og keramik — skabt til mere orden, bedre hverdagsritualer og et hjem, der føles rart at være i.
             </p>
-            <div className="flex flex-wrap gap-3 mb-8">
+            <div className="flex flex-col sm:flex-row gap-3 mb-7">
               <Link
                 to="/shop"
-                className="inline-flex items-center justify-center rounded-md bg-cta text-cta-foreground px-7 py-3.5 text-sm font-medium tracking-wide transition-colors duration-500 hover:bg-[#3F4B3D]"
+                className="btn-cta"
+                data-event="hero_cta_click"
+                data-section="homepage_hero"
+                data-target="kitchen_collection"
               >
-                Udforsk ritualerne
+                Se køkkenfavoritter
               </Link>
               <Link
-                to="/collections/$handle"
-                params={{ handle: "knive" }}
-                className="inline-flex items-center justify-center rounded-md border border-deep-foreground/30 text-deep-foreground px-7 py-3.5 text-sm font-medium tracking-wide transition-colors duration-500 hover:bg-deep-foreground/10"
+                to="/keramik"
+                className="btn-outline-calm border-deep-foreground/35 text-deep-foreground hover:bg-deep-foreground/10"
+                data-event="hero_cta_click"
+                data-section="homepage_hero"
+                data-target="ceramic_collection"
               >
-                Find din første kniv
+                Udforsk keramik
               </Link>
             </div>
             <p className="text-xs md:text-sm text-deep-foreground/55 tracking-wide">
-              Sendes fra Danmark · 30 dages returret · Pakket med omhu
+              Sendes fra Danmark · Hurtig levering · Sikker betaling · Nem retur
             </p>
           </div>
         </div>
@@ -212,10 +217,10 @@ function HomePage() {
           <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-12">
             <div>
               <span className="text-[11px] tracking-[0.25em] uppercase text-copper">Kategorier</span>
-              <h2 className="font-serif text-3xl md:text-5xl mt-2">Vælg dit ritual</h2>
+              <h2 className="font-serif text-3xl md:text-5xl mt-2">Find det, du leder efter</h2>
             </div>
             <p className="text-muted-foreground max-w-sm">
-              Fire indgange til et roligere køkken. Vælg dér, hvor dine hænder gerne vil begynde.
+              Fire indgange til et roligere køkken. Vælg dér, hvor du gerne vil starte.
             </p>
           </div>
 
@@ -225,7 +230,10 @@ function HomePage() {
                 key={cat.handle}
                 to="/collections/$handle"
                 params={{ handle: cat.handle }}
-                className="group block"
+                className="group block rounded-xl border border-border/70 bg-card p-3 lift-on-hover"
+                data-event="category_card_click"
+                data-section="homepage_categories"
+                data-target={cat.handle}
               >
                 <div className="overflow-hidden rounded-lg bg-soft mb-5">
                   <div className="transition-transform duration-700 ease-out group-hover:scale-[1.03]">
@@ -239,11 +247,11 @@ function HomePage() {
                     />
                   </div>
                 </div>
-                <h3 className="font-serif text-xl mb-1.5 group-hover:text-walnut transition-colors">
+                <h3 className="font-serif text-xl mb-1.5 text-foreground group-hover:text-walnut transition-colors px-1">
                   {cat.title}
                 </h3>
-                <p className="text-sm text-muted-foreground mb-3 leading-relaxed">{cat.text}</p>
-                <span className="inline-flex items-center gap-1.5 text-sm font-medium text-cta opacity-80 group-hover:opacity-100 group-hover:gap-2.5 transition-all">
+                <p className="text-sm text-muted-foreground mb-3 leading-relaxed px-1">{cat.text}</p>
+                <span className="inline-flex items-center gap-1.5 text-sm font-semibold text-cta px-1 group-hover:gap-2.5 transition-all">
                   Se kollektionen <ArrowRight className="w-3.5 h-3.5" />
                 </span>
               </Link>
@@ -258,12 +266,15 @@ function HomePage() {
           <div className="container-calm">
             <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-12">
               <div>
-                <span className="text-[11px] tracking-[0.25em] uppercase text-copper">Udvalg</span>
-                <h2 className="font-serif text-3xl md:text-5xl mt-2">Udvalgte redskaber</h2>
+                <span className="text-[11px] tracking-[0.25em] uppercase text-copper">Udvalgt lige nu</span>
+                <h2 className="font-serif text-3xl md:text-5xl mt-2">Et godt sted at starte</h2>
               </div>
               <Link
                 to="/shop"
-                className="text-sm font-medium text-cta inline-flex items-center gap-1.5 hover:gap-2.5 transition-all"
+                className="text-sm font-semibold text-cta inline-flex items-center gap-1.5 hover:gap-2.5 transition-all"
+                data-event="section_cta_click"
+                data-section="featured_products"
+                data-target="all_products"
               >
                 Se alle produkter <ArrowRight className="w-4 h-4" />
               </Link>
