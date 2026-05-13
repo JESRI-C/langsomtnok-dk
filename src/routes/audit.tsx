@@ -15,7 +15,10 @@ import { Loader2 } from "lucide-react";
 
 export const Route = createFileRoute("/audit")({
   head: () => ({
-    meta: [{ title: "Product Audit — Langsomt Nok (Dev)" }],
+    meta: [
+      { title: "Product Audit — Langsomt Nok (Dev)" },
+      { name: "robots", content: "noindex, nofollow" },
+    ],
   }),
   component: AuditPage,
 });

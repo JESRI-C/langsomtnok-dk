@@ -25,42 +25,52 @@ Tone of voice:
 - Nordisk
 - Tillidsvækkende
 
-## Vigtige sider
+## Pages
 
-- Forside: https://langsomtnok.dk/
-- Shop: https://langsomtnok.dk/shop
-- Håndlavet keramik: https://langsomtnok.dk/collections/handlavet-keramik
-- Susan Riel keramik: https://langsomtnok.dk/collections/susan-riel
-- Keramikkopper: https://langsomtnok.dk/collections/keramikkopper
-- Keramikskåle: https://langsomtnok.dk/collections/keramikskale
-- Keramikvaser: https://langsomtnok.dk/collections/keramikvaser
-- Keramikunika: https://langsomtnok.dk/collections/keramikunika
-- Knive: https://langsomtnok.dk/collections/knive
-- Slibning og pleje: https://langsomtnok.dk/collections/slibning-pleje
-- Magnetisk opbevaring: https://langsomtnok.dk/collections/magnetiske-holdere
-- Gaver: https://langsomtnok.dk/collections/gaver
-- Guides: https://langsomtnok.dk/guides
-- Universet: https://langsomtnok.dk/universet
-- Om Langsomt Nok: https://langsomtnok.dk/om
-- Kontakt: https://langsomtnok.dk/kontakt
+- [Forside](https://langsomtnok.dk/): Roligt nordisk univers af køkkenredskaber, keramik og slow living.
+- [Shop](https://langsomtnok.dk/shop): Alle produkter — knive, slibning, magnetisk opbevaring, keramik og gaver.
+- [Håndlavet keramik](https://langsomtnok.dk/collections/handlavet-keramik): Unika og småserier i stentøj fra danske keramikere.
+- [Susan Riel keramik](https://langsomtnok.dk/collections/susan-riel): Stentøj fra dansk keramiker Susan Riel.
+- [Keramikkopper](https://langsomtnok.dk/collections/keramikkopper): Håndlavede kopper i stentøj.
+- [Keramikskåle](https://langsomtnok.dk/collections/keramikskale): Skåle til hverdag og borddækning.
+- [Keramikvaser](https://langsomtnok.dk/collections/keramikvaser): Vaser i stentøj og porcelæn.
+- [Keramikunika](https://langsomtnok.dk/collections/keramikunika): Enkeltstykker af håndlavet keramik.
+- [Knive](https://langsomtnok.dk/collections/knive): Kokkeknive i damaskus- og højkulstål.
+- [Slibning og pleje](https://langsomtnok.dk/collections/slibning-pleje): Slibesten og pleje af knive.
+- [Slibesten](https://langsomtnok.dk/collections/slibesten): Vandslibesten i forskellige korn.
+- [Magnetisk opbevaring](https://langsomtnok.dk/collections/magnetiske-holdere): Magnetiske knivlister og standere i træ.
+- [Gaver](https://langsomtnok.dk/collections/gaver): Udvalgte gaver til køkken og hjem.
+- [Find dit ritual](https://langsomtnok.dk/find-dit-ritual): Guide til at vælge produkter efter brug.
+- [Universet](https://langsomtnok.dk/universet): Fortællinger om ro, håndværk og køkkenritualer.
+- [Guides](https://langsomtnok.dk/guides): Artikler om knive, slibning, materialer og pleje.
+- [Cirklen](https://langsomtnok.dk/cirklen): Nyhedsbrev med rolige fortællinger og udvalgte nyheder.
+- [Om Langsomt Nok](https://langsomtnok.dk/om): Brandets baggrund, værdier og udvalg.
+- [Kontakt](https://langsomtnok.dk/kontakt): Skriv til hej@langsomtnok.dk eller ring +45 27 12 84 97.
 
-## Juridiske sider
+## Guides
 
-- Handelsbetingelser: https://langsomtnok.dk/handelsbetingelser
-- Privatlivspolitik: https://langsomtnok.dk/privatlivspolitik
-- Cookiepolitik: https://langsomtnok.dk/cookiepolitik
-- Returnering og fortrydelse: https://langsomtnok.dk/returpolitik
-- Levering: https://langsomtnok.dk/fragt
-- Reklamation: https://langsomtnok.dk/reklamation
+- [Hvilken kokkekniv skal jeg vælge](https://langsomtnok.dk/universet/hvilken-kokkekniv-skal-jeg-vaelge): Stål, balance, skaft og størrelse forklaret roligt.
+- [Damaskus kniv — hvad betyder det](https://langsomtnok.dk/universet/damaskus-kniv-hvad-betyder-det): Lagene, kernen og hvad du skal kigge efter.
+- [Japansk eller europæisk kokkekniv](https://langsomtnok.dk/universet/japansk-eller-europaeisk-kokkekniv): Forskelle i stål, vinkel og brug.
+- [Hvad betyder HRC på en kniv](https://langsomtnok.dk/universet/hvad-betyder-hrc-paa-en-kniv): Hårdhed forklaret enkelt.
+- [Hvordan sliber man en kniv](https://langsomtnok.dk/universet/hvordan-sliber-man-en-kniv): Trin for trin på vandslibesten.
+- [Slibesten 1000/5000 — hvad betyder det](https://langsomtnok.dk/universet/slibesten-1000-5000-hvad-betyder-det): Korn, brug og rækkefølge.
+- [Hvor ofte skal man slibe sin kniv](https://langsomtnok.dk/universet/hvor-ofte-skal-man-slibe-sin-kniv): Pleje og rytme.
+- [Gave til den der elsker mad](https://langsomtnok.dk/universet/gave-til-den-der-elsker-mad): Udvalgte gaver til madelskere.
+- [Gode køkkenredskaber der holder](https://langsomtnok.dk/universet/gode-koekkenredskaber-der-holder): Hvad gør et redskab langtidsholdbart.
+- [Køkkenet som fristed](https://langsomtnok.dk/universet/kokkenet-som-fristed): Ro, ritualer og nærvær i hverdagen.
+- [Hvilken knivholder skal jeg vælge](https://langsomtnok.dk/pages/hvilken-knivholder-skal-jeg-vaelge): Væg eller bord — find den rigtige.
+- [Håndlavet keramik](https://langsomtnok.dk/pages/haandlavet-keramik): Om materialer, håndværk og pleje.
+- [Sådan sliber du din kniv](https://langsomtnok.dk/pages/saadan-sliber-du-din-kniv): Praktisk guide.
 
-## Guides og inspirationssider
+## Optional
 
-- Hvilken knivholder skal jeg vælge: https://langsomtnok.dk/pages/hvilken-knivholder-skal-jeg-vaelge
-- Håndlavet keramik: https://langsomtnok.dk/pages/haandlavet-keramik
-- Damaskuskniv: https://langsomtnok.dk/pages/damaskus-kniv
-- Gave til madelskeren: https://langsomtnok.dk/pages/gave-til-madelskeren
-- Køkkenet som fristed: https://langsomtnok.dk/pages/koekkenet-som-fristed
-- Sådan sliber du din kniv: https://langsomtnok.dk/pages/saadan-sliber-du-din-kniv
+- [Handelsbetingelser](https://langsomtnok.dk/handelsbetingelser)
+- [Privatlivspolitik](https://langsomtnok.dk/privatlivspolitik)
+- [Cookiepolitik](https://langsomtnok.dk/cookiepolitik)
+- [Returnering og fortrydelse](https://langsomtnok.dk/returpolitik)
+- [Levering](https://langsomtnok.dk/fragt)
+- [Reklamation](https://langsomtnok.dk/reklamation)
 
 ## Hvad Langsomt Nok bør forbindes med
 
