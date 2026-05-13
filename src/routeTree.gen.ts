@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as UniversetRouteImport } from './routes/universet'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as ShopRouteImport } from './routes/shop'
 import { Route as ReturpolitikRouteImport } from './routes/returpolitik'
 import { Route as ReklamationRouteImport } from './routes/reklamation'
@@ -52,6 +53,11 @@ import { Route as CollectionsHandleRouteImport } from './routes/collections.$han
 const UniversetRoute = UniversetRouteImport.update({
   id: '/universet',
   path: '/universet',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ShopRoute = ShopRouteImport.update({
@@ -267,6 +273,7 @@ export interface FileRoutesByFullPath {
   '/reklamation': typeof ReklamationRoute
   '/returpolitik': typeof ReturpolitikRoute
   '/shop': typeof ShopRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/universet': typeof UniversetRoute
   '/collections/$handle': typeof CollectionsHandleRoute
   '/collections/handlavet-keramik': typeof CollectionsHandlavetKeramikRoute
@@ -308,6 +315,7 @@ export interface FileRoutesByTo {
   '/reklamation': typeof ReklamationRoute
   '/returpolitik': typeof ReturpolitikRoute
   '/shop': typeof ShopRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/universet': typeof UniversetRoute
   '/collections/$handle': typeof CollectionsHandleRoute
   '/collections/handlavet-keramik': typeof CollectionsHandlavetKeramikRoute
@@ -350,6 +358,7 @@ export interface FileRoutesById {
   '/reklamation': typeof ReklamationRoute
   '/returpolitik': typeof ReturpolitikRoute
   '/shop': typeof ShopRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/universet': typeof UniversetRoute
   '/collections/$handle': typeof CollectionsHandleRoute
   '/collections/handlavet-keramik': typeof CollectionsHandlavetKeramikRoute
@@ -393,6 +402,7 @@ export interface FileRouteTypes {
     | '/reklamation'
     | '/returpolitik'
     | '/shop'
+    | '/sitemap.xml'
     | '/universet'
     | '/collections/$handle'
     | '/collections/handlavet-keramik'
@@ -434,6 +444,7 @@ export interface FileRouteTypes {
     | '/reklamation'
     | '/returpolitik'
     | '/shop'
+    | '/sitemap.xml'
     | '/universet'
     | '/collections/$handle'
     | '/collections/handlavet-keramik'
@@ -475,6 +486,7 @@ export interface FileRouteTypes {
     | '/reklamation'
     | '/returpolitik'
     | '/shop'
+    | '/sitemap.xml'
     | '/universet'
     | '/collections/$handle'
     | '/collections/handlavet-keramik'
@@ -517,6 +529,7 @@ export interface RootRouteChildren {
   ReklamationRoute: typeof ReklamationRoute
   ReturpolitikRoute: typeof ReturpolitikRoute
   ShopRoute: typeof ShopRoute
+  SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   UniversetRoute: typeof UniversetRoute
   CollectionsHandleRoute: typeof CollectionsHandleRoute
   CollectionsHandlavetKeramikRoute: typeof CollectionsHandlavetKeramikRoute
@@ -552,6 +565,13 @@ declare module '@tanstack/react-router' {
       path: '/universet'
       fullPath: '/universet'
       preLoaderRoute: typeof UniversetRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/shop': {
@@ -837,6 +857,7 @@ const rootRouteChildren: RootRouteChildren = {
   ReklamationRoute: ReklamationRoute,
   ReturpolitikRoute: ReturpolitikRoute,
   ShopRoute: ShopRoute,
+  SitemapDotxmlRoute: SitemapDotxmlRoute,
   UniversetRoute: UniversetRoute,
   CollectionsHandleRoute: CollectionsHandleRoute,
   CollectionsHandlavetKeramikRoute: CollectionsHandlavetKeramikRoute,
