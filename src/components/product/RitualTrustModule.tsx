@@ -298,7 +298,7 @@ export function RitualTrustModule({ tags, metafields }: Props) {
   return (
     <div className="mt-6 space-y-4">
       <section
-        className="rounded-[10px] border border-border/60 bg-[#F8F6F3] p-5 md:p-6"
+        className="rounded-[10px] border-l-[3px] border-l-copper border-y border-r border-border/60 bg-[#F8F6F3] p-5 md:p-6 shadow-[0_1px_2px_rgba(0,0,0,0.03)]"
         data-block="ritual-trust"
         data-trust-key={key}
       >
