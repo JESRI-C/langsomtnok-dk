@@ -503,9 +503,8 @@ function ProductPage() {
                 hej@langsomtnok.dk
               </a>
             </p>
+            {/* Stort trust-modul flyttet længere ned (RitualScoreAccordion) for at undgå dobbeltarbejde med RitualScoreBadge over Add to Cart. */}
 
-            {/* Ritual Trust Module — dynamisk pr. produkt-tag */}
-            <RitualTrustModule tags={product.tags || []} metafields={product.metafields} />
 
             {/* Fordelspunkter — magnetiske knivholdere */}
             {(/knivholder|magnet/i.test(product.handle) || /knivholder|magnet/i.test(product.title)) && (
