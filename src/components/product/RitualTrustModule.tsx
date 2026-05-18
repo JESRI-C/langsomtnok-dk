@@ -5,35 +5,31 @@
  *   trust_knife | trust_care | trust_display | trust_bundle | trust_ceramic
  *
  * Dette er IKKE kunde-reviews. Det er Langsomt Noks egen redaktionelle
- * vurdering (Ritual Score / Care Score / Display Score / Start Score) +
- * en blødere kurateret variant for keramik.
+ * vurdering (Ritual Score / Care Score / Display Score / Start Score / Circle Score).
  *
- * Overrides via Shopify metafields (valgfrit — kan tilføjes senere):
+ * Overrides via Shopify metafields (valgfrit):
  *   namespace: "ritual"
- *     - title           (fx "★★★★★ 4.8 Ritual Score")
- *     - subtitle
- *     - explanation
+ *     - title, subtitle, explanation, jesper_title
  *     - score_json      (JSON: [{label, stars}])
- *     - jesper_title
  *     - jesper_bullets_json (JSON: string[])
  */
 
-import { Truck, RotateCcw, MapPin, Sparkles } from "lucide-react";
+import { Truck, RotateCcw, MapPin } from "lucide-react";
 import type { ShopifyMetafield } from "@/lib/shopify";
 
 type TrustKey = "knife" | "care" | "display" | "bundle" | "ceramic" | "default";
 
 interface ScoreRow {
   label: string;
-  stars: number; // 0-5, halve trin via 0.5
+  stars: number; // 0-5
 }
 
 interface TrustConfig {
-  variant: "score" | "soft"; // score = stjerner, soft = keramik uden stjerner
-  title: string;
-  subtitle: string;
+  scoreNumber: string; // "4.8" eller "" (fallback)
+  scoreName: string; // "Ritual Score"
+  badgeSubtitle: string; // én linje under badge
+  subtitle: string; // i fuldt modul
   rows: ScoreRow[];
-  rowsLabel?: string; // for soft-variant
   explanation: string;
   trustPoints: string[];
   jesperTitle: string;
@@ -42,10 +38,12 @@ interface TrustConfig {
 
 const CONFIGS: Record<TrustKey, TrustConfig> = {
   knife: {
-    variant: "score",
-    title: "4.8 Ritual Score",
+    scoreNumber: "4.8",
+    scoreName: "Ritual Score",
+    badgeSubtitle:
+      "Udvalgt af Langsomt Nok — vurderet på funktion, materialer, ro og brugsværdi.",
     subtitle:
-      "Et stærkt valg til dig, der vil have skarphed, balance og et køkkenredskab, der gerne må stå fremme.",
+      "Et stærkt valg til skarphed, balance og hverdagsbrug.",
     rows: [
       { label: "Skarphed", stars: 5 },
       { label: "Balance", stars: 5 },
@@ -53,9 +51,9 @@ const CONFIGS: Record<TrustKey, TrustConfig> = {
       { label: "Hverdagsbrug", stars: 4 },
     ],
     explanation:
-      "Ritual Score er Langsomt Noks egen produktvurdering baseret på funktion, materialer, æstetik og brugsværdi.",
+      "Score er Langsomt Noks egen kuraterede produktvurdering. Det er ikke en ekstern kundeanmeldelse.",
     trustPoints: [
-      "Fri fragt i Danmark",
+      "Fri fragt over 599 kr",
       "30 dages rolig returret",
       "Dansk webshop",
       "Udvalgt med fokus på kvalitet og funktion",
@@ -68,18 +66,20 @@ const CONFIGS: Record<TrustKey, TrustConfig> = {
     ],
   },
   care: {
-    variant: "score",
-    title: "4.7 Care Score",
+    scoreNumber: "4.7",
+    scoreName: "Care Score",
+    badgeSubtitle:
+      "Udvalgt af Langsomt Nok — vurderet på plejeeffekt, kontrol og langtidsholdbarhed.",
     subtitle:
-      "Til dig, der vil holde dit køkkenritual skarpt, smukt og brugbart længere.",
+      "Udvalgt til dig, der vil passe bedre på dine redskaber og forlænge deres levetid.",
     rows: [
       { label: "Brugervenlighed", stars: 5 },
       { label: "Plejeeffekt", stars: 5 },
       { label: "Kontrol", stars: 4 },
-      { label: "Langtidsholdbarhed", stars: 5 },
+      { label: "Lang levetid", stars: 5 },
     ],
     explanation:
-      "Care Score er Langsomt Noks egen vurdering af, hvor godt produktet understøtter pleje, vedligehold og lang levetid.",
+      "Score er Langsomt Noks egen kuraterede produktvurdering. Det er ikke en ekstern kundeanmeldelse.",
     trustPoints: [
       "Gør dine redskaber bedre over tid",
       "Let at bruge i hverdagen",
@@ -94,10 +94,12 @@ const CONFIGS: Record<TrustKey, TrustConfig> = {
     ],
   },
   display: {
-    variant: "score",
-    title: "4.8 Display Score",
+    scoreNumber: "4.8",
+    scoreName: "Display Score",
+    badgeSubtitle:
+      "Udvalgt af Langsomt Nok — vurderet på design, materialer og ro i køkkenet.",
     subtitle:
-      "Skabt til at lade dine redskaber hvile synligt, sikkert og smukt.",
+      "Udvalgt til dig, der vil have ro, orden og smuk opbevaring i køkkenet.",
     rows: [
       { label: "Designværdi", stars: 5 },
       { label: "Materialefølelse", stars: 5 },
@@ -105,7 +107,7 @@ const CONFIGS: Record<TrustKey, TrustConfig> = {
       { label: "Gaveværdi", stars: 5 },
     ],
     explanation:
-      "Display Score er Langsomt Noks egen vurdering af æstetik, funktion og hvordan produktet bidrager til et roligere køkken.",
+      "Score er Langsomt Noks egen kuraterede produktvurdering. Det er ikke en ekstern kundeanmeldelse.",
     trustPoints: [
       "Gør køkkenet mere samlet",
       "Fremhæver dine redskaber smukt",
@@ -120,10 +122,12 @@ const CONFIGS: Record<TrustKey, TrustConfig> = {
     ],
   },
   bundle: {
-    variant: "score",
-    title: "4.9 Start Score",
+    scoreNumber: "4.9",
+    scoreName: "Start Score",
+    badgeSubtitle:
+      "Udvalgt af Langsomt Nok — vurderet på samlet værdi, funktion og ritualfølelse.",
     subtitle:
-      "Det mest komplette sted at begynde, hvis du vil samle dit køkkenritual rigtigt fra starten.",
+      "Det mest komplette sted at begynde, hvis du vil samle dit køkkenritual rigtigt.",
     rows: [
       { label: "Samlet værdi", stars: 5 },
       { label: "Gaveværdi", stars: 5 },
@@ -131,7 +135,7 @@ const CONFIGS: Record<TrustKey, TrustConfig> = {
       { label: "Ritualfølelse", stars: 5 },
     ],
     explanation:
-      "Start Score er Langsomt Noks egen vurdering af samlet værdi, funktion og hvor godt sættet fungerer som en helhed.",
+      "Score er Langsomt Noks egen kuraterede produktvurdering. Det er ikke en ekstern kundeanmeldelse.",
     trustPoints: [
       "Mere værdi samlet",
       "Nemt valg som gave",
@@ -146,17 +150,20 @@ const CONFIGS: Record<TrustKey, TrustConfig> = {
     ],
   },
   ceramic: {
-    variant: "soft",
-    title: "Udvalgt til Cirklen",
-    subtitle: "Et stykke keramik med ro, stoflighed og hverdagsværdi.",
+    scoreNumber: "4.8",
+    scoreName: "Circle Score",
+    badgeSubtitle:
+      "Udvalgt til Cirklen — vurderet på form, stoflighed og ro omkring bordet.",
+    subtitle:
+      "Udvalgt for form, stoflighed og den ro, det skaber omkring bordet.",
     rows: [
-      { label: "Håndværksfølelse", stars: 0 },
-      { label: "Bordets udtryk", stars: 0 },
-      { label: "Gaveværdi", stars: 0 },
-      { label: "Hverdagsbrug", stars: 0 },
+      { label: "Form", stars: 5 },
+      { label: "Stoflighed", stars: 5 },
+      { label: "Bordets udtryk", stars: 5 },
+      { label: "Gaveværdi", stars: 4 },
     ],
     explanation:
-      "Keramik vurderes ikke kun på funktion, men på nærvær, form og følelsen det skaber omkring bordet.",
+      "Score er Langsomt Noks egen kuraterede produktvurdering. Det er ikke en ekstern kundeanmeldelse.",
     trustPoints: [
       "Udvalgt for form og stemning",
       "Skabt til langsomme øjeblikke",
@@ -171,14 +178,22 @@ const CONFIGS: Record<TrustKey, TrustConfig> = {
     ],
   },
   default: {
-    variant: "soft",
-    title: "Udvalgt af Langsomt Nok",
+    scoreNumber: "",
+    scoreName: "Udvalgt af Langsomt Nok",
+    badgeSubtitle:
+      "Valgt fordi det passer ind i et køkken, hvor funktion, ro og materialer betyder noget.",
     subtitle:
       "Valgt fordi det passer ind i et køkken, hvor funktion, ro og materialer betyder noget.",
-    rows: [],
-    explanation: "",
+    rows: [
+      { label: "Materialefølelse", stars: 5 },
+      { label: "Funktion", stars: 5 },
+      { label: "Ro i køkkenet", stars: 5 },
+      { label: "Hverdagsværdi", stars: 4 },
+    ],
+    explanation:
+      "Score er Langsomt Noks egen kuraterede produktvurdering. Det er ikke en ekstern kundeanmeldelse.",
     trustPoints: [
-      "Fri fragt i Danmark",
+      "Fri fragt over 599 kr",
       "30 dages rolig returret",
       "Dansk webshop",
       "Udvalgt med fokus på kvalitet og funktion",
@@ -221,8 +236,20 @@ function applyOverrides(
   const jesperTitle = metaValue(metafields, "jesper_title");
   const scoreJson = metaValue(metafields, "score_json");
   const jesperJson = metaValue(metafields, "jesper_bullets_json");
-  if (title) next.title = title;
-  if (subtitle) next.subtitle = subtitle;
+  if (title) {
+    // Allow override of "4.8 Ritual Score" via single string
+    const m = title.match(/^([\d.,]+)\s+(.+)$/);
+    if (m) {
+      next.scoreNumber = m[1];
+      next.scoreName = m[2];
+    } else {
+      next.scoreName = title;
+    }
+  }
+  if (subtitle) {
+    next.subtitle = subtitle;
+    next.badgeSubtitle = subtitle;
+  }
   if (explanation) next.explanation = explanation;
   if (jesperTitle) next.jesperTitle = jesperTitle;
   try {
@@ -235,17 +262,26 @@ function applyOverrides(
       if (Array.isArray(parsed)) next.jesperBullets = parsed;
     }
   } catch {
-    // Ignorer ugyldig JSON, brug fallback
+    // ignore
   }
   return next;
 }
 
-function StarRow({ value }: { value: number }) {
+/** Stjerner — altid synlige, copper farve, halve trin understøttet */
+function StarRow({
+  value,
+  size = "sm",
+}: {
+  value: number;
+  size?: "sm" | "md" | "lg";
+}) {
+  const sizeClass =
+    size === "lg" ? "text-2xl" : size === "md" ? "text-lg" : "text-sm";
   const full = Math.floor(value);
   const empty = 5 - full;
   return (
     <span
-      className="inline-flex tracking-tight"
+      className={`inline-flex tracking-tight leading-none ${sizeClass}`}
       style={{ color: "#A67C52" }}
       aria-label={`${value} ud af 5 stjerner`}
     >
@@ -261,31 +297,47 @@ interface Props {
 }
 
 /**
- * Kompakt badge — vises højt på produktsiden (under titel, over pris).
- * Giver øjeblikkelig trust uden at fylde for meget.
+ * Premium score-kort placeret højt på siden (mellem pris og Add to cart).
+ * Stort, synligt, copper venstrekant. Mobile-friendly.
  */
 export function RitualScoreBadge({ tags, metafields }: Props) {
   const key = resolveKey(tags);
   const config = applyOverrides(CONFIGS[key], metafields);
-  const isScore = config.variant === "score";
 
   return (
     <div
-      className="mt-3 inline-flex items-center gap-2.5 rounded-full border border-copper/25 bg-[#F8F6F3] px-3.5 py-1.5"
+      className="rounded-[10px] border bg-[#F8F6F3] px-4 py-3.5 md:px-5 md:py-4"
+      style={{
+        borderColor: "rgba(90,59,46,0.18)",
+        borderLeftWidth: "4px",
+        borderLeftColor: "#A67C52",
+      }}
       data-block="ritual-score-badge"
       data-trust-key={key}
     >
-      {isScore ? (
-        <StarRow value={5} />
-      ) : (
-        <Sparkles className="w-3.5 h-3.5 text-copper" strokeWidth={1.5} />
-      )}
-      <span className="text-[13px] font-medium text-[#2D2D2D] tracking-tight">
-        {config.title}
-      </span>
-      <span className="hidden sm:inline text-[11px] text-[#2D2D2D]/55">
-        · Udvalgt af Langsomt Nok
-      </span>
+      <div className="flex items-center gap-2.5 flex-wrap">
+        <StarRow value={5} size="md" />
+        {config.scoreNumber && (
+          <span
+            className="font-serif text-xl md:text-2xl leading-none"
+            style={{ color: "#2D2D2D" }}
+          >
+            {config.scoreNumber}
+          </span>
+        )}
+        <span
+          className="font-serif text-lg md:text-xl leading-none"
+          style={{ color: "#2D2D2D" }}
+        >
+          {config.scoreName}
+        </span>
+      </div>
+      <p
+        className="mt-1.5 text-[13px] leading-relaxed"
+        style={{ color: "rgba(45,45,45,0.72)" }}
+      >
+        {config.badgeSubtitle}
+      </p>
     </div>
   );
 }
@@ -293,75 +345,81 @@ export function RitualScoreBadge({ tags, metafields }: Props) {
 export function RitualTrustModule({ tags, metafields }: Props) {
   const key = resolveKey(tags);
   const config = applyOverrides(CONFIGS[key], metafields);
-  const isScore = config.variant === "score";
 
   return (
     <div className="mt-6 space-y-4">
       <section
-        className="rounded-[10px] border-l-[3px] border-l-copper border-y border-r border-border/60 bg-[#F8F6F3] p-5 md:p-6 shadow-[0_1px_2px_rgba(0,0,0,0.03)]"
+        className="rounded-[10px] p-5 md:p-7"
+        style={{
+          backgroundColor: "#F8F6F3",
+          border: "1px solid rgba(90,59,46,0.18)",
+          borderLeftWidth: "4px",
+          borderLeftColor: "#A67C52",
+        }}
         data-block="ritual-trust"
         data-trust-key={key}
       >
-        {/* Header */}
-        <div className="flex items-start gap-3">
-          {isScore ? (
-            <div className="flex items-baseline gap-2 flex-wrap">
-              <StarRow value={5} />
-              <span className="font-serif text-lg text-[#2D2D2D]">
-                {config.title}
-              </span>
-            </div>
-          ) : (
-            <div className="flex items-center gap-2">
-              <Sparkles className="w-4 h-4 text-copper" strokeWidth={1.5} />
-              <span className="font-serif text-lg text-[#2D2D2D]">
-                {config.title}
-              </span>
-            </div>
+        {/* Header — store stjerner + score */}
+        <div className="flex items-center gap-3 flex-wrap">
+          <StarRow value={5} size="lg" />
+          {config.scoreNumber && (
+            <span
+              className="font-serif leading-none"
+              style={{ color: "#2D2D2D", fontSize: "26px" }}
+            >
+              {config.scoreNumber}
+            </span>
           )}
+          <span
+            className="font-serif leading-none"
+            style={{ color: "#2D2D2D", fontSize: "22px" }}
+          >
+            {config.scoreName}
+          </span>
         </div>
 
-        <p className="mt-2 text-sm leading-relaxed text-[#2D2D2D]/75">
+        <p
+          className="mt-3 text-sm leading-relaxed"
+          style={{ color: "rgba(45,45,45,0.78)" }}
+        >
           {config.subtitle}
         </p>
 
-        {/* Score / quality rows */}
+        {/* Score rows — altid stjerner */}
         {config.rows.length > 0 && (
-          <ul className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-2">
+          <ul className="mt-5 grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-2.5">
             {config.rows.map((row) => (
               <li
                 key={row.label}
-                className="flex items-center justify-between gap-3 py-1 border-b border-border/40 last:border-b-0 sm:border-b-0"
+                className="flex items-center justify-between gap-3 py-1"
+                style={{ borderBottom: "1px dashed rgba(90,59,46,0.10)" }}
               >
-                <span className="text-sm text-[#2D2D2D]">{row.label}</span>
-                {isScore ? (
-                  <StarRow value={row.stars} />
-                ) : (
-                  <span
-                    className="text-[11px] font-medium uppercase tracking-wider"
-                    style={{ color: "#4C574A" }}
-                  >
-                    Udvalgt
-                  </span>
-                )}
+                <span className="text-sm" style={{ color: "#2D2D2D" }}>
+                  {row.label}
+                </span>
+                <StarRow value={row.stars || 5} size="sm" />
               </li>
             ))}
           </ul>
         )}
 
-        {/* Explanation */}
+        {/* Lille disclaimer */}
         {config.explanation && (
-          <p className="mt-4 text-xs leading-relaxed text-[#2D2D2D]/60 italic">
+          <p
+            className="mt-4 italic"
+            style={{ color: "rgba(45,45,45,0.65)", fontSize: "12px" }}
+          >
             {config.explanation}
           </p>
         )}
 
         {/* Trust points */}
-        <ul className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-1.5">
+        <ul className="mt-5 grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-1.5">
           {config.trustPoints.map((point) => (
             <li
               key={point}
-              className="flex items-start gap-2 text-sm text-[#2D2D2D]"
+              className="flex items-start gap-2 text-sm"
+              style={{ color: "#2D2D2D" }}
             >
               <span className="mt-0.5 font-semibold" style={{ color: "#4C574A" }}>
                 ✓
@@ -371,8 +429,14 @@ export function RitualTrustModule({ tags, metafields }: Props) {
           ))}
         </ul>
 
-        {/* Microbar: shipping/returns/origin */}
-        <div className="mt-4 pt-3 border-t border-border/40 flex flex-wrap items-center gap-x-4 gap-y-1.5 text-[11px] text-[#2D2D2D]/60">
+        {/* Micro-bar: shipping / returns / origin */}
+        <div
+          className="mt-5 pt-4 flex flex-wrap items-center gap-x-5 gap-y-1.5 text-[11px]"
+          style={{
+            borderTop: "1px solid rgba(90,59,46,0.12)",
+            color: "rgba(45,45,45,0.65)",
+          }}
+        >
           <span className="inline-flex items-center gap-1.5">
             <Truck className="w-3.5 h-3.5" style={{ color: "#4C574A" }} strokeWidth={1.5} />
             Fri fragt over 599 kr
@@ -391,20 +455,31 @@ export function RitualTrustModule({ tags, metafields }: Props) {
       {/* Jesper anbefaler */}
       {config.jesperTitle && config.jesperBullets.length > 0 && (
         <section
-          className="rounded-[10px] border border-border/50 bg-soft/40 p-5 md:p-6"
+          className="rounded-[10px] p-5 md:p-6"
+          style={{
+            backgroundColor: "#E6E0D7",
+            border: "1px solid rgba(90,59,46,0.14)",
+          }}
           data-block="jesper-recommends"
         >
-          <p className="text-xs font-medium uppercase tracking-wider text-copper mb-2">
+          <p
+            className="text-[11px] font-medium uppercase tracking-[0.12em] mb-2"
+            style={{ color: "#A67C52" }}
+          >
             Jesper anbefaler
           </p>
-          <p className="font-serif text-base text-[#2D2D2D] mb-3">
+          <p
+            className="font-serif text-base md:text-lg mb-3"
+            style={{ color: "#2D2D2D" }}
+          >
             {config.jesperTitle}
           </p>
           <ul className="space-y-1.5">
             {config.jesperBullets.map((b) => (
               <li
                 key={b}
-                className="flex items-start gap-2 text-sm text-[#2D2D2D]"
+                className="flex items-start gap-2 text-sm"
+                style={{ color: "#2D2D2D" }}
               >
                 <span className="mt-0.5 font-semibold" style={{ color: "#4C574A" }}>
                   ✓
