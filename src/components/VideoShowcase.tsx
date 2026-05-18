@@ -21,6 +21,10 @@ interface VideoShowcaseProps {
   videoSrc?: string;
   /** compact = smaller padding (collection trust block) */
   compact?: boolean;
+  /** numbered steps shown under body (copper) */
+  steps?: string[];
+  /** small trust pill under steps (e.g. "Tape følger med · Ingen boremaskine") */
+  trustNote?: string;
 }
 
 const VIDEO_SRC = "/videos/knivholder-montering.mp4";
