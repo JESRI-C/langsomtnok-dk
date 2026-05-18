@@ -30,6 +30,20 @@ export const Route = createFileRoute("/pages/hvilken-knivholder-skal-jeg-vaelge"
       { property: "og:image", content: "https://cdn.shopify.com/s/files/1/0915/7227/3488/files/IMG_6147.jpg?v=1773564482" },
     ],
     links: [{ rel: "canonical", href: "https://langsomtnok.dk/pages/hvilken-knivholder-skal-jeg-vaelge" }],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          itemListElement: [
+            { "@type": "ListItem", position: 1, name: "Forside", item: "https://langsomtnok.dk/" },
+            { "@type": "ListItem", position: 2, name: "Guides", item: "https://langsomtnok.dk/guides" },
+            { "@type": "ListItem", position: 3, name: "Hvilken knivholder passer til dit køkken?", item: "https://langsomtnok.dk/pages/hvilken-knivholder-skal-jeg-vaelge" },
+          ],
+        }),
+      },
+    ],
     scripts: [buildFaqSchemaScript(FAQ_ITEMS)],
   }),
   component: Page,

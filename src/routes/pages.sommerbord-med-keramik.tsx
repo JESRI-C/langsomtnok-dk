@@ -33,6 +33,20 @@ export const Route = createFileRoute("/pages/sommerbord-med-keramik")({
       { property: "og:image", content: "https://cdn.shopify.com/s/files/1/0915/7227/3488/files/Kunsteren_Susan_Riel.png?v=1778398741" },
     ],
     links: [{ rel: "canonical", href: "https://langsomtnok.dk/pages/sommerbord-med-keramik" }],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          itemListElement: [
+            { "@type": "ListItem", position: 1, name: "Forside", item: "https://langsomtnok.dk/" },
+            { "@type": "ListItem", position: 2, name: "Guides", item: "https://langsomtnok.dk/guides" },
+            { "@type": "ListItem", position: 3, name: "Dæk sommerbordet langsomt", item: "https://langsomtnok.dk/pages/sommerbord-med-keramik" },
+          ],
+        }),
+      },
+    ],
   }),
   component: Page,
 });

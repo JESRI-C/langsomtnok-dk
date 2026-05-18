@@ -18,6 +18,20 @@ export const Route = createFileRoute("/pages/knivholder-i-trae")({
       { property: "og:description", content: "Magnetiske knivholdere i træ skaber ro, overblik og varme i køkkenet." },
     ],
     links: [{ rel: "canonical", href: "https://langsomtnok.dk/pages/knivholder-i-trae" }],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          itemListElement: [
+            { "@type": "ListItem", position: 1, name: "Forside", item: "https://langsomtnok.dk/" },
+            { "@type": "ListItem", position: 2, name: "Guides", item: "https://langsomtnok.dk/guides" },
+            { "@type": "ListItem", position: 3, name: "Knivholder i træ", item: "https://langsomtnok.dk/pages/knivholder-i-trae" },
+          ],
+        }),
+      },
+    ],
   }),
   component: KnifeHolderPage,
 });

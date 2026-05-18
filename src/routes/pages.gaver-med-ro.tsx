@@ -39,6 +39,20 @@ export const Route = createFileRoute("/pages/gaver-med-ro")({
       { property: "og:image", content: "https://cdn.shopify.com/s/files/1/0915/7227/3488/files/Gaveindpakning_med_naturlige_detaljer.png?v=1778399967" },
     ],
     links: [{ rel: "canonical", href: "https://langsomtnok.dk/pages/gaver-med-ro" }],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          itemListElement: [
+            { "@type": "ListItem", position: 1, name: "Forside", item: "https://langsomtnok.dk/" },
+            { "@type": "ListItem", position: 2, name: "Guides", item: "https://langsomtnok.dk/guides" },
+            { "@type": "ListItem", position: 3, name: "Gaver, der bliver brugt", item: "https://langsomtnok.dk/pages/gaver-med-ro" },
+          ],
+        }),
+      },
+    ],
     scripts: [buildFaqSchemaScript(FAQ_ITEMS)],
   }),
   component: Page,

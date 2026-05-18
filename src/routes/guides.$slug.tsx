@@ -9,28 +9,21 @@ import { getArticleBySlug, getRelatedArticles } from "@/lib/articles";
 export const Route = createFileRoute("/guides/$slug")({
   head: ({ params }) => {
     const article = getArticleBySlug(params.slug);
+    // Canonical: /universet/$slug is the primary URL for articles.
+    // /guides/$slug stays accessible but points canonical to /universet/ when the article exists.
+    const canonical = article
+      ? `https://langsomtnok.dk/universet/${params.slug}`
+      : `https://langsomtnok.dk/guides/${params.slug}`;
     const url = `https://langsomtnok.dk/guides/${params.slug}`;
     const title = article?.seoTitle || `${params.slug} — Langsomt Nok Guides`;
     const desc = article?.metaDescription || "Guide fra Langsomt Nok.";
-    const articleLd = article
-      ? {
-          "@context": "https://schema.org",
-          "@type": "Article",
-          headline: article.title,
-          description: article.metaDescription,
-          author: { "@type": "Organization", name: "Langsomt Nok" },
-          publisher: { "@type": "Organization", name: "Langsomt Nok", url: "https://langsomtnok.dk" },
-          mainEntityOfPage: { "@type": "WebPage", "@id": url },
-          url,
-        }
-      : null;
     const breadcrumbLd = {
       "@context": "https://schema.org",
       "@type": "BreadcrumbList",
       itemListElement: [
         { "@type": "ListItem", position: 1, name: "Forside", item: "https://langsomtnok.dk/" },
         { "@type": "ListItem", position: 2, name: "Guides", item: "https://langsomtnok.dk/guides" },
-        { "@type": "ListItem", position: 3, name: article?.title || params.slug, item: url },
+        { "@type": "ListItem", position: 3, name: article?.title || params.slug, item: canonical },
       ],
     };
     return {
@@ -39,12 +32,13 @@ export const Route = createFileRoute("/guides/$slug")({
         { name: "description", content: desc },
         { property: "og:title", content: title },
         { property: "og:description", content: desc },
-        { property: "og:url", content: url },
+        { property: "og:url", content: canonical },
         { property: "og:type", content: "article" },
+        // Avoid indexing duplicate URL — universet is the canonical home for articles.
+        ...(article ? [{ name: "robots", content: "noindex, follow" }] : []),
       ],
-      links: [{ rel: "canonical", href: url }],
+      links: [{ rel: "canonical", href: canonical }],
       scripts: [
-        ...(articleLd ? [{ type: "application/ld+json", children: JSON.stringify(articleLd) }] : []),
         { type: "application/ld+json", children: JSON.stringify(breadcrumbLd) },
       ],
     };

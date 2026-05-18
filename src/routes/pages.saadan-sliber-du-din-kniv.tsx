@@ -31,6 +31,20 @@ export const Route = createFileRoute("/pages/saadan-sliber-du-din-kniv")({
       { property: "og:image", content: "https://cdn.shopify.com/s/files/1/0915/7227/3488/files/minimal_wooden_Sharpening_stone_setup.png?v=1778398237" },
     ],
     links: [{ rel: "canonical", href: "https://langsomtnok.dk/pages/saadan-sliber-du-din-kniv" }],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          itemListElement: [
+            { "@type": "ListItem", position: 1, name: "Forside", item: "https://langsomtnok.dk/" },
+            { "@type": "ListItem", position: 2, name: "Guides", item: "https://langsomtnok.dk/guides" },
+            { "@type": "ListItem", position: 3, name: "Sådan sliber du din kniv med slibesten", item: "https://langsomtnok.dk/pages/saadan-sliber-du-din-kniv" },
+          ],
+        }),
+      },
+    ],
     scripts: [buildFaqSchemaScript(FAQ_ITEMS)],
   }),
   component: Page,
