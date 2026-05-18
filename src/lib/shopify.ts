@@ -43,6 +43,18 @@ export interface ShopifyImage {
   height?: number;
 }
 
+/** Shopify Media item — covers MediaImage, Video, ExternalVideo, Model3d */
+export interface ShopifyMediaItem {
+  mediaContentType: "IMAGE" | "VIDEO" | "EXTERNAL_VIDEO" | "MODEL_3D";
+  alt?: string | null;
+  previewImage?: ShopifyImage | null;
+  /** For VIDEO: list of source files (mp4/webm) with url + mimeType */
+  sources?: Array<{ url: string; mimeType: string; format?: string }>;
+  /** For EXTERNAL_VIDEO (YouTube/Vimeo) */
+  embedUrl?: string | null;
+  host?: "YOUTUBE" | "VIMEO" | null;
+}
+
 /** Represents a product variant (size, color, material, etc.) */
 export interface ShopifyVariant {
   id: string;               // Full GraphQL ID: gid://shopify/ProductVariant/xxxxx
