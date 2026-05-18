@@ -158,3 +158,30 @@ Resten af planen følger som beskrevet.
 3. **Collections:** Skal jeg oprette nye Shopify-collections (`opbevaring`, `slibning`, `bundles`), eller alias-route'r der peger på eksisterende handles?
 
 Svar på de 3, så starter jeg Fase 1.
+
+---
+
+# Fase 1 — Udført (2026-05-18)
+
+**Beslutninger:** /universet/$slug = primær canonical · /ritualer/$slug bibeholdes · nye Shopify-collections oprettes manuelt.
+
+**Ændringer:**
+1. `src/routes/guides.$slug.tsx` — canonical peger nu mod `/universet/$slug` når artikel findes + `noindex, follow` på duplikat-URL'er. Fjernet duplikeret Article JSON-LD (sidder nu kun på universet).
+2. `src/routes/sitemap[.]xml.ts` — fjernet `/guides/$slug` entries (artikler eksponeres kun via `/universet/$slug`).
+3. 13 × `src/routes/pages.*.tsx` — tilføjet BreadcrumbList JSON-LD.
+
+**Status efter fase 1:**
+- Duplikat-indeksering mellem `/guides/` og `/universet/` er løst.
+- Alle indekserbare routes har nu BreadcrumbList eller WebPage schema.
+- Sitemap'en er renset for duplikat-URLs.
+
+**Action til dig (Shopify admin):**
+Opret 4 nye collections i Shopify så Fase 3 kan bygge landings ovenpå:
+- `/collections/knive` (findes allerede ✓)
+- `/collections/slibning` (NY — saml slibesten + tilbehør)
+- `/collections/opbevaring` (NY — magnetiske holdere + stativer)
+- `/collections/keramik` (NY — eller alias til `handlavet-keramik`)
+- `/collections/gaver` (findes allerede ✓)
+- `/collections/bundles` (NY — ritual-sæt + Gift of Calm)
+
+Når de er oprettet, kan jeg starte Fase 2 (de 3 manglende ritualsider) og Fase 3 (collection-landings) i parallel.
