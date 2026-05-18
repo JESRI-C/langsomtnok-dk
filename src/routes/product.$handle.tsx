@@ -502,6 +502,9 @@ function ProductPage() {
               </a>
             </p>
 
+            {/* Ritual Trust Module — dynamisk pr. produkt-tag */}
+            <RitualTrustModule tags={product.tags || []} metafields={product.metafields} />
+
             {/* Fordelspunkter — magnetiske knivholdere */}
             {(/knivholder|magnet/i.test(product.handle) || /knivholder|magnet/i.test(product.title)) && (
               <ul className="mt-5 grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-2 text-sm text-foreground/80">
