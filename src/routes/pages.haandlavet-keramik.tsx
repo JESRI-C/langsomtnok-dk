@@ -54,8 +54,8 @@ export const Route = createFileRoute("/pages/haandlavet-keramik")({
           ],
         }),
       },
+      buildFaqSchemaScript(FAQ_ITEMS),
     ],
-    scripts: [buildFaqSchemaScript(FAQ_ITEMS)],
   }),
   component: Page,
 });

@@ -44,8 +44,8 @@ export const Route = createFileRoute("/pages/saadan-sliber-du-din-kniv")({
           ],
         }),
       },
+      buildFaqSchemaScript(FAQ_ITEMS),
     ],
-    scripts: [buildFaqSchemaScript(FAQ_ITEMS)],
   }),
   component: Page,
 });

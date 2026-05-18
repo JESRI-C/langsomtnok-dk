@@ -43,8 +43,8 @@ export const Route = createFileRoute("/pages/hvilken-knivholder-skal-jeg-vaelge"
           ],
         }),
       },
+      buildFaqSchemaScript(FAQ_ITEMS),
     ],
-    scripts: [buildFaqSchemaScript(FAQ_ITEMS)],
   }),
   component: Page,
 });

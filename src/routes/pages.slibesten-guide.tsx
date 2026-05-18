@@ -44,8 +44,8 @@ export const Route = createFileRoute("/pages/slibesten-guide")({
           ],
         }),
       },
+      buildFaqSchemaScript(FAQ_ITEMS),
     ],
-    scripts: [buildFaqSchemaScript(FAQ_ITEMS)],
   }),
   component: Page,
 });
