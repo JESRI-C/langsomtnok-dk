@@ -1,9 +1,11 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { LandingPageHero } from "@/components/landing/LandingPageHero";
 import { ProductRecommendationBlock } from "@/components/landing/ProductRecommendationBlock";
 import { TrustBar } from "@/components/landing/TrustBar";
 import { CalmCTASection } from "@/components/landing/CalmCTASection";
+import { FeaturedRitualProducts } from "@/components/ritualer/FeaturedRitualProducts";
+import { FounderRitualBox } from "@/components/ritualer/FounderRitualBox";
 import { IMAGE_SLOTS } from "@/components/ImageSlot";
 import { fetchProductsByQuery, type ShopifyProduct } from "@/lib/shopify";
 import { trackEvent } from "@/lib/analytics";
