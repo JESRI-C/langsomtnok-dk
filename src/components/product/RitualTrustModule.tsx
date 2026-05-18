@@ -234,6 +234,13 @@ const CONFIGS: Record<TrustKey, TrustConfig> = {
       "Vælge noget med stoflighed og ro",
       "Have en gave der føles personlig",
     ],
+    founderSubtitle:
+      "Jeg ville vælge denne, hvis du vil have noget på bordet, der føles håndlavet, levende og roligt.",
+    founderBullets: [
+      "Håndlavet udtryk med små variationer",
+      "Skaber varme omkring bordet",
+      "God som gave eller stille hverdagsobjekt",
+    ],
     useGuide: {
       title: "Sådan bruges den",
       body: "Brug den hver dag — keramik bliver smukkere af at være i hånden. Skyl i hånden, undgå pludselige temperaturskift.",
