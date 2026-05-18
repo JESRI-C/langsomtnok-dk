@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as UnsubscribeRouteImport } from './routes/unsubscribe'
 import { Route as UniversetRouteImport } from './routes/universet'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as ShopRouteImport } from './routes/shop'
@@ -56,6 +57,11 @@ import { Route as LovableEmailTransactionalSendRouteImport } from './routes/lova
 import { Route as LovableEmailTransactionalPreviewRouteImport } from './routes/lovable/email/transactional/preview'
 import { Route as LovableEmailQueueProcessRouteImport } from './routes/lovable/email/queue/process'
 
+const UnsubscribeRoute = UnsubscribeRouteImport.update({
+  id: '/unsubscribe',
+  path: '/unsubscribe',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const UniversetRoute = UniversetRouteImport.update({
   id: '/universet',
   path: '/universet',
@@ -314,6 +320,7 @@ export interface FileRoutesByFullPath {
   '/shop': typeof ShopRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/universet': typeof UniversetRoute
+  '/unsubscribe': typeof UnsubscribeRoute
   '/collections/$handle': typeof CollectionsHandleRoute
   '/collections/handlavet-keramik': typeof CollectionsHandlavetKeramikRoute
   '/email/unsubscribe': typeof EmailUnsubscribeRoute
@@ -362,6 +369,7 @@ export interface FileRoutesByTo {
   '/shop': typeof ShopRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/universet': typeof UniversetRoute
+  '/unsubscribe': typeof UnsubscribeRoute
   '/collections/$handle': typeof CollectionsHandleRoute
   '/collections/handlavet-keramik': typeof CollectionsHandlavetKeramikRoute
   '/email/unsubscribe': typeof EmailUnsubscribeRoute
@@ -411,6 +419,7 @@ export interface FileRoutesById {
   '/shop': typeof ShopRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/universet': typeof UniversetRoute
+  '/unsubscribe': typeof UnsubscribeRoute
   '/collections/$handle': typeof CollectionsHandleRoute
   '/collections/handlavet-keramik': typeof CollectionsHandlavetKeramikRoute
   '/email/unsubscribe': typeof EmailUnsubscribeRoute
@@ -461,6 +470,7 @@ export interface FileRouteTypes {
     | '/shop'
     | '/sitemap.xml'
     | '/universet'
+    | '/unsubscribe'
     | '/collections/$handle'
     | '/collections/handlavet-keramik'
     | '/email/unsubscribe'
@@ -509,6 +519,7 @@ export interface FileRouteTypes {
     | '/shop'
     | '/sitemap.xml'
     | '/universet'
+    | '/unsubscribe'
     | '/collections/$handle'
     | '/collections/handlavet-keramik'
     | '/email/unsubscribe'
@@ -557,6 +568,7 @@ export interface FileRouteTypes {
     | '/shop'
     | '/sitemap.xml'
     | '/universet'
+    | '/unsubscribe'
     | '/collections/$handle'
     | '/collections/handlavet-keramik'
     | '/email/unsubscribe'
@@ -606,6 +618,7 @@ export interface RootRouteChildren {
   ShopRoute: typeof ShopRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   UniversetRoute: typeof UniversetRoute
+  UnsubscribeRoute: typeof UnsubscribeRoute
   CollectionsHandleRoute: typeof CollectionsHandleRoute
   CollectionsHandlavetKeramikRoute: typeof CollectionsHandlavetKeramikRoute
   EmailUnsubscribeRoute: typeof EmailUnsubscribeRoute
@@ -641,6 +654,13 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/unsubscribe': {
+      id: '/unsubscribe'
+      path: '/unsubscribe'
+      fullPath: '/unsubscribe'
+      preLoaderRoute: typeof UnsubscribeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/universet': {
       id: '/universet'
       path: '/universet'
@@ -982,6 +1002,7 @@ const rootRouteChildren: RootRouteChildren = {
   ShopRoute: ShopRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   UniversetRoute: UniversetRoute,
+  UnsubscribeRoute: UnsubscribeRoute,
   CollectionsHandleRoute: CollectionsHandleRoute,
   CollectionsHandlavetKeramikRoute: CollectionsHandlavetKeramikRoute,
   EmailUnsubscribeRoute: EmailUnsubscribeRoute,
