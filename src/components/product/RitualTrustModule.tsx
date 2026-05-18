@@ -41,7 +41,13 @@ interface TrustConfig {
   trustPoints: string[];
   jesperTitle: string;
   jesperBullets: string[];
+  useGuide?: {
+    title: string;
+    body: string;
+    link?: { label: string; href: string };
+  };
 }
+
 
 const CONFIGS: Record<TrustKey, TrustConfig> = {
   knife: {
