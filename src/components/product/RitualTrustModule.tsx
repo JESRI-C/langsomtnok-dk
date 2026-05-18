@@ -16,12 +16,7 @@
 
 import { Truck, RotateCcw, MapPin } from "lucide-react";
 import type { ShopifyMetafield } from "@/lib/shopify";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
+
 
 
 type TrustKey = "knife" | "care" | "display" | "bundle" | "ceramic" | "default";
@@ -41,7 +36,13 @@ interface TrustConfig {
   trustPoints: string[];
   jesperTitle: string;
   jesperBullets: string[];
+  useGuide?: {
+    title: string;
+    body: string;
+    link?: { label: string; href: string };
+  };
 }
+
 
 const CONFIGS: Record<TrustKey, TrustConfig> = {
   knife: {
@@ -71,6 +72,11 @@ const CONFIGS: Record<TrustKey, TrustConfig> = {
       "Et redskab der gerne må stå fremme",
       "Mere ro og præcision i madlavningen",
     ],
+    useGuide: {
+      title: "Sådan bruges den",
+      body: "Brug kniven til daglige snit — fra grøntsager til urter og kød. Tør den af i hånden efter brug, og hold den skarp med en stryger mellem slibninger.",
+      link: { label: "Læs guiden til at holde din kniv skarp", href: "/ritualer/hold-kniven-skarp" },
+    },
   },
   care: {
     scoreNumber: "4.7",
@@ -93,12 +99,17 @@ const CONFIGS: Record<TrustKey, TrustConfig> = {
       "Udvalgt til pleje og vedligehold",
       "Sendes fra dansk webshop",
     ],
-    jesperTitle: "Jesper anbefaler denne, hvis du vil:",
+    jesperTitle: "Jesper anbefaler den, hvis du vil:",
     jesperBullets: [
-      "Passe bedre på dine redskaber",
-      "Forlænge levetiden på dine knive",
-      "Gøre vedligeholdelse til en enkel vane",
+      "Tage næste skridt efter grundslibning",
+      "Give æggen en finere afslutning",
+      "Bygge et mere præcist sliberitual",
     ],
+    useGuide: {
+      title: "Sådan bruges den",
+      body: "Brug stenen efter en grovere eller mellemfin slibning, når æggen allerede er etableret. Arbejd roligt og jævnt — vand og tid gør resten.",
+      link: { label: "Læs guiden til at holde din kniv skarp", href: "/ritualer/hold-kniven-skarp" },
+    },
   },
   display: {
     scoreNumber: "4.8",
@@ -121,12 +132,17 @@ const CONFIGS: Record<TrustKey, TrustConfig> = {
       "Udvalgt for materiale og funktion",
       "30 dages rolig returret",
     ],
-    jesperTitle: "Jesper anbefaler denne, hvis du vil:",
+    jesperTitle: "Jesper anbefaler den, hvis du vil:",
     jesperBullets: [
       "Have mere ro på køkkenbordet",
       "Vise dine redskaber frem på en smuk måde",
       "Kombinere funktion og æstetik",
     ],
+    useGuide: {
+      title: "Sådan bruges den",
+      body: "Placér den synligt i køkkenet. Tør af med en blød klud og hold den fri for fugt — så patinerer træet roligt over tid.",
+      link: { label: "Se guiden til rolig knivopbevaring", href: "/ritualer/rolig-opbevaring" },
+    },
   },
   bundle: {
     scoreNumber: "4.9",
@@ -149,12 +165,16 @@ const CONFIGS: Record<TrustKey, TrustConfig> = {
       "Produkter der giver mening sammen",
       "Et stærkt sted at begynde",
     ],
-    jesperTitle: "Jesper anbefaler dette sæt, hvis du vil:",
+    jesperTitle: "Jesper anbefaler sættet, hvis du vil:",
     jesperBullets: [
       "Starte rigtigt fra begyndelsen",
       "Give en gave med både funktion og følelse",
       "Samle produkter der giver mening sammen",
     ],
+    useGuide: {
+      title: "Sådan bruges det",
+      body: "Sættet er tænkt som en samlet begyndelse. Brug delene sammen i hverdagen, og lad dem patinere roligt over tid.",
+    },
   },
   ceramic: {
     scoreNumber: "4.8",
@@ -177,12 +197,16 @@ const CONFIGS: Record<TrustKey, TrustConfig> = {
       "God som gave",
       "Sendes fra dansk webshop",
     ],
-    jesperTitle: "Jesper anbefaler denne, hvis du vil:",
+    jesperTitle: "Jesper anbefaler den, hvis du vil:",
     jesperBullets: [
       "Give bordet mere varme",
       "Vælge noget med stoflighed og ro",
       "Have en gave der føles personlig",
     ],
+    useGuide: {
+      title: "Sådan bruges den",
+      body: "Brug den hver dag — keramik bliver smukkere af at være i hånden. Skyl i hånden, undgå pludselige temperaturskift.",
+    },
   },
   default: {
     scoreNumber: "",
@@ -502,101 +526,246 @@ export function RitualTrustModule({ tags, metafields }: Props) {
 }
 
 /**
- * RitualScoreAccordion — lavere på siden, lukket som default.
- * Indeholder score-rækker + disclaimer, så den ikke konkurrerer med
- * score-badget tæt på Add to Cart.
+ * RitualScoreAccordion — én samlet, åben premium-sektion lavere på siden.
+ * (Navnet bibeholdt af bagudkompatibilitet — det er ikke længere en accordion.)
+ *
+ * Layout:
+ *   1. Heading + subtitle
+ *   2. Stort score-header (store stjerner + tal + scorenavn + kort forklaring)
+ *   3. Score-grid (label venstre, stjerner højre — hver i sit hvide kort)
+ *   4. Jesper anbefaler — 3 benefit-kort
+ *   5. Kompakt trust-strip
+ *   6. "Sådan bruges den" kort
+ *   7. Lille disclaimer
  */
 export function RitualScoreAccordion({ tags, metafields }: Props) {
   const key = resolveKey(tags);
   const config = applyOverrides(CONFIGS[key], metafields);
   if (!config.rows.length) return null;
 
+  const trustStrip = [
+    "Fri fragt over 599 kr",
+    "30 dages retur",
+    "Dansk webshop",
+    "Sikker betaling",
+  ];
+
   return (
-    <section className="mt-16 max-w-3xl" data-block="ritual-score-accordion" data-trust-key={key}>
-      <Accordion
-        type="single"
-        collapsible
-        className="rounded-[10px] overflow-hidden"
+    <section
+      className="mt-16 md:mt-20"
+      data-block="ritual-score-panel"
+      data-trust-key={key}
+    >
+      <div
+        className="relative max-w-4xl rounded-[18px] p-6 md:p-12"
         style={{
-          backgroundColor: "#F8F6F3",
+          backgroundColor: "#F3EEE7",
           border: "1px solid rgba(90,59,46,0.16)",
+          borderLeftWidth: "4px",
+          borderLeftColor: "#A67C52",
         }}
       >
-        <AccordionItem value="why" className="border-b-0">
-          <AccordionTrigger className="px-5 md:px-6 py-4 hover:no-underline">
-            <span className="flex items-center gap-3">
-              <StarRow value={5} size="sm" />
-              <span className="font-serif text-lg md:text-xl" style={{ color: "#2D2D2D" }}>
-                Hvorfor vi har valgt den
+        {/* 1. Heading + subtitle */}
+        <header className="mb-7 md:mb-9">
+          <span
+            className="inline-flex items-center gap-2 text-[11px] tracking-[0.22em] uppercase font-medium px-2.5 py-1 rounded-full"
+            style={{
+              color: "#A67C52",
+              backgroundColor: "rgba(166,124,82,0.10)",
+              border: "1px solid rgba(166,124,82,0.25)",
+            }}
+          >
+            <span
+              className="inline-block w-1.5 h-1.5 rounded-full"
+              style={{ backgroundColor: "#A67C52" }}
+            />
+            Kurateret af Langsomt Nok
+          </span>
+          <h2
+            className="font-serif text-3xl md:text-4xl mt-4 mb-3 leading-[1.1]"
+            style={{ color: "#2D2D2D" }}
+          >
+            Hvorfor vi har valgt den
+          </h2>
+          <p
+            className="text-base md:text-lg leading-relaxed max-w-2xl"
+            style={{ color: "rgba(45,45,45,0.72)" }}
+          >
+            Udvalgt for funktion, materialer og den ro, produktet skaber i hverdagen.
+          </p>
+        </header>
+
+        {/* 2. Stort score header */}
+        <div
+          className="rounded-[12px] p-5 md:p-6 mb-6"
+          style={{
+            backgroundColor: "#FFFFFF",
+            border: "1px solid rgba(90,59,46,0.12)",
+          }}
+        >
+          <div className="flex items-center gap-3 flex-wrap">
+            <StarRow value={5} size="lg" />
+            {config.scoreNumber && (
+              <span
+                className="font-serif leading-none"
+                style={{ color: "#2D2D2D", fontSize: "28px" }}
+              >
+                {config.scoreNumber}
               </span>
+            )}
+            <span
+              className="font-serif leading-none"
+              style={{ color: "#2D2D2D", fontSize: "22px" }}
+            >
+              {config.scoreName}
             </span>
-          </AccordionTrigger>
-          <AccordionContent className="px-5 md:px-6 pb-5">
+          </div>
+          <p
+            className="mt-3 text-sm md:text-base leading-relaxed"
+            style={{ color: "rgba(45,45,45,0.78)" }}
+          >
+            {config.subtitle}
+          </p>
+        </div>
+
+        {/* 3. Score grid */}
+        <ul className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-7 md:mb-9">
+          {config.rows.map((row) => (
+            <li
+              key={row.label}
+              className="flex items-center justify-between gap-3 rounded-[10px] px-4 py-3"
+              style={{
+                backgroundColor: "#FFFFFF",
+                border: "1px solid rgba(90,59,46,0.12)",
+              }}
+            >
+              <span className="text-sm md:text-[15px]" style={{ color: "#2D2D2D" }}>
+                {row.label}
+              </span>
+              <StarRow value={row.stars || 5} size="sm" />
+            </li>
+          ))}
+        </ul>
+
+        {/* 4. Jesper anbefaler — 3 benefit cards */}
+        {config.jesperTitle && config.jesperBullets.length > 0 && (
+          <div className="mb-7 md:mb-9">
             <p
-              className="text-sm leading-relaxed mb-4"
+              className="text-[11px] font-medium uppercase tracking-[0.18em] mb-2"
+              style={{ color: "#A67C52" }}
+            >
+              Jesper anbefaler
+            </p>
+            <p
+              className="font-serif text-lg md:text-xl mb-4"
+              style={{ color: "#2D2D2D" }}
+            >
+              {config.jesperTitle}
+            </p>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+              {config.jesperBullets.slice(0, 3).map((bullet) => (
+                <div
+                  key={bullet}
+                  className="rounded-[10px] p-4 flex items-start gap-3"
+                  style={{
+                    backgroundColor: "#FFFFFF",
+                    border: "1px solid rgba(90,59,46,0.12)",
+                  }}
+                >
+                  <span
+                    className="flex-shrink-0 mt-0.5 w-5 h-5 rounded-full flex items-center justify-center text-[11px] font-bold leading-none"
+                    style={{
+                      backgroundColor: "rgba(76,87,74,0.12)",
+                      color: "#4C574A",
+                    }}
+                  >
+                    ✓
+                  </span>
+                  <span
+                    className="text-sm leading-snug"
+                    style={{ color: "#2D2D2D" }}
+                  >
+                    {bullet}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* 5. Kompakt trust strip */}
+        <div
+          className="flex flex-wrap items-center gap-x-5 gap-y-2 text-xs md:text-[13px] py-4 px-4 md:px-5 rounded-[10px] mb-6"
+          style={{
+            backgroundColor: "rgba(255,255,255,0.55)",
+            border: "1px solid rgba(90,59,46,0.10)",
+            color: "rgba(45,45,45,0.85)",
+          }}
+        >
+          {trustStrip.map((item) => (
+            <span key={item} className="inline-flex items-center gap-1.5">
+              <span style={{ color: "#4C574A" }} className="font-semibold">
+                ✓
+              </span>
+              <span>{item}</span>
+            </span>
+          ))}
+        </div>
+
+        {/* 6. Sådan bruges den */}
+        {config.useGuide && (
+          <div
+            className="rounded-[10px] p-5 md:p-6 mb-5"
+            style={{
+              backgroundColor: "#FFFFFF",
+              border: "1px solid rgba(90,59,46,0.12)",
+            }}
+          >
+            <p
+              className="text-[11px] font-medium uppercase tracking-[0.18em] mb-1.5"
+              style={{ color: "#A67C52" }}
+            >
+              Sådan bruges den
+            </p>
+            <p
+              className="font-serif text-lg mb-2"
+              style={{ color: "#2D2D2D" }}
+            >
+              {config.useGuide.title}
+            </p>
+            <p
+              className="text-sm leading-relaxed mb-3"
               style={{ color: "rgba(45,45,45,0.78)" }}
             >
-              {config.subtitle}
+              {config.useGuide.body}
             </p>
-            <ul className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-2.5">
-              {config.rows.map((row) => (
-                <li
-                  key={row.label}
-                  className="flex items-center justify-between gap-3 py-1"
-                  style={{ borderBottom: "1px dashed rgba(90,59,46,0.10)" }}
-                >
-                  <span className="text-sm" style={{ color: "#2D2D2D" }}>
-                    {row.label}
-                  </span>
-                  <StarRow value={row.stars || 5} size="sm" />
-                </li>
-              ))}
-            </ul>
-            {config.explanation && (
-              <p
-                className="mt-4 italic"
-                style={{ color: "rgba(45,45,45,0.65)", fontSize: "12px" }}
+            {config.useGuide.link && (
+              <a
+                href={config.useGuide.link.href}
+                className="inline-flex items-center gap-1.5 text-sm font-medium border-b pb-0.5 transition-all hover:gap-2.5"
+                style={{
+                  color: "#4C574A",
+                  borderColor: "rgba(76,87,74,0.35)",
+                }}
               >
-                {config.explanation}
-              </p>
+                {config.useGuide.link.label} →
+              </a>
             )}
-            {config.jesperTitle && config.jesperBullets.length > 0 && (
-              <div
-                className="mt-5 pt-5"
-                style={{ borderTop: "1px solid rgba(90,59,46,0.12)" }}
-              >
-                <p
-                  className="text-[11px] font-medium uppercase tracking-[0.12em] mb-2"
-                  style={{ color: "#A67C52" }}
-                >
-                  Jesper anbefaler
-                </p>
-                <p
-                  className="font-serif text-base md:text-lg mb-3"
-                  style={{ color: "#2D2D2D" }}
-                >
-                  {config.jesperTitle}
-                </p>
-                <ul className="space-y-1.5">
-                  {config.jesperBullets.map((b) => (
-                    <li
-                      key={b}
-                      className="flex items-start gap-2 text-sm"
-                      style={{ color: "#2D2D2D" }}
-                    >
-                      <span className="mt-0.5 font-semibold" style={{ color: "#4C574A" }}>
-                        ✓
-                      </span>
-                      <span>{b}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
-          </AccordionContent>
-        </AccordionItem>
-      </Accordion>
+          </div>
+        )}
+
+        {/* 7. Disclaimer */}
+        {config.explanation && (
+          <p
+            className="italic text-center md:text-left"
+            style={{ color: "rgba(45,45,45,0.55)", fontSize: "12px" }}
+          >
+            {config.explanation}
+          </p>
+        )}
+      </div>
     </section>
   );
 }
+
 
