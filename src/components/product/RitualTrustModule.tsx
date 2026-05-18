@@ -155,6 +155,13 @@ const CONFIGS: Record<TrustKey, TrustConfig> = {
       "Vise dine redskaber frem på en smuk måde",
       "Kombinere funktion og æstetik",
     ],
+    founderSubtitle:
+      "Jeg ville vælge denne, hvis du vil give dine redskaber en fast plads og skabe mere ro i køkkenet.",
+    founderBullets: [
+      "Giver knivene en synlig og sikker plads",
+      "Skaber mere ro på køkkenbordet",
+      "Løfter køkkenets samlede udtryk",
+    ],
     useGuide: {
       title: "Sådan bruges den",
       body: "Placér den synligt i køkkenet. Tør af med en blød klud og hold den fri for fugt — så patinerer træet roligt over tid.",
