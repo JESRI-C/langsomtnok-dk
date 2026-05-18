@@ -476,27 +476,25 @@ function ProductPage() {
               </Button>
             </div>
 
-            {/* Trust line */}
-            <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-xs text-foreground/70 mt-4">
-              <span className="inline-flex items-center gap-1.5">
-                <Truck className="w-4 h-4 text-cta" strokeWidth={1.5} />
-                Levering 1–2 hverdage
-              </span>
-              <span className="text-border">·</span>
-              <span className="inline-flex items-center gap-1.5">
-                <Package className="w-4 h-4 text-cta" strokeWidth={1.5} />
-                Fri fragt over 599 kr
-              </span>
-              <span className="text-border">·</span>
-              <span className="inline-flex items-center gap-1.5">
-                <CreditCard className="w-4 h-4 text-cta" strokeWidth={1.5} />
-                Sikker betaling
-              </span>
-              <span className="text-border">·</span>
-              <span className="inline-flex items-center gap-1.5">
-                <RotateCcw className="w-4 h-4 text-cta" strokeWidth={1.5} />
-                30 dages retur
-              </span>
+            {/* Compact trust line — direkte under CTA */}
+            <div
+              className="flex flex-wrap items-center gap-x-3 gap-y-1.5 text-xs mt-3"
+              style={{ color: "rgba(45,45,45,0.75)" }}
+            >
+              {[
+                "Fri fragt over 599 kr",
+                "30 dages retur",
+                "Dansk webshop",
+                "Sikker betaling",
+              ].map((item, i, arr) => (
+                <span key={item} className="inline-flex items-center gap-1.5">
+                  <span style={{ color: "#4C574A" }} className="font-semibold">✓</span>
+                  <span>{item}</span>
+                  {i < arr.length - 1 && (
+                    <span style={{ color: "rgba(90,59,46,0.25)" }} className="ml-1">·</span>
+                  )}
+                </span>
+              ))}
             </div>
             <p className="text-xs text-muted-foreground mt-2">
               Spørgsmål? Skriv til{" "}
