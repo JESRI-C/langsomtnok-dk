@@ -337,11 +337,11 @@ export function RitualScoreBadge({ tags, metafields }: Props) {
 
   return (
     <div
-      className="rounded-[10px] border bg-[#F8F6F3] px-4 py-3.5 md:px-5 md:py-4"
+      className="rounded-[10px] border bg-white px-4 py-3.5 md:px-5 md:py-4"
       style={{
-        borderColor: "rgba(90,59,46,0.18)",
+        borderColor: "rgba(90,59,46,0.16)",
         borderLeftWidth: "4px",
-        borderLeftColor: "#A67C52",
+        borderLeftColor: "#5A3B2E",
       }}
       data-block="ritual-score-badge"
       data-trust-key={key}
