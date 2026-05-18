@@ -600,8 +600,8 @@ function ProductPage() {
           tags={product.tags || []}
           productType={product.productType}
           metafields={product.metafields}
-          videoUrl={firstVideo?.src}
-          posterUrl={firstVideo?.poster}
+          videoUrl={firstVideo && firstVideo.kind === "video" ? firstVideo.src : undefined}
+          posterUrl={firstVideo && firstVideo.kind === "video" ? firstVideo.poster : undefined}
         />
 
 
