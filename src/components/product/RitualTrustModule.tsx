@@ -36,6 +36,9 @@ interface TrustConfig {
   trustPoints: string[];
   jesperTitle: string;
   jesperBullets: string[];
+  founderSubtitle?: string;
+  founderBullets?: string[];
+  founderLink?: { label: string; href: string };
   useGuide?: {
     title: string;
     body: string;
@@ -72,6 +75,13 @@ const CONFIGS: Record<TrustKey, TrustConfig> = {
       "Et redskab der gerne må stå fremme",
       "Mere ro og præcision i madlavningen",
     ],
+    founderSubtitle:
+      "Jeg ville vælge denne, hvis du vil have et redskab, der føles rigtigt i hånden og løfter de daglige snit.",
+    founderBullets: [
+      "God som daglig hovedkniv eller præcisionsredskab",
+      "Føles rolig i hånden",
+      "Skabt til både funktion og æstetik",
+    ],
     useGuide: {
       title: "Sådan bruges den",
       body: "Brug kniven til daglige snit — fra grøntsager til urter og kød. Tør den af i hånden efter brug, og hold den skarp med en stryger mellem slibninger.",
@@ -104,6 +114,13 @@ const CONFIGS: Record<TrustKey, TrustConfig> = {
       "Tage næste skridt efter grundslibning",
       "Give æggen en finere afslutning",
       "Bygge et mere præcist sliberitual",
+    ],
+    founderSubtitle:
+      "Jeg ville vælge denne, hvis du vil passe bedre på dine knive uden at gøre det besværligt.",
+    founderBullets: [
+      "God til enkel hverdagspleje",
+      "Gør vedligeholdelse mere overskuelig",
+      "Et stærkt valg før kniven bliver helt sløv",
     ],
     useGuide: {
       title: "Sådan bruges den",
@@ -138,6 +155,13 @@ const CONFIGS: Record<TrustKey, TrustConfig> = {
       "Vise dine redskaber frem på en smuk måde",
       "Kombinere funktion og æstetik",
     ],
+    founderSubtitle:
+      "Jeg ville vælge denne, hvis du vil give dine redskaber en fast plads og skabe mere ro i køkkenet.",
+    founderBullets: [
+      "Giver knivene en synlig og sikker plads",
+      "Skaber mere ro på køkkenbordet",
+      "Løfter køkkenets samlede udtryk",
+    ],
     useGuide: {
       title: "Sådan bruges den",
       body: "Placér den synligt i køkkenet. Tør af med en blød klud og hold den fri for fugt — så patinerer træet roligt over tid.",
@@ -171,6 +195,13 @@ const CONFIGS: Record<TrustKey, TrustConfig> = {
       "Give en gave med både funktion og følelse",
       "Samle produkter der giver mening sammen",
     ],
+    founderSubtitle:
+      "Jeg ville vælge dette sæt, hvis du vil begynde rigtigt uden at skulle vælge alt enkeltvis.",
+    founderBullets: [
+      "Lettere at vælge rigtigt fra start",
+      "Produkterne giver mening sammen",
+      "God som gave eller første køkkenritual",
+    ],
     useGuide: {
       title: "Sådan bruges det",
       body: "Sættet er tænkt som en samlet begyndelse. Brug delene sammen i hverdagen, og lad dem patinere roligt over tid.",
@@ -203,6 +234,13 @@ const CONFIGS: Record<TrustKey, TrustConfig> = {
       "Vælge noget med stoflighed og ro",
       "Have en gave der føles personlig",
     ],
+    founderSubtitle:
+      "Jeg ville vælge denne, hvis du vil have noget på bordet, der føles håndlavet, levende og roligt.",
+    founderBullets: [
+      "Håndlavet udtryk med små variationer",
+      "Skaber varme omkring bordet",
+      "God som gave eller stille hverdagsobjekt",
+    ],
     useGuide: {
       title: "Sådan bruges den",
       body: "Brug den hver dag — keramik bliver smukkere af at være i hånden. Skyl i hånden, undgå pludselige temperaturskift.",
@@ -231,6 +269,13 @@ const CONFIGS: Record<TrustKey, TrustConfig> = {
     ],
     jesperTitle: "",
     jesperBullets: [],
+    founderSubtitle:
+      "Jeg ville vælge denne, hvis du vil have et redskab, der gør hverdagen lidt roligere — og lidt skarpere.",
+    founderBullets: [
+      "Udvalgt for materiale og funktion",
+      "Føles rigtigt i et roligt køkken",
+      "En gennemtænkt del af hverdagen",
+    ],
   },
 };
 
@@ -647,51 +692,97 @@ export function RitualScoreAccordion({ tags, metafields }: Props) {
           ))}
         </ul>
 
-        {/* 4. Jesper anbefaler — 3 benefit cards */}
-        {config.jesperTitle && config.jesperBullets.length > 0 && (
-          <div className="mb-7 md:mb-9">
-            <p
-              className="text-[11px] font-medium uppercase tracking-[0.18em] mb-2"
-              style={{ color: "#A67C52" }}
+        {/* 4. Jesper anbefaler — founder recommendation card */}
+        {(() => {
+          const bullets = (config.founderBullets && config.founderBullets.length > 0)
+            ? config.founderBullets
+            : config.jesperBullets;
+          const subtitle = config.founderSubtitle;
+          if (!bullets || bullets.length === 0) return null;
+          const link = config.founderLink ?? (config.useGuide?.link
+            ? { label: "Se hvorfor den passer ind i ritualet", href: config.useGuide.link.href }
+            : undefined);
+          return (
+            <div
+              className="mb-7 md:mb-9 rounded-[16px] p-5 md:p-7"
+              style={{
+                backgroundColor: "#F3EEE7",
+                border: "1px solid rgba(90,59,46,0.18)",
+                borderLeftWidth: "4px",
+                borderLeftColor: "#A67C52",
+              }}
+              data-block="founder-recommendation"
             >
-              Jesper anbefaler
-            </p>
-            <p
-              className="font-serif text-lg md:text-xl mb-4"
-              style={{ color: "#2D2D2D" }}
-            >
-              {config.jesperTitle}
-            </p>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-              {config.jesperBullets.slice(0, 3).map((bullet) => (
-                <div
-                  key={bullet}
-                  className="rounded-[10px] p-4 flex items-start gap-3"
-                  style={{
-                    backgroundColor: "#FFFFFF",
-                    border: "1px solid rgba(90,59,46,0.12)",
-                  }}
-                >
-                  <span
-                    className="flex-shrink-0 mt-0.5 w-5 h-5 rounded-full flex items-center justify-center text-[11px] font-bold leading-none"
-                    style={{
-                      backgroundColor: "rgba(76,87,74,0.12)",
-                      color: "#4C574A",
-                    }}
-                  >
-                    ✓
-                  </span>
-                  <span
-                    className="text-sm leading-snug"
+              <span
+                className="inline-flex items-center text-[10px] md:text-[11px] font-medium tracking-[0.18em] uppercase px-2.5 py-1 rounded-full mb-4"
+                style={{
+                  color: "#5A3B2E",
+                  backgroundColor: "rgba(166,124,82,0.12)",
+                }}
+              >
+                Kurateret af Jesper
+              </span>
+              <div className="grid grid-cols-1 md:grid-cols-2 md:gap-8 gap-5">
+                <div>
+                  <h3
+                    className="font-serif text-2xl md:text-3xl leading-[1.15] mb-3"
                     style={{ color: "#2D2D2D" }}
                   >
-                    {bullet}
-                  </span>
+                    Jesper anbefaler
+                  </h3>
+                  {subtitle && (
+                    <p
+                      className="text-[15px] leading-relaxed italic"
+                      style={{ color: "rgba(45,45,45,0.78)" }}
+                    >
+                      "{subtitle}"
+                    </p>
+                  )}
+                  <p
+                    className="mt-4 text-sm font-medium"
+                    style={{ color: "#5A3B2E" }}
+                  >
+                    — Jesper, Langsomt Nok
+                  </p>
+                  {link && (
+                    <a
+                      href={link.href}
+                      className="inline-flex items-center gap-1.5 mt-4 text-sm font-medium border-b pb-0.5 transition-all hover:gap-2.5"
+                      style={{
+                        color: "#4C574A",
+                        borderColor: "rgba(76,87,74,0.35)",
+                      }}
+                    >
+                      {link.label} →
+                    </a>
+                  )}
                 </div>
-              ))}
+                <ul className="space-y-2.5 md:pt-2">
+                  {bullets.slice(0, 3).map((bullet) => (
+                    <li
+                      key={bullet}
+                      className="flex items-start gap-3 text-[15px] leading-snug"
+                      style={{ color: "#2D2D2D" }}
+                    >
+                      <span
+                        className="flex-shrink-0 mt-0.5 w-5 h-5 rounded-full flex items-center justify-center text-[11px] font-bold leading-none"
+                        style={{
+                          backgroundColor: "rgba(76,87,74,0.14)",
+                          color: "#4C574A",
+                        }}
+                      >
+                        ✓
+                      </span>
+                      <span>{bullet}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </div>
-          </div>
-        )}
+          );
+        })()}
+
+
 
         {/* 5. Kompakt trust strip */}
         <div
