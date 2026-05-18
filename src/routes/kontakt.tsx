@@ -1,18 +1,21 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useRef, useState, type FormEvent } from "react";
 import { Button } from "@/components/ui/button";
 import { NewsletterSignup } from "@/components/NewsletterSignup";
 import { FAQAccordion } from "@/components/landing/FAQAccordion";
 import { COMPANY, organizationSchema } from "@/components/legal/LegalPageLayout";
 import { onlineStoreSchema, canonical } from "@/lib/seo";
-import { Mail, MapPin, Phone } from "lucide-react";
+import { Mail, MapPin, Phone, Check } from "lucide-react";
+
+const SHOPIFY_CONTACT_ACTION = "https://aqwut5-0n.myshopify.com/contact#contact_form";
 
 export const Route = createFileRoute("/kontakt")({
   head: () => ({
     meta: [
-      { title: "Kontakt | Langsomt Nok" },
-      { name: "description", content: "Kontakt Langsomt Nok, drevet af JBR Freelance, CVR 30782240." },
-      { property: "og:title", content: "Kontakt | Langsomt Nok" },
-      { property: "og:description", content: "Kontakt Langsomt Nok, drevet af JBR Freelance, CVR 30782240." },
+      { title: "Kontakt Langsomt Nok – skriv til os" },
+      { name: "description", content: "Skriv roligt til Langsomt Nok om produkter, levering eller gaver. Vi svarer som regel inden for 1-2 hverdage." },
+      { property: "og:title", content: "Kontakt Langsomt Nok – skriv til os" },
+      { property: "og:description", content: "Skriv roligt til Langsomt Nok om produkter, levering eller gaver. Vi svarer som regel inden for 1-2 hverdage." },
     ],
     links: [canonical("/kontakt")],
     scripts: [
