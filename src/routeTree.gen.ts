@@ -49,6 +49,7 @@ import { Route as GuidesSlugRouteImport } from './routes/guides.$slug'
 import { Route as GaverFarsDagRouteImport } from './routes/gaver.fars-dag'
 import { Route as CollectionsHandlavetKeramikRouteImport } from './routes/collections.handlavet-keramik'
 import { Route as CollectionsHandleRouteImport } from './routes/collections.$handle'
+import { Route as LovableEmailQueueProcessRouteImport } from './routes/lovable/email/queue/process'
 
 const UniversetRoute = UniversetRouteImport.update({
   id: '/universet',
@@ -258,6 +259,12 @@ const CollectionsHandleRoute = CollectionsHandleRouteImport.update({
   path: '/collections/$handle',
   getParentRoute: () => rootRouteImport,
 } as any)
+const LovableEmailQueueProcessRoute =
+  LovableEmailQueueProcessRouteImport.update({
+    id: '/lovable/email/queue/process',
+    path: '/lovable/email/queue/process',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -300,6 +307,7 @@ export interface FileRoutesByFullPath {
   '/universet/$slug': typeof UniversetSlugRoute
   '/guides/': typeof GuidesIndexRoute
   '/keramik/': typeof KeramikIndexRoute
+  '/lovable/email/queue/process': typeof LovableEmailQueueProcessRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -342,6 +350,7 @@ export interface FileRoutesByTo {
   '/universet/$slug': typeof UniversetSlugRoute
   '/guides': typeof GuidesIndexRoute
   '/keramik': typeof KeramikIndexRoute
+  '/lovable/email/queue/process': typeof LovableEmailQueueProcessRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -385,6 +394,7 @@ export interface FileRoutesById {
   '/universet_/$slug': typeof UniversetSlugRoute
   '/guides/': typeof GuidesIndexRoute
   '/keramik/': typeof KeramikIndexRoute
+  '/lovable/email/queue/process': typeof LovableEmailQueueProcessRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -429,6 +439,7 @@ export interface FileRouteTypes {
     | '/universet/$slug'
     | '/guides/'
     | '/keramik/'
+    | '/lovable/email/queue/process'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -471,6 +482,7 @@ export interface FileRouteTypes {
     | '/universet/$slug'
     | '/guides'
     | '/keramik'
+    | '/lovable/email/queue/process'
   id:
     | '__root__'
     | '/'
@@ -513,6 +525,7 @@ export interface FileRouteTypes {
     | '/universet_/$slug'
     | '/guides/'
     | '/keramik/'
+    | '/lovable/email/queue/process'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -556,6 +569,7 @@ export interface RootRouteChildren {
   UniversetSlugRoute: typeof UniversetSlugRoute
   GuidesIndexRoute: typeof GuidesIndexRoute
   KeramikIndexRoute: typeof KeramikIndexRoute
+  LovableEmailQueueProcessRoute: typeof LovableEmailQueueProcessRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -840,6 +854,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CollectionsHandleRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/lovable/email/queue/process': {
+      id: '/lovable/email/queue/process'
+      path: '/lovable/email/queue/process'
+      fullPath: '/lovable/email/queue/process'
+      preLoaderRoute: typeof LovableEmailQueueProcessRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -885,6 +906,7 @@ const rootRouteChildren: RootRouteChildren = {
   UniversetSlugRoute: UniversetSlugRoute,
   GuidesIndexRoute: GuidesIndexRoute,
   KeramikIndexRoute: KeramikIndexRoute,
+  LovableEmailQueueProcessRoute: LovableEmailQueueProcessRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
