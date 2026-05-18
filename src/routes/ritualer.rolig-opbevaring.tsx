@@ -115,18 +115,31 @@ function OpbevaringPage() {
         </div>
       </section>
 
-      <section className="pb-16">
-        <div className="container-calm max-w-2xl">
-          <div className="p-6 md:p-8 rounded-lg bg-soft/60 border border-border/40">
-            <p className="text-editorial text-foreground/80 leading-relaxed">
-              Knive holder sig bedst, når de opbevares sikkert, synligt og uden at slå mod andre
-              redskaber. En magnetisk knivliste eller knivstander i træ giver både bedre overblik
-              og mere ro i køkkenet.
-            </p>
-          </div>
+      <TrustBar />
+
+      {/* 2. Featured products — Start her */}
+      <FeaturedRitualProducts
+        title="Start her"
+        subtitle="Tre udvalgte måder at give knivene en fast plads."
+        scoreLabel="Display Score"
+        scoreNumber="4.8"
+        featuredLabel="Et godt sted at begynde"
+        featuredBenefit="Magnetisk knivliste i træ — synlig opbevaring, der løfter hele køkkenet."
+        featured={featured}
+        secondary={secondary}
+      />
+
+      {/* 3. Ritual promise / intro */}
+      <section className="section-padding">
+        <div className="container-calm max-w-2xl text-center">
+          <h2 className="font-serif text-2xl md:text-3xl mb-6">{c.intro_section_title}</h2>
+          {c.intro_section_body && (
+            <p className="text-editorial text-muted-foreground whitespace-pre-line">{c.intro_section_body}</p>
+          )}
         </div>
       </section>
 
+      {/* 4. Product journey — guide cards */}
       <section className="section-padding bg-soft">
         <div className="container-calm max-w-4xl">
           <div className="text-center mb-10">
@@ -148,10 +161,22 @@ function OpbevaringPage() {
         </div>
       </section>
 
+      {/* 5. Founder box */}
+      <FounderRitualBox
+        subtitle="Jeg ville vælge dette ritual, hvis du vil give dine redskaber en fast plads og skabe mere ro i køkkenet."
+        bullets={[
+          "Giver knivene en synlig og sikker plads",
+          "Skaber mere ro på køkkenbordet",
+          "Løfter køkkenets samlede udtryk",
+        ]}
+        link={{ label: "Se hvorfor det passer ind i ritualet", href: "#opbevaring-produkter" }}
+      />
+
+      {/* 7. Full product grid */}
       <div id="opbevaring-produkter">
         <ProductRecommendationBlock
-          title="Knivlister og standere"
-          subtitle="Rolig opbevaring i træ, hvor knivene gerne må ses."
+          title="Alle produkter i ritualet"
+          subtitle="Se hele udvalget og byg ritualet i dit eget tempo."
           products={products}
         />
       </div>
