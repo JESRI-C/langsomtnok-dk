@@ -500,3 +500,103 @@ export function RitualTrustModule({ tags, metafields }: Props) {
     </div>
   );
 }
+
+/**
+ * RitualScoreAccordion — lavere på siden, lukket som default.
+ * Indeholder score-rækker + disclaimer, så den ikke konkurrerer med
+ * score-badget tæt på Add to Cart.
+ */
+export function RitualScoreAccordion({ tags, metafields }: Props) {
+  const key = resolveKey(tags);
+  const config = applyOverrides(CONFIGS[key], metafields);
+  if (!config.rows.length) return null;
+
+  return (
+    <section className="mt-16 max-w-3xl" data-block="ritual-score-accordion" data-trust-key={key}>
+      <Accordion
+        type="single"
+        collapsible
+        className="rounded-[10px] overflow-hidden"
+        style={{
+          backgroundColor: "#F8F6F3",
+          border: "1px solid rgba(90,59,46,0.16)",
+        }}
+      >
+        <AccordionItem value="why" className="border-b-0">
+          <AccordionTrigger className="px-5 md:px-6 py-4 hover:no-underline">
+            <span className="flex items-center gap-3">
+              <StarRow value={5} size="sm" />
+              <span className="font-serif text-lg md:text-xl" style={{ color: "#2D2D2D" }}>
+                Hvorfor vi har valgt den
+              </span>
+            </span>
+          </AccordionTrigger>
+          <AccordionContent className="px-5 md:px-6 pb-5">
+            <p
+              className="text-sm leading-relaxed mb-4"
+              style={{ color: "rgba(45,45,45,0.78)" }}
+            >
+              {config.subtitle}
+            </p>
+            <ul className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-2.5">
+              {config.rows.map((row) => (
+                <li
+                  key={row.label}
+                  className="flex items-center justify-between gap-3 py-1"
+                  style={{ borderBottom: "1px dashed rgba(90,59,46,0.10)" }}
+                >
+                  <span className="text-sm" style={{ color: "#2D2D2D" }}>
+                    {row.label}
+                  </span>
+                  <StarRow value={row.stars || 5} size="sm" />
+                </li>
+              ))}
+            </ul>
+            {config.explanation && (
+              <p
+                className="mt-4 italic"
+                style={{ color: "rgba(45,45,45,0.65)", fontSize: "12px" }}
+              >
+                {config.explanation}
+              </p>
+            )}
+            {config.jesperTitle && config.jesperBullets.length > 0 && (
+              <div
+                className="mt-5 pt-5"
+                style={{ borderTop: "1px solid rgba(90,59,46,0.12)" }}
+              >
+                <p
+                  className="text-[11px] font-medium uppercase tracking-[0.12em] mb-2"
+                  style={{ color: "#A67C52" }}
+                >
+                  Jesper anbefaler
+                </p>
+                <p
+                  className="font-serif text-base md:text-lg mb-3"
+                  style={{ color: "#2D2D2D" }}
+                >
+                  {config.jesperTitle}
+                </p>
+                <ul className="space-y-1.5">
+                  {config.jesperBullets.map((b) => (
+                    <li
+                      key={b}
+                      className="flex items-start gap-2 text-sm"
+                      style={{ color: "#2D2D2D" }}
+                    >
+                      <span className="mt-0.5 font-semibold" style={{ color: "#4C574A" }}>
+                        ✓
+                      </span>
+                      <span>{b}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </AccordionContent>
+        </AccordionItem>
+      </Accordion>
+    </section>
+  );
+}
+
