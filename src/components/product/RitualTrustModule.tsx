@@ -269,6 +269,13 @@ const CONFIGS: Record<TrustKey, TrustConfig> = {
     ],
     jesperTitle: "",
     jesperBullets: [],
+    founderSubtitle:
+      "Jeg ville vælge denne, hvis du vil have et redskab, der gør hverdagen lidt roligere — og lidt skarpere.",
+    founderBullets: [
+      "Udvalgt for materiale og funktion",
+      "Føles rigtigt i et roligt køkken",
+      "En gennemtænkt del af hverdagen",
+    ],
   },
 };
 
