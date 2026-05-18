@@ -89,19 +89,22 @@ interface Props {
   tags: string[];
   productType?: string;
   metafields?: ShopifyMetafield[] | null;
+  /** Explicit video URL (e.g. from Shopify product Media). Takes precedence. */
+  videoUrl?: string | null;
+  /** Optional poster image for the explicit video. */
+  posterUrl?: string | null;
 }
 
-export function ProductMoodVideo({ tags, productType, metafields }: Props) {
-  const key = resolveKey(productType, tags);
-  if (!key) return null;
+export function ProductMoodVideo({ tags, productType, metafields, videoUrl, posterUrl }: Props) {
+  const key = resolveKey(productType, tags) ?? "knife";
 
-  const override = metaValue(metafields, "video_url");
+  const override = videoUrl || metaValue(metafields, "video_url");
   const knownVideo = KNOWN_VIDEOS[key];
 
   const src = override || knownVideo?.src;
   if (!src) return null;
 
-  const poster = metaValue(metafields, "video_poster") || knownVideo?.poster;
+  const poster = posterUrl || metaValue(metafields, "video_poster") || knownVideo?.poster;
   const cfg = CONFIGS[key];
   const aspectClass =
     cfg.aspect === "16/9"
