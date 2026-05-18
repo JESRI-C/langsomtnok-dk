@@ -77,6 +77,11 @@ const CONFIGS: Record<TrustKey, TrustConfig> = {
       "Et redskab der gerne må stå fremme",
       "Mere ro og præcision i madlavningen",
     ],
+    useGuide: {
+      title: "Sådan bruges den",
+      body: "Brug kniven til daglige snit — fra grøntsager til urter og kød. Tør den af i hånden efter brug, og hold den skarp med en stryger mellem slibninger.",
+      link: { label: "Læs guiden til at holde din kniv skarp", href: "/ritualer/hold-kniven-skarp" },
+    },
   },
   care: {
     scoreNumber: "4.7",
