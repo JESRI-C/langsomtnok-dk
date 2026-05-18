@@ -314,7 +314,7 @@ function ProductPage() {
     alt: img.node.altText || product.title,
   }));
 
-  const galleryItems: GalleryItem[] = [...videoItems, ...imageItems];
+  const galleryItems: GalleryItem[] = [...imageItems, ...videoItems];
   const activeItem = galleryItems[selectedImage];
   const firstVideo = videoItems[0];
 
