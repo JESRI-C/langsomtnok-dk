@@ -131,6 +131,7 @@ function ArticlePage() {
             title: a.title,
             category: a.category,
             readTime: a.readTime,
+            image: a.image,
           }))}
         />
       )}
