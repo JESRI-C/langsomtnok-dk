@@ -72,6 +72,25 @@ function OpbevaringPage() {
     fetchProductsByQuery('product_type:"The Calm Kitchen"', 20).then(setProducts);
   }, []);
 
+  const pickByHandlePart = (parts: string[]): ShopifyProduct | undefined => {
+    return products.find((p) =>
+      parts.some((part) => p.node.handle.toLowerCase().includes(part.toLowerCase())),
+    );
+  };
+
+  const { featured, secondary } = useMemo(() => {
+    const f =
+      pickByHandlePart(["magnetic-knife-strip-walnut", "knivlist", "magnetic-strip"]) ??
+      products[0];
+    const cands = [
+      pickByHandlePart(["magnetic-knife-block-walnut", "knivstander-valnod"]),
+      pickByHandlePart(["magnetic-knife-block-acacia", "knivstander-akacie"]),
+      pickByHandlePart(["magnetic-knife-strip-acacia"]),
+    ].filter((x): x is ShopifyProduct => !!x && x.node.id !== f?.node.id);
+    return { featured: f, secondary: cands.slice(0, 2) };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [products]);
+
   return (
     <div data-page-type="campaign_landing" data-campaign="rolig_opbevaring" data-product-category="storage">
       <LandingPageHero
