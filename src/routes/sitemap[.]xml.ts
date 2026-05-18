@@ -106,8 +106,9 @@ export const Route = createFileRoute("/sitemap.xml")({
 
         const entries: Entry[] = [
           ...STATIC_ENTRIES,
+          // Articles are canonically hosted at /universet/$slug.
+          // /guides/$slug remains accessible for legacy links but is canonical → /universet/.
           ...ARTICLES.map((a) => ({ path: `/universet/${a.slug}`, priority: "0.7" })),
-          ...ARTICLES.map((a) => ({ path: `/guides/${a.slug}`, priority: "0.6" })),
           ...productHandles.map((h) => ({ path: `/product/${h}`, priority: "0.7" })),
         ];
 
