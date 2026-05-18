@@ -70,6 +70,18 @@ interface ProductNode {
   priceRange: { minVariantPrice: { amount: string; currencyCode: string }; maxVariantPrice?: { amount: string; currencyCode: string } };
   compareAtPriceRange?: { minVariantPrice: { amount: string; currencyCode: string } };
   images: { edges: Array<{ node: { url: string; altText: string | null; width?: number; height?: number } }> };
+  media?: {
+    edges: Array<{
+      node: {
+        mediaContentType: "IMAGE" | "VIDEO" | "EXTERNAL_VIDEO" | "MODEL_3D";
+        alt?: string | null;
+        previewImage?: { url: string; altText: string | null } | null;
+        sources?: Array<{ url: string; mimeType: string; format?: string }>;
+        embedUrl?: string | null;
+        host?: "YOUTUBE" | "VIMEO" | null;
+      };
+    }>;
+  };
   variants: { edges: Array<{ node: { id: string; title: string; price: { amount: string; currencyCode: string }; compareAtPrice?: { amount: string; currencyCode: string } | null; availableForSale: boolean; quantityAvailable?: number; sku?: string; selectedOptions: Array<{ name: string; value: string }> } }> };
   options: Array<{ id?: string; name: string; values: string[] }>;
   metafields?: ShopifyMetafield[] | null;
