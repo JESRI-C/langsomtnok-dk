@@ -51,6 +51,7 @@ import { Route as EmailUnsubscribeRouteImport } from './routes/email/unsubscribe
 import { Route as CollectionsHandlavetKeramikRouteImport } from './routes/collections.handlavet-keramik'
 import { Route as CollectionsHandleRouteImport } from './routes/collections.$handle'
 import { Route as LovableEmailSuppressionRouteImport } from './routes/lovable/email/suppression'
+import { Route as ApiPublicContactRouteImport } from './routes/api/public/contact'
 import { Route as LovableEmailTransactionalSendRouteImport } from './routes/lovable/email/transactional/send'
 import { Route as LovableEmailTransactionalPreviewRouteImport } from './routes/lovable/email/transactional/preview'
 import { Route as LovableEmailQueueProcessRouteImport } from './routes/lovable/email/queue/process'
@@ -273,6 +274,11 @@ const LovableEmailSuppressionRoute = LovableEmailSuppressionRouteImport.update({
   path: '/lovable/email/suppression',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicContactRoute = ApiPublicContactRouteImport.update({
+  id: '/api/public/contact',
+  path: '/api/public/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LovableEmailTransactionalSendRoute =
   LovableEmailTransactionalSendRouteImport.update({
     id: '/lovable/email/transactional/send',
@@ -334,6 +340,7 @@ export interface FileRoutesByFullPath {
   '/universet/$slug': typeof UniversetSlugRoute
   '/guides/': typeof GuidesIndexRoute
   '/keramik/': typeof KeramikIndexRoute
+  '/api/public/contact': typeof ApiPublicContactRoute
   '/lovable/email/suppression': typeof LovableEmailSuppressionRoute
   '/lovable/email/queue/process': typeof LovableEmailQueueProcessRoute
   '/lovable/email/transactional/preview': typeof LovableEmailTransactionalPreviewRoute
@@ -381,6 +388,7 @@ export interface FileRoutesByTo {
   '/universet/$slug': typeof UniversetSlugRoute
   '/guides': typeof GuidesIndexRoute
   '/keramik': typeof KeramikIndexRoute
+  '/api/public/contact': typeof ApiPublicContactRoute
   '/lovable/email/suppression': typeof LovableEmailSuppressionRoute
   '/lovable/email/queue/process': typeof LovableEmailQueueProcessRoute
   '/lovable/email/transactional/preview': typeof LovableEmailTransactionalPreviewRoute
@@ -429,6 +437,7 @@ export interface FileRoutesById {
   '/universet_/$slug': typeof UniversetSlugRoute
   '/guides/': typeof GuidesIndexRoute
   '/keramik/': typeof KeramikIndexRoute
+  '/api/public/contact': typeof ApiPublicContactRoute
   '/lovable/email/suppression': typeof LovableEmailSuppressionRoute
   '/lovable/email/queue/process': typeof LovableEmailQueueProcessRoute
   '/lovable/email/transactional/preview': typeof LovableEmailTransactionalPreviewRoute
@@ -478,6 +487,7 @@ export interface FileRouteTypes {
     | '/universet/$slug'
     | '/guides/'
     | '/keramik/'
+    | '/api/public/contact'
     | '/lovable/email/suppression'
     | '/lovable/email/queue/process'
     | '/lovable/email/transactional/preview'
@@ -525,6 +535,7 @@ export interface FileRouteTypes {
     | '/universet/$slug'
     | '/guides'
     | '/keramik'
+    | '/api/public/contact'
     | '/lovable/email/suppression'
     | '/lovable/email/queue/process'
     | '/lovable/email/transactional/preview'
@@ -572,6 +583,7 @@ export interface FileRouteTypes {
     | '/universet_/$slug'
     | '/guides/'
     | '/keramik/'
+    | '/api/public/contact'
     | '/lovable/email/suppression'
     | '/lovable/email/queue/process'
     | '/lovable/email/transactional/preview'
@@ -620,6 +632,7 @@ export interface RootRouteChildren {
   UniversetSlugRoute: typeof UniversetSlugRoute
   GuidesIndexRoute: typeof GuidesIndexRoute
   KeramikIndexRoute: typeof KeramikIndexRoute
+  ApiPublicContactRoute: typeof ApiPublicContactRoute
   LovableEmailSuppressionRoute: typeof LovableEmailSuppressionRoute
   LovableEmailQueueProcessRoute: typeof LovableEmailQueueProcessRoute
   LovableEmailTransactionalPreviewRoute: typeof LovableEmailTransactionalPreviewRoute
@@ -922,6 +935,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LovableEmailSuppressionRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/contact': {
+      id: '/api/public/contact'
+      path: '/api/public/contact'
+      fullPath: '/api/public/contact'
+      preLoaderRoute: typeof ApiPublicContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/lovable/email/transactional/send': {
       id: '/lovable/email/transactional/send'
       path: '/lovable/email/transactional/send'
@@ -989,6 +1009,7 @@ const rootRouteChildren: RootRouteChildren = {
   UniversetSlugRoute: UniversetSlugRoute,
   GuidesIndexRoute: GuidesIndexRoute,
   KeramikIndexRoute: KeramikIndexRoute,
+  ApiPublicContactRoute: ApiPublicContactRoute,
   LovableEmailSuppressionRoute: LovableEmailSuppressionRoute,
   LovableEmailQueueProcessRoute: LovableEmailQueueProcessRoute,
   LovableEmailTransactionalPreviewRoute: LovableEmailTransactionalPreviewRoute,
