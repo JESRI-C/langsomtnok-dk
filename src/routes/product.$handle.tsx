@@ -275,6 +275,37 @@ function ProductPage() {
   const images = product.images.edges;
   const hasMultipleVariants = product.variants.edges.length > 1 && product.variants.edges[0].node.title !== "Default Title";
 
+  // Build a unified media gallery: videos (from Shopify Media) first, then images.
+  type GalleryItem =
+    | { kind: "video"; src: string; mimeType: string; poster?: string; alt?: string }
+    | { kind: "image"; url: string; alt?: string };
+
+  const videoMedia = (product.media?.edges ?? [])
+    .map((e) => e.node)
+    .filter((n) => n.mediaContentType === "VIDEO" && n.sources && n.sources.length > 0);
+
+  const videoItems: GalleryItem[] = videoMedia.map((n) => {
+    // Prefer mp4 for broadest browser support
+    const mp4 = n.sources!.find((s) => s.mimeType === "video/mp4") ?? n.sources![0];
+    return {
+      kind: "video",
+      src: mp4.url,
+      mimeType: mp4.mimeType,
+      poster: n.previewImage?.url,
+      alt: n.alt || product.title,
+    };
+  });
+
+  const imageItems: GalleryItem[] = images.map((img) => ({
+    kind: "image",
+    url: img.node.url,
+    alt: img.node.altText || product.title,
+  }));
+
+  const galleryItems: GalleryItem[] = [...videoItems, ...imageItems];
+  const activeItem = galleryItems[selectedImage];
+  const firstVideo = videoItems[0];
+
   // Parse structured description from Shopify HTML
   const parsed = parseProductDescription(product.descriptionHtml || "");
 
