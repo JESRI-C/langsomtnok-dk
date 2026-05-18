@@ -600,7 +600,10 @@ function ProductPage() {
           tags={product.tags || []}
           productType={product.productType}
           metafields={product.metafields}
+          videoUrl={firstVideo?.src}
+          posterUrl={firstVideo?.poster}
         />
+
 
         {/* ── 3. Video: Så nemt sættes den op (kun magnetiske knivholdere) ── */}
         {(product.productType === "The Calm Kitchen" ||
