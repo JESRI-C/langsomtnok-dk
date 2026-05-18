@@ -109,6 +109,24 @@ function SkarpPage() {
 
       <TrustBar />
 
+      {/* 2. Featured products — Start her */}
+      <FeaturedRitualProducts
+        title="Start her"
+        subtitle="Tre udvalgte produkter, der gør det nemt at begynde sliberitualet."
+        scoreLabel="Care Score"
+        scoreNumber="4.7"
+        featuredLabel="Et godt sted at begynde"
+        featuredBenefit="En grundsten i sliberitualet — kontrol, ro og en finere æg over tid."
+        featured={featured}
+        secondary={secondary}
+        secondaryBenefits={{
+          "leather-strop-green-and-yellow-compound": "Den rolige finish efter slibningen — polerer æggen blødt.",
+          "walnut-sharpener-xz-mdq01-htm": "Den hurtige hverdagstur, når kniven bare skal i form igen.",
+          "double-sided-whetstone-3000-8000": "Polerstenen — til den fine afslutning og en præcis æg.",
+        }}
+      />
+
+      {/* 3. Ritual promise / intro */}
       <section className="section-padding">
         <div className="container-calm max-w-2xl text-center">
           <h2 className="font-serif text-2xl md:text-3xl mb-6">{c.intro_section_title}</h2>
@@ -118,23 +136,12 @@ function SkarpPage() {
         </div>
       </section>
 
-      <section className="pb-16">
-        <div className="container-calm max-w-2xl">
-          <div className="p-6 md:p-8 rounded-lg bg-soft/60 border border-border/40">
-            <p className="text-editorial text-foreground/80 leading-relaxed">
-              Den bedste måde at holde en køkkenkniv skarp på er at vedligeholde æggen løbende med
-              slibesten, strop eller en enkel knivsliber. Det forlænger knivens levetid og gør
-              madlavningen mere rolig og præcis.
-            </p>
-          </div>
-        </div>
-      </section>
-
+      {/* 4. Product journey */}
       <section id="sliberitual" className="section-padding bg-soft">
         <div className="container-calm">
           <div className="text-center mb-12">
-            <h2 className="font-serif text-2xl md:text-3xl mb-3">Find dit næste skridt</h2>
-            <p className="text-muted-foreground text-editorial mx-auto">Fem rolige måder at holde kniven skarp.</p>
+            <h2 className="font-serif text-2xl md:text-3xl mb-3">Byg ritualet i tre trin</h2>
+            <p className="text-muted-foreground text-editorial mx-auto">Start, vedligehold og gør det til dit eget.</p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-5 max-w-6xl mx-auto">
             {(c.guide_cards ?? []).map((card, i) => (
@@ -155,9 +162,21 @@ function SkarpPage() {
         </div>
       </section>
 
+      {/* 5. Founder box */}
+      <FounderRitualBox
+        subtitle="Jeg ville vælge dette ritual, hvis du vil passe bedre på dine knive uden at gøre det besværligt."
+        bullets={[
+          "God til enkel hverdagspleje",
+          "Gør vedligeholdelse mere overskuelig",
+          "Et stærkt valg før kniven bliver helt sløv",
+        ]}
+        link={{ label: "Se hvorfor det passer ind i ritualet", href: "/ritualer/hold-kniven-skarp#sliberitual" }}
+      />
+
+      {/* 7. Full product grid */}
       <ProductRecommendationBlock
-        title="Til sliberitualet"
-        subtitle="Sten, slibere, strop og holder — vælg det, der passer din hånd."
+        title="Alle produkter i ritualet"
+        subtitle="Se hele udvalget og byg ritualet i dit eget tempo."
         products={products}
       />
 
