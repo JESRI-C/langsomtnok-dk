@@ -536,9 +536,15 @@ function ProductPage() {
           /knivholder|magnet/i.test(product.title)) && (
           <div className="mt-16 -mx-6 md:-mx-10">
             <VideoShowcase
-              eyebrow="Så nemt sættes den op"
-              title="Monteret på få minutter — uden boremaskine."
-              body="Monteres med dobbeltklæbende tape, som følger med. Brug en laser eller et vaterpas, ret den ind og tryk den fast."
+              eyebrow="Montering"
+              title="Sat op på under 5 minutter — uden boremaskine."
+              body="Den dobbeltklæbende 3M-tape følger med. Du behøver kun et vaterpas og rene hænder."
+              steps={[
+                "Tør væggen af med en let fugtig klud.",
+                "Mærk op med vaterpas, og træk beskyttelsesfilmen af tapen.",
+                "Tryk holderen fast i 30 sekunder — lad sidde i 1 time før knivene sættes op.",
+              ]}
+              trustNote="Tape følger med · Ingen skruer · Ingen boremaskine"
               background="soft"
               videoSide="left"
               compact
