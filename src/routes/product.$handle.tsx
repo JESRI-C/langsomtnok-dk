@@ -525,7 +525,14 @@ function ProductPage() {
           </div>
         </div>
 
-        {/* ── 2. Trust Bar ──────────────────────────────────────── */}
+        {/* ── 2. Product mood video — stort, roligt produktudtryk (når der findes en video) ── */}
+        <ProductMoodVideo
+          tags={product.tags || []}
+          productType={product.productType}
+          metafields={product.metafields}
+        />
+
+        {/* ── 3. Trust Bar ──────────────────────────────────────── */}
         <div className="mt-12">
           <TrustBar />
         </div>
