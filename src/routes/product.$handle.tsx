@@ -476,7 +476,12 @@ function ProductPage() {
             <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-xs text-foreground/70 mt-4">
               <span className="inline-flex items-center gap-1.5">
                 <Truck className="w-4 h-4 text-cta" strokeWidth={1.5} />
-                Levering 1–3 hverdage
+                Levering 1–2 hverdage
+              </span>
+              <span className="text-border">·</span>
+              <span className="inline-flex items-center gap-1.5">
+                <Package className="w-4 h-4 text-cta" strokeWidth={1.5} />
+                Fri fragt over 599 kr
               </span>
               <span className="text-border">·</span>
               <span className="inline-flex items-center gap-1.5">
@@ -486,12 +491,7 @@ function ProductPage() {
               <span className="text-border">·</span>
               <span className="inline-flex items-center gap-1.5">
                 <RotateCcw className="w-4 h-4 text-cta" strokeWidth={1.5} />
-                Nem retur
-              </span>
-              <span className="text-border">·</span>
-              <span className="inline-flex items-center gap-1.5">
-                <Package className="w-4 h-4 text-cta" strokeWidth={1.5} />
-                Pakket med omhu
+                30 dages retur
               </span>
             </div>
             <p className="text-xs text-muted-foreground mt-2">

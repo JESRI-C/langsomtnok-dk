@@ -46,7 +46,7 @@ export function StickyMobileCTA({ productTitle, price, onAddToCart, isLoading, i
           data-event="sticky_cta_click"
           data-section="product_sticky_mobile"
         >
-          {isLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : "Læg i kurv"}
+          {isLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : "Tilføj til ritualet"}
         </Button>
       </div>
     </div>

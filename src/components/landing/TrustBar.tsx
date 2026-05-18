@@ -7,10 +7,10 @@ interface TrustBarProps {
 
 const TRUST_ITEMS = [
   { icon: MapPin, text: "Dansk webshop" },
-  { icon: Truck, text: "Hurtig levering" },
+  { icon: Truck, text: "Levering 1-2 dage" },
   { icon: Shield, text: "Sikker betaling" },
-  { icon: RotateCcw, text: "Nem retur" },
-  { icon: Mail, text: "hej@langsomtnok.dk" },
+  { icon: RotateCcw, text: "30 dages retur" },
+  { icon: Mail, text: "Fri fragt over 599 kr" },
 ];
 
 export function TrustBar({ variant = "light", layout = "horizontal" }: TrustBarProps) {
