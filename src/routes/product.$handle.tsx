@@ -70,6 +70,18 @@ interface ProductNode {
   priceRange: { minVariantPrice: { amount: string; currencyCode: string }; maxVariantPrice?: { amount: string; currencyCode: string } };
   compareAtPriceRange?: { minVariantPrice: { amount: string; currencyCode: string } };
   images: { edges: Array<{ node: { url: string; altText: string | null; width?: number; height?: number } }> };
+  media?: {
+    edges: Array<{
+      node: {
+        mediaContentType: "IMAGE" | "VIDEO" | "EXTERNAL_VIDEO" | "MODEL_3D";
+        alt?: string | null;
+        previewImage?: { url: string; altText: string | null } | null;
+        sources?: Array<{ url: string; mimeType: string; format?: string }>;
+        embedUrl?: string | null;
+        host?: "YOUTUBE" | "VIMEO" | null;
+      };
+    }>;
+  };
   variants: { edges: Array<{ node: { id: string; title: string; price: { amount: string; currencyCode: string }; compareAtPrice?: { amount: string; currencyCode: string } | null; availableForSale: boolean; quantityAvailable?: number; sku?: string; selectedOptions: Array<{ name: string; value: string }> } }> };
   options: Array<{ id?: string; name: string; values: string[] }>;
   metafields?: ShopifyMetafield[] | null;
@@ -275,6 +287,37 @@ function ProductPage() {
   const images = product.images.edges;
   const hasMultipleVariants = product.variants.edges.length > 1 && product.variants.edges[0].node.title !== "Default Title";
 
+  // Build a unified media gallery: videos (from Shopify Media) first, then images.
+  type GalleryItem =
+    | { kind: "video"; src: string; mimeType: string; poster?: string; alt?: string }
+    | { kind: "image"; url: string; alt?: string };
+
+  const videoMedia = (product.media?.edges ?? [])
+    .map((e) => e.node)
+    .filter((n) => n.mediaContentType === "VIDEO" && n.sources && n.sources.length > 0);
+
+  const videoItems: GalleryItem[] = videoMedia.map((n) => {
+    // Prefer mp4 for broadest browser support
+    const mp4 = n.sources!.find((s) => s.mimeType === "video/mp4") ?? n.sources![0];
+    return {
+      kind: "video",
+      src: mp4.url,
+      mimeType: mp4.mimeType,
+      poster: n.previewImage?.url,
+      alt: n.alt || product.title,
+    };
+  });
+
+  const imageItems: GalleryItem[] = images.map((img) => ({
+    kind: "image",
+    url: img.node.url,
+    alt: img.node.altText || product.title,
+  }));
+
+  const galleryItems: GalleryItem[] = [...videoItems, ...imageItems];
+  const activeItem = galleryItems[selectedImage];
+  const firstVideo = videoItems[0];
+
   // Parse structured description from Shopify HTML
   const parsed = parseProductDescription(product.descriptionHtml || "");
 
@@ -354,10 +397,21 @@ function ProductPage() {
           {/* Gallery */}
           <div className="space-y-4">
             <div className="aspect-square rounded-lg overflow-hidden bg-linen relative">
-              {images[selectedImage]?.node ? (
+              {activeItem?.kind === "video" ? (
+                <video
+                  key={activeItem.src}
+                  src={activeItem.src}
+                  poster={activeItem.poster}
+                  controls
+                  playsInline
+                  preload="metadata"
+                  className="w-full h-full object-cover bg-black"
+                  aria-label={activeItem.alt}
+                />
+              ) : activeItem?.kind === "image" ? (
                 <img
-                  src={images[selectedImage].node.url}
-                  alt={images[selectedImage].node.altText || product.title}
+                  src={activeItem.url}
+                  alt={activeItem.alt || product.title}
                   className="w-full h-full object-cover"
                 />
               ) : (
@@ -374,17 +428,33 @@ function ProductPage() {
                 </span>
               )}
             </div>
-            {images.length > 1 && (
+            {galleryItems.length > 1 && (
               <div className="flex gap-3 overflow-x-auto pb-1">
-                {images.map((img, i) => (
+                {galleryItems.map((item, i) => (
                   <button
                     key={i}
                     onClick={() => setSelectedImage(i)}
-                    className={`w-20 h-20 rounded-md overflow-hidden flex-shrink-0 border-2 transition-colors ${
+                    className={`relative w-20 h-20 rounded-md overflow-hidden flex-shrink-0 border-2 transition-colors ${
                       i === selectedImage ? "border-walnut" : "border-transparent hover:border-border"
                     }`}
+                    aria-label={item.kind === "video" ? "Afspil video" : "Vis billede"}
                   >
-                    <img src={img.node.url} alt={img.node.altText || ""} className="w-full h-full object-cover" />
+                    {item.kind === "video" ? (
+                      <>
+                        {item.poster ? (
+                          <img src={item.poster} alt="" className="w-full h-full object-cover" />
+                        ) : (
+                          <div className="w-full h-full bg-deep" />
+                        )}
+                        <span className="absolute inset-0 flex items-center justify-center bg-black/30">
+                          <svg width="18" height="18" viewBox="0 0 24 24" fill="white" aria-hidden="true">
+                            <path d="M8 5v14l11-7z" />
+                          </svg>
+                        </span>
+                      </>
+                    ) : (
+                      <img src={item.url} alt={item.alt || ""} className="w-full h-full object-cover" />
+                    )}
                   </button>
                 ))}
               </div>
@@ -530,7 +600,10 @@ function ProductPage() {
           tags={product.tags || []}
           productType={product.productType}
           metafields={product.metafields}
+          videoUrl={firstVideo && firstVideo.kind === "video" ? firstVideo.src : undefined}
+          posterUrl={firstVideo && firstVideo.kind === "video" ? firstVideo.poster : undefined}
         />
+
 
         {/* ── 3. Video: Så nemt sættes den op (kun magnetiske knivholdere) ── */}
         {(product.productType === "The Calm Kitchen" ||

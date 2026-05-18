@@ -43,6 +43,18 @@ export interface ShopifyImage {
   height?: number;
 }
 
+/** Shopify Media item — covers MediaImage, Video, ExternalVideo, Model3d */
+export interface ShopifyMediaItem {
+  mediaContentType: "IMAGE" | "VIDEO" | "EXTERNAL_VIDEO" | "MODEL_3D";
+  alt?: string | null;
+  previewImage?: ShopifyImage | null;
+  /** For VIDEO: list of source files (mp4/webm) with url + mimeType */
+  sources?: Array<{ url: string; mimeType: string; format?: string }>;
+  /** For EXTERNAL_VIDEO (YouTube/Vimeo) */
+  embedUrl?: string | null;
+  host?: "YOUTUBE" | "VIMEO" | null;
+}
+
 /** Represents a product variant (size, color, material, etc.) */
 export interface ShopifyVariant {
   id: string;               // Full GraphQL ID: gid://shopify/ProductVariant/xxxxx
@@ -119,6 +131,10 @@ export interface ShopifyProduct {
     };
     images: {
       edges: Array<{ node: ShopifyImage }>;
+    };
+    /** Shopify media — includes images AND videos uploaded to the product. */
+    media?: {
+      edges: Array<{ node: ShopifyMediaItem }>;
     };
     variants: {
       edges: Array<{ node: ShopifyVariant }>;
@@ -324,6 +340,22 @@ export const PRODUCT_BY_HANDLE_QUERY = `
       }
       images(first: 10) {
         edges { node { url altText width height } }
+      }
+      media(first: 20) {
+        edges {
+          node {
+            mediaContentType
+            alt
+            previewImage { url altText width height }
+            ... on Video {
+              sources { url mimeType format width height }
+            }
+            ... on ExternalVideo {
+              embedUrl
+              host
+            }
+          }
+        }
       }
       variants(first: 20) {
         edges {
