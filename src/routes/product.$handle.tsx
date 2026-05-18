@@ -14,6 +14,7 @@ import { ProductCard } from "@/components/ProductCard";
 import { ProductFitSection } from "@/components/ProductFitSection";
 import { StickyMobileCTA } from "@/components/StickyMobileCTA";
 import { TrustBar } from "@/components/landing/TrustBar";
+import { RitualTrustModule } from "@/components/product/RitualTrustModule";
 import { VideoShowcase } from "@/components/VideoShowcase";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { useCartStore } from "@/stores/cartStore";
