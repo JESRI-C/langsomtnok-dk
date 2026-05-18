@@ -406,7 +406,6 @@ function ProductPage() {
                   dangerouslySetInnerHTML={{ __html: sanitizeHtml(parsed.intro) }}
                 />
               )}
-              <RitualScoreBadge tags={product.tags || []} metafields={product.metafields} />
             </div>
 
             {/* Price */}
@@ -420,6 +419,9 @@ function ProductPage() {
                 </span>
               )}
             </div>
+
+            {/* Premium Score badge — direkte under pris, over Add to Cart */}
+            <RitualScoreBadge tags={product.tags || []} metafields={product.metafields} />
 
             {/* Variant selector */}
             {hasMultipleVariants && product.options.map((option) => (
