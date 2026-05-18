@@ -397,10 +397,21 @@ function ProductPage() {
           {/* Gallery */}
           <div className="space-y-4">
             <div className="aspect-square rounded-lg overflow-hidden bg-linen relative">
-              {images[selectedImage]?.node ? (
+              {activeItem?.kind === "video" ? (
+                <video
+                  key={activeItem.src}
+                  src={activeItem.src}
+                  poster={activeItem.poster}
+                  controls
+                  playsInline
+                  preload="metadata"
+                  className="w-full h-full object-cover bg-black"
+                  aria-label={activeItem.alt}
+                />
+              ) : activeItem?.kind === "image" ? (
                 <img
-                  src={images[selectedImage].node.url}
-                  alt={images[selectedImage].node.altText || product.title}
+                  src={activeItem.url}
+                  alt={activeItem.alt || product.title}
                   className="w-full h-full object-cover"
                 />
               ) : (
@@ -417,17 +428,33 @@ function ProductPage() {
                 </span>
               )}
             </div>
-            {images.length > 1 && (
+            {galleryItems.length > 1 && (
               <div className="flex gap-3 overflow-x-auto pb-1">
-                {images.map((img, i) => (
+                {galleryItems.map((item, i) => (
                   <button
                     key={i}
                     onClick={() => setSelectedImage(i)}
-                    className={`w-20 h-20 rounded-md overflow-hidden flex-shrink-0 border-2 transition-colors ${
+                    className={`relative w-20 h-20 rounded-md overflow-hidden flex-shrink-0 border-2 transition-colors ${
                       i === selectedImage ? "border-walnut" : "border-transparent hover:border-border"
                     }`}
+                    aria-label={item.kind === "video" ? "Afspil video" : "Vis billede"}
                   >
-                    <img src={img.node.url} alt={img.node.altText || ""} className="w-full h-full object-cover" />
+                    {item.kind === "video" ? (
+                      <>
+                        {item.poster ? (
+                          <img src={item.poster} alt="" className="w-full h-full object-cover" />
+                        ) : (
+                          <div className="w-full h-full bg-deep" />
+                        )}
+                        <span className="absolute inset-0 flex items-center justify-center bg-black/30">
+                          <svg width="18" height="18" viewBox="0 0 24 24" fill="white" aria-hidden="true">
+                            <path d="M8 5v14l11-7z" />
+                          </svg>
+                        </span>
+                      </>
+                    ) : (
+                      <img src={item.url} alt={item.alt || ""} className="w-full h-full object-cover" />
+                    )}
                   </button>
                 ))}
               </div>
