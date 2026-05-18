@@ -132,6 +132,10 @@ export interface ShopifyProduct {
     images: {
       edges: Array<{ node: ShopifyImage }>;
     };
+    /** Shopify media — includes images AND videos uploaded to the product. */
+    media?: {
+      edges: Array<{ node: ShopifyMediaItem }>;
+    };
     variants: {
       edges: Array<{ node: ShopifyVariant }>;
     };
