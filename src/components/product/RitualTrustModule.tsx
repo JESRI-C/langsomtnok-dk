@@ -202,12 +202,16 @@ const CONFIGS: Record<TrustKey, TrustConfig> = {
       "God som gave",
       "Sendes fra dansk webshop",
     ],
-    jesperTitle: "Jesper anbefaler denne, hvis du vil:",
+    jesperTitle: "Jesper anbefaler den, hvis du vil:",
     jesperBullets: [
       "Give bordet mere varme",
       "Vælge noget med stoflighed og ro",
       "Have en gave der føles personlig",
     ],
+    useGuide: {
+      title: "Sådan bruges den",
+      body: "Brug den hver dag — keramik bliver smukkere af at være i hånden. Skyl i hånden, undgå pludselige temperaturskift.",
+    },
   },
   default: {
     scoreNumber: "",
