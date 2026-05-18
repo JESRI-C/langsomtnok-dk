@@ -40,6 +40,8 @@ export function VideoShowcase({
   poster = VIDEO_POSTER,
   videoSrc = VIDEO_SRC,
   compact = false,
+  steps,
+  trustNote,
 }: VideoShowcaseProps) {
   const bgClass =
     background === "soft"
