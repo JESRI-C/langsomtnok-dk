@@ -1,13 +1,17 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useRef, useState, type FormEvent } from "react";
 import { Button } from "@/components/ui/button";
 import { NewsletterSignup } from "@/components/NewsletterSignup";
 import { FAQAccordion } from "@/components/landing/FAQAccordion";
 import { COMPANY, organizationSchema } from "@/components/legal/LegalPageLayout";
 import { onlineStoreSchema, canonical } from "@/lib/seo";
-import { Mail, MapPin, Phone, Check } from "lucide-react";
+import { Mail, MapPin, Phone, ArrowRight } from "lucide-react";
 
-const SHOPIFY_CONTACT_ACTION = "https://aqwut5-0n.myshopify.com/contact#contact_form";
+// Shopify-native contact page (real form with CAPTCHA + merchant email delivery).
+// We cannot render Liquid here, so we route the user to the real form instead of
+// faking a frontend-only submission that never reaches the inbox.
+const SHOPIFY_CONTACT_URL = "https://aqwut5-0n.myshopify.com/pages/contact";
+const CONTACT_EMAIL = COMPANY.email;
+const MAILTO = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent("Kontakt fra langsomtnok.dk")}`;
 
 export const Route = createFileRoute("/kontakt")({
   head: () => ({
@@ -27,30 +31,6 @@ export const Route = createFileRoute("/kontakt")({
 });
 
 function ContactPage() {
-  const formRef = useRef<HTMLFormElement>(null);
-  const [submitted, setSubmitted] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-    const form = e.currentTarget;
-    const data = new FormData(form);
-    const name = (data.get("contact[name]") as string)?.trim();
-    const email = (data.get("contact[email]") as string)?.trim();
-    const body = (data.get("contact[body]") as string)?.trim();
-    if (!name || !email || !body) {
-      e.preventDefault();
-      setError("Der mangler lige et felt, før beskeden kan sendes.");
-      return;
-    }
-    setError(null);
-    // Let the native form POST to Shopify in the hidden iframe.
-    // Show success state immediately (cross-origin response not readable).
-    setTimeout(() => {
-      setSubmitted(true);
-      form.reset();
-    }, 400);
-  };
-
   return (
     <div className="pt-24 bg-bg">
       <section className="section-padding">
@@ -63,131 +43,56 @@ function ContactPage() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-5 gap-10 max-w-5xl mx-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 max-w-5xl mx-auto">
+            {/* Primary action card — routes to the real Shopify contact form */}
             <div className="lg:col-span-3">
-              <div className="bg-white rounded-2xl p-7 md:p-10 border border-[rgba(90,59,46,0.16)] shadow-sm">
-                {submitted ? (
-                  <div className="py-10 text-center">
-                    <div className="w-12 h-12 rounded-full bg-cta/10 mx-auto mb-5 flex items-center justify-center">
-                      <Check className="w-6 h-6 text-cta" />
-                    </div>
-                    <h2 className="font-serif text-2xl mb-3">Tak for din besked</h2>
-                    <p className="text-muted-foreground">Vi vender tilbage så hurtigt som muligt.</p>
-                  </div>
-                ) : (
-                  <>
-                    {error && (
-                      <div className="mb-6 rounded-lg border border-copper/30 bg-copper/5 text-text px-4 py-3 text-sm">
-                        {error}
-                      </div>
-                    )}
-                    <form
-                      ref={formRef}
-                      action={SHOPIFY_CONTACT_ACTION}
-                      method="POST"
-                      acceptCharset="UTF-8"
-                      target="ln-contact-sink"
-                      onSubmit={handleSubmit}
-                      className="space-y-5"
-                      noValidate
-                    >
-                      <input type="hidden" name="form_type" value="contact" />
-                      <input type="hidden" name="utf8" value="✓" />
+              <div className="bg-white rounded-2xl p-8 md:p-10 border border-[rgba(90,59,46,0.16)] shadow-sm h-full flex flex-col">
+                <p className="text-xs uppercase tracking-[0.18em] text-copper mb-3">Kontaktformular</p>
+                <h2 className="font-serif text-2xl md:text-3xl mb-4">Send en besked</h2>
+                <p className="text-muted-foreground leading-relaxed mb-6">
+                  Brug vores formular, så når din besked direkte frem til indbakken. Formularen åbner i et nyt vindue og tager kun et øjeblik at udfylde.
+                </p>
 
-                      <div>
-                        <label htmlFor="contact-name" className="text-sm font-medium mb-1.5 block">Navn</label>
-                        <input
-                          id="contact-name"
-                          type="text"
-                          name="contact[name]"
-                          required
-                          autoComplete="name"
-                          className="w-full h-12 px-4 rounded-lg border border-[rgba(90,59,46,0.16)] bg-bg text-sm focus:outline-none focus:ring-2 focus:ring-cta/30"
-                          placeholder="Dit navn"
-                        />
-                      </div>
-                      <div>
-                        <label htmlFor="contact-email" className="text-sm font-medium mb-1.5 block">E-mail</label>
-                        <input
-                          id="contact-email"
-                          type="email"
-                          name="contact[email]"
-                          required
-                          autoComplete="email"
-                          className="w-full h-12 px-4 rounded-lg border border-[rgba(90,59,46,0.16)] bg-bg text-sm focus:outline-none focus:ring-2 focus:ring-cta/30"
-                          placeholder="din@email.dk"
-                        />
-                      </div>
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                        <div>
-                          <label htmlFor="contact-phone" className="text-sm font-medium mb-1.5 block">
-                            Telefon <span className="text-muted-foreground font-normal">(valgfri)</span>
-                          </label>
-                          <input
-                            id="contact-phone"
-                            type="tel"
-                            name="contact[phone]"
-                            autoComplete="tel"
-                            className="w-full h-12 px-4 rounded-lg border border-[rgba(90,59,46,0.16)] bg-bg text-sm focus:outline-none focus:ring-2 focus:ring-cta/30"
-                            placeholder="+45"
-                          />
-                        </div>
-                        <div>
-                          <label htmlFor="contact-subject" className="text-sm font-medium mb-1.5 block">
-                            Emne <span className="text-muted-foreground font-normal">(valgfrit)</span>
-                          </label>
-                          <input
-                            id="contact-subject"
-                            type="text"
-                            name="contact[subject]"
-                            className="w-full h-12 px-4 rounded-lg border border-[rgba(90,59,46,0.16)] bg-bg text-sm focus:outline-none focus:ring-2 focus:ring-cta/30"
-                            placeholder="Fx levering, gave, produkt"
-                          />
-                        </div>
-                      </div>
-                      <div>
-                        <label htmlFor="contact-body" className="text-sm font-medium mb-1.5 block">Besked</label>
-                        <textarea
-                          id="contact-body"
-                          name="contact[body]"
-                          required
-                          rows={6}
-                          className="w-full px-4 py-3 rounded-lg border border-[rgba(90,59,46,0.16)] bg-bg text-sm focus:outline-none focus:ring-2 focus:ring-cta/30 resize-none"
-                          placeholder="Hvad kan vi hjælpe med?"
-                        />
-                      </div>
-                      <Button variant="cta" size="lg" type="submit" className="w-full">
-                        Send besked
-                      </Button>
+                <ul className="text-sm text-muted-foreground space-y-2 mb-8">
+                  <li className="flex gap-2"><span className="text-cta">✓</span> Sikker indsendelse via vores butikssystem</li>
+                  <li className="flex gap-2"><span className="text-cta">✓</span> Beskeder lander hos {CONTACT_EMAIL}</li>
+                  <li className="flex gap-2"><span className="text-cta">✓</span> Svar som regel inden for 1-2 hverdage</li>
+                </ul>
 
-                      <p className="text-xs text-muted-foreground pt-2 flex flex-wrap gap-x-4 gap-y-1">
-                        <span>✓ Dansk webshop</span>
-                        <span>✓ Sikker betaling</span>
-                        <span>✓ 30 dages retur</span>
-                        <span>✓ Fri fragt over 599 kr</span>
-                      </p>
-                    </form>
-                    {/* Hidden iframe target so Shopify's cross-origin POST does not navigate away */}
-                    <iframe
-                      name="ln-contact-sink"
-                      title="Shopify contact form sink"
-                      style={{ display: "none" }}
-                      aria-hidden="true"
-                    />
-                  </>
-                )}
+                <div className="mt-auto flex flex-col sm:flex-row gap-3">
+                  <Button asChild variant="cta" size="lg" className="flex-1">
+                    <a href={SHOPIFY_CONTACT_URL} target="_blank" rel="noopener noreferrer">
+                      Åbn kontaktformular
+                      <ArrowRight className="w-4 h-4 ml-1" />
+                    </a>
+                  </Button>
+                  <Button asChild variant="outline" size="lg" className="flex-1">
+                    <a href={MAILTO}>Skriv via e-mail</a>
+                  </Button>
+                </div>
+
+                <p className="text-xs text-muted-foreground pt-6 mt-6 border-t border-[rgba(90,59,46,0.12)] flex flex-wrap gap-x-4 gap-y-1">
+                  <span>✓ Dansk webshop</span>
+                  <span>✓ 30 dages retur</span>
+                  <span>✓ Fri fragt over 599 kr</span>
+                  <span>✓ Sikker betaling</span>
+                </p>
               </div>
             </div>
 
+            {/* Direct contact info */}
             <aside className="lg:col-span-2 space-y-6">
               <div className="bg-[#F3EEE7] rounded-2xl p-7 border border-[rgba(90,59,46,0.12)]">
-                <h2 className="font-serif text-xl mb-5">Kontaktinformation</h2>
+                <h2 className="font-serif text-xl mb-2">Du kan også skrive direkte</h2>
+                <p className="text-sm text-muted-foreground mb-5">
+                  Vi svarer som regel inden for 1-2 hverdage.
+                </p>
                 <div className="space-y-5">
                   <div className="flex items-start gap-3">
                     <Mail className="w-5 h-5 text-copper mt-0.5 shrink-0" />
                     <div>
                       <div className="text-xs uppercase tracking-wider text-muted-foreground mb-1">E-mail</div>
-                      <a className="text-sm hover:text-cta" href={`mailto:${COMPANY.email}`}>{COMPANY.email}</a>
+                      <a className="text-sm hover:text-cta break-all" href={MAILTO}>{CONTACT_EMAIL}</a>
                     </div>
                   </div>
                   <div className="flex items-start gap-3">
@@ -211,9 +116,6 @@ function ContactPage() {
                     </div>
                   </div>
                 </div>
-                <p className="text-sm text-muted-foreground mt-6 pt-5 border-t border-[rgba(90,59,46,0.12)]">
-                  Vi svarer som regel inden for 1-2 hverdage.
-                </p>
               </div>
             </aside>
           </div>
@@ -224,24 +126,24 @@ function ContactPage() {
         title="Korte svar"
         items={[
           {
+            question: "Hvornår bliver min ordre sendt?",
+            answer:
+              "Vi pakker og sender din ordre fra Danmark, som regel inden for 1-2 hverdage. Når pakken er afsendt, modtager du en mail med tracking, så du kan følge den hjem til døren.",
+          },
+          {
+            question: "Hvordan returnerer jeg en vare?",
+            answer:
+              "Du har 30 dages fortrydelsesret. Skriv til os på hej@langsomtnok.dk med dit ordrenummer, så sender vi en kort vejledning. Varen skal være ubrugt og i original stand.",
+          },
+          {
+            question: "Kan jeg ændre min ordre?",
+            answer:
+              "Ja, hvis ordren ikke er pakket endnu. Skriv hurtigst muligt til hej@langsomtnok.dk med dit ordrenummer og det, du vil ændre, så hjælper vi gerne.",
+          },
+          {
             question: "Hvordan kan jeg betale?",
             answer:
-              "Du betaler sikkert via vores webshop. Du kan bruge almindelige betalingskort og de betalingsmuligheder, der vises i checkout. Din ordre pakkes med omhu og sendes fra Danmark.",
-          },
-          {
-            question: "Er betalingen sikker?",
-            answer:
-              "Ja. Når du handler hos Langsomt Nok, betaler du trygt via vores webshop med kort og de betalingsmuligheder, der vises i checkout. Vi pakker din ordre i rolig rytme og sender fra Danmark.",
-          },
-          {
-            question: "Hvor sendes ordren fra?",
-            answer:
-              "Alle ordrer pakkes og sendes fra Danmark. Vi pakker i rolig rytme og bruger materialer, der passer til indholdet.",
-          },
-          {
-            question: "Hvordan kan jeg være tryg ved at handle hos jer?",
-            answer:
-              "Du betaler sikkert via webshoppen, din ordre sendes fra Danmark, og du kan altid kontakte os direkte på hej@langsomtnok.dk.",
+              "Du betaler sikkert i checkout med almindelige betalingskort og de betalingsmuligheder, der vises. Din ordre pakkes med omhu og sendes fra Danmark.",
           },
           {
             question: "Har I Trustpilot?",
