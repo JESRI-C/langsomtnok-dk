@@ -16,12 +16,7 @@
 
 import { Truck, RotateCcw, MapPin } from "lucide-react";
 import type { ShopifyMetafield } from "@/lib/shopify";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
+
 
 
 type TrustKey = "knife" | "care" | "display" | "bundle" | "ceramic" | "default";
