@@ -532,16 +532,11 @@ function ProductPage() {
           metafields={product.metafields}
         />
 
-        {/* ── 3. Trust Bar ──────────────────────────────────────── */}
-        <div className="mt-12">
-          <TrustBar />
-        </div>
-
-        {/* ── Video: Så nemt sættes den op (kun magnetiske knivholdere) ── */}
+        {/* ── 3. Video: Så nemt sættes den op (kun magnetiske knivholdere) ── */}
         {(product.productType === "The Calm Kitchen" ||
           /knivholder|magnet/i.test(product.handle) ||
           /knivholder|magnet/i.test(product.title)) && (
-          <div className="mt-16 -mx-6 md:-mx-10">
+          <div className="mt-16 md:mt-20 -mx-6 md:-mx-10">
             <VideoShowcase
               eyebrow="Montering"
               title="Sat op på under 5 minutter — uden boremaskine."
@@ -559,7 +554,32 @@ function ProductPage() {
           </div>
         )}
 
-        {/* ── Contextual ritual / gift guide link (1 per product) ── */}
+        {/* ── 4. “Hvorfor vi har valgt den” — samlet kurateret panel ── */}
+        <RitualScoreAccordion tags={product.tags || []} metafields={product.metafields} />
+
+        {/* ── 5. Om produktet + andre editorial sections (filtreret for dubletter) ── */}
+        {(() => {
+          // Filtrér sektioner, der dubleret indholdet i det samlede panel ovenfor.
+          // Vi beholder fit, materials, faq, crossSell, story og generisk indhold,
+          // men fjerner standalone Care/Brug- og Score-/Jesper-/Tryghed-sektioner.
+          const DUPLICATE_HEADING =
+            /(^|\s)(care\s*score|ritual\s*score|display\s*score|circle\s*score|start\s*score|gift\s*score|jesper\s*anbefaler|tryghed\s*f[øo]r\s*k[øo]b|hvorfor\s*vi\s*har\s*valgt|score\s*er\s*langsomt)/i;
+          const filtered = parsed.sections.filter((s) => {
+            if (s.type === "care") return false;
+            if (DUPLICATE_HEADING.test(s.heading)) return false;
+            return true;
+          });
+          return filtered.map((section, i) => (
+            <EditorialSection
+              key={i}
+              section={section}
+              relatedProducts={section.type === "crossSell" ? relatedProducts : []}
+              doubtCta={section.type === "fit" ? doubtCta : undefined}
+            />
+          ));
+        })()}
+
+        {/* ── 6. Contextual ritual / gift guide link ── */}
         {(() => {
           const ritualLink =
             product.productType === "The Ritual Set"
@@ -571,7 +591,7 @@ function ProductPage() {
                   : null;
           if (!ritualLink) return null;
           return (
-            <div className="mt-10 max-w-3xl">
+            <div className="mt-12 max-w-3xl">
               <a
                 href={ritualLink.href}
                 className="inline-flex items-center gap-2 text-sm font-medium text-walnut border-b border-walnut/30 pb-1 hover:gap-3 transition-all"
@@ -582,24 +602,17 @@ function ProductPage() {
           );
         })()}
 
-        {/* ── 3–8. All editorial sections from descriptionHtml ── */}
-        {parsed.sections.map((section, i) => (
-          <EditorialSection
-            key={i}
-            section={section}
-            relatedProducts={section.type === "crossSell" ? relatedProducts : []}
-            doubtCta={section.type === "fit" ? doubtCta : undefined}
-          />
-        ))}
-
-        {/* ── “Hvorfor vi har valgt den” — kurateret score, samlet ét sted, lavere på siden ── */}
-        <RitualScoreAccordion tags={product.tags || []} metafields={product.metafields} />
-
-
-        {/* Related products (if no crossSell section exists) */}
-        {!parsed.sections.some(s => s.type === "crossSell") && relatedProducts.length > 0 && (
-          <section className="mt-20">
-            <h2 className="font-serif text-2xl mb-4">Relaterede produkter</h2>
+        {/* ── 7. Det giver mening sammen med ── */}
+        {!parsed.sections.some((s) => s.type === "crossSell") && relatedProducts.length > 0 && (
+          <section className="mt-20 md:mt-24">
+            <header className="mb-8 max-w-2xl">
+              <h2 className="font-serif text-3xl md:text-4xl mb-3 leading-[1.15]" style={{ color: "#2D2D2D" }}>
+                Det giver mening sammen med
+              </h2>
+              <p className="text-base leading-relaxed" style={{ color: "rgba(45,45,45,0.72)" }}>
+                Byg dit køkkenritual videre med produkter, der passer naturligt sammen.
+              </p>
+            </header>
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
               {relatedProducts.slice(0, 4).map((rp) => (
                 <ProductCard key={rp.node.id} product={rp} />
@@ -608,14 +621,39 @@ function ProductPage() {
           </section>
         )}
 
-        {/* ── 9. Final CTA ──────────────────────────────────────── */}
-        <section className="mt-20 max-w-3xl">
-          <div className="p-8 md:p-10 rounded-lg bg-deep text-center">
-            <h2 className="font-serif text-2xl text-deep-foreground mb-3">Begynd med dette ritual</h2>
-            <p className="text-sm text-deep-foreground/60 mb-6 max-w-md mx-auto">
-              Et godt redskab er begyndelsen. Resten følger naturligt.
+        {/* ── 8. Slim service bar — flyttet hertil, væk fra hero ── */}
+        <div className="mt-20 md:mt-24">
+          <TrustBar />
+        </div>
+
+        {/* ── 9. Final CTA — varm premium panel ── */}
+        <section className="mt-16 md:mt-20 max-w-4xl">
+          <div
+            className="p-8 md:p-14 text-center rounded-[18px]"
+            style={{
+              backgroundColor: "#4C574A",
+              border: "1px solid rgba(90,59,46,0.16)",
+            }}
+          >
+            <h2
+              className="font-serif text-3xl md:text-4xl mb-3 leading-[1.15]"
+              style={{ color: "#F8F6F3" }}
+            >
+              Begynd med dette ritual
+            </h2>
+            <p
+              className="text-base md:text-lg mb-7 max-w-md mx-auto leading-relaxed"
+              style={{ color: "rgba(248,246,243,0.78)" }}
+            >
+              Et enkelt redskab. En roligere vane. Et bedre snit.
             </p>
-            <Button variant="cta" size="lg" onClick={handleAddToCart} disabled={isCartLoading || !variant?.availableForSale}>
+            <Button
+              variant="cta"
+              size="lg"
+              onClick={handleAddToCart}
+              disabled={isCartLoading || !variant?.availableForSale}
+              className="bg-[#F8F6F3] text-[#2D2D2D] hover:bg-white hover:text-[#2D2D2D]"
+            >
               {isCartLoading ? (
                 <Loader2 className="w-4 h-4 animate-spin" />
               ) : !variant?.availableForSale ? (
@@ -624,9 +662,21 @@ function ProductPage() {
                 "Tilføj til ritualet"
               )}
             </Button>
+            <p
+              className="mt-6 flex flex-wrap items-center justify-center gap-x-3 gap-y-1.5 text-xs md:text-[13px]"
+              style={{ color: "rgba(248,246,243,0.72)" }}
+            >
+              <span style={{ color: "#A67C52" }} className="tracking-tight">★★★★★</span>
+              <span>Kurateret af Langsomt Nok</span>
+              <span style={{ color: "rgba(248,246,243,0.35)" }}>·</span>
+              <span>Fri fragt over 599 kr</span>
+              <span style={{ color: "rgba(248,246,243,0.35)" }}>·</span>
+              <span>30 dages retur</span>
+            </p>
           </div>
         </section>
       </div>
+
 
       {/* Sticky mobile CTA */}
       <StickyMobileCTA
