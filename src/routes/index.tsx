@@ -7,6 +7,7 @@ import { NewsletterSignup } from "@/components/NewsletterSignup";
 import { ImageSlot, IMAGE_SLOTS } from "@/components/ImageSlot";
 import { HeroVideo } from "@/components/landing/HeroVideo";
 import { VideoShowcase } from "@/components/VideoShowcase";
+import { BundleSection } from "@/components/landing/BundleSection";
 import { storefrontApiRequest, PRODUCTS_QUERY, type ShopifyProduct } from "@/lib/shopify";
 import { STORIES as UNIVERSET_STORIES } from "@/lib/universet";
 import { StoryCard as UniversetHomeStoryCard } from "@/components/universet/StoryCard";
@@ -138,7 +139,7 @@ function HomePage() {
             <p className="text-base md:text-lg text-deep-foreground/80 leading-relaxed mb-9 max-w-lg">
               Udvalgte produkter i træ, stål og keramik — skabt til mere orden, bedre hverdagsritualer og et hjem, der føles rart at være i.
             </p>
-            <div className="flex flex-col sm:flex-row gap-3 mb-7">
+            <div className="flex flex-col sm:flex-row gap-3 mb-6">
               <Link
                 to="/shop"
                 className="btn-cta"
@@ -158,8 +159,21 @@ function HomePage() {
                 Udforsk keramik
               </Link>
             </div>
+            <ul className="grid grid-cols-2 gap-x-5 gap-y-2 max-w-md mb-5 text-[13px] md:text-sm text-deep-foreground/80">
+              {[
+                "Massiv valnød & stål",
+                "Skabt til nordiske hjem",
+                "Klar til levering",
+                "Fri fragt over 599 kr",
+              ].map((b) => (
+                <li key={b} className="flex items-start gap-2">
+                  <span className="text-deep-foreground/90 mt-0.5">✓</span>
+                  <span>{b}</span>
+                </li>
+              ))}
+            </ul>
             <p className="text-xs md:text-sm text-deep-foreground/55 tracking-wide">
-              Sendes fra Danmark · Hurtig levering · Sikker betaling · Nem retur
+              Sendes fra Danmark · 1-2 dage · Sikker betaling · 30 dages retur
             </p>
           </div>
         </div>
