@@ -115,6 +115,13 @@ const CONFIGS: Record<TrustKey, TrustConfig> = {
       "Give æggen en finere afslutning",
       "Bygge et mere præcist sliberitual",
     ],
+    founderSubtitle:
+      "Jeg ville vælge denne, hvis du vil passe bedre på dine knive uden at gøre det besværligt.",
+    founderBullets: [
+      "God til enkel hverdagspleje",
+      "Gør vedligeholdelse mere overskuelig",
+      "Et stærkt valg før kniven bliver helt sløv",
+    ],
     useGuide: {
       title: "Sådan bruges den",
       body: "Brug stenen efter en grovere eller mellemfin slibning, når æggen allerede er etableret. Arbejd roligt og jævnt — vand og tid gør resten.",
