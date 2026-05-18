@@ -195,6 +195,13 @@ const CONFIGS: Record<TrustKey, TrustConfig> = {
       "Give en gave med både funktion og følelse",
       "Samle produkter der giver mening sammen",
     ],
+    founderSubtitle:
+      "Jeg ville vælge dette sæt, hvis du vil begynde rigtigt uden at skulle vælge alt enkeltvis.",
+    founderBullets: [
+      "Lettere at vælge rigtigt fra start",
+      "Produkterne giver mening sammen",
+      "God som gave eller første køkkenritual",
+    ],
     useGuide: {
       title: "Sådan bruges det",
       body: "Sættet er tænkt som en samlet begyndelse. Brug delene sammen i hverdagen, og lad dem patinere roligt over tid.",
