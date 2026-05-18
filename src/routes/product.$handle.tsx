@@ -592,6 +592,10 @@ function ProductPage() {
           />
         ))}
 
+        {/* ── “Hvorfor vi har valgt den” — kurateret score, samlet ét sted, lavere på siden ── */}
+        <RitualScoreAccordion tags={product.tags || []} metafields={product.metafields} />
+
+
         {/* Related products (if no crossSell section exists) */}
         {!parsed.sections.some(s => s.type === "crossSell") && relatedProducts.length > 0 && (
           <section className="mt-20">
