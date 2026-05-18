@@ -36,6 +36,9 @@ interface TrustConfig {
   trustPoints: string[];
   jesperTitle: string;
   jesperBullets: string[];
+  founderSubtitle?: string;
+  founderBullets?: string[];
+  founderLink?: { label: string; href: string };
   useGuide?: {
     title: string;
     body: string;
