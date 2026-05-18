@@ -260,6 +260,36 @@ interface Props {
   metafields?: ShopifyMetafield[] | null;
 }
 
+/**
+ * Kompakt badge — vises højt på produktsiden (under titel, over pris).
+ * Giver øjeblikkelig trust uden at fylde for meget.
+ */
+export function RitualScoreBadge({ tags, metafields }: Props) {
+  const key = resolveKey(tags);
+  const config = applyOverrides(CONFIGS[key], metafields);
+  const isScore = config.variant === "score";
+
+  return (
+    <div
+      className="mt-3 inline-flex items-center gap-2.5 rounded-full border border-copper/25 bg-[#F8F6F3] px-3.5 py-1.5"
+      data-block="ritual-score-badge"
+      data-trust-key={key}
+    >
+      {isScore ? (
+        <StarRow value={5} />
+      ) : (
+        <Sparkles className="w-3.5 h-3.5 text-copper" strokeWidth={1.5} />
+      )}
+      <span className="text-[13px] font-medium text-[#2D2D2D] tracking-tight">
+        {config.title}
+      </span>
+      <span className="hidden sm:inline text-[11px] text-[#2D2D2D]/55">
+        · Udvalgt af Langsomt Nok
+      </span>
+    </div>
+  );
+}
+
 export function RitualTrustModule({ tags, metafields }: Props) {
   const key = resolveKey(tags);
   const config = applyOverrides(CONFIGS[key], metafields);
