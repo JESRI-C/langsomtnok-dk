@@ -692,51 +692,97 @@ export function RitualScoreAccordion({ tags, metafields }: Props) {
           ))}
         </ul>
 
-        {/* 4. Jesper anbefaler — 3 benefit cards */}
-        {config.jesperTitle && config.jesperBullets.length > 0 && (
-          <div className="mb-7 md:mb-9">
-            <p
-              className="text-[11px] font-medium uppercase tracking-[0.18em] mb-2"
-              style={{ color: "#A67C52" }}
+        {/* 4. Jesper anbefaler — founder recommendation card */}
+        {(() => {
+          const bullets = (config.founderBullets && config.founderBullets.length > 0)
+            ? config.founderBullets
+            : config.jesperBullets;
+          const subtitle = config.founderSubtitle;
+          if (!bullets || bullets.length === 0) return null;
+          const link = config.founderLink ?? (config.useGuide?.link
+            ? { label: "Se hvorfor den passer ind i ritualet", href: config.useGuide.link.href }
+            : undefined);
+          return (
+            <div
+              className="mb-7 md:mb-9 rounded-[16px] p-5 md:p-7"
+              style={{
+                backgroundColor: "#F3EEE7",
+                border: "1px solid rgba(90,59,46,0.18)",
+                borderLeftWidth: "4px",
+                borderLeftColor: "#A67C52",
+              }}
+              data-block="founder-recommendation"
             >
-              Jesper anbefaler
-            </p>
-            <p
-              className="font-serif text-lg md:text-xl mb-4"
-              style={{ color: "#2D2D2D" }}
-            >
-              {config.jesperTitle}
-            </p>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-              {config.jesperBullets.slice(0, 3).map((bullet) => (
-                <div
-                  key={bullet}
-                  className="rounded-[10px] p-4 flex items-start gap-3"
-                  style={{
-                    backgroundColor: "#FFFFFF",
-                    border: "1px solid rgba(90,59,46,0.12)",
-                  }}
-                >
-                  <span
-                    className="flex-shrink-0 mt-0.5 w-5 h-5 rounded-full flex items-center justify-center text-[11px] font-bold leading-none"
-                    style={{
-                      backgroundColor: "rgba(76,87,74,0.12)",
-                      color: "#4C574A",
-                    }}
-                  >
-                    ✓
-                  </span>
-                  <span
-                    className="text-sm leading-snug"
+              <span
+                className="inline-flex items-center text-[10px] md:text-[11px] font-medium tracking-[0.18em] uppercase px-2.5 py-1 rounded-full mb-4"
+                style={{
+                  color: "#5A3B2E",
+                  backgroundColor: "rgba(166,124,82,0.12)",
+                }}
+              >
+                Kurateret af Jesper
+              </span>
+              <div className="grid grid-cols-1 md:grid-cols-2 md:gap-8 gap-5">
+                <div>
+                  <h3
+                    className="font-serif text-2xl md:text-3xl leading-[1.15] mb-3"
                     style={{ color: "#2D2D2D" }}
                   >
-                    {bullet}
-                  </span>
+                    Jesper anbefaler
+                  </h3>
+                  {subtitle && (
+                    <p
+                      className="text-[15px] leading-relaxed italic"
+                      style={{ color: "rgba(45,45,45,0.78)" }}
+                    >
+                      "{subtitle}"
+                    </p>
+                  )}
+                  <p
+                    className="mt-4 text-sm font-medium"
+                    style={{ color: "#5A3B2E" }}
+                  >
+                    — Jesper, Langsomt Nok
+                  </p>
+                  {link && (
+                    <a
+                      href={link.href}
+                      className="inline-flex items-center gap-1.5 mt-4 text-sm font-medium border-b pb-0.5 transition-all hover:gap-2.5"
+                      style={{
+                        color: "#4C574A",
+                        borderColor: "rgba(76,87,74,0.35)",
+                      }}
+                    >
+                      {link.label} →
+                    </a>
+                  )}
                 </div>
-              ))}
+                <ul className="space-y-2.5 md:pt-2">
+                  {bullets.slice(0, 3).map((bullet) => (
+                    <li
+                      key={bullet}
+                      className="flex items-start gap-3 text-[15px] leading-snug"
+                      style={{ color: "#2D2D2D" }}
+                    >
+                      <span
+                        className="flex-shrink-0 mt-0.5 w-5 h-5 rounded-full flex items-center justify-center text-[11px] font-bold leading-none"
+                        style={{
+                          backgroundColor: "rgba(76,87,74,0.14)",
+                          color: "#4C574A",
+                        }}
+                      >
+                        ✓
+                      </span>
+                      <span>{bullet}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </div>
-          </div>
-        )}
+          );
+        })()}
+
+
 
         {/* 5. Kompakt trust strip */}
         <div
