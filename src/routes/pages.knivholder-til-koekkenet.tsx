@@ -45,8 +45,8 @@ export const Route = createFileRoute("/pages/knivholder-til-koekkenet")({
           ],
         }),
       },
+      buildFaqSchemaScript(FAQ_ITEMS),
     ],
-    scripts: [buildFaqSchemaScript(FAQ_ITEMS)],
   }),
   component: Page,
 });
