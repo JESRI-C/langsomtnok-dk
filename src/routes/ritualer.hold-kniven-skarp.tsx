@@ -76,6 +76,23 @@ function SkarpPage() {
     fetchProductsByQuery('product_type:"The Ritual Set"', 20).then(setProducts);
   }, []);
 
+  const pickByHandlePart = (parts: string[]): ShopifyProduct | undefined => {
+    return products.find((p) =>
+      parts.some((part) => p.node.handle.toLowerCase().includes(part.toLowerCase())),
+    );
+  };
+
+  const { featured, secondary } = useMemo(() => {
+    const f = pickByHandlePart(["double-sided-whetstone-1000-5000", "whetstone-1000-5000"]) ?? products[0];
+    const s1 = pickByHandlePart(["leather-strop"]);
+    const s2 =
+      pickByHandlePart(["walnut-sharpener", "knife-sharpener"]) ??
+      pickByHandlePart(["whetstone-3000-8000"]);
+    const sec = [s1, s2].filter((x): x is ShopifyProduct => !!x && x.node.id !== f?.node.id);
+    return { featured: f, secondary: sec.slice(0, 2) };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [products]);
+
   return (
     <div data-page-type="campaign_landing" data-campaign="slibning_ritual" data-product-category="sharpening">
       <LandingPageHero
