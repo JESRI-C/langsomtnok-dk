@@ -720,7 +720,7 @@ export function RitualScoreAccordion({ tags, metafields }: Props) {
                   backgroundColor: "rgba(166,124,82,0.12)",
                 }}
               >
-                Kurateret af Jesper
+                Udvalgt af Jesper
               </span>
               <div className="grid grid-cols-1 md:grid-cols-2 md:gap-8 gap-5">
                 <div>
