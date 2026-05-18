@@ -137,12 +137,17 @@ const CONFIGS: Record<TrustKey, TrustConfig> = {
       "Udvalgt for materiale og funktion",
       "30 dages rolig returret",
     ],
-    jesperTitle: "Jesper anbefaler denne, hvis du vil:",
+    jesperTitle: "Jesper anbefaler den, hvis du vil:",
     jesperBullets: [
       "Have mere ro på køkkenbordet",
       "Vise dine redskaber frem på en smuk måde",
       "Kombinere funktion og æstetik",
     ],
+    useGuide: {
+      title: "Sådan bruges den",
+      body: "Placér den synligt i køkkenet. Tør af med en blød klud og hold den fri for fugt — så patinerer træet roligt over tid.",
+      link: { label: "Se guiden til rolig knivopbevaring", href: "/ritualer/rolig-opbevaring" },
+    },
   },
   bundle: {
     scoreNumber: "4.9",
