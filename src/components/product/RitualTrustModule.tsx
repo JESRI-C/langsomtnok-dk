@@ -170,12 +170,16 @@ const CONFIGS: Record<TrustKey, TrustConfig> = {
       "Produkter der giver mening sammen",
       "Et stærkt sted at begynde",
     ],
-    jesperTitle: "Jesper anbefaler dette sæt, hvis du vil:",
+    jesperTitle: "Jesper anbefaler sættet, hvis du vil:",
     jesperBullets: [
       "Starte rigtigt fra begyndelsen",
       "Give en gave med både funktion og følelse",
       "Samle produkter der giver mening sammen",
     ],
+    useGuide: {
+      title: "Sådan bruges det",
+      body: "Sættet er tænkt som en samlet begyndelse. Brug delene sammen i hverdagen, og lad dem patinere roligt over tid.",
+    },
   },
   ceramic: {
     scoreNumber: "4.8",
