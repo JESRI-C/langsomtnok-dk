@@ -2,20 +2,40 @@
  * ============================================================================
  * COLLECTION PAGE - /collections/{handle}
  * ============================================================================
- * Fetches collection from Shopify with editorial intro copy per collection.
- * Also supports older/internal alias handles so existing links do not lead to
- * empty collection experiences.
+ * Each collection is rendered as a calm landing page:
+ *   Hero (with visible copper star/trust line)
+ *   Compact service bar
+ *   Three benefit cards
+ *   Product grid with sort
+ *   Buying guide (warm beige) + "Et godt sted at begynde"
+ *   Other rituals (internal navigation)
+ *   FAQ + SEO text
  * ============================================================================
  */
 
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState, useEffect } from "react";
-import { ArrowRight, CheckCircle2, HelpCircle, Package, ShieldCheck, Sparkles } from "lucide-react";
+import {
+  ArrowRight,
+  Check,
+  CheckCircle2,
+  HelpCircle,
+  MapPin,
+  Package,
+  RotateCcw,
+  Shield,
+  Star,
+  Truck,
+} from "lucide-react";
 import { ProductCard } from "@/components/ProductCard";
 import { NewsletterSignup } from "@/components/NewsletterSignup";
-import { TrustBar } from "@/components/landing/TrustBar";
 import { VideoShowcase } from "@/components/VideoShowcase";
-import { storefrontApiRequest, COLLECTION_BY_HANDLE_QUERY, PRODUCTS_QUERY, type ShopifyProduct } from "@/lib/shopify";
+import {
+  storefrontApiRequest,
+  COLLECTION_BY_HANDLE_QUERY,
+  PRODUCTS_QUERY,
+  type ShopifyProduct,
+} from "@/lib/shopify";
 import kniveHero from "@/assets/knive-hero.png";
 import slibningHero from "@/assets/slibning-hero.png";
 import holdereHero from "@/assets/holdere-hero.png";
@@ -43,28 +63,249 @@ const SORT_OPTIONS = [
   { label: "Titel: A-Å", key: "TITLE", reverse: false },
 ];
 
+// ---------- Category meta (the "why buy from this collection?" layer) ----------
+
+type CategoryKey = "knives" | "care" | "display" | "bundle" | "gift" | "ceramic" | "default";
+
+type CategoryMeta = {
+  h1: string;
+  intro: string;
+  scoreLabel: string;
+  scoreTrustLine: string;
+  primaryCta: { label: string; href: string };
+  secondaryCta?: { label: string; href: string };
+  benefitCards: Array<{ title: string; text: string }>;
+  guideTitle: string;
+  guideItems: string[];
+  startTitle: string;
+  startText: string;
+  startCta: { label: string; href: string };
+  productBenefit: string;
+  seoHeading: string;
+  seoBody: string;
+};
+
+const CATEGORY_META: Record<CategoryKey, CategoryMeta> = {
+  knives: {
+    h1: "Knive til rolige hænder og præcise snit",
+    intro:
+      "En god kniv skal ikke bare være skarp. Den skal føles rigtig i hånden, ligge roligt ved skærebrættet og gøre madlavningen mere nærværende.",
+    scoreLabel: "Ritual Score",
+    scoreTrustLine: "Ritual Score · Udvalgt for skarphed, balance og materialefølelse",
+    primaryCta: { label: "Se knivene", href: "#produkter" },
+    secondaryCta: { label: "Find dit køkkenritual", href: "/find-dit-ritual" },
+    benefitCards: [
+      { title: "Skarphed med ro", text: "Knive valgt for præcise snit og en stabil æg." },
+      { title: "Materialer der må stå fremme", text: "Stål og træ med stoflighed og varme." },
+      { title: "Til både hverdag og langsomme måltider", text: "Daglig brug uden at miste karakter." },
+    ],
+    guideTitle: "Sådan vælger du rigtigt",
+    guideItems: [
+      "Vælg kokkekniven, hvis du vil have én stærk hovedkniv.",
+      "Vælg universalkniven, hvis du vil have kontrol til mindre snit.",
+      "Tilføj slibning, hvis kniven skal holde sig levende.",
+    ],
+    startTitle: "Et godt sted at begynde",
+    startText:
+      "Start med kokkekniven, hvis du vil have én stærk hovedkniv til hverdagen.",
+    startCta: { label: "Se anbefalingen", href: "/pages/den-forste-rigtige-kokkekniv" },
+    productBenefit: "Til præcision, balance og hverdagsro.",
+    seoHeading: "Køkkenknive til hverdagen og det langsomme måltid",
+    seoBody:
+      "Hos Langsomt Nok finder du køkkenknive valgt for greb, balance og materialefølelse. Hver kniv er udvalgt til at blive brugt - ikke gemt væk. Find kokkeknive, universalknive og specialknive til både den daglige rytme og de stille måltider, hvor redskabet må mærkes.",
+  },
+  care: {
+    h1: "Hold dine knive skarpe længere",
+    intro:
+      "Skarphed er ikke noget, man køber én gang. Det er noget, man passer på. Her finder du slibesten, stropper og redskaber til at holde dine knive levende i hverdagen.",
+    scoreLabel: "Care Score",
+    scoreTrustLine: "Care Score · Udvalgt til pleje, kontrol og lang levetid",
+    primaryCta: { label: "Find dit sliberitual", href: "#produkter" },
+    secondaryCta: { label: "Læs slibeguiden", href: "/pages/saadan-sliber-du-din-kniv" },
+    benefitCards: [
+      { title: "Gør vedligeholdelse enkel", text: "Roligt udstyr, der gør plejen til en vane." },
+      { title: "Forlæng levetiden", text: "Skarphed der vender tilbage – år efter år." },
+      { title: "Mere kontrol i hvert snit", text: "En levende æg arbejder roligt med dig." },
+    ],
+    guideTitle: "Sådan vælger du rigtigt",
+    guideItems: [
+      "1000/5000 er det bedste sted at begynde.",
+      "3000/8000 er til den fine afslutning.",
+      "Læderstrop er til polering mellem slibninger.",
+      "Holderen giver stabilitet og kontrol.",
+    ],
+    startTitle: "Et godt sted at begynde",
+    startText:
+      "Start med Grundstenen 1000/5000, hvis du vil lære at holde dine knive skarpe.",
+    startCta: { label: "Se anbefalingen", href: "/pages/slibesten-guide" },
+    productBenefit: "Til pleje, skarphed og længere levetid.",
+    seoHeading: "Knivslibning som en del af hverdagen",
+    seoBody:
+      "Hos Langsomt Nok finder du slibesten, læderstropper og knivslibere til dig, der vil passe bedre på dine køkkenknive. Produkterne er udvalgt til rolig vedligeholdelse, så skarphed bliver noget, du kan vende tilbage til - ikke noget, der forsvinder.",
+  },
+  display: {
+    h1: "Når redskaber får plads, falder køkkenet til ro",
+    intro:
+      "Knive og køkkenredskaber behøver ikke gemmes væk. Med magnetiske knivlister og standere får dine vigtigste redskaber en synlig, sikker og smuk plads.",
+    scoreLabel: "Display Score",
+    scoreTrustLine: "Display Score · Udvalgt for ro, orden og materialefølelse",
+    primaryCta: { label: "Se opbevaring", href: "#produkter" },
+    secondaryCta: { label: "Hvilken knivholder skal jeg vælge?", href: "/pages/hvilken-knivholder-skal-jeg-vaelge" },
+    benefitCards: [
+      { title: "Mere ro på køkkenbordet", text: "Frigør plads og skab visuel ro." },
+      { title: "Knive synlige og lette at nå", text: "De rigtige redskaber lige ved hånden." },
+      { title: "Træ, varme og funktion samlet", text: "Smukke materialer der må stå fremme." },
+    ],
+    guideTitle: "Sådan vælger du rigtigt",
+    guideItems: [
+      "Vælg knivlist, hvis du vil frigøre bordplads.",
+      "Vælg knivstander, hvis du ikke vil bore i væggen.",
+      "Vælg valnød for mørkere varme.",
+      "Vælg akacie for et lettere nordisk udtryk.",
+    ],
+    startTitle: "Et godt sted at begynde",
+    startText:
+      "Start med en magnetisk knivlist, hvis du vil skabe mere ro og overblik på køkkenvæggen.",
+    startCta: { label: "Se anbefalingen", href: "/pages/knivholder-til-koekkenet" },
+    productBenefit: "Til ro, orden og synlig opbevaring.",
+    seoHeading: "Magnetiske knivholdere i træ til det rolige køkken",
+    seoBody:
+      "Magnetiske knivlister og knivstandere i valnød og akacie giver dine knive en fast, synlig plads. Produkterne er valgt for stoflighed og funktion - så dine vigtigste redskaber kan stå fremme og bidrage til et roligere køkken.",
+  },
+  bundle: {
+    h1: "Start dit køkkenritual rigtigt",
+    intro:
+      "De bedste produkter virker endnu bedre sammen. Her finder du sammensatte sæt, der gør det nemt at begynde med både skarphed, orden og ro.",
+    scoreLabel: "Start Score",
+    scoreTrustLine: "Start Score · Mere værdi samlet",
+    primaryCta: { label: "Se sættene", href: "#produkter" },
+    benefitCards: [
+      { title: "Nemt at vælge", text: "Sammensat så du ikke skal regne den ud." },
+      { title: "Bedre samlet pris", text: "Mere værdi end at samle stykvis." },
+      { title: "Gaveklar funktion og følelse", text: "Sæt der opleves som ét, ikke flere ting." },
+    ],
+    guideTitle: "Sådan vælger du rigtigt",
+    guideItems: [
+      "Vælg startsættet, hvis det er din første rigtige kokkekniv.",
+      "Vælg pleje-sættet, hvis du har kniven og mangler skarphed.",
+      "Vælg gavesættet, hvis det skal pakkes med omhu og gives videre.",
+    ],
+    startTitle: "Et godt sted at begynde",
+    startText:
+      "Start med et sæt der dækker både kniv og opbevaring – så er køkkenet på plads fra dag ét.",
+    startCta: { label: "Se anbefalingen", href: "/gaver/fars-dag" },
+    productBenefit: "Et samlet valg med mere værdi.",
+    seoHeading: "Gavesæt og startpakker fra Langsomt Nok",
+    seoBody:
+      "Vores sammensatte sæt gør det nemt at komme i gang med skarphed, orden og ro i køkkenet. Hvert sæt er udvalgt med omhu - til dig selv eller som en rolig, gennemtænkt gave.",
+  },
+  gift: {
+    h1: "Gaver der bliver brugt – ikke bare pakket ud",
+    intro:
+      "En god gave skal ramme noget i hverdagen. Her finder du gaver til mennesker, der holder af mad, materialer og små ritualer.",
+    scoreLabel: "Gift Score",
+    scoreTrustLine: "Gift Score · Udvalgt for funktion, ro og personligt udtryk",
+    primaryCta: { label: "Se gaverne", href: "#produkter" },
+    secondaryCta: { label: "Gave til madelskeren", href: "/pages/gave-til-madelskeren" },
+    benefitCards: [
+      { title: "Brugbare gaver", text: "Ting der bliver en del af hverdagen." },
+      { title: "Roligt udtryk", text: "Materialer og form med karakter." },
+      { title: "Pakket med omhu", text: "Sendt fra Danmark, klar til at gives." },
+    ],
+    guideTitle: "Sådan vælger du rigtigt",
+    guideItems: [
+      "Vælg kniven, hvis modtageren elsker at lave mad.",
+      "Vælg keramik, hvis det skal være personligt og taktilt.",
+      "Vælg et sæt, hvis du vil give noget komplet.",
+    ],
+    startTitle: "Et godt sted at begynde",
+    startText:
+      "Start med det, der passer ind i modtagerens hverdag - ikke det, der imponerer i fem sekunder.",
+    startCta: { label: "Se gaveguiden", href: "/pages/gaver-med-ro" },
+    productBenefit: "En rolig gave med funktion og følelse.",
+    seoHeading: "Rolige gaver fra Langsomt Nok",
+    seoBody:
+      "Find gaver til madelskere, hjemmenørder og mennesker der holder af materialer og små ritualer. Knive, keramik og plejeprodukter pakket med omhu og sendt fra Danmark.",
+  },
+  ceramic: {
+    h1: "Keramik med hænder, ro og stoflighed",
+    intro:
+      "Håndlavet keramik til bordet, hylden og de små pauser i dagen. Hvert stykke bærer små variationer i form, glasur og overflade – og netop derfor føles det levende.",
+    scoreLabel: "Circle Score",
+    scoreTrustLine: "Circle Score · Udvalgt for form, stoflighed og bordets udtryk",
+    primaryCta: { label: "Se keramikken", href: "#produkter" },
+    secondaryCta: { label: "Mød Susan Riel", href: "/keramik/susan-riel" },
+    benefitCards: [
+      { title: "Håndlavet i små serier", text: "Drejet, glaseret og brændt med ro." },
+      { title: "Hvert værk har sit eget udtryk", text: "Små variationer er en del af formen." },
+      { title: "Til bord, gave og langsomme øjeblikke", text: "Smukt – og lavet til at blive brugt." },
+    ],
+    guideTitle: "Sådan vælger du rigtigt",
+    guideItems: [
+      "Vælg kopper til små daglige ritualer.",
+      "Vælg skåle til servering og bordets udtryk.",
+      "Vælg vaser som stille objekter i rummet.",
+      "Husk at unika kun findes i ét eksemplar.",
+    ],
+    startTitle: "Et godt sted at begynde",
+    startText:
+      "Start med det stykke, du bliver ved med at kigge på. Keramik skal kunne mærkes, før det forklares.",
+    startCta: { label: "Se anbefalingen", href: "/keramik" },
+    productBenefit: "Håndlavet form til bordets små øjeblikke.",
+    seoHeading: "Håndlavet keramik fra danske atelierer",
+    seoBody:
+      "Kopper, skåle, vaser og unika fra Susan Riel og andre danske keramikere. Håndlavede stykker med levende glasurer og rolige former - skabt til daglig brug og stille øjeblikke.",
+  },
+  default: {
+    h1: "Udvalgt af Langsomt Nok",
+    intro: "Produkter valgt for funktion, materialer og ro i hverdagen.",
+    scoreLabel: "Ritual Score",
+    scoreTrustLine: "Kurateret af Langsomt Nok",
+    primaryCta: { label: "Se produkterne", href: "#produkter" },
+    benefitCards: [
+      { title: "Udvalgt med omhu", text: "Funktion, materialer og rolige detaljer." },
+      { title: "Pakket fra Danmark", text: "Sendt med 1-2 dages levering." },
+      { title: "30 dages retur", text: "Tryg handel og tydelige vilkår." },
+    ],
+    guideTitle: "Sådan vælger du roligt",
+    guideItems: [
+      "Start med det, du faktisk mangler i hverdagen.",
+      "Vælg derefter efter materiale og udtryk.",
+      "Det bedste køb er det, du får lyst til at bruge igen.",
+    ],
+    startTitle: "Et godt sted at begynde",
+    startText: "Start med det, du allerede har brugt for længe - bare i en bedre udgave.",
+    startCta: { label: "Find dit ritual", href: "/find-dit-ritual" },
+    productBenefit: "Udvalgt for funktion og rolig form.",
+    seoHeading: "Roligt udvalgte produkter til hjemmet",
+    seoBody:
+      "Langsomt Nok samler produkter til dig, der vil købe færre - men bedre - ting. Funktion, materialer og rolig form i centrum.",
+  },
+};
+
+function getCategoryKey(handle: string): CategoryKey {
+  if (/(^knive|chef-line|damascus)/.test(handle)) return "knives";
+  if (/(slib|pleje|ritual-set)/.test(handle)) return "care";
+  if (/(holder|opbevar|calm-kitchen)/.test(handle)) return "display";
+  if (/(bundle|sæt|saet|start-dit-ritual|pakke)/.test(handle)) return "bundle";
+  if (/(gave|gift-chapter|gaver)/.test(handle)) return "gift";
+  if (/(keramik|susan-riel|kopper|skale|skaale|vase|unika)/.test(handle)) return "ceramic";
+  return "default";
+}
+
+// ---------- Existing collection content (kept for SEO + fallback titles) ----------
+
 type CollectionContent = {
   tagline: string;
   intro: string;
-  promise: string;
   body: string;
-  highlights: string[];
-  bestFor: string[];
-  guideTitle: string;
-  guideText: string;
-  links?: Array<{ label: string; href: string; text: string }>;
   faq: Array<{ question: string; answer: string }>;
 };
 
 const DEFAULT_CONTENT: CollectionContent = {
   tagline: "Udvalgt af Langsomt Nok",
   intro: "Produkter valgt for funktion, materialer og ro i hverdagen.",
-  promise: "Et roligere valg til hjemmet.",
-  body: "Her finder du produkter, der er udvalgt til at blive brugt. Ikke kun kigget på. Vores fokus er enkle materialer, tydelig funktion og en oplevelse, der passer ind i et hjem med lidt mere nærvær.",
-  highlights: ["Udvalgt med fokus på kvalitet", "Pakket med omhu", "Sendes fra Danmark"],
-  bestFor: ["Dig, der vil købe færre, men bedre ting", "Dig, der ønsker produkter med roligt udtryk", "Dig, der gerne vil give en brugbar gave"],
-  guideTitle: "Sådan vælger du roligt",
-  guideText: "Start med det, du faktisk mangler i hverdagen. Vælg derefter materiale, størrelse og udtryk. Det bedste køb er ofte det, du får lyst til at bruge igen og igen.",
+  body: "Her finder du produkter, der er udvalgt til at blive brugt. Vores fokus er enkle materialer, tydelig funktion og en oplevelse, der passer ind i et hjem med lidt mere nærvær.",
   faq: [
     { question: "Hvordan vælger jeg det rigtige produkt?", answer: "Start med din hverdag. Skal det bruges dagligt, gives som gave eller skabe mere ro i køkkenet? Vælg derefter efter størrelse, materiale og funktion." },
     { question: "Sendes produkterne fra Danmark?", answer: "Ja, ordrer pakkes med omhu og sendes fra Danmark." },
@@ -75,181 +316,56 @@ const COLLECTION_CONTENT: Record<string, CollectionContent> = {
   knive: {
     tagline: "The Chef Line",
     intro: "Knive til hænder, der gerne vil mærke forskellen.",
-    promise: "Skarphed, balance og tyngde i hånden.",
-    body: "En god kniv gør madlavning mere rolig. Ikke fordi den larmer med teknik, men fordi den bare føles rigtig. Her finder du knive valgt for greb, balance, stål og den daglige glæde ved et redskab, der arbejder med dig.",
-    highlights: ["Til daglig madlavning", "Fokus på greb og balance", "Udvalgt til lang levetid"],
-    bestFor: ["Din første rigtige kokkekniv", "Gaven til madelskeren", "Dig, der vil opgradere køkkenets vigtigste redskab"],
-    guideTitle: "Hvilken kniv skal jeg begynde med?",
-    guideText: "Start med én god kokkekniv. Den skal ligge naturligt i hånden og passe til den mad, du faktisk laver. Derefter kan du bygge stille videre med specialknive og pleje.",
-    links: [
-      { label: "Læs guide til første kokkekniv", href: "/pages/den-forste-rigtige-kokkekniv", text: "Få hjælp til greb, størrelse og valg." },
-      { label: "Læs om damaskusknive", href: "/pages/damaskus-kniv", text: "Forstå stålet, lagene og udtrykket." },
-    ],
+    body: "En god kniv gør madlavning mere rolig. Her finder du knive valgt for greb, balance, stål og den daglige glæde ved et redskab, der arbejder med dig.",
     faq: [
-      { question: "Hvilken kniv skal jeg vælge først?", answer: "For de fleste er en alsidig kokkekniv det bedste første valg. Den kan bruges til grønt, kød, urter og de fleste opgaver i hverdagen." },
-      { question: "Hvordan holder jeg kniven skarp?", answer: "Brug et godt skærebræt, vask i hånden og vedligehold eggen med slibesten eller passende sliberedskab. Opvaskemaskine er no-go, hvis kniven skal leve længe." },
-      { question: "Er knivene gode som gave?", answer: "Ja, især til mennesker der elsker madlavning. Vælg en kniv, der føles som et løft i hverdagen, ikke som pynt til en skuffe." },
+      { question: "Hvilken kniv skal jeg starte med?", answer: "Start med kokkekniven, hvis du vil have én alsidig hovedkniv. Vælg universalkniven som supplement til mindre opgaver." },
+      { question: "Må knivene komme i opvaskemaskine?", answer: "Nej. Håndvask og grundig aftørring bevarer både træ og stål bedst." },
+      { question: "Hvad skal jeg købe sammen med en kniv?", answer: "En slibesten og en god opbevaringsløsning er det naturlige næste skridt." },
     ],
   },
-  "the-chef-line": undefined as unknown as CollectionContent,
   slibesten: {
     tagline: "The Ritual Set",
     intro: "Skarphed er ikke tilfældig. Den er plejet.",
-    promise: "Små plejeritualer til redskaber, der gerne må holde længe.",
-    body: "Slibning og pleje handler ikke kun om vedligehold. Det er et stille ritual, hvor du giver dine redskaber mere levetid. Her finder du produkter til skarphed, træ, olie og den slags ro, der begynder før madlavningen.",
-    highlights: ["Til knivpleje og skarphed", "Forlænger levetiden", "Gør vedligehold enkelt"],
-    bestFor: ["Dig med en god kniv", "Dig, der vil lære at slibe", "Gaven til den praktiske madelsker"],
-    guideTitle: "Slibning skal ikke være svært",
-    guideText: "Det vigtigste er at begynde roligt. Brug lidt tid, lidt vand og et fast greb. En skarp kniv er både mere præcis, mere behagelig og mere sikker at arbejde med.",
-    links: [
-      { label: "Sådan sliber du din kniv", href: "/pages/saadan-sliber-du-din-kniv", text: "En enkel guide til slibesten og rytme." },
-      { label: "Hold din kniv skarp", href: "/ritualer/hold-kniven-skarp", text: "Små vaner, der gør en stor forskel." },
-    ],
+    body: "Slibning og pleje handler ikke kun om vedligehold. Det er et stille ritual, hvor du giver dine redskaber mere levetid.",
     faq: [
-      { question: "Hvilken slibesten skal jeg vælge?", answer: "En kombinationssten er ofte et godt sted at starte. Den giver både mulighed for at genopbygge skarphed og afslutte med en finere æg." },
-      { question: "Hvor ofte skal jeg slibe?", answer: "Det afhænger af brug. En kniv, der bruges ofte, har godt af løbende vedligehold. Vent ikke til den er helt sløv." },
-      { question: "Er slibning svært?", answer: "Det kræver lidt tålmodighed, men ikke drama. Start langsomt, hold vinklen stabil og lad stenen gøre arbejdet." },
+      { question: "Hvilken slibesten skal jeg vælge først?", answer: "Grundstenen 1000/5000 er det bedste sted at begynde." },
+      { question: "Skal jeg bruge læderstrop?", answer: "Den er god til den sidste polering og til at holde æggen levende mellem slibninger." },
+      { question: "Er en 3-trins sliber nok?", answer: "Den er god til enkel hverdagspleje. En slibesten giver mere kontrol." },
     ],
   },
-  "slibning-pleje": undefined as unknown as CollectionContent,
-  "pleje-ritualer": undefined as unknown as CollectionContent,
-  "the-ritual-set": undefined as unknown as CollectionContent,
   "magnetiske-holdere": {
     tagline: "The Calm Kitchen",
     intro: "Når værktøjet er smukt, skal det ikke gemmes væk.",
-    promise: "Rolig opbevaring til knive, der gerne må være synlige.",
-    body: "En magnetisk knivholder giver knivene en fast plads og køkkenet et roligere udtryk. Det handler om overblik, sikkerhed og følelsen af, at de ting du bruger mest, er lige ved hånden.",
-    highlights: ["Frigør plads på bordet", "Gør knivene nemme at nå", "Skaber et roligt visuelt udtryk"],
-    bestFor: ["Små køkkener", "Knive du bruger ofte", "Dig, der vil have orden uden at gemme alt væk"],
-    guideTitle: "Væg, bord eller display?",
-    guideText: "Vælg vægholder, hvis du vil frigøre bordplads. Vælg display eller blok, hvis du vil kunne flytte opbevaringen rundt. Det rigtige valg er det, der giver ro i dit køkken.",
-    links: [
-      { label: "Hvilken knivholder skal jeg vælge?", href: "/pages/hvilken-knivholder-skal-jeg-vaelge", text: "Få hjælp til væg, bord og materialer." },
-      { label: "Knivholder i træ", href: "/pages/knivholder-i-trae", text: "Læs om træ, udtryk og opbevaring." },
-    ],
+    body: "En magnetisk knivholder giver knivene en fast plads og køkkenet et roligere udtryk.",
     faq: [
-      { question: "Hvorfor vælge magnetisk knivholder?", answer: "Den giver overblik, frigør plads og gør knivene lette at tage frem. Samtidig kan en smuk kniv få lov at være en del af køkkenets udtryk." },
-      { question: "Er magnetisk opbevaring sikker?", answer: "Ja, når holderen bruges korrekt, og knivene placeres stabilt. Sørg altid for, at holderen monteres eller placeres forsvarligt." },
-      { question: "Passer den til alle knive?", answer: "De fleste knive med magnetisk stål kan bruges. Meget små eller meget tunge knive bør altid testes roligt på holderen." },
+      { question: "Skal jeg vælge knivlist eller knivstander?", answer: "Vælg knivlist for vægmontering og mere bordplads. Vælg stander hvis du vil have en fritstående løsning." },
+      { question: "Hvad er forskellen på valnød og akacie?", answer: "Valnød har et mørkere og varmere udtryk. Akacie er lysere og mere nordisk." },
+      { question: "Er magnetisk opbevaring sikker?", answer: "Ja, når holderen bruges korrekt, og knivene placeres stabilt." },
     ],
   },
-  "magnetisk-opbevaring": undefined as unknown as CollectionContent,
-  "the-calm-kitchen": undefined as unknown as CollectionContent,
   gaver: {
     tagline: "The Gift Chapter",
     intro: "Gaver, der bliver brugt. Ikke bare pakket ud.",
-    promise: "Gaver med funktion, ro og lidt mere eftertanke.",
-    body: "En god gave skal ikke larme. Den skal ramme noget i hverdagen. Her finder du gaver til mennesker, der holder af mad, materialer, små ritualer og ting, der bliver brugt længe efter gavepapiret er væk.",
-    highlights: ["Til madelskere", "Brugbare gaver", "Pakket med omhu"],
-    bestFor: ["Fødselsdag", "Værtindegave", "Fars dag", "Indflyttergave"],
-    guideTitle: "Vælg gave efter hverdagen",
-    guideText: "Tænk mindre på om gaven imponerer i fem sekunder, og mere på om den bliver brugt i fem år. En kniv, en skål eller et plejesæt kan blive en del af modtagerens rytme.",
-    links: [
-      { label: "Gave til madelskeren", href: "/pages/gave-til-madelskeren", text: "Find en gave til den, der elsker køkkenet." },
-      { label: "Gaver med ro", href: "/pages/gaver-med-ro", text: "Gaver der føles rolige og gennemtænkte." },
-    ],
+    body: "Gaver til mennesker, der holder af mad, materialer, små ritualer og ting, der bliver brugt længe efter gavepapiret er væk.",
     faq: [
-      { question: "Hvad er en god gave fra Langsomt Nok?", answer: "En god gave er noget, der passer ind i modtagerens hverdag. Knive, keramik og plejeprodukter er gode valg, fordi de kan bruges igen og igen." },
-      { question: "Kan produkterne gives som værtindegave?", answer: "Ja. Særligt keramik, små skåle og brugbare køkkenprodukter passer godt som rolige værtindegaver." },
-      { question: "Hvad hvis jeg er i tvivl?", answer: "Vælg det mest enkle. Gaver med tydelig funktion og rolige materialer rammer ofte bedre end noget meget specifikt." },
+      { question: "Hvad er en god gave fra Langsomt Nok?", answer: "Knive, keramik og plejeprodukter er gode valg, fordi de kan bruges igen og igen." },
+      { question: "Kan produkterne gives som værtindegave?", answer: "Ja. Særligt keramik og små brugbare køkkenprodukter passer godt." },
+      { question: "Hvad hvis jeg er i tvivl?", answer: "Vælg det mest enkle. Gaver med tydelig funktion rammer ofte bedre." },
     ],
   },
-  "the-gift-chapter": undefined as unknown as CollectionContent,
   "handlavet-keramik": {
     tagline: "Håndlavet keramik",
-    intro: "Keramik skabt i hænder. Til rolige morgener, små serveringer og hverdage, der gerne må gå lidt langsommere.",
-    promise: "Hver form bærer spor af hænder, ler og tid.",
-    body: "Håndlavet keramik er aldrig helt ens. Det er netop pointen. Små variationer i glasur, kant og form giver hvert stykke sit eget liv. Her finder du kopper, skåle, vaser og unika til hverdage med lidt mere stoflighed.",
-    highlights: ["Håndlavet i små serier", "Unikke glasurer", "Til brug, ikke kun pynt"],
-    bestFor: ["Morgenkaffe", "Små serveringer", "Gaver med personlighed", "Rolige hylder og borde"],
-    guideTitle: "Keramik må gerne mærkes",
-    guideText: "Vælg efter den situation, du vil bruge det i. En kop til morgenens første pause. En skål til frugt, salt eller små serveringer. En vase til grene, der må stå længe.",
-    links: [
-      { label: "Mød Susan Riel", href: "/keramik/susan-riel", text: "Læs om kunstneren bag keramikken." },
-      { label: "Læs om håndlavet keramik", href: "/pages/haandlavet-keramik", text: "Forstå glasur, variationer og udtryk." },
-    ],
+    intro: "Keramik skabt i hænder. Til rolige morgener og hverdage med stoflighed.",
+    body: "Håndlavet keramik er aldrig helt ens. Små variationer i glasur og form giver hvert stykke sit eget liv.",
     faq: [
-      { question: "Er hvert stykke keramik unikt?", answer: "Ja. Små forskelle i glasur, form og overflade er en del af udtrykket. Det er ikke fejl, men spor af hænder og proces." },
-      { question: "Kan keramikken bruges i hverdagen?", answer: "Ja, keramikken er valgt til at blive brugt. Læs altid produktsiden for konkrete anbefalinger om opvask, varme og pleje." },
-      { question: "Kommer der flere af samme produkt?", answer: "Nogle produkter findes i små serier. Andre er unika. Når et unika er solgt, kommer præcis det samme ikke igen." },
-    ],
-  },
-  "susan-riel": {
-    tagline: "Atelier Susan Riel",
-    intro: "Keramik fra Susan Riel - levende glasurer, rolige former og tydelige spor af hænder.",
-    promise: "Små værker til hjem, hvor materialer gerne må have personlighed.",
-    body: "Susan Riels keramik har et levende udtryk, hvor glasur og form arbejder sammen. Det er keramik, der gerne må stå fremme, men som også er skabt til at blive brugt i hverdagen.",
-    highlights: ["Keramik fra Susan Riel", "Levende glasurer", "Små serier og unika"],
-    bestFor: ["Samleren", "Den rolige gave", "Dig, der ønsker keramik med tydelige hænder"],
-    guideTitle: "Keramik med menneskelige spor",
-    guideText: "Vælg det stykke, der fanger øjet først. Håndlavet keramik er ikke en perfekt gentagelse. Det er en lille beslutning om stemning, farve og form.",
-    links: [
-      { label: "Se al håndlavet keramik", href: "/collections/handlavet-keramik", text: "Gå tilbage til hele keramikuniverset." },
-      { label: "Læs om håndlavet keramik", href: "/pages/haandlavet-keramik", text: "Få rolig forklaring på materialer og variationer." },
-    ],
-    faq: [
-      { question: "Hvem laver keramikken?", answer: "Denne kollektion samler keramik fra Susan Riel. Udtrykket er præget af håndens arbejde, glasurens bevægelse og små forskelle fra stykke til stykke." },
-      { question: "Er det unika?", answer: "Noget er unika, andet findes i små serier. Det fremgår af produktet, hvis et stykke kun findes i ét eksemplar." },
-    ],
-  },
-  keramikkopper: {
-    tagline: "Keramikkopper",
-    intro: "Kopper til kaffe, te og små pauser i dagen.",
-    promise: "Til den første varme kop og det lille ophold midt i dagen.",
-    body: "En kop er et af de mest brugte objekter i hjemmet. Derfor må den gerne føles rigtig. Her finder du håndlavede kopper med vægt, glasur og variationer, der gør pausen lidt mere nærværende.",
-    highlights: ["Til kaffe og te", "Håndlavet udtryk", "Gode som gave"],
-    bestFor: ["Morgenkaffe", "Te om aftenen", "En lille personlig gave"],
-    guideTitle: "Vælg kop efter rytme",
-    guideText: "En lille kop gør kaffen mere koncentreret. En større kop giver mere tid. Vælg den form, du får lyst til at holde om.",
-    faq: [
-      { question: "Er kopperne ens?", answer: "Nej, små forskelle er naturlige i håndlavet keramik. Hver kop har sit eget udtryk." },
-      { question: "Kan de bruges hver dag?", answer: "Ja, de er tænkt til hverdagsbrug. Se altid produktets konkrete plejeanbefalinger." },
-    ],
-  },
-  keramikskale: {
-    tagline: "Keramikskåle",
-    intro: "Skåle til servering, samling og stille hverdagsritualer.",
-    promise: "Til frugt, salt, snacks, servering og de små ting, der samler bordet.",
-    body: "En skål kan være praktisk og smuk på samme tid. Her finder du håndlavede skåle til små serveringer, rolige borde og hverdage, hvor materialet gerne må have en synlig plads.",
-    highlights: ["Til servering", "Til små hverdagsritualer", "Håndlavede variationer"],
-    bestFor: ["Morgenbord", "Tapas og små serveringer", "Gave til hjemmet"],
-    guideTitle: "Vælg skål efter brug",
-    guideText: "Små skåle er gode til salt, nødder og snacks. Større skåle samler frugt, salat eller brød. Vælg efter den plads, den skal have i hverdagen.",
-    faq: [
-      { question: "Hvad kan skålene bruges til?", answer: "De kan bruges til servering, små retter, frugt, snacks eller som roligt objekt på bord og hylde." },
-      { question: "Er glasuren ens på alle skåle?", answer: "Nej. Glasuren kan variere fra stykke til stykke, og det er en del af keramikken." },
-    ],
-  },
-  keramikvaser: {
-    tagline: "Keramikvaser",
-    intro: "Små former til grene, blomster og rolige rum.",
-    promise: "Til en enkelt gren, en stille buket eller et roligt punkt i rummet.",
-    body: "En vase behøver ikke fylde meget for at ændre et rum. Her finder du håndlavede vaser med stoflighed, glasur og form, der giver plads til det enkle.",
-    highlights: ["Til blomster og grene", "Dekorativ uden støj", "Håndlavet form"],
-    bestFor: ["Vindueskarmen", "Spisebordet", "En rolig gave"],
-    guideTitle: "Vælg vase efter det, du samler ind",
-    guideText: "En lille vase kan bære én gren. En større vase kan samle en buket. Tænk på rummet, lyset og den plads, vasen skal have.",
-    faq: [
-      { question: "Kan vaserne holde vand?", answer: "Se altid den enkelte produktside for information. Håndlavet keramik kan variere i glasur og anvendelse." },
-      { question: "Er vaserne unika?", answer: "Nogle vaser findes kun i ét eksemplar, andre i små serier. Det fremgår på produktet." },
-    ],
-  },
-  keramikunika: {
-    tagline: "Keramikunika",
-    intro: "Ét værk. Ét hjem. Én stille videre rejse.",
-    promise: "Til dig, der vil have noget, der ikke gentager sig selv.",
-    body: "Unika er keramik med sin egen rytme. Formen, glasuren og overfladen findes kun sådan én gang. Når et stykke er solgt, går det videre til et nyt hjem og kommer ikke tilbage som kopi.",
-    highlights: ["Ét eksemplar", "Personligt udtryk", "Særligt velegnet som gave"],
-    bestFor: ["Samleren", "Den særlige gave", "Hylder, borde og stille steder"],
-    guideTitle: "Når noget kun findes én gang",
-    guideText: "Vælg med øjet først. Unika handler om mødet mellem form og fornemmelse. Det skal ikke passe til alt. Det skal passe til et sted.",
-    faq: [
-      { question: "Kommer et solgt unika igen?", answer: "Nej, ikke som præcis samme stykke. Der kan komme beslægtede former og glasurer, men hvert unika er sit eget." },
-      { question: "Hvordan vælger jeg unika?", answer: "Vælg det, der bliver ved med at trække blikket tilbage. Det er ofte det rigtige stykke." },
+      { question: "Er keramikken håndlavet?", answer: "Ja. Små variationer i form, glasur og overflade er en naturlig del af udtrykket." },
+      { question: "Er hvert produkt unikt?", answer: "Mange af produkterne er unika eller små serier. Når et værk er solgt, kommer det som udgangspunkt ikke igen." },
+      { question: "Kan keramikken bruges som gave?", answer: "Ja. Det er særligt oplagt som en personlig gave med ro og hverdagsværdi." },
     ],
   },
 };
 
+// Aliases
 COLLECTION_CONTENT["the-chef-line"] = COLLECTION_CONTENT.knive;
 COLLECTION_CONTENT["slibning-pleje"] = COLLECTION_CONTENT.slibesten;
 COLLECTION_CONTENT["pleje-ritualer"] = COLLECTION_CONTENT.slibesten;
@@ -257,6 +373,11 @@ COLLECTION_CONTENT["the-ritual-set"] = COLLECTION_CONTENT.slibesten;
 COLLECTION_CONTENT["magnetisk-opbevaring"] = COLLECTION_CONTENT["magnetiske-holdere"];
 COLLECTION_CONTENT["the-calm-kitchen"] = COLLECTION_CONTENT["magnetiske-holdere"];
 COLLECTION_CONTENT["the-gift-chapter"] = COLLECTION_CONTENT.gaver;
+COLLECTION_CONTENT["susan-riel"] = COLLECTION_CONTENT["handlavet-keramik"];
+COLLECTION_CONTENT["keramikkopper"] = COLLECTION_CONTENT["handlavet-keramik"];
+COLLECTION_CONTENT["keramikskale"] = COLLECTION_CONTENT["handlavet-keramik"];
+COLLECTION_CONTENT["keramikvaser"] = COLLECTION_CONTENT["handlavet-keramik"];
+COLLECTION_CONTENT["keramikunika"] = COLLECTION_CONTENT["handlavet-keramik"];
 
 const COLLECTION_PRODUCT_TYPE_FALLBACK: Record<string, string> = {
   knive: 'product_type:"The Chef Line"',
@@ -280,19 +401,70 @@ const COLLECTION_PRODUCT_TYPE_FALLBACK: Record<string, string> = {
   keramikunika: "product_type:Keramik AND tag:unika",
 };
 
-const CATEGORY_NAV = [
-  { label: "Knive", href: "/collections/knive" },
-  { label: "Slibning & pleje", href: "/collections/slibning-pleje" },
-  { label: "Magnetisk opbevaring", href: "/collections/magnetiske-holdere" },
-  { label: "Gaver", href: "/collections/gaver" },
-  { label: "Keramik", href: "/collections/handlavet-keramik" },
+// ---------- Other-rituals navigation ----------
+
+const OTHER_RITUALS: Array<{
+  category: CategoryKey;
+  label: string;
+  href: string;
+  text: string;
+  image: string;
+}> = [
+  { category: "knives", label: "Knive", href: "/collections/knive", text: "Til de snit, der gerne må føles lidt bedre.", image: kniveHero },
+  { category: "care", label: "Slibning", href: "/collections/slibning-pleje", text: "Til dig, der vil passe på det, du bruger.", image: slibningHero },
+  { category: "display", label: "Opbevaring", href: "/collections/magnetiske-holdere", text: "Til ro, orden og redskaber der må stå fremme.", image: holdereHero },
+  { category: "ceramic", label: "Keramik", href: "/collections/handlavet-keramik", text: "Til bordet, pausen og de små langsomme øjeblikke.", image: "https://cdn.shopify.com/s/files/1/0915/7227/3488/files/Keramik_header.png?v=1778396909" },
+  { category: "gift", label: "Gaver / Bundles", href: "/collections/gaver", text: "Til den særlige gave, pakket med omhu.", image: gaverHero },
 ];
+
+// ---------- Small UI atoms ----------
+
+function StarRow({ size = 14 }: { size?: number }) {
+  return (
+    <span className="inline-flex items-center gap-0.5 align-middle" aria-label="5 ud af 5 stjerner">
+      {[0, 1, 2, 3, 4].map((i) => (
+        <Star key={i} className="text-copper fill-copper" style={{ width: size, height: size }} strokeWidth={1.25} />
+      ))}
+    </span>
+  );
+}
+
+function ServiceBar() {
+  const items = [
+    { icon: Star, text: "Kurateret af Langsomt Nok", isStar: true },
+    { icon: Truck, text: "Fri fragt over 599 kr" },
+    { icon: RotateCcw, text: "30 dages retur" },
+    { icon: MapPin, text: "Dansk webshop" },
+    { icon: Shield, text: "Sikker betaling" },
+  ];
+  return (
+    <section className="py-4 border-y border-walnut/15" style={{ backgroundColor: "#E6E0D7" }}>
+      <div className="container-calm">
+        <div className="flex flex-wrap items-center justify-center gap-x-7 gap-y-2">
+          {items.map((item) => (
+            <div key={item.text} className="flex items-center gap-2">
+              {item.isStar ? (
+                <StarRow size={12} />
+              ) : (
+                <item.icon className="w-4 h-4 text-cta" strokeWidth={1.5} />
+              )}
+              <span className="text-xs font-medium text-foreground/75">{item.text}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ---------- Route ----------
 
 export const Route = createFileRoute("/collections/$handle")({
   head: ({ params }) => {
     const info = COLLECTION_CONTENT[params.handle] || DEFAULT_CONTENT;
-    const title = `${info.tagline} | Langsomt Nok`;
-    const desc = info.intro;
+    const meta = CATEGORY_META[getCategoryKey(params.handle)];
+    const title = `${meta.h1} | Langsomt Nok`;
+    const desc = meta.intro;
     const url = `https://langsomtnok.dk/collections/${params.handle}`;
     const collectionLd = {
       "@context": "https://schema.org",
@@ -311,6 +483,15 @@ export const Route = createFileRoute("/collections/$handle")({
         { "@type": "ListItem", position: 3, name: info.tagline, item: url },
       ],
     };
+    const faqLd = {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      mainEntity: info.faq.map((f) => ({
+        "@type": "Question",
+        name: f.question,
+        acceptedAnswer: { "@type": "Answer", text: f.answer },
+      })),
+    };
     return {
       meta: [
         { title },
@@ -324,6 +505,7 @@ export const Route = createFileRoute("/collections/$handle")({
       scripts: [
         { type: "application/ld+json", children: JSON.stringify(collectionLd) },
         { type: "application/ld+json", children: JSON.stringify(breadcrumbLd) },
+        { type: "application/ld+json", children: JSON.stringify(faqLd) },
       ],
     };
   },
@@ -338,6 +520,8 @@ function CollectionPage() {
   const [sortIdx, setSortIdx] = useState(0);
 
   const content = COLLECTION_CONTENT[handle] || DEFAULT_CONTENT;
+  const categoryKey = getCategoryKey(handle);
+  const meta = CATEGORY_META[categoryKey];
 
   useEffect(() => {
     setLoading(true);
@@ -371,151 +555,131 @@ function CollectionPage() {
   }, [handle, sortIdx]);
 
   const heroBg = HERO_BACKGROUNDS[handle];
+  const otherRituals = OTHER_RITUALS.filter((r) => r.category !== categoryKey).slice(0, 4);
+  const firstHalf = products.slice(0, 4);
+  const secondHalf = products.slice(4);
 
   return (
-    <div className="pt-24 bg-background">
-      <section className={`section-padding pb-10 relative overflow-hidden ${heroBg ? "isolate" : ""}`}>
+    <div className="pt-24" style={{ backgroundColor: "#F8F6F3" }}>
+      {/* ============ 1. HERO ============ */}
+      <section className={`section-padding pb-12 relative overflow-hidden ${heroBg ? "isolate" : ""}`}>
         {heroBg && (
           <>
             <div className="absolute inset-0 -z-10 overflow-hidden">
-              <img
-                src={heroBg}
-                alt=""
-                aria-hidden="true"
-                className="w-full h-full object-cover ken-burns"
-              />
+              <img src={heroBg} alt="" aria-hidden="true" className="w-full h-full object-cover ken-burns" />
             </div>
             <div
               className="absolute inset-0 -z-10 pointer-events-none"
               style={{
                 background:
-                  "linear-gradient(100deg, rgba(248,246,243,1) 0%, rgba(248,246,243,0.94) 40%, rgba(248,246,243,0.6) 68%, rgba(248,246,243,0.2) 100%)",
+                  "linear-gradient(100deg, rgba(248,246,243,1) 0%, rgba(248,246,243,0.92) 45%, rgba(248,246,243,0.55) 75%, rgba(248,246,243,0.15) 100%)",
               }}
             />
           </>
         )}
         <div className="container-calm relative">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-end">
+          {/* Breadcrumbs */}
+          <div className="flex flex-wrap items-center gap-2 mb-6 text-xs text-muted-foreground">
+            <Link to="/" className="hover:text-cta transition-colors">Forside</Link>
+            <span>/</span>
+            <Link to="/shop" className="hover:text-cta transition-colors">Shop</Link>
+            <span>/</span>
+            <span className="text-foreground/70">{content.tagline}</span>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-center">
             <div className="lg:col-span-7">
-              <div className="flex flex-wrap items-center gap-2 mb-6 text-xs text-muted-foreground">
-                <Link to="/" className="hover:text-cta transition-colors">Forside</Link>
-                <span>/</span>
-                <Link to="/shop" className="hover:text-cta transition-colors">Shop</Link>
-                <span>/</span>
-                <span className="text-foreground/70">{content.tagline}</span>
-              </div>
-              <span className="text-xs font-medium text-copper uppercase tracking-widest mb-4 block">
-                {content.tagline}
+              <span className="text-[10px] font-medium uppercase tracking-[0.22em] mb-4 block" style={{ color: "#A67C52" }}>
+                Langsomt Nok kollektion
               </span>
-              <h1 className="font-serif text-4xl md:text-6xl leading-tight mb-6">
-                {collection?.title || content.tagline}
+              <h1 className="font-serif text-4xl md:text-6xl leading-[1.05] mb-6" style={{ color: "#1E1E1E" }}>
+                {meta.h1}
               </h1>
-              <p className="text-editorial text-muted-foreground max-w-2xl mb-6">
-                {content.intro}
+              <p className="text-lg md:text-xl leading-relaxed mb-8 max-w-2xl" style={{ color: "#2D2D2D" }}>
+                {meta.intro}
               </p>
-              <p className="text-base md:text-lg text-foreground/70 leading-relaxed max-w-2xl">
-                {content.body}
-              </p>
+
+              {/* CTAs */}
+              <div className="flex flex-wrap items-center gap-3 mb-5">
+                <a
+                  href={meta.primaryCta.href}
+                  className="inline-flex items-center justify-center px-6 py-3 rounded-md text-sm font-semibold tracking-wide uppercase text-cta-foreground transition-colors"
+                  style={{ backgroundColor: "#4C574A" }}
+                  onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#3E4A3D")}
+                  onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "#4C574A")}
+                >
+                  {meta.primaryCta.label}
+                </a>
+                {meta.secondaryCta && (
+                  <a
+                    href={meta.secondaryCta.href}
+                    className="inline-flex items-center gap-2 px-5 py-3 text-sm font-medium text-foreground/80 border rounded-md transition-colors hover:text-foreground"
+                    style={{ borderColor: "rgba(90,59,46,0.18)" }}
+                  >
+                    {meta.secondaryCta.label}
+                    <ArrowRight className="w-4 h-4" />
+                  </a>
+                )}
+              </div>
+
+              {/* Visible star + trust line */}
+              <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm" style={{ color: "#A67C52" }}>
+                <StarRow size={16} />
+                <span className="font-medium">{meta.scoreTrustLine}</span>
+                <span className="text-foreground/40">·</span>
+                <span className="text-foreground/65">Fri fragt over 599 kr · 30 dages retur</span>
+              </div>
             </div>
 
             <div className="lg:col-span-5">
-              <div className="rounded-2xl border border-border/60 bg-soft/60 p-6 md:p-8 shadow-sm">
-                <div className="flex items-start gap-3 mb-5">
-                  <Sparkles className="w-5 h-5 text-copper mt-1" strokeWidth={1.5} />
-                  <div>
-                    <h2 className="font-serif text-2xl text-foreground mb-2">{content.promise}</h2>
-                    <p className="text-sm text-muted-foreground leading-relaxed">
-                      Vælg langsomt. Brug længe. Lad materialerne få plads i hverdagen.
-                    </p>
-                  </div>
+              <div className="rounded-2xl p-6 md:p-8" style={{ backgroundColor: "rgba(230,224,215,0.7)", border: "1px solid rgba(90,59,46,0.16)" }}>
+                <div className="flex items-center gap-2 mb-4">
+                  <StarRow size={14} />
+                  <span className="text-xs font-semibold uppercase tracking-wider" style={{ color: "#A67C52" }}>
+                    {meta.scoreLabel}
+                  </span>
                 </div>
-                <div className="grid grid-cols-1 gap-3">
-                  {content.highlights.map((highlight) => (
-                    <div key={highlight} className="flex items-center gap-2 text-sm text-foreground/70">
-                      <CheckCircle2 className="w-4 h-4 text-cta" strokeWidth={1.5} />
-                      <span>{highlight}</span>
-                    </div>
+                <p className="font-serif text-xl md:text-2xl leading-snug mb-5" style={{ color: "#1E1E1E" }}>
+                  Hvert produkt i kollektionen er udvalgt og scoret af Langsomt Nok.
+                </p>
+                <ul className="space-y-2.5">
+                  {meta.benefitCards.map((b) => (
+                    <li key={b.title} className="flex items-start gap-2.5 text-sm">
+                      <Check className="w-4 h-4 mt-0.5 flex-shrink-0" style={{ color: "#4C574A" }} strokeWidth={2.25} />
+                      <span style={{ color: "#2D2D2D" }}>
+                        <strong className="font-semibold">{b.title}.</strong>{" "}
+                        <span className="text-foreground/70">{b.text}</span>
+                      </span>
+                    </li>
                   ))}
-                </div>
+                </ul>
               </div>
             </div>
           </div>
-
-          <div className="mt-10 flex flex-wrap gap-2">
-            {CATEGORY_NAV.map((item) => (
-              <a
-                key={item.href}
-                href={item.href}
-                className={`rounded-full border px-4 py-2 text-sm transition-colors ${
-                  item.href.endsWith(handle)
-                    ? "border-cta bg-cta text-cta-foreground"
-                    : "border-border bg-background text-muted-foreground hover:border-cta/40 hover:text-foreground"
-                }`}
-              >
-                {item.label}
-              </a>
-            ))}
-          </div>
         </div>
       </section>
 
-      <section className="section-padding py-10 bg-soft/40">
-        <div className="container-calm">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <article className="rounded-xl bg-background/80 border border-border/60 p-6">
-              <Package className="w-5 h-5 text-copper mb-4" strokeWidth={1.5} />
-              <h2 className="font-serif text-2xl mb-3">Hvad finder du her?</h2>
-              <ul className="space-y-3 text-sm text-muted-foreground leading-relaxed">
-                {content.bestFor.map((item) => (
-                  <li key={item} className="flex gap-2">
-                    <span className="text-copper">•</span>
-                    <span>{item}</span>
-                  </li>
-                ))}
-              </ul>
-            </article>
+      {/* ============ 2. SERVICE BAR (top) ============ */}
+      <ServiceBar />
 
-            <article className="rounded-xl bg-background/80 border border-border/60 p-6 lg:col-span-2">
-              <HelpCircle className="w-5 h-5 text-copper mb-4" strokeWidth={1.5} />
-              <h2 className="font-serif text-2xl mb-3">{content.guideTitle}</h2>
-              <p className="text-sm md:text-base text-muted-foreground leading-relaxed max-w-3xl mb-6">
-                {content.guideText}
-              </p>
-              {content.links && content.links.length > 0 ? (
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                  {content.links.map((link) => (
-                    <a
-                      key={link.href}
-                      href={link.href}
-                      className="group rounded-lg border border-border/60 bg-soft/50 p-4 transition-colors hover:border-cta/40"
-                    >
-                      <span className="flex items-center justify-between gap-3 font-medium text-foreground">
-                        {link.label}
-                        <ArrowRight className="w-4 h-4 text-cta transition-transform group-hover:translate-x-1" />
-                      </span>
-                      <span className="mt-2 block text-sm text-muted-foreground leading-relaxed">{link.text}</span>
-                    </a>
-                  ))}
-                </div>
-              ) : null}
-            </article>
-          </div>
-        </div>
-      </section>
-
-      <section className="section-padding pt-12">
+      {/* ============ 3. PRODUCT GRID ============ */}
+      <section id="produkter" className="section-padding pt-14">
         <div className="container-calm">
-          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-8 border-b border-border pb-5">
+          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-8 border-b pb-5" style={{ borderColor: "rgba(90,59,46,0.16)" }}>
             <div>
-              <span className="text-xs font-medium text-copper uppercase tracking-widest mb-2 block">Udvalg</span>
-              <h2 className="font-serif text-3xl md:text-4xl">Se produkterne</h2>
+              <span className="text-[10px] font-medium uppercase tracking-[0.22em] mb-2 block" style={{ color: "#A67C52" }}>Udvalg</span>
+              <h2 className="font-serif text-3xl md:text-4xl" style={{ color: "#1E1E1E" }}>Se produkterne</h2>
+              <p className="text-sm text-muted-foreground mt-1">
+                <StarRow size={12} /> <span className="ml-1 align-middle">Hvert produkt har en {meta.scoreLabel}</span>
+              </p>
             </div>
             <div className="flex items-center justify-between gap-4">
               <p className="text-sm text-muted-foreground whitespace-nowrap">{products.length} produkter</p>
               <select
                 value={sortIdx}
                 onChange={(e) => setSortIdx(Number(e.target.value))}
-                className="text-sm bg-transparent border border-border rounded-lg px-3 py-2 text-foreground focus:outline-none focus:ring-2 focus:ring-cta/30"
+                className="text-sm bg-transparent border rounded-lg px-3 py-2 text-foreground focus:outline-none focus:ring-2 focus:ring-cta/30"
+                style={{ borderColor: "rgba(90,59,46,0.18)" }}
               >
                 {SORT_OPTIONS.map((opt, i) => (
                   <option key={`${opt.key}-${opt.reverse}`} value={i}>{opt.label}</option>
@@ -525,7 +689,7 @@ function CollectionPage() {
           </div>
 
           {loading ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {[1, 2, 3, 4, 5, 6].map((i) => (
                 <div key={i} className="animate-pulse">
                   <div className="aspect-[4/5] bg-linen rounded-lg mb-4" />
@@ -535,51 +699,88 @@ function CollectionPage() {
               ))}
             </div>
           ) : products.length === 0 ? (
-            <div className="text-center py-20 mb-16 rounded-xl border border-border/60 bg-soft/40">
+            <div className="text-center py-20 rounded-xl border" style={{ borderColor: "rgba(90,59,46,0.16)", backgroundColor: "rgba(230,224,215,0.4)" }}>
               <p className="font-serif text-xl text-muted-foreground mb-2">Ingen produkter i denne kollektion endnu</p>
               <p className="text-sm text-muted-foreground/60">Produkter tilføjes snart.</p>
             </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
-              {products.map((product) => (
-                <ProductCard key={product.node.id} product={product} />
-              ))}
-            </div>
+            <>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {firstHalf.map((product) => (
+                  <ProductCard key={product.node.id} product={product} />
+                ))}
+              </div>
+            </>
           )}
         </div>
       </section>
 
-      <section className="section-padding py-12 bg-linen/40">
-        <div className="container-calm max-w-5xl">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-10">
-            {[
-              { icon: ShieldCheck, title: "Tryg betaling", text: "Betaling foregår sikkert via webshoppen." },
-              { icon: Package, title: "Pakket med omhu", text: "Vi pakker din ordre roligt og forsvarligt." },
-              { icon: CheckCircle2, title: "Tydelige vilkår", text: "14 dages fortrydelsesret og direkte kontakt." },
-            ].map((item) => (
-              <div key={item.title} className="rounded-xl bg-background/70 border border-border/60 p-5">
-                <item.icon className="w-5 h-5 text-cta mb-4" strokeWidth={1.5} />
-                <h3 className="font-serif text-xl mb-2">{item.title}</h3>
-                <p className="text-sm text-muted-foreground leading-relaxed">{item.text}</p>
-              </div>
-            ))}
-          </div>
-
-          <div className="rounded-2xl bg-background/80 border border-border/60 p-6 md:p-8">
-            <h2 className="font-serif text-3xl mb-6">Spørgsmål før du vælger</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {content.faq.map((item) => (
-                <div key={item.question} className="border-t border-border/60 pt-5">
-                  <h3 className="font-medium text-foreground mb-2">{item.question}</h3>
-                  <p className="text-sm text-muted-foreground leading-relaxed">{item.answer}</p>
+      {/* ============ 4. BUYING GUIDE + START HERE ============ */}
+      {products.length > 0 && (
+        <section className="section-padding py-14 mt-14" style={{ backgroundColor: "#E6E0D7" }}>
+          <div className="container-calm">
+            <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
+              {/* Buying guide */}
+              <article className="lg:col-span-3 rounded-2xl p-7 md:p-9" style={{ backgroundColor: "#F8F6F3", border: "1px solid rgba(90,59,46,0.16)" }}>
+                <div className="flex items-center gap-2 mb-3">
+                  <HelpCircle className="w-5 h-5" style={{ color: "#A67C52" }} strokeWidth={1.5} />
+                  <span className="text-[10px] font-medium uppercase tracking-[0.22em]" style={{ color: "#A67C52" }}>Guide</span>
                 </div>
+                <h2 className="font-serif text-2xl md:text-3xl mb-5" style={{ color: "#1E1E1E" }}>
+                  {meta.guideTitle}
+                </h2>
+                <ul className="space-y-3">
+                  {meta.guideItems.map((item) => (
+                    <li key={item} className="flex items-start gap-3 text-base" style={{ color: "#2D2D2D" }}>
+                      <Check className="w-4 h-4 mt-1.5 flex-shrink-0" style={{ color: "#4C574A" }} strokeWidth={2.25} />
+                      <span className="leading-relaxed">{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </article>
+
+              {/* Best place to start */}
+              <aside className="lg:col-span-2 rounded-2xl p-7 md:p-9 flex flex-col" style={{ backgroundColor: "#F8F6F3", border: "1px solid rgba(90,59,46,0.16)", borderLeft: "3px solid #A67C52" }}>
+                <div className="flex items-center gap-2 mb-3">
+                  <StarRow size={14} />
+                  <span className="text-[10px] font-medium uppercase tracking-[0.22em]" style={{ color: "#A67C52" }}>Start her</span>
+                </div>
+                <h2 className="font-serif text-2xl md:text-3xl mb-4" style={{ color: "#1E1E1E" }}>
+                  {meta.startTitle}
+                </h2>
+                <p className="text-base leading-relaxed mb-6 flex-1" style={{ color: "#2D2D2D" }}>
+                  {meta.startText}
+                </p>
+                <a
+                  href={meta.startCta.href}
+                  className="inline-flex items-center justify-center self-start px-5 py-2.5 rounded-md text-sm font-semibold tracking-wide uppercase text-cta-foreground transition-colors"
+                  style={{ backgroundColor: "#4C574A" }}
+                  onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#3E4A3D")}
+                  onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "#4C574A")}
+                >
+                  {meta.startCta.label}
+                </a>
+              </aside>
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* ============ 5. REST OF PRODUCT GRID ============ */}
+      {secondHalf.length > 0 && (
+        <section className="section-padding pt-14">
+          <div className="container-calm">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {secondHalf.map((product) => (
+                <ProductCard key={product.node.id} product={product} />
               ))}
             </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
-      {(handle === "magnetiske-holdere" || handle === "magnetisk-opbevaring" || handle === "the-calm-kitchen") && (
+      {/* ============ 6. VIDEO (display category only) ============ */}
+      {categoryKey === "display" && (
         <VideoShowcase
           eyebrow="Så nemt sættes den op"
           title="Monteret på få minutter — uden boremaskine."
@@ -590,7 +791,70 @@ function CollectionPage() {
         />
       )}
 
-      <TrustBar />
+      {/* ============ 7. OTHER RITUALS ============ */}
+      <section className="section-padding py-16">
+        <div className="container-calm">
+          <div className="text-center mb-10">
+            <span className="text-[10px] font-medium uppercase tracking-[0.22em] mb-3 block" style={{ color: "#A67C52" }}>Mere fra Langsomt Nok</span>
+            <h2 className="font-serif text-3xl md:text-4xl" style={{ color: "#1E1E1E" }}>Udforsk flere ritualer</h2>
+          </div>
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-5">
+            {otherRituals.map((r) => (
+              <a
+                key={r.href}
+                href={r.href}
+                className="group block rounded-xl overflow-hidden transition-transform duration-500 hover:-translate-y-1"
+                style={{ backgroundColor: "#F8F6F3", border: "1px solid rgba(90,59,46,0.16)" }}
+              >
+                <div className="aspect-[4/3] overflow-hidden" style={{ backgroundColor: "#E6E0D7" }}>
+                  <img src={r.image} alt={r.label} loading="lazy" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                </div>
+                <div className="p-4">
+                  <h3 className="font-serif text-lg mb-1.5 group-hover:text-walnut transition-colors" style={{ color: "#1E1E1E" }}>{r.label}</h3>
+                  <p className="text-xs leading-relaxed mb-3" style={{ color: "#2D2D2D" }}>{r.text}</p>
+                  <span className="inline-flex items-center gap-1 text-xs font-semibold uppercase tracking-wider" style={{ color: "#4C574A" }}>
+                    Se {r.label.toLowerCase()} <ArrowRight className="w-3 h-3" />
+                  </span>
+                </div>
+              </a>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ============ 8. FAQ ============ */}
+      <section className="section-padding py-14" style={{ backgroundColor: "#E6E0D7" }}>
+        <div className="container-calm max-w-4xl">
+          <div className="text-center mb-10">
+            <span className="text-[10px] font-medium uppercase tracking-[0.22em] mb-3 block" style={{ color: "#A67C52" }}>Spørgsmål før du vælger</span>
+            <h2 className="font-serif text-3xl md:text-4xl" style={{ color: "#1E1E1E" }}>Det vi oftest får spurgt om</h2>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+            {content.faq.map((item) => (
+              <div key={item.question} className="rounded-xl p-6" style={{ backgroundColor: "#F8F6F3", border: "1px solid rgba(90,59,46,0.16)" }}>
+                <h3 className="font-serif text-lg mb-2.5" style={{ color: "#1E1E1E" }}>{item.question}</h3>
+                <p className="text-sm leading-relaxed" style={{ color: "#2D2D2D" }}>{item.answer}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ============ 9. SERVICE BAR (bottom) ============ */}
+      <ServiceBar />
+
+      {/* ============ 10. SEO TEXT ============ */}
+      <section className="section-padding py-14">
+        <div className="container-calm max-w-3xl text-center">
+          <h2 className="font-serif text-2xl md:text-3xl mb-4" style={{ color: "#1E1E1E" }}>
+            {meta.seoHeading}
+          </h2>
+          <p className="text-base leading-relaxed" style={{ color: "#2D2D2D" }}>
+            {meta.seoBody}
+          </p>
+        </div>
+      </section>
+
       <NewsletterSignup />
     </div>
   );
