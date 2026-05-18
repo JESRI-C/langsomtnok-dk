@@ -24,6 +24,17 @@ function getBenefitLine(handle: string, productType?: string, tags: string[] = [
   return null;
 }
 
+/** Vælger et roligt premium-badge baseret på tags og pris-tier (ingen fake bestseller). */
+function getEditorialBadge(handle: string, productType?: string, tags: string[] = []): string | null {
+  const tagSet = new Set(tags.map((t) => t.toLowerCase()));
+  if (tagSet.has("favorit") || tagSet.has("favourite") || tagSet.has("bestseller")) return "Køkkenfavorit";
+  if (tagSet.has("ny") || tagSet.has("new")) return "Ny i sortimentet";
+  const h = (handle + " " + (productType || "")).toLowerCase();
+  if (/knivholder|magnet/.test(h)) return "Udvalgt af os";
+  if (/slibest/.test(h)) return "Mest valgte sammen";
+  return null;
+}
+
 export function ProductCard({ product, section = "product_grid" }: { product: ShopifyProduct; section?: string }) {
   const addItem = useCartStore((s) => s.addItem);
   const isLoading = useCartStore((s) => s.isLoading);
@@ -39,6 +50,7 @@ export function ProductCard({ product, section = "product_grid" }: { product: Sh
   const soldOut = !variant?.availableForSale;
   const soldLabel = isUnika && soldOut ? "Solgt — videre til et nyt hjem" : "Udsolgt";
   const benefit = getBenefitLine(node.handle, node.productType, node.tags);
+  const editorialBadge = !isUnika && !isLilleSerie && !isOnSale ? getEditorialBadge(node.handle, node.productType, node.tags) : null;
 
   const handleAddToCart = async (e: React.MouseEvent) => {
     e.preventDefault();
