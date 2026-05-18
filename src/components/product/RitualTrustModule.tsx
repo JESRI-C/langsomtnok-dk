@@ -75,6 +75,13 @@ const CONFIGS: Record<TrustKey, TrustConfig> = {
       "Et redskab der gerne må stå fremme",
       "Mere ro og præcision i madlavningen",
     ],
+    founderSubtitle:
+      "Jeg ville vælge denne, hvis du vil have et redskab, der føles rigtigt i hånden og løfter de daglige snit.",
+    founderBullets: [
+      "God som daglig hovedkniv eller præcisionsredskab",
+      "Føles rolig i hånden",
+      "Skabt til både funktion og æstetik",
+    ],
     useGuide: {
       title: "Sådan bruges den",
       body: "Brug kniven til daglige snit — fra grøntsager til urter og kød. Tør den af i hånden efter brug, og hold den skarp med en stryger mellem slibninger.",
