@@ -104,12 +104,17 @@ const CONFIGS: Record<TrustKey, TrustConfig> = {
       "Udvalgt til pleje og vedligehold",
       "Sendes fra dansk webshop",
     ],
-    jesperTitle: "Jesper anbefaler denne, hvis du vil:",
+    jesperTitle: "Jesper anbefaler den, hvis du vil:",
     jesperBullets: [
-      "Passe bedre på dine redskaber",
-      "Forlænge levetiden på dine knive",
-      "Gøre vedligeholdelse til en enkel vane",
+      "Tage næste skridt efter grundslibning",
+      "Give æggen en finere afslutning",
+      "Bygge et mere præcist sliberitual",
     ],
+    useGuide: {
+      title: "Sådan bruges den",
+      body: "Brug stenen efter en grovere eller mellemfin slibning, når æggen allerede er etableret. Arbejd roligt og jævnt — vand og tid gør resten.",
+      link: { label: "Læs guiden til at holde din kniv skarp", href: "/ritualer/hold-kniven-skarp" },
+    },
   },
   display: {
     scoreNumber: "4.8",
