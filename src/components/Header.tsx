@@ -17,10 +17,10 @@ const navItems = [
 ];
 
 const trustItems = [
-  { icon: Truck, text: "Sendes fra Danmark" },
+  { icon: Truck, text: "Sendes fra Danmark · 1-2 dage" },
+  { icon: Package, text: "Fri fragt over 599 kr" },
   { icon: RotateCcw, text: "30 dages returret" },
   { icon: Shield, text: "Sikker betaling" },
-  { icon: Package, text: "Pakket med omhu" },
 ];
 
 export function Header() {

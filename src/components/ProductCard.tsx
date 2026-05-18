@@ -24,6 +24,17 @@ function getBenefitLine(handle: string, productType?: string, tags: string[] = [
   return null;
 }
 
+/** Vælger et roligt premium-badge baseret på tags og pris-tier (ingen fake bestseller). */
+function getEditorialBadge(handle: string, productType?: string, tags: string[] = []): string | null {
+  const tagSet = new Set(tags.map((t) => t.toLowerCase()));
+  if (tagSet.has("favorit") || tagSet.has("favourite") || tagSet.has("bestseller")) return "Køkkenfavorit";
+  if (tagSet.has("ny") || tagSet.has("new")) return "Ny i sortimentet";
+  const h = (handle + " " + (productType || "")).toLowerCase();
+  if (/knivholder|magnet/.test(h)) return "Udvalgt af os";
+  if (/slibest/.test(h)) return "Mest valgte sammen";
+  return null;
+}
+
 export function ProductCard({ product, section = "product_grid" }: { product: ShopifyProduct; section?: string }) {
   const addItem = useCartStore((s) => s.addItem);
   const isLoading = useCartStore((s) => s.isLoading);
@@ -39,6 +50,7 @@ export function ProductCard({ product, section = "product_grid" }: { product: Sh
   const soldOut = !variant?.availableForSale;
   const soldLabel = isUnika && soldOut ? "Solgt — videre til et nyt hjem" : "Udsolgt";
   const benefit = getBenefitLine(node.handle, node.productType, node.tags);
+  const editorialBadge = !isUnika && !isLilleSerie && !isOnSale ? getEditorialBadge(node.handle, node.productType, node.tags) : null;
 
   const handleAddToCart = async (e: React.MouseEvent) => {
     e.preventDefault();
@@ -89,6 +101,16 @@ export function ProductCard({ product, section = "product_grid" }: { product: Sh
             {isUnika ? "Unika" : "Lille serie"}
           </span>
         )}
+        {editorialBadge && (
+          <span className="absolute top-3 right-3 bg-cta text-cta-foreground text-[10px] font-semibold tracking-wide uppercase px-2 py-0.5 rounded">
+            {editorialBadge}
+          </span>
+        )}
+        {!soldOut && variant?.availableForSale && (
+          <span className="absolute bottom-3 left-3 bg-background/90 backdrop-blur-sm text-[10px] font-medium text-cta px-2 py-0.5 rounded">
+            På lager · Sendes 1-2 dage
+          </span>
+        )}
       </div>
       <div className="space-y-1.5 px-1 pb-1">
         {node.productType && (
@@ -100,27 +122,32 @@ export function ProductCard({ product, section = "product_grid" }: { product: Sh
           <p className="text-xs text-muted-foreground leading-snug pt-0.5">{benefit}</p>
         )}
 
-        <div className="flex items-center justify-between pt-2">
-          <div className="flex items-baseline gap-2">
-            {parseFloat(price.amount) > 0 ? (
-              <span className="text-base font-semibold text-foreground">{formatPrice(price.amount, price.currencyCode)}</span>
-            ) : (
-              <span className="text-xs text-muted-foreground italic">Pris kommer snart</span>
-            )}
-            {isOnSale && parseFloat(price.amount) > 0 && product.node.compareAtPriceRange?.minVariantPrice && (
-              <span className="text-xs text-muted-foreground/60 line-through">
-                {formatPrice(product.node.compareAtPriceRange.minVariantPrice.amount, product.node.compareAtPriceRange.minVariantPrice.currencyCode)}
-              </span>
+        <div className="flex items-center justify-between pt-2 gap-2">
+          <div className="flex flex-col">
+            <div className="flex items-baseline gap-2">
+              {parseFloat(price.amount) > 0 ? (
+                <span className="text-base font-semibold text-cta">{formatPrice(price.amount, price.currencyCode)}</span>
+              ) : (
+                <span className="text-xs text-muted-foreground italic">Pris kommer snart</span>
+              )}
+              {isOnSale && parseFloat(price.amount) > 0 && product.node.compareAtPriceRange?.minVariantPrice && (
+                <span className="text-xs text-muted-foreground/60 line-through">
+                  {formatPrice(product.node.compareAtPriceRange.minVariantPrice.amount, product.node.compareAtPriceRange.minVariantPrice.currencyCode)}
+                </span>
+              )}
+            </div>
+            {isOnSale && discountPct > 0 && (
+              <span className="text-[10px] font-semibold text-copper mt-0.5">Spar {discountPct}%</span>
             )}
           </div>
           <button
             onClick={handleAddToCart}
             disabled={isLoading || !variant?.availableForSale || parseFloat(price.amount) <= 0}
-            className="text-xs font-semibold text-cta hover:text-cta-hover transition-colors disabled:opacity-50 underline-offset-4 group-hover:underline"
+            className="text-[11px] font-semibold tracking-wide uppercase text-cta-foreground bg-cta hover:bg-cta-hover transition-colors disabled:opacity-40 px-3 py-2 rounded-md whitespace-nowrap"
             data-event="add_to_cart_click"
             data-section={section}
           >
-            {isLoading ? <Loader2 className="w-3 h-3 animate-spin" /> : parseFloat(price.amount) <= 0 ? "På vej" : soldOut ? soldLabel : "Læg i kurv"}
+            {isLoading ? <Loader2 className="w-3 h-3 animate-spin" /> : parseFloat(price.amount) <= 0 ? "På vej" : soldOut ? soldLabel : "Tilføj til ritualet"}
           </button>
         </div>
       </div>
