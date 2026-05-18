@@ -341,6 +341,22 @@ export const PRODUCT_BY_HANDLE_QUERY = `
       images(first: 10) {
         edges { node { url altText width height } }
       }
+      media(first: 20) {
+        edges {
+          node {
+            mediaContentType
+            alt
+            previewImage { url altText width height }
+            ... on Video {
+              sources { url mimeType format width height }
+            }
+            ... on ExternalVideo {
+              embedUrl
+              host
+            }
+          }
+        }
+      }
       variants(first: 20) {
         edges {
           node {
