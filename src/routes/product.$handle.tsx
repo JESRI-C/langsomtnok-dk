@@ -14,7 +14,8 @@ import { ProductCard } from "@/components/ProductCard";
 import { ProductFitSection } from "@/components/ProductFitSection";
 import { StickyMobileCTA } from "@/components/StickyMobileCTA";
 import { TrustBar } from "@/components/landing/TrustBar";
-import { RitualTrustModule, RitualScoreBadge } from "@/components/product/RitualTrustModule";
+import { RitualScoreBadge, RitualScoreAccordion } from "@/components/product/RitualTrustModule";
+import { ProductMoodVideo } from "@/components/product/ProductMoodVideo";
 import { VideoShowcase } from "@/components/VideoShowcase";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { useCartStore } from "@/stores/cartStore";
@@ -502,9 +503,8 @@ function ProductPage() {
                 hej@langsomtnok.dk
               </a>
             </p>
+            {/* Stort trust-modul flyttet længere ned (RitualScoreAccordion) for at undgå dobbeltarbejde med RitualScoreBadge over Add to Cart. */}
 
-            {/* Ritual Trust Module — dynamisk pr. produkt-tag */}
-            <RitualTrustModule tags={product.tags || []} metafields={product.metafields} />
 
             {/* Fordelspunkter — magnetiske knivholdere */}
             {(/knivholder|magnet/i.test(product.handle) || /knivholder|magnet/i.test(product.title)) && (
@@ -525,7 +525,14 @@ function ProductPage() {
           </div>
         </div>
 
-        {/* ── 2. Trust Bar ──────────────────────────────────────── */}
+        {/* ── 2. Product mood video — stort, roligt produktudtryk (når der findes en video) ── */}
+        <ProductMoodVideo
+          tags={product.tags || []}
+          productType={product.productType}
+          metafields={product.metafields}
+        />
+
+        {/* ── 3. Trust Bar ──────────────────────────────────────── */}
         <div className="mt-12">
           <TrustBar />
         </div>
@@ -584,6 +591,10 @@ function ProductPage() {
             doubtCta={section.type === "fit" ? doubtCta : undefined}
           />
         ))}
+
+        {/* ── “Hvorfor vi har valgt den” — kurateret score, samlet ét sted, lavere på siden ── */}
+        <RitualScoreAccordion tags={product.tags || []} metafields={product.metafields} />
+
 
         {/* Related products (if no crossSell section exists) */}
         {!parsed.sections.some(s => s.type === "crossSell") && relatedProducts.length > 0 && (
