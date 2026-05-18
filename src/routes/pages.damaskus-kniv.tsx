@@ -18,6 +18,20 @@ export const Route = createFileRoute("/pages/damaskus-kniv")({
       { property: "og:description", content: "Damaskus-stål er ikke kun mønster. Det er lag, rytme og tradition." },
     ],
     links: [{ rel: "canonical", href: "https://langsomtnok.dk/pages/damaskus-kniv" }],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          itemListElement: [
+            { "@type": "ListItem", position: 1, name: "Forside", item: "https://langsomtnok.dk/" },
+            { "@type": "ListItem", position: 2, name: "Guides", item: "https://langsomtnok.dk/guides" },
+            { "@type": "ListItem", position: 3, name: "Damaskus kniv", item: "https://langsomtnok.dk/pages/damaskus-kniv" },
+          ],
+        }),
+      },
+    ],
   }),
   component: DamascusPage,
 });

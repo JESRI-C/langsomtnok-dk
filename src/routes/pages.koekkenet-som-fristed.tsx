@@ -20,6 +20,20 @@ export const Route = createFileRoute("/pages/koekkenet-som-fristed")({
       { property: "og:image", content: "https://cdn.shopify.com/s/files/1/0915/7227/3488/files/IMG_6159.jpg?v=1773564091" },
     ],
     links: [{ rel: "canonical", href: "https://langsomtnok.dk/pages/koekkenet-som-fristed" }],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          itemListElement: [
+            { "@type": "ListItem", position: 1, name: "Forside", item: "https://langsomtnok.dk/" },
+            { "@type": "ListItem", position: 2, name: "Guides", item: "https://langsomtnok.dk/guides" },
+            { "@type": "ListItem", position: 3, name: "Køkkenet som fristed", item: "https://langsomtnok.dk/pages/koekkenet-som-fristed" },
+          ],
+        }),
+      },
+    ],
   }),
   component: Page,
 });

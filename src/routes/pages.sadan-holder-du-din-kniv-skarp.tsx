@@ -18,6 +18,20 @@ export const Route = createFileRoute("/pages/sadan-holder-du-din-kniv-skarp")({
       { property: "og:description", content: "En skarp kniv er ikke tilfældig. Den er plejet." },
     ],
     links: [{ rel: "canonical", href: "https://langsomtnok.dk/pages/sadan-holder-du-din-kniv-skarp" }],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          itemListElement: [
+            { "@type": "ListItem", position: 1, name: "Forside", item: "https://langsomtnok.dk/" },
+            { "@type": "ListItem", position: 2, name: "Guides", item: "https://langsomtnok.dk/guides" },
+            { "@type": "ListItem", position: 3, name: "Sådan holder du din kniv skarp", item: "https://langsomtnok.dk/pages/sadan-holder-du-din-kniv-skarp" },
+          ],
+        }),
+      },
+    ],
   }),
   component: SharpeningPage,
 });

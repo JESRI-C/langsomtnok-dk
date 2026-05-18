@@ -18,6 +18,20 @@ export const Route = createFileRoute("/pages/gave-til-madelskeren")({
       { property: "og:description", content: "En gave, der bliver brugt. Ikke bare pakket ud." },
     ],
     links: [{ rel: "canonical", href: "https://langsomtnok.dk/pages/gave-til-madelskeren" }],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          itemListElement: [
+            { "@type": "ListItem", position: 1, name: "Forside", item: "https://langsomtnok.dk/" },
+            { "@type": "ListItem", position: 2, name: "Guides", item: "https://langsomtnok.dk/guides" },
+            { "@type": "ListItem", position: 3, name: "Gave til madelskeren", item: "https://langsomtnok.dk/pages/gave-til-madelskeren" },
+          ],
+        }),
+      },
+    ],
   }),
   component: GiftPage,
 });
