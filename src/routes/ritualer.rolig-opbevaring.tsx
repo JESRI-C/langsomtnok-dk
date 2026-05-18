@@ -104,16 +104,6 @@ function OpbevaringPage() {
         variant="overlay"
       />
 
-      <TrustBar />
-
-      <section className="section-padding">
-        <div className="container-calm max-w-2xl text-center">
-          <h2 className="font-serif text-2xl md:text-3xl mb-6">{c.intro_section_title}</h2>
-          {c.intro_section_body && (
-            <p className="text-editorial text-muted-foreground whitespace-pre-line">{c.intro_section_body}</p>
-          )}
-        </div>
-      </section>
 
       <TrustBar />
 
