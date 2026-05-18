@@ -406,6 +406,7 @@ function ProductPage() {
                   dangerouslySetInnerHTML={{ __html: sanitizeHtml(parsed.intro) }}
                 />
               )}
+              <RitualScoreBadge tags={product.tags || []} metafields={product.metafields} />
             </div>
 
             {/* Price */}
