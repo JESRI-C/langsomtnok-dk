@@ -30,7 +30,7 @@ import {
   type ShopifyMetafield,
 } from "@/lib/shopify";
 import { parseProductDescription, type ParsedSection } from "@/lib/parse-product-description";
-import { trackEvent } from "@/lib/analytics";
+import { trackEvent, trackProductView, attachScrollDepthTracker } from "@/lib/analytics";
 import DOMPurify from "isomorphic-dompurify";
 
 const sanitizeHtml = (html: string) => DOMPurify.sanitize(html, {
@@ -258,6 +258,18 @@ function ProductPage() {
         if (p) {
           setProduct(p);
           fetchProductRecommendations(p.id).then(setRelatedProducts);
+          // Track product view with first available variant data
+          const firstVariant = p.variants?.edges?.[0]?.node;
+          trackProductView({
+            product_id: p.id,
+            product_title: p.title,
+            variant_id: firstVariant?.id,
+            variant_title: firstVariant?.title !== 'Default Title' ? firstVariant?.title : undefined,
+            price: parseFloat(firstVariant?.price?.amount ?? p.priceRange?.minVariantPrice?.amount ?? '0'),
+            currency: firstVariant?.price?.currencyCode ?? p.priceRange?.minVariantPrice?.currencyCode ?? 'DKK',
+            product_type: p.productType,
+          });
+          attachScrollDepthTracker();
         }
       })
       .catch(console.error)
@@ -341,6 +353,7 @@ function ProductPage() {
 
   const handleAddToCart = async () => {
     if (!variant) return;
+    const prevCount = useCartStore.getState().items.length;
     await addItem({
       product: shopifyProduct,
       variantId: variant.id,
@@ -349,7 +362,23 @@ function ProductPage() {
       quantity,
       selectedOptions: variant.selectedOptions || [],
     });
-    trackEvent('add_to_cart_product_page', { product_id: product.id, product_title: product.title });
+    // Only fire tracking if cart actually changed (addItem succeeded)
+    const newCount = useCartStore.getState().items.length;
+    const itemChanged = newCount > prevCount || useCartStore.getState().items.some(i => i.variantId === variant.id);
+    if (itemChanged) {
+      const { trackAddToCart } = await import('@/lib/analytics');
+      trackAddToCart({
+        product_id: product.id,
+        product_title: product.title,
+        variant_id: variant.id,
+        variant_title: variant.title !== 'Default Title' ? variant.title : undefined,
+        price: parseFloat(variant.price.amount),
+        currency: variant.price.currencyCode,
+        quantity,
+        product_type: product.productType,
+      });
+      trackEvent('add_to_cart_product_page', { product_id: product.id, product_title: product.title });
+    }
     toast.success("Tilføjet med ro.", { description: product.title, position: "top-center" });
   };
 

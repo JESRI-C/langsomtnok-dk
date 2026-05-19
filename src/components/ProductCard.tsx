@@ -9,7 +9,7 @@
 import { Link } from "@tanstack/react-router";
 import { useCartStore } from "@/stores/cartStore";
 import { formatPrice, hasDiscount, getDiscountPercentage, type ShopifyProduct } from "@/lib/shopify";
-import { trackEvent } from "@/lib/analytics";
+import { trackEvent, trackAddToCart, trackProductClick } from "@/lib/analytics";
 import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
 
@@ -56,6 +56,7 @@ export function ProductCard({ product, section = "product_grid" }: { product: Sh
     e.preventDefault();
     e.stopPropagation();
     if (!variant) return;
+    const prevItem = useCartStore.getState().items.find(i => i.variantId === variant.id);
     await addItem({
       product,
       variantId: variant.id,
@@ -64,8 +65,34 @@ export function ProductCard({ product, section = "product_grid" }: { product: Sh
       quantity: 1,
       selectedOptions: variant.selectedOptions || [],
     });
-    trackEvent('add_to_cart_product_card', { product_id: node.id, product_title: node.title, section });
+    // Only fire tracking after confirmed cart update
+    const afterItem = useCartStore.getState().items.find(i => i.variantId === variant.id);
+    if (afterItem && (!prevItem || afterItem.quantity > prevItem.quantity)) {
+      trackAddToCart({
+        product_id: node.id,
+        product_title: node.title,
+        variant_id: variant.id,
+        variant_title: variant.title !== 'Default Title' ? variant.title : undefined,
+        price: parseFloat(variant.price.amount),
+        currency: variant.price.currencyCode,
+        quantity: 1,
+        product_type: node.productType,
+      });
+      trackEvent('add_to_cart_product_card', { product_id: node.id, product_title: node.title, section });
+    }
     toast.success("Tilføjet med ro.", { description: node.title, position: "top-center" });
+  };
+
+  const handleCardClick = () => {
+    trackProductClick({
+      product_id: node.id,
+      product_title: node.title,
+      price: parseFloat(price.amount),
+      currency: price.currencyCode,
+      product_type: node.productType,
+      list_name: section,
+    });
+    trackEvent('product_card_click', { product_id: node.id, product_title: node.title, section });
   };
 
   return (
@@ -73,6 +100,7 @@ export function ProductCard({ product, section = "product_grid" }: { product: Sh
       to="/product/$handle"
       params={{ handle: node.handle }}
       className="group block rounded-xl border border-border/70 bg-card p-3 lift-on-hover"
+      onClick={handleCardClick}
       data-event="product_card_click"
       data-section={section}
       data-target={node.handle}

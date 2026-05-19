@@ -36,6 +36,7 @@ import {
   PRODUCTS_QUERY,
   type ShopifyProduct,
 } from "@/lib/shopify";
+import { trackCollectionView } from "@/lib/analytics";
 import kniveHero from "@/assets/knive-hero.png";
 import slibningHero from "@/assets/slibning-hero.png";
 import holdereHero from "@/assets/holdere-hero.png";
@@ -535,19 +536,45 @@ function CollectionPage() {
     })
       .then(async (data) => {
         const col = data?.data?.collection;
+        let resolvedProducts: ShopifyProduct[] = [];
+        let resolvedTitle = handle;
+
         if (col && col.products?.edges?.length > 0) {
+          resolvedTitle = col.title;
           setCollection({ title: col.title, description: col.description });
-          setProducts(col.products.edges);
+          resolvedProducts = col.products.edges;
+          setProducts(resolvedProducts);
         } else {
           const fallbackQuery = COLLECTION_PRODUCT_TYPE_FALLBACK[handle];
           if (fallbackQuery !== undefined) {
-            setCollection({ title: content.tagline || col?.title || handle, description: content.intro || col?.description || "" });
+            resolvedTitle = content.tagline || col?.title || handle;
+            setCollection({ title: resolvedTitle, description: content.intro || col?.description || "" });
             const fbData = await storefrontApiRequest(PRODUCTS_QUERY, { first: 50, ...(fallbackQuery ? { query: fallbackQuery } : {}) });
-            setProducts(fbData?.data?.products?.edges || []);
+            resolvedProducts = fbData?.data?.products?.edges || [];
+            setProducts(resolvedProducts);
           } else {
             setCollection(col ? { title: col.title, description: col.description } : null);
             setProducts([]);
           }
+        }
+
+        // Track collection view after products are resolved
+        if (resolvedProducts.length > 0) {
+          trackCollectionView({
+            collection_id: col?.id ?? handle,
+            collection_title: resolvedTitle,
+            handle,
+            items: resolvedProducts.slice(0, 20).map((p, i) => ({
+              item_id: p.node.id,
+              item_name: p.node.title,
+              item_category: p.node.productType,
+              price: parseFloat(p.node.priceRange.minVariantPrice.amount),
+              currency: p.node.priceRange.minVariantPrice.currencyCode,
+              quantity: 1,
+              index: i,
+              item_list_name: resolvedTitle,
+            })),
+          });
         }
       })
       .catch(console.error)
