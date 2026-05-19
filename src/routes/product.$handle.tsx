@@ -8,7 +8,7 @@
  */
 
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { ProductCard } from "@/components/ProductCard";
 import { ProductFitSection } from "@/components/ProductFitSection";
@@ -246,6 +246,7 @@ function ProductPage() {
   const [quantity, setQuantity] = useState(1);
   const addItem = useCartStore((s) => s.addItem);
   const isCartLoading = useCartStore((s) => s.isLoading);
+  const scrollCleanupRef = useRef<(() => void) | null>(null);
 
   useEffect(() => {
     setLoading(true);
@@ -269,11 +270,17 @@ function ProductPage() {
             currency: firstVariant?.price?.currencyCode ?? p.priceRange?.minVariantPrice?.currencyCode ?? 'DKK',
             product_type: p.productType,
           });
-          attachScrollDepthTracker();
+          scrollCleanupRef.current?.();
+          scrollCleanupRef.current = attachScrollDepthTracker();
         }
       })
       .catch(console.error)
       .finally(() => setLoading(false));
+
+    return () => {
+      scrollCleanupRef.current?.();
+      scrollCleanupRef.current = null;
+    };
   }, [handle]);
 
   if (loading) {

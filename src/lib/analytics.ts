@@ -445,24 +445,24 @@ export function trackEvent(event: AnalyticsEvent, params?: AnalyticsParams) {
 
 // ── Scroll depth auto-tracker ─────────────────────────────────────────────────
 
-let scrollTrackerAttached = false;
-const scrollMilestones = new Set<number>();
+export function attachScrollDepthTracker(): () => void {
+  if (typeof window === 'undefined') return () => {};
 
-export function attachScrollDepthTracker() {
-  if (typeof window === 'undefined' || scrollTrackerAttached) return;
-  scrollTrackerAttached = true;
-  scrollMilestones.clear();
+  const milestones = new Set<number>();
 
   const onScroll = () => {
     const el = document.documentElement;
-    const pct = Math.round((window.scrollY / (el.scrollHeight - el.clientHeight)) * 100);
+    const scrollable = el.scrollHeight - el.clientHeight;
+    if (scrollable <= 0) return;
+    const pct = Math.round((window.scrollY / scrollable) * 100);
     for (const milestone of [25, 50, 75, 90] as const) {
-      if (pct >= milestone && !scrollMilestones.has(milestone)) {
-        scrollMilestones.add(milestone);
+      if (pct >= milestone && !milestones.has(milestone)) {
+        milestones.add(milestone);
         trackScrollDepth(milestone);
       }
     }
   };
 
   window.addEventListener('scroll', onScroll, { passive: true });
+  return () => window.removeEventListener('scroll', onScroll);
 }
