@@ -22,13 +22,35 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sh
 import { Button } from "@/components/ui/button";
 import { Minus, Plus, Trash2, Loader2, ArrowRight, ShieldCheck } from "lucide-react";
 import { useCartStore } from "@/stores/cartStore";
-import { formatPrice } from "@/lib/shopify";
+import { formatPrice, fetchProductRecommendations, type ShopifyProduct } from "@/lib/shopify";
+import { trackBeginCheckout, trackCartOpen, trackEvent } from "@/lib/analytics";
+import { useState, useEffect } from "react";
+import { Link } from "@tanstack/react-router";
 
 /** Free shipping threshold in store currency (DKK) */
 const FREE_SHIPPING_THRESHOLD = 499;
 
 export function CartDrawer() {
   const { items, isLoading, isSyncing, isOpen, setOpen, updateQuantity, removeItem, getCheckoutUrl, syncCart } = useCartStore();
+  const [upsellProducts, setUpsellProducts] = useState<ShopifyProduct[]>([]);
+
+  // Fetch recommendations when cart opens with items
+  useEffect(() => {
+    if (!isOpen || items.length === 0) return;
+    const firstProductId = items[0]?.product?.node?.id;
+    if (!firstProductId) return;
+    fetchProductRecommendations(firstProductId)
+      .then((recs) => {
+        // Exclude products already in cart
+        const cartVariantIds = new Set(items.map(i => i.variantId));
+        const filtered = recs.filter(r =>
+          r.node.variants.edges.every(v => !cartVariantIds.has(v.node.id)) &&
+          r.node.variants.edges[0]?.node?.availableForSale
+        );
+        setUpsellProducts(filtered.slice(0, 3));
+      })
+      .catch(() => setUpsellProducts([]));
+  }, [isOpen, items]);
   const totalItems = items.reduce((sum, item) => sum + item.quantity, 0);
   const totalPrice = items.reduce((sum, item) => sum + parseFloat(item.price.amount) * item.quantity, 0);
   const currency = items[0]?.price.currencyCode || 'DKK';
@@ -43,13 +65,46 @@ export function CartDrawer() {
   const handleCheckout = () => {
     const url = getCheckoutUrl();
     if (url) {
+      trackBeginCheckout({
+        items: items.map(item => ({
+          product_id: item.product.node.id,
+          product_title: item.product.node.title,
+          variant_id: item.variantId,
+          price: parseFloat(item.price.amount),
+          currency: item.price.currencyCode,
+          quantity: item.quantity,
+        })),
+        total: totalPrice,
+        currency,
+      });
       window.open(url, '_blank');
       setOpen(false);
     }
   };
 
+  const handleOpenChange = (o: boolean) => {
+    setOpen(o);
+    if (o) {
+      syncCart();
+      if (items.length > 0) {
+        trackCartOpen({
+          items: items.map(item => ({
+            product_id: item.product.node.id,
+            product_title: item.product.node.title,
+            variant_id: item.variantId,
+            price: parseFloat(item.price.amount),
+            currency: item.price.currencyCode,
+            quantity: item.quantity,
+          })),
+          total: totalPrice,
+          currency,
+        });
+      }
+    }
+  };
+
   return (
-    <Sheet open={isOpen} onOpenChange={(o) => { setOpen(o); if (o) syncCart(); }}>
+    <Sheet open={isOpen} onOpenChange={handleOpenChange}>
       <SheetContent className="w-full sm:max-w-md flex flex-col h-full bg-background border-l border-border">
         <SheetHeader className="flex-shrink-0 pb-4 border-b border-border">
           <SheetTitle className="font-serif text-xl">Dit ritual</SheetTitle>
@@ -141,27 +196,38 @@ export function CartDrawer() {
                 ))}
               </div>
 
-              {/* ── Upsell Block ──────────────────────────────────────────
-                  SHOPIFY CONNECTION: Connect to product recommendations API.
-                  Use fetchProductRecommendations() with the first cart item's product ID
-                  to show contextual upsells.
-                  ──────────────────────────────────────────────────────────── */}
-              <div className="flex-shrink-0 py-3 border-t border-border">
-                <p className="text-xs text-muted-foreground font-medium mb-2 px-1">
-                  Det giver mening sammen med…
-                </p>
-                <div className="flex gap-2 overflow-x-auto pb-1 px-1">
-                  {/* SHOPIFY CONNECTION: Replace these placeholders with product recommendations */}
-                  {['Plejeolie', 'Slibesten #1000', 'Magnetisk holder'].map((name) => (
-                    <div
-                      key={name}
-                      className="flex-shrink-0 px-3 py-2 rounded-md border border-border bg-soft/30 text-xs text-muted-foreground hover:border-walnut/30 transition-colors cursor-pointer"
-                    >
-                      + {name}
-                    </div>
-                  ))}
+              {/* ── Upsell Block — live Shopify recommendations ────────── */}
+              {upsellProducts.length > 0 && (
+                <div className="flex-shrink-0 py-3 border-t border-border">
+                  <p className="text-xs text-muted-foreground font-medium mb-2 px-1">
+                    Det giver mening sammen med…
+                  </p>
+                  <div className="flex gap-2 overflow-x-auto pb-1 px-1">
+                    {upsellProducts.map((rec) => {
+                      const variant = rec.node.variants.edges[0]?.node;
+                      return (
+                        <Link
+                          key={rec.node.id}
+                          to="/product/$handle"
+                          params={{ handle: rec.node.handle }}
+                          onClick={() => {
+                            setOpen(false);
+                            trackEvent('cart_upsell_click', { product_id: rec.node.id, product_title: rec.node.title });
+                          }}
+                          className="flex-shrink-0 px-3 py-2 rounded-md border border-border bg-soft/30 text-xs text-foreground hover:border-walnut/30 transition-colors"
+                        >
+                          <span className="text-muted-foreground">+</span> {rec.node.title}
+                          {variant && (
+                            <span className="ml-1 text-muted-foreground">
+                              {formatPrice(variant.price.amount, variant.price.currencyCode)}
+                            </span>
+                          )}
+                        </Link>
+                      );
+                    })}
+                  </div>
                 </div>
-              </div>
+              )}
 
               {/* Checkout footer */}
               <div className="flex-shrink-0 pt-4 border-t border-border space-y-4">

@@ -15,6 +15,7 @@ import { Footer } from "@/components/Footer";
 import { CartDrawer } from "@/components/CartDrawer";
 import { useCartSync } from "@/hooks/useCartSync";
 import { organizationSchema, websiteSchema } from "@/components/legal/LegalPageLayout";
+import { trackPageView } from "@/lib/analytics";
 
 import appCss from "../styles.css?url";
 
@@ -146,6 +147,14 @@ function RootComponent() {
 
 function AppShell() {
   useCartSync();
+  const router = useRouter();
+
+  // Track SPA page views on every route change
+  useEffect(() => {
+    return router.subscribe('onResolved', () => {
+      trackPageView(window.location.pathname);
+    });
+  }, [router]);
 
   useEffect(() => {
     const SRC = "https://cdn.shopify.com/shopifycloud/shopify_chat/storefront/shopify_chat.js";
