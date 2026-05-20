@@ -1,4 +1,4 @@
-<section class="ln-hero" style="min-height: {{ section.settings.min_height }}vh; position: relative; display: flex; align-items: flex-end; overflow: hidden; background-color: var(--deep);">
+<section class="ln-hero" style="min-height: {{ section.settings.min_height | default: 92 }}vh; position: relative; display: flex; align-items: flex-end; overflow: hidden; background-color: var(--deep);">
   {%- comment -%} Background media {%- endcomment -%}
   {%- if section.settings.video_url != blank -%}
     <video

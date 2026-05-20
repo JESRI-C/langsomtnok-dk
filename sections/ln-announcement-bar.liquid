@@ -1,0 +1,58 @@
+<div class="ln-announcement" id="ln-announcement">
+  <div class="ln-announcement__track">
+    <span class="ln-announcement__msg ln-announcement__msg--a">{{ section.settings.message_a }}</span>
+    <span class="ln-announcement__msg ln-announcement__msg--b">{{ section.settings.message_b }}</span>
+  </div>
+  <button class="ln-announcement__close" onclick="document.getElementById('ln-announcement').style.display='none'" aria-label="Luk">×</button>
+</div>
+
+<style>
+  .ln-announcement {
+    position: relative;
+    background: var(--deep);
+    color: var(--deep-foreground);
+    text-align: center;
+    padding: 0.625rem 2.5rem;
+    font-size: 0.8125rem;
+    letter-spacing: 0.02em;
+    overflow: hidden;
+  }
+  .ln-announcement__track { position: relative; height: 1.2em; }
+  .ln-announcement__msg {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0; transition: opacity 600ms ease;
+  }
+  .ln-announcement__msg--a { opacity: 1; }
+  .ln-announcement__close {
+    position: absolute; right: 1rem; top: 50%; transform: translateY(-50%);
+    background: none; border: none; color: var(--deep-foreground);
+    opacity: 0.5; cursor: pointer; font-size: 1.25rem; line-height: 1;
+    padding: 0.25rem;
+  }
+  .ln-announcement__close:hover { opacity: 1; }
+</style>
+
+<script>
+  (function() {
+    var msgs = document.querySelectorAll('.ln-announcement__msg');
+    if (msgs.length < 2) return;
+    var current = 0;
+    setInterval(function() {
+      msgs[current].style.opacity = '0';
+      current = (current + 1) % msgs.length;
+      msgs[current].style.opacity = '1';
+    }, 5000);
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Annoncebar",
+  "settings": [
+    { "type": "text", "id": "message_a", "label": "Besked A", "default": "Fri fragt over 599 kr · Levering 1-2 hverdage fra Danmark" },
+    { "type": "text", "id": "message_b", "label": "Besked B", "default": "30 dages returret · Sikker betaling · Pakket med omhu" }
+  ],
+  "presets": [{ "name": "Annoncebar" }]
+}
+{% endschema %}

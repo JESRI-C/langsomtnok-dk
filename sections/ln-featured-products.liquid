@@ -15,18 +15,18 @@
     </div>
 
     {%- assign featured_collection = collections[section.settings.collection] -%}
-    {%- if featured_collection != blank -%}
-      {%- assign products_to_show = featured_collection.products | limit: section.settings.products_to_show -%}
-    {%- else -%}
-      {%- assign products_to_show = collections.all.products | limit: section.settings.products_to_show -%}
-    {%- endif -%}
+    {%- assign show_count = section.settings.products_to_show | default: 4 -%}
 
     <div class="ln-featured-products__grid">
-      {%- for product in products_to_show -%}
-        {% render 'product-card', product: product %}
+      {%- if featured_collection != blank -%}
+        {%- for product in featured_collection.products limit: show_count -%}
+          {% render 'product-card', product: product %}
+        {%- endfor -%}
       {%- else -%}
-        <p style="color: var(--muted-foreground);">Ingen produkter fundet.</p>
-      {%- endfor -%}
+        {%- for product in collections.all.products limit: show_count -%}
+          {% render 'product-card', product: product %}
+        {%- endfor -%}
+      {%- endif -%}
     </div>
   </div>
 </section>
