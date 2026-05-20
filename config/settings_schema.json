@@ -1,0 +1,20 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "Langsomt Nok",
+    "theme_version": "1.0.0",
+    "theme_author": "Langsomt Nok",
+    "theme_documentation_url": "https://langsomtnok.dk",
+    "theme_support_url": "https://langsomtnok.dk/kontakt"
+  },
+  {
+    "name": "Generelt",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "favicon",
+        "label": "Favicon"
+      }
+    ]
+  }
+]

@@ -1,0 +1,151 @@
+<section class="ln-hero" style="min-height: {{ section.settings.min_height }}vh; position: relative; display: flex; align-items: flex-end; overflow: hidden; background-color: var(--deep);">
+  {%- comment -%} Background media {%- endcomment -%}
+  {%- if section.settings.video_url != blank -%}
+    <video
+      class="ln-hero__video"
+      autoplay muted loop playsinline preload="metadata"
+      {%- if section.settings.poster_image != blank -%}
+        poster="{{ section.settings.poster_image | image_url: width: 1800 }}"
+      {%- endif -%}
+    >
+      <source src="{{ section.settings.video_url }}" type="video/mp4">
+    </video>
+  {%- elsif section.settings.poster_image != blank -%}
+    <div class="ln-hero__image ken-burns">
+      {{ section.settings.poster_image | image_url: width: 1800 | image_tag: loading: 'eager', fetchpriority: 'high', alt: section.settings.image_alt }}
+    </div>
+  {%- endif -%}
+
+  {%- comment -%} Gradient overlays {%- endcomment -%}
+  <div class="ln-hero__overlay ln-hero__overlay--main"></div>
+  <div class="ln-hero__overlay ln-hero__overlay--vignette"></div>
+  <div class="ln-hero__overlay ln-hero__overlay--mobile-bottom"></div>
+
+  {%- comment -%} Content {%- endcomment -%}
+  <div class="container-calm" style="position: relative; z-index: 10; padding-bottom: clamp(4rem, 8vw, 6rem); padding-top: 6rem; width: 100%;">
+    <div class="fade-in-up" style="max-width: 640px;">
+      {%- if section.settings.eyebrow != blank -%}
+        <span style="display: inline-block; font-size: 0.6875rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--deep-foreground); opacity: 0.65; margin-bottom: 1.5rem;">
+          {{ section.settings.eyebrow }}
+        </span>
+      {%- endif -%}
+
+      <h1 style="font-family: 'Playfair Display', Georgia, serif; color: var(--deep-foreground); font-size: clamp(2.25rem, 6vw, 4.5rem); line-height: 1.02; margin-bottom: 1.5rem; letter-spacing: -0.01em;">
+        {{ section.settings.heading }}
+      </h1>
+
+      {%- if section.settings.subheading != blank -%}
+        <p style="font-size: clamp(1rem, 2vw, 1.125rem); color: var(--deep-foreground); opacity: 0.8; line-height: 1.65; margin-bottom: 2.25rem; max-width: 32rem;">
+          {{ section.settings.subheading }}
+        </p>
+      {%- endif -%}
+
+      <div style="display: flex; flex-wrap: wrap; gap: 0.75rem; margin-bottom: 1.5rem;">
+        {%- if section.settings.cta_primary_label != blank -%}
+          <a href="{{ section.settings.cta_primary_url }}" class="btn-cta">
+            {{ section.settings.cta_primary_label }}
+          </a>
+        {%- endif -%}
+        {%- if section.settings.cta_secondary_label != blank -%}
+          <a href="{{ section.settings.cta_secondary_url }}" class="btn-outline-calm btn-outline-calm--light">
+            {{ section.settings.cta_secondary_label }}
+          </a>
+        {%- endif -%}
+      </div>
+
+      <ul style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem 1.25rem; max-width: 28rem; margin-bottom: 1.25rem; list-style: none;">
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'bullet' and block.settings.text != blank -%}
+            <li style="display: flex; align-items: flex-start; gap: 0.5rem; font-size: 0.8125rem; color: var(--deep-foreground); opacity: 0.8;">
+              <span style="opacity: 0.9; margin-top: 0.125rem; flex-shrink: 0;">✓</span>
+              <span>{{ block.settings.text }}</span>
+            </li>
+          {%- endif -%}
+        {%- endfor -%}
+      </ul>
+
+      {%- if section.settings.tagline != blank -%}
+        <p style="font-size: 0.75rem; color: var(--deep-foreground); opacity: 0.55; letter-spacing: 0.03em;">
+          {{ section.settings.tagline }}
+        </p>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+<style>
+  .ln-hero__video {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+  }
+  .ln-hero__image {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+  }
+  .ln-hero__image img {
+    width: 100%; height: 100%; object-fit: cover;
+  }
+  .ln-hero__overlay { position: absolute; inset: 0; }
+  .ln-hero__overlay--main {
+    background: linear-gradient(95deg,
+      rgba(20,14,10,0.72) 0%,
+      rgba(28,20,14,0.55) 35%,
+      rgba(40,28,18,0.18) 65%,
+      rgba(60,42,24,0.05) 100%);
+  }
+  .ln-hero__overlay--vignette {
+    background: radial-gradient(ellipse at 75% 55%, transparent 35%, rgba(20,14,10,0.25) 100%);
+    pointer-events: none;
+  }
+  .ln-hero__overlay--mobile-bottom {
+    bottom: 0; top: auto;
+    height: 40%;
+    background: linear-gradient(to top, rgba(20,14,10,0.8), rgba(20,14,10,0.3), transparent);
+  }
+  @media (min-width: 768px) {
+    .ln-hero__overlay--mobile-bottom { display: none; }
+    .ln-hero { align-items: center !important; }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Hero — video/billede",
+  "tag": "section",
+  "settings": [
+    { "type": "range", "id": "min_height", "min": 50, "max": 100, "step": 5, "unit": "vh", "label": "Minimum højde", "default": 92 },
+    { "type": "text", "id": "video_url", "label": "Video URL (mp4)", "info": "Upload video til Shopify Files og indsæt URL her" },
+    { "type": "image_picker", "id": "poster_image", "label": "Poster-billede (fallback)" },
+    { "type": "text", "id": "image_alt", "label": "Billedtekst (SEO)" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow-tekst", "default": "Køkken · Keramik · Hverdagsritualer" },
+    { "type": "textarea", "id": "heading", "label": "Overskrift", "default": "Et roligere køkken\nstarter med de ting,\ndu bruger hver dag." },
+    { "type": "textarea", "id": "subheading", "label": "Underoverskrift", "default": "Udvalgte produkter i træ, stål og keramik — skabt til mere orden, bedre hverdagsritualer og et hjem, der føles rart at være i." },
+    { "type": "text", "id": "cta_primary_label", "label": "Primær knap — tekst", "default": "Se køkkenfavoritter" },
+    { "type": "url", "id": "cta_primary_url", "label": "Primær knap — URL" },
+    { "type": "text", "id": "cta_secondary_label", "label": "Sekundær knap — tekst", "default": "Udforsk keramik" },
+    { "type": "url", "id": "cta_secondary_url", "label": "Sekundær knap — URL" },
+    { "type": "text", "id": "tagline", "label": "Tagline under knapper", "default": "Sendes fra Danmark · 1-2 dage · Sikker betaling · 30 dages retur" }
+  ],
+  "blocks": [
+    {
+      "type": "bullet",
+      "name": "Bullet-punkt",
+      "settings": [
+        { "type": "text", "id": "text", "label": "Tekst" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hero — video/billede",
+      "blocks": [
+        { "type": "bullet", "settings": { "text": "Massiv valnød & stål" } },
+        { "type": "bullet", "settings": { "text": "Skabt til nordiske hjem" } },
+        { "type": "bullet", "settings": { "text": "Klar til levering" } },
+        { "type": "bullet", "settings": { "text": "Fri fragt over 599 kr" } }
+      ]
+    }
+  ]
+}
+{% endschema %}
