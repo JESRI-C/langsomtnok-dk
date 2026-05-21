@@ -9,10 +9,11 @@
 <a href="{{ product.url }}" class="ln-product-card lift-on-hover">
   <div class="ln-product-card__image-wrap">
     {%- if product_image -%}
+      {%- assign product_img_alt = product_image.alt | default: product.title -%}
       <div class="ln-product-card__image-inner">
         {{ product_image | image_url: width: 600 | image_tag:
           loading: 'lazy',
-          alt: product_image.alt | default: product.title,
+          alt: product_img_alt,
           class: 'ln-product-card__img',
           widths: '300, 400, 600',
           sizes: '(max-width: 640px) 90vw, (max-width: 1024px) 45vw, 25vw'
