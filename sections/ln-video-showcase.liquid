@@ -1,16 +1,4 @@
-{%- liquid
-  assign bg_style = ''
-  case section.settings.background
-    when 'soft'
-      assign bg_style = 'background: color-mix(in oklab, var(--soft) 60%, var(--background));'
-    when 'linen'
-      assign bg_style = 'background: color-mix(in oklab, var(--linen) 60%, var(--background));'
-    else
-      assign bg_style = 'background: var(--background);'
-  endcase
--%}
-
-<section class="section-padding" style="{{ bg_style }}">
+<section class="section-padding" style="background: {%- if section.settings.background == 'soft' -%}color-mix(in oklab, var(--soft) 60%, var(--background)){%- elsif section.settings.background == 'linen' -%}color-mix(in oklab, var(--linen) 60%, var(--background)){%- else -%}var(--background){%- endif -%};">
   <div class="container-calm">
     <div class="ln-vs__grid {% if section.settings.video_side == 'left' %}ln-vs__grid--left{% endif %}">
 
