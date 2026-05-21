@@ -1,59 +1,256 @@
-<section class="section-padding" style="background: {% if section.settings.background == 'soft' %}color-mix(in oklab, var(--soft) 50%, var(--background)){% else %}var(--background){% endif %};">
+{%- liquid
+  assign bg_style = ''
+  case section.settings.background
+    when 'soft'
+      assign bg_style = 'background: color-mix(in oklab, var(--soft) 60%, var(--background));'
+    when 'linen'
+      assign bg_style = 'background: color-mix(in oklab, var(--linen) 60%, var(--background));'
+    else
+      assign bg_style = 'background: var(--background);'
+  endcase
+-%}
+
+<section class="section-padding" style="{{ bg_style }}">
   <div class="container-calm">
-    <div class="ln-video-showcase__grid {% if section.settings.video_side == 'left' %}ln-video-showcase__grid--left{% endif %}">
+    <div class="ln-vs__grid {% if section.settings.video_side == 'left' %}ln-vs__grid--left{% endif %}">
 
-      <div class="ln-video-showcase__text">
+      {%- comment -%} ── Video column ── {%- endcomment -%}
+      <div class="ln-vs__media-col">
+        <div class="ln-vs__media-wrap">
+          {%- if section.settings.video_url != blank -%}
+            <video
+              class="ln-vs__video"
+              autoplay muted loop playsinline preload="metadata"
+              disablepictureinpicture
+              aria-label="{{ section.settings.heading | escape }}"
+              {%- if section.settings.poster != blank -%}
+                poster="{{ section.settings.poster | image_url: width: 900 }}"
+              {%- endif -%}
+            >
+              <source src="{{ section.settings.video_url }}" type="video/mp4">
+            </video>
+          {%- elsif section.settings.poster != blank -%}
+            {{ section.settings.poster | image_url: width: 900 | image_tag:
+              loading: 'lazy',
+              class: 'ln-vs__video',
+              alt: section.settings.heading | escape
+            }}
+          {%- else -%}
+            <div class="ln-vs__placeholder"></div>
+          {%- endif -%}
+        </div>
+      </div>
+
+      {%- comment -%} ── Text column ── {%- endcomment -%}
+      <div class="ln-vs__text-col">
+
         {%- if section.settings.eyebrow != blank -%}
-          <span class="eyebrow">{{ section.settings.eyebrow }}</span>
+          <span class="ln-vs__eyebrow">
+            <span class="ln-vs__eyebrow-dot"></span>
+            {{ section.settings.eyebrow }}
+          </span>
         {%- endif -%}
-        <h2 style="font-size: clamp(1.75rem, 4vw, 2.75rem); margin-top: 0.5rem; margin-bottom: 1.25rem; line-height: 1.1;">{{ section.settings.heading }}</h2>
+
+        <h2 class="ln-vs__heading">{{ section.settings.heading }}</h2>
+
         {%- if section.settings.body != blank -%}
-          <p style="color: var(--muted-foreground); line-height: 1.75; max-width: 34rem; margin-bottom: 2rem;">{{ section.settings.body }}</p>
+          <p class="ln-vs__body">{{ section.settings.body }}</p>
         {%- endif -%}
+
+        {%- comment -%} Numbered steps {%- endcomment -%}
+        {%- assign step_blocks = section.blocks | where: 'type', 'step' -%}
+        {%- if step_blocks.size > 0 -%}
+          <ol class="ln-vs__steps">
+            {%- for block in step_blocks -%}
+              <li class="ln-vs__step" {{ block.shopify_attributes }}>
+                <span class="ln-vs__step-num">{{ forloop.index }}</span>
+                <span class="ln-vs__step-text">{{ block.settings.text }}</span>
+              </li>
+            {%- endfor -%}
+          </ol>
+        {%- endif -%}
+
+        {%- comment -%} Trust note {%- endcomment -%}
+        {%- if section.settings.trust_note != blank -%}
+          <div class="ln-vs__trust-note">
+            <span class="ln-vs__trust-check">✓</span>
+            {{ section.settings.trust_note }}
+          </div>
+        {%- endif -%}
+
+        {%- comment -%} CTA {%- endcomment -%}
         {%- if section.settings.cta_label != blank -%}
-          <a href="{{ section.settings.cta_url }}" class="btn-cta">{{ section.settings.cta_label }}</a>
+          <a href="{{ section.settings.cta_url }}" class="ln-vs__cta">
+            {{ section.settings.cta_label }}
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
         {%- endif -%}
-      </div>
 
-      <div class="ln-video-showcase__media">
-        {%- if section.settings.video_url != blank -%}
-          <video autoplay muted loop playsinline
-            style="width:100%;height:100%;object-fit:cover;border-radius:0.75rem;"
-            {%- if section.settings.poster != blank -%}
-              poster="{{ section.settings.poster | image_url: width: 900 }}"
-            {%- endif -%}>
-            <source src="{{ section.settings.video_url }}" type="video/mp4">
-          </video>
-        {%- elsif section.settings.poster != blank -%}
-          {{ section.settings.poster | image_url: width: 900 | image_tag: loading: 'lazy', style: 'width:100%;height:100%;object-fit:cover;border-radius:0.75rem;' }}
-        {%- else -%}
-          <div style="width:100%;height:100%;min-height:400px;background:var(--soft);border-radius:0.75rem;"></div>
-        {%- endif -%}
       </div>
-
     </div>
   </div>
 </section>
 
 <style>
-  .ln-video-showcase__grid {
+  /* Grid layout */
+  .ln-vs__grid {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 3rem;
+    gap: 2rem;
     align-items: center;
   }
-  .ln-video-showcase__media {
-    overflow: hidden;
-    border-radius: 0.75rem;
-    aspect-ratio: 16/10;
-    order: -1;
-  }
+  /* Mobile: video on top */
+  .ln-vs__media-col { order: 1; }
+  .ln-vs__text-col  { order: 2; }
+
   @media (min-width: 768px) {
-    .ln-video-showcase__grid { grid-template-columns: 1fr 1fr; gap: 4rem; }
-    .ln-video-showcase__media { order: 1; }
-    .ln-video-showcase__grid--left .ln-video-showcase__media { order: -1; }
-    .ln-video-showcase__grid--left .ln-video-showcase__text { order: 1; }
+    .ln-vs__grid { grid-template-columns: 1fr 1fr; gap: 3rem; }
+    /* Default: text left, video right */
+    .ln-vs__grid > .ln-vs__text-col  { order: 1; }
+    .ln-vs__grid > .ln-vs__media-col { order: 2; }
+    /* Flipped: video left, text right */
+    .ln-vs__grid--left > .ln-vs__media-col { order: 1; }
+    .ln-vs__grid--left > .ln-vs__text-col  { order: 2; }
   }
+  @media (min-width: 1024px) {
+    .ln-vs__grid { gap: 5rem; }
+  }
+
+  /* Media wrap — portrait 4:5 */
+  .ln-vs__media-wrap {
+    position: relative;
+    overflow: hidden;
+    border-radius: 1rem;
+    aspect-ratio: 4 / 5;
+    background: var(--soft);
+    box-shadow: 0 10px 40px -20px rgba(30, 20, 10, 0.28);
+  }
+  .ln-vs__video {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .ln-vs__placeholder {
+    width: 100%; height: 100%;
+    background: linear-gradient(145deg,
+      color-mix(in oklab, var(--soft) 70%, var(--walnut)) 0%,
+      var(--soft) 55%,
+      color-mix(in oklab, var(--linen) 60%, var(--copper)) 100%);
+  }
+
+  /* Eyebrow pill */
+  .ln-vs__eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.6875rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    font-weight: 500;
+    color: #A67C52;
+    background: rgba(166, 124, 82, 0.10);
+    border: 1px solid rgba(166, 124, 82, 0.25);
+    border-radius: 9999px;
+    padding: 0.25rem 0.75rem 0.25rem 0.5rem;
+    margin-bottom: 1rem;
+  }
+  .ln-vs__eyebrow-dot {
+    display: inline-block;
+    width: 0.375rem;
+    height: 0.375rem;
+    border-radius: 50%;
+    background: #A67C52;
+    flex-shrink: 0;
+  }
+
+  /* Heading */
+  .ln-vs__heading {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: clamp(1.75rem, 4vw, 3rem);
+    line-height: 1.1;
+    margin-bottom: 1.25rem;
+    color: var(--foreground);
+  }
+
+  /* Body */
+  .ln-vs__body {
+    font-size: clamp(1rem, 2vw, 1.125rem);
+    color: var(--muted-foreground);
+    line-height: 1.7;
+    max-width: 30rem;
+    margin-bottom: 1.5rem;
+  }
+
+  /* Steps */
+  .ln-vs__steps {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+    max-width: 30rem;
+  }
+  .ln-vs__step {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+  .ln-vs__step-num {
+    flex-shrink: 0;
+    width: 1.75rem;
+    height: 1.75rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 0.875rem;
+    color: #A67C52;
+    background: color-mix(in oklab, var(--soft) 80%, var(--background));
+    border: 1px solid rgba(166, 124, 82, 0.35);
+    line-height: 1;
+  }
+  .ln-vs__step-text {
+    font-size: 0.9375rem;
+    color: color-mix(in oklab, var(--foreground) 85%, transparent);
+    line-height: 1.6;
+    padding-top: 0.125rem;
+  }
+
+  /* Trust note */
+  .ln-vs__trust-note {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.75rem;
+    color: color-mix(in oklab, var(--foreground) 75%, transparent);
+    background: color-mix(in oklab, var(--soft) 80%, var(--background));
+    border: 1px solid rgba(90, 59, 46, 0.15);
+    border-radius: 0.375rem;
+    padding: 0.375rem 0.75rem;
+    margin-bottom: 1.5rem;
+  }
+  .ln-vs__trust-check {
+    color: #4C574A;
+    font-weight: 700;
+  }
+
+  /* CTA */
+  .ln-vs__cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: var(--cta);
+    color: var(--cta-foreground);
+    padding: 0.875rem 1.75rem;
+    border-radius: 0.375rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    letter-spacing: 0.025em;
+    text-decoration: none;
+    transition: background 0.4s ease;
+  }
+  .ln-vs__cta:hover { background: color-mix(in oklab, var(--cta) 80%, #000); }
 </style>
 
 {% schema %}
@@ -61,20 +258,31 @@
   "name": "Video showcase",
   "settings": [
     { "type": "select", "id": "background", "label": "Baggrund", "options": [
-      { "value": "white", "label": "Hvid" },
-      { "value": "soft", "label": "Varm" }
+      { "value": "background", "label": "Hvid" },
+      { "value": "soft", "label": "Varm" },
+      { "value": "linen", "label": "Linen" }
     ], "default": "soft" },
-    { "type": "select", "id": "video_side", "label": "Video side", "options": [
-      { "value": "right", "label": "Højre" },
-      { "value": "left", "label": "Venstre" }
+    { "type": "select", "id": "video_side", "label": "Video-side", "options": [
+      { "value": "right", "label": "Højre (video til højre)" },
+      { "value": "left", "label": "Venstre (video til venstre)" }
     ], "default": "right" },
-    { "type": "text", "id": "eyebrow", "label": "Eyebrow" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow (pill med kobber-dot)" },
     { "type": "text", "id": "heading", "label": "Overskrift" },
     { "type": "textarea", "id": "body", "label": "Brødtekst" },
+    { "type": "text", "id": "trust_note", "label": "Trust note (vises med ✓)" },
     { "type": "text", "id": "cta_label", "label": "Knaptekst" },
     { "type": "url", "id": "cta_url", "label": "Knap-URL" },
-    { "type": "text", "id": "video_url", "label": "Video URL (mp4)" },
-    { "type": "image_picker", "id": "poster", "label": "Poster-billede" }
+    { "type": "text", "id": "video_url", "label": "Video URL (mp4)", "info": "Upload til Shopify Files og indsæt URL her" },
+    { "type": "image_picker", "id": "poster", "label": "Poster-billede / fallback-billede" }
+  ],
+  "blocks": [
+    {
+      "type": "step",
+      "name": "Monteringstrin",
+      "settings": [
+        { "type": "text", "id": "text", "label": "Trin-tekst" }
+      ]
+    }
   ],
   "presets": [{
     "name": "Video showcase",
@@ -82,10 +290,16 @@
       "eyebrow": "Et roligere køkken",
       "heading": "En lille opgradering. Mere ro i køkkenet.",
       "body": "Se hvor enkelt den magnetiske knivholder finder sin plads. Uden boremaskine. Uden støv.",
+      "trust_note": "Tape følger med · Ingen boremaskine",
       "cta_label": "Se knivholderen",
       "background": "soft",
       "video_side": "right"
-    }
+    },
+    "blocks": [
+      { "type": "step", "settings": { "text": "Hold holderen mod væggen og mærk magneten" } },
+      { "type": "step", "settings": { "text": "Sæt den medfølgende tape på bagsiden" } },
+      { "type": "step", "settings": { "text": "Tryk fast i 30 sekunder — klar" } }
+    ]
   }]
 }
 {% endschema %}
