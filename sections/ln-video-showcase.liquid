@@ -18,10 +18,11 @@
               <source src="{{ section.settings.video_url }}" type="video/mp4">
             </video>
           {%- elsif section.settings.poster != blank -%}
+            {%- assign vs_alt = section.settings.heading | escape -%}
             {{ section.settings.poster | image_url: width: 900 | image_tag:
               loading: 'lazy',
               class: 'ln-vs__video',
-              alt: section.settings.heading | escape
+              alt: vs_alt
             }}
           {%- else -%}
             <div class="ln-vs__placeholder"></div>
@@ -46,14 +47,19 @@
         {%- endif -%}
 
         {%- comment -%} Numbered steps {%- endcomment -%}
-        {%- assign step_blocks = section.blocks | where: 'type', 'step' -%}
-        {%- if step_blocks.size > 0 -%}
+        {%- assign has_steps = false -%}
+        {%- for block in section.blocks -%}{%- if block.type == 'step' -%}{%- assign has_steps = true -%}{%- endif -%}{%- endfor -%}
+        {%- if has_steps -%}
           <ol class="ln-vs__steps">
-            {%- for block in step_blocks -%}
-              <li class="ln-vs__step" {{ block.shopify_attributes }}>
-                <span class="ln-vs__step-num">{{ forloop.index }}</span>
-                <span class="ln-vs__step-text">{{ block.settings.text }}</span>
-              </li>
+            {%- assign step_index = 0 -%}
+            {%- for block in section.blocks -%}
+              {%- if block.type == 'step' -%}
+                {%- assign step_index = step_index | plus: 1 -%}
+                <li class="ln-vs__step" {{ block.shopify_attributes }}>
+                  <span class="ln-vs__step-num">{{ step_index }}</span>
+                  <span class="ln-vs__step-text">{{ block.settings.text }}</span>
+                </li>
+              {%- endif -%}
             {%- endfor -%}
           </ol>
         {%- endif -%}
