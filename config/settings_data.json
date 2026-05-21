@@ -1,6 +1,186 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "current": {
-    "favicon": null
+    "sections": {
+      "ln-announcement-bar": {
+        "type": "ln-announcement-bar",
+        "custom_css": [],
+        "settings": {
+          "message_a": "Fri fragt over 599 kr · Levering 1-2 hverdage fra Danmark",
+          "message_b": "30 dages returret · Sikker betaling · Pakket med omhu"
+        }
+      },
+      "ln-header": {
+        "type": "ln-header",
+        "custom_css": [],
+        "settings": {}
+      },
+      "ln-trust-bar": {
+        "type": "ln-trust-bar",
+        "settings": {
+          "item1_title": "Sendes fra Danmark",
+          "item1_text": "Levering 1–2 hverdage",
+          "item2_title": "Fri fragt over 599 kr",
+          "item2_text": "Pakket med omhu",
+          "item3_title": "30 dages returret",
+          "item3_text": "Du har tid til at mærke efter",
+          "item4_title": "Sikker betaling",
+          "item4_text": "Betaling foregår sikkert"
+        }
+      },
+      "ln-video-showcase": {
+        "type": "ln-video-showcase",
+        "blocks": {
+          "step_gMTF7g": {
+            "type": "step",
+            "settings": {
+              "text": ""
+            }
+          }
+        },
+        "block_order": [
+          "step_gMTF7g"
+        ],
+        "settings": {
+          "background": "soft",
+          "video_side": "right",
+          "eyebrow": "",
+          "heading": "",
+          "body": "",
+          "trust_note": "",
+          "cta_label": "",
+          "cta_url": "",
+          "video_url": ""
+        }
+      },
+      "ln-categories": {
+        "type": "ln-categories",
+        "settings": {
+          "eyebrow": "Kategorier",
+          "heading": "Find det, du leder efter",
+          "subheading": "Fire indgange til et roligere køkken. Vælg dér, hvor du gerne vil starte."
+        }
+      },
+      "ln-featured-products": {
+        "type": "ln-featured-products",
+        "settings": {
+          "eyebrow": "Udvalgt lige nu",
+          "heading": "Et godt sted at starte",
+          "collection": "",
+          "products_to_show": 4,
+          "view_all_label": "Se alle produkter"
+        }
+      },
+      "ln-materials": {
+        "type": "ln-materials",
+        "blocks": {
+          "material_WdTtV6": {
+            "type": "material",
+            "settings": {
+              "name": "",
+              "text": ""
+            }
+          }
+        },
+        "block_order": [
+          "material_WdTtV6"
+        ],
+        "settings": {
+          "eyebrow": "Materialer",
+          "heading": "Materialer, der bliver smukkere med brug."
+        }
+      },
+      "ln-ritual-choices": {
+        "type": "ln-ritual-choices",
+        "blocks": {
+          "choice_X7TU7f": {
+            "type": "choice",
+            "settings": {
+              "url": "",
+              "title": "",
+              "text": "",
+              "cta_label": "Se mere"
+            }
+          }
+        },
+        "block_order": [
+          "choice_X7TU7f"
+        ],
+        "settings": {
+          "eyebrow": "Vejledning",
+          "heading": "Find dit første ritual",
+          "subheading": "Tre stille indgange. Vælg den, der passer til dig — vi guider dig roligt videre.",
+          "quiz_label": "Find dit køkkenritual",
+          "quiz_url": ""
+        }
+      },
+      "ln-brand-manifest": {
+        "type": "ln-brand-manifest",
+        "settings": {
+          "image_alt": "",
+          "eyebrow": "Manifest",
+          "heading": "Ikke skabt til fart.",
+          "cta_label": "Læs vores historie",
+          "cta_url": ""
+        }
+      },
+      "ln-newsletter": {
+        "type": "ln-newsletter",
+        "settings": {
+          "variant": "light",
+          "heading": "Langsomt Brev",
+          "subheading": "Et øjeblik af ro i din indbakke. Guides, ritualer og fortællinger om træ, stål og tid.",
+          "button_label": "Modtag Langsomt Brev",
+          "footnote": "Rolige breve. Ingen støj."
+        }
+      },
+      "ln-guides": {
+        "type": "ln-guides",
+        "blocks": {
+          "article_dfHgUA": {
+            "type": "article",
+            "settings": {
+              "title": "",
+              "excerpt": "",
+              "url": ""
+            }
+          }
+        },
+        "block_order": [
+          "article_dfHgUA"
+        ],
+        "settings": {
+          "eyebrow": "Læs",
+          "heading": "Fra guiden",
+          "blog": "",
+          "articles_to_show": 3,
+          "view_all_label": "Alle guides"
+        }
+      },
+      "ln-footer": {
+        "type": "ln-footer",
+        "settings": {
+          "email": "hej@langsomtnok.dk",
+          "phone": "+45 27 12 84 97",
+          "brand_description": "Køkkenredskaber og keramik skabt til dem, der ikke skynder sig gennem det vigtige. Træ, stål, olie, tid.",
+          "legal_name": "Langsomt Nok ApS",
+          "cvr": "",
+          "address": "",
+          "legal_description": "",
+          "instagram_url": "",
+          "pinterest_url": ""
+        }
+      }
+    },
+    "content_for_index": []
   },
   "presets": {}
 }
