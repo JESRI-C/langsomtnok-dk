@@ -46,7 +46,7 @@ export function StartRitualetBundle({
       viewedRef.current = true;
       trackEvent("bundle_view", {
         bundle: "start_ritualet",
-        handles: products.map((p) => p.node.handle),
+        handles: products.map((p) => p.node.handle).join(","),
       });
     }
   }, [products]);
@@ -63,7 +63,7 @@ export function StartRitualetBundle({
   const handleAddBundle = async () => {
     trackEvent("bundle_add_to_cart", {
       bundle: "start_ritualet",
-      handles: products.map((p) => p.node.handle),
+      handles: products.map((p) => p.node.handle).join(","),
       value: total,
       currency,
     });
