@@ -308,6 +308,7 @@ function HomePage() {
       )}
 
       {/* ─────────────────── 3b. BUNDLES ─────────────────── */}
+      <StartRitualetBundle />
       <BundleSection />
 
       {/* ─────────────────── 3c. KERAMIK ─────────────────── */}
