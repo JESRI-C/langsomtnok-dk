@@ -152,7 +152,7 @@ export function StartRitualetBundle({
                     )}
                   </div>
                 </div>
-              </>
+              </Fragment>
             );
           })}
         </div>
