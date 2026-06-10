@@ -172,7 +172,7 @@ function AppShell() {
   }, []);
 
   return (
-    <>
+    <TrackingProvider>
       <AnnouncementBar />
       <Header />
       <main>
@@ -181,6 +181,6 @@ function AppShell() {
       <Footer />
       <CartDrawer />
       <Toaster position="top-center" toastOptions={{ className: "font-sans" }} />
-    </>
+    </TrackingProvider>
   );
 }
