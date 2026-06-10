@@ -275,6 +275,7 @@ export function trackAddToCart(params: {
     content_ids: [numericId(params.variant_id)],
     content_name: params.product_title,
     content_type: 'product',
+    contents: [{ id: numericId(params.variant_id), quantity: params.quantity, item_price: params.price }],
     value: params.price * params.quantity,
     currency: params.currency,
   });
