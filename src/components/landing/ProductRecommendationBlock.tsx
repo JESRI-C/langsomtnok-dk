@@ -24,7 +24,7 @@ export function ProductRecommendationBlock({ title = "Anbefalede produkter", sub
             const { node } = product;
             const image = node.images.edges[0]?.node;
             return (
-              <Link key={node.id} to="/product/$handle" params={{ handle: node.handle }} className="group block">
+              <Link key={node.id} to="/products/$handle" params={{ handle: node.handle }} className="group block">
                 <div className="aspect-[4/5] rounded-lg overflow-hidden bg-linen mb-4">
                   {image ? (
                     <img src={image.url} alt={image.altText || node.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy" />

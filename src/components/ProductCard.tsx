@@ -97,7 +97,7 @@ export function ProductCard({ product, section = "product_grid" }: { product: Sh
 
   return (
     <Link
-      to="/product/$handle"
+      to="/products/$handle"
       params={{ handle: node.handle }}
       className="group block rounded-xl border border-border/70 bg-card p-3 lift-on-hover"
       onClick={handleCardClick}

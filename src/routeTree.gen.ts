@@ -30,7 +30,7 @@ import { Route as GuidesIndexRouteImport } from './routes/guides.index'
 import { Route as UniversetSlugRouteImport } from './routes/universet_.$slug'
 import { Route as RitualerRoligOpbevaringRouteImport } from './routes/ritualer.rolig-opbevaring'
 import { Route as RitualerHoldKnivenSkarpRouteImport } from './routes/ritualer.hold-kniven-skarp'
-import { Route as ProductHandleRouteImport } from './routes/product.$handle'
+import { Route as ProductsHandleRouteImport } from './routes/products.$handle'
 import { Route as PagesSommerbordMedKeramikRouteImport } from './routes/pages.sommerbord-med-keramik'
 import { Route as PagesSlibestenGuideRouteImport } from './routes/pages.slibesten-guide'
 import { Route as PagesSadanHolderDuDinKnivSkarpRouteImport } from './routes/pages.sadan-holder-du-din-kniv-skarp'
@@ -163,9 +163,9 @@ const RitualerHoldKnivenSkarpRoute = RitualerHoldKnivenSkarpRouteImport.update({
   path: '/ritualer/hold-kniven-skarp',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ProductHandleRoute = ProductHandleRouteImport.update({
-  id: '/product/$handle',
-  path: '/product/$handle',
+const ProductsHandleRoute = ProductsHandleRouteImport.update({
+  id: '/products/$handle',
+  path: '/products/$handle',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PagesSommerbordMedKeramikRoute =
@@ -347,7 +347,7 @@ export interface FileRoutesByFullPath {
   '/pages/sadan-holder-du-din-kniv-skarp': typeof PagesSadanHolderDuDinKnivSkarpRoute
   '/pages/slibesten-guide': typeof PagesSlibestenGuideRoute
   '/pages/sommerbord-med-keramik': typeof PagesSommerbordMedKeramikRoute
-  '/product/$handle': typeof ProductHandleRoute
+  '/products/$handle': typeof ProductsHandleRoute
   '/ritualer/hold-kniven-skarp': typeof RitualerHoldKnivenSkarpRoute
   '/ritualer/rolig-opbevaring': typeof RitualerRoligOpbevaringRoute
   '/universet/$slug': typeof UniversetSlugRoute
@@ -397,7 +397,7 @@ export interface FileRoutesByTo {
   '/pages/sadan-holder-du-din-kniv-skarp': typeof PagesSadanHolderDuDinKnivSkarpRoute
   '/pages/slibesten-guide': typeof PagesSlibestenGuideRoute
   '/pages/sommerbord-med-keramik': typeof PagesSommerbordMedKeramikRoute
-  '/product/$handle': typeof ProductHandleRoute
+  '/products/$handle': typeof ProductsHandleRoute
   '/ritualer/hold-kniven-skarp': typeof RitualerHoldKnivenSkarpRoute
   '/ritualer/rolig-opbevaring': typeof RitualerRoligOpbevaringRoute
   '/universet/$slug': typeof UniversetSlugRoute
@@ -448,7 +448,7 @@ export interface FileRoutesById {
   '/pages/sadan-holder-du-din-kniv-skarp': typeof PagesSadanHolderDuDinKnivSkarpRoute
   '/pages/slibesten-guide': typeof PagesSlibestenGuideRoute
   '/pages/sommerbord-med-keramik': typeof PagesSommerbordMedKeramikRoute
-  '/product/$handle': typeof ProductHandleRoute
+  '/products/$handle': typeof ProductsHandleRoute
   '/ritualer/hold-kniven-skarp': typeof RitualerHoldKnivenSkarpRoute
   '/ritualer/rolig-opbevaring': typeof RitualerRoligOpbevaringRoute
   '/universet_/$slug': typeof UniversetSlugRoute
@@ -500,7 +500,7 @@ export interface FileRouteTypes {
     | '/pages/sadan-holder-du-din-kniv-skarp'
     | '/pages/slibesten-guide'
     | '/pages/sommerbord-med-keramik'
-    | '/product/$handle'
+    | '/products/$handle'
     | '/ritualer/hold-kniven-skarp'
     | '/ritualer/rolig-opbevaring'
     | '/universet/$slug'
@@ -550,7 +550,7 @@ export interface FileRouteTypes {
     | '/pages/sadan-holder-du-din-kniv-skarp'
     | '/pages/slibesten-guide'
     | '/pages/sommerbord-med-keramik'
-    | '/product/$handle'
+    | '/products/$handle'
     | '/ritualer/hold-kniven-skarp'
     | '/ritualer/rolig-opbevaring'
     | '/universet/$slug'
@@ -600,7 +600,7 @@ export interface FileRouteTypes {
     | '/pages/sadan-holder-du-din-kniv-skarp'
     | '/pages/slibesten-guide'
     | '/pages/sommerbord-med-keramik'
-    | '/product/$handle'
+    | '/products/$handle'
     | '/ritualer/hold-kniven-skarp'
     | '/ritualer/rolig-opbevaring'
     | '/universet_/$slug'
@@ -651,7 +651,7 @@ export interface RootRouteChildren {
   PagesSadanHolderDuDinKnivSkarpRoute: typeof PagesSadanHolderDuDinKnivSkarpRoute
   PagesSlibestenGuideRoute: typeof PagesSlibestenGuideRoute
   PagesSommerbordMedKeramikRoute: typeof PagesSommerbordMedKeramikRoute
-  ProductHandleRoute: typeof ProductHandleRoute
+  ProductsHandleRoute: typeof ProductsHandleRoute
   RitualerHoldKnivenSkarpRoute: typeof RitualerHoldKnivenSkarpRoute
   RitualerRoligOpbevaringRoute: typeof RitualerRoligOpbevaringRoute
   UniversetSlugRoute: typeof UniversetSlugRoute
@@ -814,11 +814,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RitualerHoldKnivenSkarpRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/product/$handle': {
-      id: '/product/$handle'
-      path: '/product/$handle'
-      fullPath: '/product/$handle'
-      preLoaderRoute: typeof ProductHandleRouteImport
+    '/products/$handle': {
+      id: '/products/$handle'
+      path: '/products/$handle'
+      fullPath: '/products/$handle'
+      preLoaderRoute: typeof ProductsHandleRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/pages/sommerbord-med-keramik': {
@@ -1044,7 +1044,7 @@ const rootRouteChildren: RootRouteChildren = {
   PagesSadanHolderDuDinKnivSkarpRoute: PagesSadanHolderDuDinKnivSkarpRoute,
   PagesSlibestenGuideRoute: PagesSlibestenGuideRoute,
   PagesSommerbordMedKeramikRoute: PagesSommerbordMedKeramikRoute,
-  ProductHandleRoute: ProductHandleRoute,
+  ProductsHandleRoute: ProductsHandleRoute,
   RitualerHoldKnivenSkarpRoute: RitualerHoldKnivenSkarpRoute,
   RitualerRoligOpbevaringRoute: RitualerRoligOpbevaringRoute,
   UniversetSlugRoute: UniversetSlugRoute,
@@ -1060,3 +1060,13 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
