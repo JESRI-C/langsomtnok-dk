@@ -316,33 +316,58 @@ export function CartDrawer() {
                 ))}
               </div>
 
-              {/* ── Upsell Block — live Shopify recommendations ────────── */}
+              {/* ── Upsell Block — rule-based cross-sell ──────────────── */}
               {upsellProducts.length > 0 && (
-                <div className="flex-shrink-0 py-3 border-t border-border">
+                <div className="flex-shrink-0 py-3 border-t border-border" data-block="cart-upsell">
                   <p className="text-xs text-muted-foreground font-medium mb-2 px-1">
-                    Det giver mening sammen med…
+                    Det hører til ritualet…
                   </p>
-                  <div className="flex gap-2 overflow-x-auto pb-1 px-1">
+                  <div className="space-y-2">
                     {upsellProducts.map((rec) => {
                       const variant = rec.node.variants.edges[0]?.node;
+                      const img = rec.node.images.edges[0]?.node;
                       return (
-                        <Link
+                        <div
                           key={rec.node.id}
-                          to="/products/$handle"
-                          params={{ handle: rec.node.handle }}
-                          onClick={() => {
-                            setOpen(false);
-                            trackEvent('cart_upsell_click', { product_id: rec.node.id, product_title: rec.node.title });
-                          }}
-                          className="flex-shrink-0 px-3 py-2 rounded-md border border-border bg-soft/30 text-xs text-foreground hover:border-walnut/30 transition-colors"
+                          className="flex items-center gap-3 p-2 rounded-md border border-border/60 bg-soft/30"
                         >
-                          <span className="text-muted-foreground">+</span> {rec.node.title}
-                          {variant && (
-                            <span className="ml-1 text-muted-foreground">
-                              {formatPrice(variant.price.amount, variant.price.currencyCode)}
-                            </span>
-                          )}
-                        </Link>
+                          <Link
+                            to="/products/$handle"
+                            params={{ handle: rec.node.handle }}
+                            onClick={() => {
+                              setOpen(false);
+                              trackEvent("cart_upsell_click", {
+                                product_id: rec.node.id,
+                                product_title: rec.node.title,
+                              });
+                            }}
+                            className="flex items-center gap-3 flex-1 min-w-0"
+                          >
+                            {img && (
+                              <img
+                                src={img.url}
+                                alt={img.altText ?? rec.node.title}
+                                className="w-10 h-10 rounded object-cover flex-shrink-0"
+                              />
+                            )}
+                            <div className="min-w-0 flex-1">
+                              <p className="text-xs font-medium truncate">{rec.node.title}</p>
+                              {variant && (
+                                <p className="text-xs text-muted-foreground">
+                                  {formatPrice(variant.price.amount, variant.price.currencyCode)}
+                                </p>
+                              )}
+                            </div>
+                          </Link>
+                          <button
+                            onClick={(e) => handleUpsellAdd(rec, e)}
+                            disabled={isLoading || !variant?.availableForSale}
+                            className="text-xs font-medium text-cta px-2 py-1 rounded hover:bg-cta/10 transition-colors flex-shrink-0 disabled:opacity-50"
+                            aria-label={`Tilføj ${rec.node.title}`}
+                          >
+                            + Tilføj
+                          </button>
+                        </div>
                       );
                     })}
                   </div>
