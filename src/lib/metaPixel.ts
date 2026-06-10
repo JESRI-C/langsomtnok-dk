@@ -7,10 +7,15 @@
  * fired from src/lib/analytics.ts via window.fbq once this loader has run.
  */
 
-const PIXEL_ID =
+// Public Meta Pixel ID for langsomtnok.dk — safe to ship in client bundle.
+// Env override allowed for staging/testing; falls back to production pixel.
+const DEFAULT_PIXEL_ID = "1008389321706401";
+const ENV_PIXEL_ID =
   (typeof import.meta !== "undefined" && (import.meta.env?.VITE_META_PIXEL_ID as string | undefined)) || "";
+const PIXEL_ID =
+  ENV_PIXEL_ID && !/REPLACE_WITH|your[-_]?pixel/i.test(ENV_PIXEL_ID) ? ENV_PIXEL_ID : DEFAULT_PIXEL_ID;
 
-const PLACEHOLDER = !PIXEL_ID || /REPLACE_WITH|your[-_]?pixel/i.test(PIXEL_ID);
+const PLACEHOLDER = !PIXEL_ID;
 
 let installed = false;
 
