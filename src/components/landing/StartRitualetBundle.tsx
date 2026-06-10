@@ -119,7 +119,7 @@ export function StartRitualetBundle({
             const v = p.node.variants.edges[0]?.node;
             const img = p.node.images.edges[0]?.node;
             return (
-              <>
+              <Fragment key={p.node.id}>
                 {i === 1 && (
                   <div
                     key="plus"
