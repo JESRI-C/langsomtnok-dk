@@ -12,6 +12,8 @@ import { storefrontApiRequest, PRODUCTS_QUERY, type ShopifyProduct } from "@/lib
 import { STORIES as UNIVERSET_STORIES } from "@/lib/universet";
 import { StoryCard as UniversetHomeStoryCard } from "@/components/universet/StoryCard";
 import { KeramikHomeSection } from "@/components/KeramikHomeSection";
+import { HeroOffer } from "@/components/landing/HeroOffer";
+import { StartRitualetBundle } from "@/components/landing/StartRitualetBundle";
 
 const UNIVERSET_HOME_STORIES = UNIVERSET_STORIES.slice(0, 3);
 
@@ -207,6 +209,9 @@ function HomePage() {
           </div>
         </div>
       </section>
+
+      {/* ─────────────────── HERO OFFER: Magnetisk knivholder ─────────────────── */}
+      <HeroOffer />
 
       {/* ─────────────────── VIDEO: Magnetisk knivholder ─────────────────── */}
       <VideoShowcase
