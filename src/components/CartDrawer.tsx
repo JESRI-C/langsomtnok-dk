@@ -22,8 +22,9 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sh
 import { Button } from "@/components/ui/button";
 import { Minus, Plus, Trash2, Loader2, ArrowRight, ShieldCheck } from "lucide-react";
 import { useCartStore } from "@/stores/cartStore";
-import { formatPrice, fetchProductRecommendations, type ShopifyProduct } from "@/lib/shopify";
-import { trackBeginCheckout, trackCartOpen, trackEvent } from "@/lib/analytics";
+import { formatPrice, fetchProductRecommendations, fetchProductsByHandles, type ShopifyProduct } from "@/lib/shopify";
+import { trackAddToCart, trackBeginCheckout, trackCartOpen, trackEvent } from "@/lib/analytics";
+import { toast } from "sonner";
 import { useState, useEffect } from "react";
 import { Link } from "@tanstack/react-router";
 
@@ -34,23 +35,142 @@ export function CartDrawer() {
   const { items, isLoading, isSyncing, isOpen, setOpen, updateQuantity, removeItem, getCheckoutUrl, syncCart } = useCartStore();
   const [upsellProducts, setUpsellProducts] = useState<ShopifyProduct[]>([]);
 
-  // Fetch recommendations when cart opens with items
+  const addItem = useCartStore((s) => s.addItem);
+  const viewedUpsellRef = useState<Set<string>>(new Set())[0];
+
+  // Rule-based upsell selection — calm cross-sell tied to what's in the cart.
+  // Magnetic holder → slibesten · slibesten → slibestensholder/læderstrop · kniv → slibesten/magnetisk.
   useEffect(() => {
-    if (!isOpen || items.length === 0) return;
-    const firstProductId = items[0]?.product?.node?.id;
-    if (!firstProductId) return;
-    fetchProductRecommendations(firstProductId)
-      .then((recs) => {
-        // Exclude products already in cart
-        const cartVariantIds = new Set(items.map(i => i.variantId));
-        const filtered = recs.filter(r =>
-          r.node.variants.edges.every(v => !cartVariantIds.has(v.node.id)) &&
-          r.node.variants.edges[0]?.node?.availableForSale
-        );
-        setUpsellProducts(filtered.slice(0, 3));
-      })
-      .catch(() => setUpsellProducts([]));
+    if (!isOpen || items.length === 0) {
+      setUpsellProducts([]);
+      return;
+    }
+
+    const cartText = items
+      .map((i) =>
+        [
+          i.product.node.handle,
+          i.product.node.productType,
+          i.product.node.title,
+          (i.product.node.tags || []).join(" "),
+        ]
+          .filter(Boolean)
+          .join(" ")
+          .toLowerCase(),
+      )
+      .join(" ");
+
+    const has = (...kw: string[]) => kw.some((k) => cartText.includes(k));
+    const hasMagnetic = has("magnetic", "magnet", "knivlist", "knivholder", "knivstander");
+    const hasWhetstone = has("whetstone", "slibesten", "sliber");
+    const hasKnife = has("knife", "kniv", "chef-knife", "kokkekniv", "santoku");
+
+    // Priority-ordered handle candidates for each rule. First available wins.
+    const candidates: string[] = [];
+    if (hasMagnetic && !hasWhetstone) {
+      candidates.push(
+        "double-sided-whetstone-1000-5000",
+        "walnut-sharpener-xz-mdq01-htm",
+      );
+    }
+    if (hasWhetstone) {
+      candidates.push(
+        "slibestensholder",
+        "stone-holder",
+        "leather-strop",
+        "laederstrop",
+        "walnut-sharpener-xz-mdq01-htm",
+      );
+    }
+    if (hasKnife && !hasWhetstone) {
+      candidates.push(
+        "double-sided-whetstone-1000-5000",
+        "magnetic-knife-display-stand-walnut",
+        "magnetic-knife-holder-acacia-19-6",
+      );
+    }
+    // Fallback: empty candidates → use Shopify's product recommendations
+    const cartVariantIds = new Set(items.map((i) => i.variantId));
+    const cartProductIds = new Set(items.map((i) => i.product.node.id));
+
+    const filterValid = (recs: ShopifyProduct[]) =>
+      recs.filter(
+        (r) =>
+          !cartProductIds.has(r.node.id) &&
+          r.node.variants.edges.every((v) => !cartVariantIds.has(v.node.id)) &&
+          r.node.variants.edges[0]?.node?.availableForSale,
+      );
+
+    if (candidates.length > 0) {
+      fetchProductsByHandles(candidates)
+        .then((list) => {
+          const valid = filterValid(list).slice(0, 3);
+          if (valid.length > 0) {
+            setUpsellProducts(valid);
+            return;
+          }
+          // Fallback to Shopify recommendations
+          const firstProductId = items[0]?.product?.node?.id;
+          if (firstProductId) {
+            fetchProductRecommendations(firstProductId).then((recs) =>
+              setUpsellProducts(filterValid(recs).slice(0, 3)),
+            );
+          }
+        })
+        .catch(() => setUpsellProducts([]));
+    } else {
+      const firstProductId = items[0]?.product?.node?.id;
+      if (!firstProductId) return;
+      fetchProductRecommendations(firstProductId)
+        .then((recs) => setUpsellProducts(filterValid(recs).slice(0, 3)))
+        .catch(() => setUpsellProducts([]));
+    }
   }, [isOpen, items]);
+
+  // Fire cart_upsell_view once per session per product when shown
+  useEffect(() => {
+    if (!isOpen || upsellProducts.length === 0) return;
+    upsellProducts.forEach((p) => {
+      if (viewedUpsellRef.has(p.node.id)) return;
+      viewedUpsellRef.add(p.node.id);
+      trackEvent("cart_upsell_view", {
+        product_id: p.node.id,
+        product_title: p.node.title,
+        handle: p.node.handle,
+      });
+    });
+  }, [isOpen, upsellProducts, viewedUpsellRef]);
+
+  const handleUpsellAdd = async (rec: ShopifyProduct, e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    const variant = rec.node.variants.edges[0]?.node;
+    if (!variant) return;
+    trackEvent("cart_upsell_add", {
+      product_id: rec.node.id,
+      product_title: rec.node.title,
+      handle: rec.node.handle,
+    });
+    await addItem({
+      product: rec,
+      variantId: variant.id,
+      variantTitle: variant.title,
+      price: variant.price,
+      quantity: 1,
+      selectedOptions: variant.selectedOptions || [],
+    });
+    trackAddToCart({
+      product_id: rec.node.id,
+      product_title: rec.node.title,
+      variant_id: variant.id,
+      price: parseFloat(variant.price.amount),
+      currency: variant.price.currencyCode,
+      quantity: 1,
+      product_type: rec.node.productType,
+    });
+    toast.success("Tilføjet med ro.", { description: rec.node.title, position: "top-center" });
+  };
+
   const totalItems = items.reduce((sum, item) => sum + item.quantity, 0);
   const totalPrice = items.reduce((sum, item) => sum + parseFloat(item.price.amount) * item.quantity, 0);
   const currency = items[0]?.price.currencyCode || 'DKK';
@@ -196,33 +316,58 @@ export function CartDrawer() {
                 ))}
               </div>
 
-              {/* ── Upsell Block — live Shopify recommendations ────────── */}
+              {/* ── Upsell Block — rule-based cross-sell ──────────────── */}
               {upsellProducts.length > 0 && (
-                <div className="flex-shrink-0 py-3 border-t border-border">
+                <div className="flex-shrink-0 py-3 border-t border-border" data-block="cart-upsell">
                   <p className="text-xs text-muted-foreground font-medium mb-2 px-1">
-                    Det giver mening sammen med…
+                    Det hører til ritualet…
                   </p>
-                  <div className="flex gap-2 overflow-x-auto pb-1 px-1">
+                  <div className="space-y-2">
                     {upsellProducts.map((rec) => {
                       const variant = rec.node.variants.edges[0]?.node;
+                      const img = rec.node.images.edges[0]?.node;
                       return (
-                        <Link
+                        <div
                           key={rec.node.id}
-                          to="/products/$handle"
-                          params={{ handle: rec.node.handle }}
-                          onClick={() => {
-                            setOpen(false);
-                            trackEvent('cart_upsell_click', { product_id: rec.node.id, product_title: rec.node.title });
-                          }}
-                          className="flex-shrink-0 px-3 py-2 rounded-md border border-border bg-soft/30 text-xs text-foreground hover:border-walnut/30 transition-colors"
+                          className="flex items-center gap-3 p-2 rounded-md border border-border/60 bg-soft/30"
                         >
-                          <span className="text-muted-foreground">+</span> {rec.node.title}
-                          {variant && (
-                            <span className="ml-1 text-muted-foreground">
-                              {formatPrice(variant.price.amount, variant.price.currencyCode)}
-                            </span>
-                          )}
-                        </Link>
+                          <Link
+                            to="/products/$handle"
+                            params={{ handle: rec.node.handle }}
+                            onClick={() => {
+                              setOpen(false);
+                              trackEvent("cart_upsell_click", {
+                                product_id: rec.node.id,
+                                product_title: rec.node.title,
+                              });
+                            }}
+                            className="flex items-center gap-3 flex-1 min-w-0"
+                          >
+                            {img && (
+                              <img
+                                src={img.url}
+                                alt={img.altText ?? rec.node.title}
+                                className="w-10 h-10 rounded object-cover flex-shrink-0"
+                              />
+                            )}
+                            <div className="min-w-0 flex-1">
+                              <p className="text-xs font-medium truncate">{rec.node.title}</p>
+                              {variant && (
+                                <p className="text-xs text-muted-foreground">
+                                  {formatPrice(variant.price.amount, variant.price.currencyCode)}
+                                </p>
+                              )}
+                            </div>
+                          </Link>
+                          <button
+                            onClick={(e) => handleUpsellAdd(rec, e)}
+                            disabled={isLoading || !variant?.availableForSale}
+                            className="text-xs font-medium text-cta px-2 py-1 rounded hover:bg-cta/10 transition-colors flex-shrink-0 disabled:opacity-50"
+                            aria-label={`Tilføj ${rec.node.title}`}
+                          >
+                            + Tilføj
+                          </button>
+                        </div>
                       );
                     })}
                   </div>

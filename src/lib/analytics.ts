@@ -413,7 +413,13 @@ export type AnalyticsEvent =
   | 'related_products_click'
   | 'cirklen_signup_click'
   | 'keramik_artist_click'
-  | 'keramik_category_click';
+  | 'keramik_category_click'
+  | 'hero_offer_view'
+  | 'hero_offer_cta_click'
+  | 'bundle_view'
+  | 'bundle_add_to_cart'
+  | 'cart_upsell_view'
+  | 'cart_upsell_add';
 
 interface AnalyticsParams {
   label?: string;

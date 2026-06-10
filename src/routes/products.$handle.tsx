@@ -39,6 +39,7 @@ const sanitizeHtml = (html: string) => DOMPurify.sanitize(html, {
 });
 import { Loader2, Minus, Plus } from "lucide-react";
 import { toast } from "sonner";
+import { CTATrust } from "@/components/landing/CTATrust";
 
 export const Route = createFileRoute("/products/$handle")({
   head: ({ params }) => {
@@ -583,26 +584,8 @@ function ProductPage() {
               </Button>
             </div>
 
-            {/* Compact trust line — direkte under CTA */}
-            <div
-              className="flex flex-wrap items-center gap-x-3 gap-y-1.5 text-xs mt-3"
-              style={{ color: "rgba(45,45,45,0.75)" }}
-            >
-              {[
-                "Fri fragt over 599 kr",
-                "30 dages retur",
-                "Dansk webshop",
-                "Sikker betaling",
-              ].map((item, i, arr) => (
-                <span key={item} className="inline-flex items-center gap-1.5">
-                  <span style={{ color: "#4C574A" }} className="font-semibold">✓</span>
-                  <span>{item}</span>
-                  {i < arr.length - 1 && (
-                    <span style={{ color: "rgba(90,59,46,0.25)" }} className="ml-1">·</span>
-                  )}
-                </span>
-              ))}
-            </div>
+            {/* Compact trust line — direkte under primær CTA */}
+            <CTATrust className="mt-3" />
             <p className="text-xs text-muted-foreground mt-2">
               Spørgsmål? Skriv til{" "}
               <a href="mailto:hej@langsomtnok.dk" className="text-cta font-medium hover:text-cta-hover">
