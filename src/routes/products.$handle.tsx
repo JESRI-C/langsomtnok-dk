@@ -39,6 +39,7 @@ const sanitizeHtml = (html: string) => DOMPurify.sanitize(html, {
 });
 import { Loader2, Minus, Plus } from "lucide-react";
 import { toast } from "sonner";
+import { CTATrust } from "@/components/landing/CTATrust";
 
 export const Route = createFileRoute("/products/$handle")({
   head: ({ params }) => {
