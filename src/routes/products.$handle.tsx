@@ -40,9 +40,9 @@ const sanitizeHtml = (html: string) => DOMPurify.sanitize(html, {
 import { Loader2, Minus, Plus } from "lucide-react";
 import { toast } from "sonner";
 
-export const Route = createFileRoute("/product/$handle")({
+export const Route = createFileRoute("/products/$handle")({
   head: ({ params }) => {
-    const url = `https://langsomtnok.dk/product/${params.handle}`;
+    const url = `https://langsomtnok.dk/products/${params.handle}`;
     const title = `${params.handle.replace(/-/g, " ")} — Langsomt Nok`;
     return {
       meta: [
@@ -406,13 +406,13 @@ function ProductPage() {
     image: images.map((e) => e.node.url),
     sku: variant?.sku || product.handle,
     brand: { "@type": "Brand", name: "Langsomt Nok" },
-    url: `https://langsomtnok.dk/product/${product.handle}`,
+    url: `https://langsomtnok.dk/products/${product.handle}`,
     offers: {
       "@type": "Offer",
       price: variant?.price?.amount || product.priceRange.minVariantPrice.amount,
       priceCurrency: variant?.price?.currencyCode || product.priceRange.minVariantPrice.currencyCode || "DKK",
       availability: variant?.availableForSale ? "https://schema.org/InStock" : "https://schema.org/OutOfStock",
-      url: `https://langsomtnok.dk/product/${product.handle}`,
+      url: `https://langsomtnok.dk/products/${product.handle}`,
     },
   };
 
