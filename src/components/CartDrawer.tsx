@@ -35,23 +35,142 @@ export function CartDrawer() {
   const { items, isLoading, isSyncing, isOpen, setOpen, updateQuantity, removeItem, getCheckoutUrl, syncCart } = useCartStore();
   const [upsellProducts, setUpsellProducts] = useState<ShopifyProduct[]>([]);
 
-  // Fetch recommendations when cart opens with items
+  const addItem = useCartStore((s) => s.addItem);
+  const viewedUpsellRef = useState<Set<string>>(new Set())[0];
+
+  // Rule-based upsell selection — calm cross-sell tied to what's in the cart.
+  // Magnetic holder → slibesten · slibesten → slibestensholder/læderstrop · kniv → slibesten/magnetisk.
   useEffect(() => {
-    if (!isOpen || items.length === 0) return;
-    const firstProductId = items[0]?.product?.node?.id;
-    if (!firstProductId) return;
-    fetchProductRecommendations(firstProductId)
-      .then((recs) => {
-        // Exclude products already in cart
-        const cartVariantIds = new Set(items.map(i => i.variantId));
-        const filtered = recs.filter(r =>
-          r.node.variants.edges.every(v => !cartVariantIds.has(v.node.id)) &&
-          r.node.variants.edges[0]?.node?.availableForSale
-        );
-        setUpsellProducts(filtered.slice(0, 3));
-      })
-      .catch(() => setUpsellProducts([]));
+    if (!isOpen || items.length === 0) {
+      setUpsellProducts([]);
+      return;
+    }
+
+    const cartText = items
+      .map((i) =>
+        [
+          i.product.node.handle,
+          i.product.node.productType,
+          i.product.node.title,
+          (i.product.node.tags || []).join(" "),
+        ]
+          .filter(Boolean)
+          .join(" ")
+          .toLowerCase(),
+      )
+      .join(" ");
+
+    const has = (...kw: string[]) => kw.some((k) => cartText.includes(k));
+    const hasMagnetic = has("magnetic", "magnet", "knivlist", "knivholder", "knivstander");
+    const hasWhetstone = has("whetstone", "slibesten", "sliber");
+    const hasKnife = has("knife", "kniv", "chef-knife", "kokkekniv", "santoku");
+
+    // Priority-ordered handle candidates for each rule. First available wins.
+    const candidates: string[] = [];
+    if (hasMagnetic && !hasWhetstone) {
+      candidates.push(
+        "double-sided-whetstone-1000-5000",
+        "walnut-sharpener-xz-mdq01-htm",
+      );
+    }
+    if (hasWhetstone) {
+      candidates.push(
+        "slibestensholder",
+        "stone-holder",
+        "leather-strop",
+        "laederstrop",
+        "walnut-sharpener-xz-mdq01-htm",
+      );
+    }
+    if (hasKnife && !hasWhetstone) {
+      candidates.push(
+        "double-sided-whetstone-1000-5000",
+        "magnetic-knife-display-stand-walnut",
+        "magnetic-knife-holder-acacia-19-6",
+      );
+    }
+    // Fallback: empty candidates → use Shopify's product recommendations
+    const cartVariantIds = new Set(items.map((i) => i.variantId));
+    const cartProductIds = new Set(items.map((i) => i.product.node.id));
+
+    const filterValid = (recs: ShopifyProduct[]) =>
+      recs.filter(
+        (r) =>
+          !cartProductIds.has(r.node.id) &&
+          r.node.variants.edges.every((v) => !cartVariantIds.has(v.node.id)) &&
+          r.node.variants.edges[0]?.node?.availableForSale,
+      );
+
+    if (candidates.length > 0) {
+      fetchProductsByHandles(candidates)
+        .then((list) => {
+          const valid = filterValid(list).slice(0, 3);
+          if (valid.length > 0) {
+            setUpsellProducts(valid);
+            return;
+          }
+          // Fallback to Shopify recommendations
+          const firstProductId = items[0]?.product?.node?.id;
+          if (firstProductId) {
+            fetchProductRecommendations(firstProductId).then((recs) =>
+              setUpsellProducts(filterValid(recs).slice(0, 3)),
+            );
+          }
+        })
+        .catch(() => setUpsellProducts([]));
+    } else {
+      const firstProductId = items[0]?.product?.node?.id;
+      if (!firstProductId) return;
+      fetchProductRecommendations(firstProductId)
+        .then((recs) => setUpsellProducts(filterValid(recs).slice(0, 3)))
+        .catch(() => setUpsellProducts([]));
+    }
   }, [isOpen, items]);
+
+  // Fire cart_upsell_view once per session per product when shown
+  useEffect(() => {
+    if (!isOpen || upsellProducts.length === 0) return;
+    upsellProducts.forEach((p) => {
+      if (viewedUpsellRef.has(p.node.id)) return;
+      viewedUpsellRef.add(p.node.id);
+      trackEvent("cart_upsell_view", {
+        product_id: p.node.id,
+        product_title: p.node.title,
+        handle: p.node.handle,
+      });
+    });
+  }, [isOpen, upsellProducts, viewedUpsellRef]);
+
+  const handleUpsellAdd = async (rec: ShopifyProduct, e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    const variant = rec.node.variants.edges[0]?.node;
+    if (!variant) return;
+    trackEvent("cart_upsell_add", {
+      product_id: rec.node.id,
+      product_title: rec.node.title,
+      handle: rec.node.handle,
+    });
+    await addItem({
+      product: rec,
+      variantId: variant.id,
+      variantTitle: variant.title,
+      price: variant.price,
+      quantity: 1,
+      selectedOptions: variant.selectedOptions || [],
+    });
+    trackAddToCart({
+      product_id: rec.node.id,
+      product_title: rec.node.title,
+      variant_id: variant.id,
+      price: parseFloat(variant.price.amount),
+      currency: variant.price.currencyCode,
+      quantity: 1,
+      product_type: rec.node.productType,
+    });
+    toast.success("Tilføjet med ro.", { description: rec.node.title, position: "top-center" });
+  };
+
   const totalItems = items.reduce((sum, item) => sum + item.quantity, 0);
   const totalPrice = items.reduce((sum, item) => sum + parseFloat(item.price.amount) * item.quantity, 0);
   const currency = items[0]?.price.currencyCode || 'DKK';
