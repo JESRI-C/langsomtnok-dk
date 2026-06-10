@@ -109,7 +109,7 @@ export const Route = createFileRoute("/sitemap.xml")({
           // Articles are canonically hosted at /universet/$slug.
           // /guides/$slug remains accessible for legacy links but is canonical → /universet/.
           ...ARTICLES.map((a) => ({ path: `/universet/${a.slug}`, priority: "0.7" })),
-          ...productHandles.map((h) => ({ path: `/product/${h}`, priority: "0.7" })),
+          ...productHandles.map((h) => ({ path: `/products/${h}`, priority: "0.7" })),
         ];
 
         const seen = new Set<string>();

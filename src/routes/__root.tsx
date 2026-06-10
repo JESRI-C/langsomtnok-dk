@@ -13,6 +13,7 @@ import { Header } from "@/components/Header";
 import { AnnouncementBar } from "@/components/AnnouncementBar";
 import { Footer } from "@/components/Footer";
 import { CartDrawer } from "@/components/CartDrawer";
+import { TrackingProvider } from "@/components/TrackingProvider";
 import { useCartSync } from "@/hooks/useCartSync";
 import { organizationSchema, websiteSchema } from "@/components/legal/LegalPageLayout";
 import { trackPageView } from "@/lib/analytics";
@@ -172,7 +173,7 @@ function AppShell() {
   }, []);
 
   return (
-    <>
+    <TrackingProvider>
       <AnnouncementBar />
       <Header />
       <main>
@@ -181,6 +182,6 @@ function AppShell() {
       <Footer />
       <CartDrawer />
       <Toaster position="top-center" toastOptions={{ className: "font-sans" }} />
-    </>
+    </TrackingProvider>
   );
 }

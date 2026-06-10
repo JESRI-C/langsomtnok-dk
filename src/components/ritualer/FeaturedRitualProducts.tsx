@@ -81,7 +81,7 @@ export function FeaturedRitualProducts({
           {/* Large featured card */}
           {featured && (
             <Link
-              to="/product/$handle"
+              to="/products/$handle"
               params={{ handle: featured.node.handle }}
               className="group block rounded-[14px] overflow-hidden bg-white border transition-shadow hover:shadow-md"
               style={{ borderColor: "rgba(90,59,46,0.14)" }}
@@ -157,7 +157,7 @@ export function FeaturedRitualProducts({
               return (
                 <Link
                   key={node.id}
-                  to="/product/$handle"
+                  to="/products/$handle"
                   params={{ handle: node.handle }}
                   className="group flex flex-col sm:flex-row lg:flex-row rounded-[14px] overflow-hidden bg-white border transition-shadow hover:shadow-md"
                   style={{ borderColor: "rgba(90,59,46,0.14)" }}

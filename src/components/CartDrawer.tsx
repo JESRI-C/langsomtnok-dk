@@ -208,7 +208,7 @@ export function CartDrawer() {
                       return (
                         <Link
                           key={rec.node.id}
-                          to="/product/$handle"
+                          to="/products/$handle"
                           params={{ handle: rec.node.handle }}
                           onClick={() => {
                             setOpen(false);
