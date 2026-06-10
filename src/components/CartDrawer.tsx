@@ -22,8 +22,9 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sh
 import { Button } from "@/components/ui/button";
 import { Minus, Plus, Trash2, Loader2, ArrowRight, ShieldCheck } from "lucide-react";
 import { useCartStore } from "@/stores/cartStore";
-import { formatPrice, fetchProductRecommendations, type ShopifyProduct } from "@/lib/shopify";
-import { trackBeginCheckout, trackCartOpen, trackEvent } from "@/lib/analytics";
+import { formatPrice, fetchProductRecommendations, fetchProductsByHandles, type ShopifyProduct } from "@/lib/shopify";
+import { trackAddToCart, trackBeginCheckout, trackCartOpen, trackEvent } from "@/lib/analytics";
+import { toast } from "sonner";
 import { useState, useEffect } from "react";
 import { Link } from "@tanstack/react-router";
 
