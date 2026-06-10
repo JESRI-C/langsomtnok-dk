@@ -160,7 +160,7 @@ function AuditPageDev() {
                 {products.map(({ product, hasImage, sectionCount, faqCount, fitCount }) => (
                   <tr key={product.node.id} className="border-b border-border/50 hover:bg-soft/20">
                     <td className="p-3">
-                      <a href={`/product/${product.node.handle}`} className="text-cta hover:underline font-medium">
+                      <a href={`/products/${product.node.handle}`} className="text-cta hover:underline font-medium">
                         {product.node.title}
                       </a>
                     </td>
