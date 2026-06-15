@@ -23,9 +23,21 @@ export function initMetaPixel(): void {
   if (installed) return;
   if (typeof window === "undefined" || typeof document === "undefined") return;
   if (PLACEHOLDER) return;
+
+  // Deduplication guard:
+  // If another loader (e.g. Google Tag Manager) has already installed Meta Pixel,
+  // do NOT re-bootstrap fbevents.js. Re-initialising causes Meta to warn
+  // "Multiple pixels with conflicting versions were detected on this page",
+  // double-fires events, and breaks Events Manager attribution / Purchase dedup.
+  const existingFbq = (window as unknown as { fbq?: unknown })?.fbq;
+  if (typeof existingFbq === "function") {
+    installed = true; // mark installed so track helpers still call through window.fbq
+    return;
+  }
+
   installed = true;
 
-  // Standard Meta Pixel bootstrap
+  // Standard Meta Pixel bootstrap (only when no other loader has done it)
   /* eslint-disable */
   (function (f: any, b: any, e: any, v: any) {
     if (f.fbq) return;
