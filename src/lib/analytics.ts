@@ -420,7 +420,10 @@ export type AnalyticsEvent =
   | 'bundle_view'
   | 'bundle_add_to_cart'
   | 'cart_upsell_view'
-  | 'cart_upsell_add';
+  | 'cart_upsell_add'
+  | 'most_chosen_click'
+  | 'shop_filter_click'
+  | 'keramik_gift_click';
 
 interface AnalyticsParams {
   label?: string;

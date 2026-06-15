@@ -116,23 +116,23 @@ const CATEGORY_META: Record<CategoryKey, CategoryMeta> = {
       "Hos Langsomt Nok finder du køkkenknive valgt for greb, balance og materialefølelse. Hver kniv er udvalgt til at blive brugt - ikke gemt væk. Find kokkeknive, universalknive og specialknive til både den daglige rytme og de stille måltider, hvor redskabet må mærkes.",
   },
   care: {
-    h1: "Hold dine knive skarpe længere",
+    h1: "Slibesten & pleje",
     intro:
-      "Skarphed er ikke noget, man køber én gang. Det er noget, man passer på. Her finder du slibesten, stropper og redskaber til at holde dine knive levende i hverdagen.",
+      "Når kniven maser tomaten, er det tid til rolig skarphed. Slibesten, stropper og redskaber der holder æggen levende i hverdagen.",
     scoreLabel: "Care Score",
-    scoreTrustLine: "Care Score · Udvalgt til pleje, kontrol og lang levetid",
-    primaryCta: { label: "Find dit sliberitual", href: "#produkter" },
+    scoreTrustLine: "Sendes fra Danmark · Levering 1-2 dage · 30 dages returret",
+    primaryCta: { label: "Find din slibesten", href: "#produkter" },
     secondaryCta: { label: "Læs slibeguiden", href: "/pages/saadan-sliber-du-din-kniv" },
     benefitCards: [
-      { title: "Gør vedligeholdelse enkel", text: "Roligt udstyr, der gør plejen til en vane." },
-      { title: "Forlæng levetiden", text: "Skarphed der vender tilbage – år efter år." },
-      { title: "Mere kontrol i hvert snit", text: "En levende æg arbejder roligt med dig." },
+      { title: "Almindelig vedligeholdelse", text: "#1000/#5000 – det bedste sted at begynde." },
+      { title: "Fin polering", text: "#3000/#8000 til den sidste, glatte afslutning." },
+      { title: "Komplet pleje", text: "Kombiner med en læderstrop og en stabil holder." },
     ],
     guideTitle: "Sådan vælger du rigtigt",
     guideItems: [
-      "1000/5000 er det bedste sted at begynde.",
-      "3000/8000 er til den fine afslutning.",
-      "Læderstrop er til polering mellem slibninger.",
+      "Til almindelig vedligeholdelse: #1000/#5000.",
+      "Til fin polering: #3000/#8000.",
+      "Til komplet pleje: kombiner med læderstrop.",
       "Holderen giver stabilitet og kontrol.",
     ],
     startTitle: "Et godt sted at begynde",
@@ -145,30 +145,31 @@ const CATEGORY_META: Record<CategoryKey, CategoryMeta> = {
       "Hos Langsomt Nok finder du slibesten, læderstropper og knivslibere til dig, der vil passe bedre på dine køkkenknive. Produkterne er udvalgt til rolig vedligeholdelse, så skarphed bliver noget, du kan vende tilbage til - ikke noget, der forsvinder.",
   },
   display: {
-    h1: "Når redskaber får plads, falder køkkenet til ro",
+    h1: "Magnetiske knivholdere",
     intro:
-      "Knive og køkkenredskaber behøver ikke gemmes væk. Med magnetiske knivlister og standere får dine vigtigste redskaber en synlig, sikker og smuk plads.",
+      "Få knivene ud af skuffen. Beskyt æggen, frigør plads og skab ro på køkkenbordet.",
     scoreLabel: "Display Score",
-    scoreTrustLine: "Display Score · Udvalgt for ro, orden og materialefølelse",
-    primaryCta: { label: "Se opbevaring", href: "#produkter" },
+    scoreTrustLine: "Sendes fra Danmark · Levering 1-2 dage · 30 dages returret",
+    primaryCta: { label: "Se knivholderne", href: "#produkter" },
     secondaryCta: { label: "Hvilken knivholder skal jeg vælge?", href: "/pages/hvilken-knivholder-skal-jeg-vaelge" },
     benefitCards: [
-      { title: "Mere ro på køkkenbordet", text: "Frigør plads og skab visuel ro." },
-      { title: "Knive synlige og lette at nå", text: "De rigtige redskaber lige ved hånden." },
-      { title: "Træ, varme og funktion samlet", text: "Smukke materialer der må stå fremme." },
+      { title: "Beskytter knivens æg", text: "Knivene rører ikke hinanden eller bestik." },
+      { title: "Frigør plads i skuffen", text: "Mere overskud på køkkenbordet." },
+      { title: "Giver roligt overblik", text: "Du ser dine redskaber – og griber det rigtige." },
+      { title: "Gør dine bedste redskaber synlige", text: "Smukke materialer må gerne stå fremme." },
     ],
-    guideTitle: "Sådan vælger du rigtigt",
+    guideTitle: "Hvorfor vælge en magnetisk knivholder?",
     guideItems: [
-      "Vælg knivlist, hvis du vil frigøre bordplads.",
-      "Vælg knivstander, hvis du ikke vil bore i væggen.",
-      "Vælg valnød for mørkere varme.",
-      "Vælg akacie for et lettere nordisk udtryk.",
+      "Beskytter knivens æg mod slag og slid i skuffen.",
+      "Frigør plads og giver mere bordplads.",
+      "Giver roligt overblik over dine vigtigste knive.",
+      "Gør dine bedste redskaber synlige og smukke.",
     ],
     startTitle: "Et godt sted at begynde",
     startText:
       "Start med en magnetisk knivlist, hvis du vil skabe mere ro og overblik på køkkenvæggen.",
     startCta: { label: "Se anbefalingen", href: "/pages/knivholder-til-koekkenet" },
-    productBenefit: "Til ro, orden og synlig opbevaring.",
+    productBenefit: "Til dig der vil have knivene synligt og sikkert frem.",
     seoHeading: "Magnetiske knivholdere i træ til det rolige køkken",
     seoBody:
       "Magnetiske knivlister og knivstandere i valnød og akacie giver dine knive en fast, synlig plads. Produkterne er valgt for stoflighed og funktion - så dine vigtigste redskaber kan stå fremme og bidrage til et roligere køkken.",
@@ -326,22 +327,25 @@ const COLLECTION_CONTENT: Record<string, CollectionContent> = {
   },
   slibesten: {
     tagline: "The Ritual Set",
-    intro: "Skarphed er ikke tilfældig. Den er plejet.",
+    intro: "Når kniven maser tomaten, er det tid til rolig skarphed.",
     body: "Slibning og pleje handler ikke kun om vedligehold. Det er et stille ritual, hvor du giver dine redskaber mere levetid.",
     faq: [
-      { question: "Hvilken slibesten skal jeg vælge først?", answer: "Grundstenen 1000/5000 er det bedste sted at begynde." },
+      { question: "Hvilken slibesten skal jeg vælge først?", answer: "Grundstenen 1000/5000 er det bedste sted at begynde — den dækker både almindelig vedligeholdelse og en finere afslutning." },
+      { question: "Hvad er forskellen på #1000/#5000 og #3000/#8000?", answer: "#1000/#5000 er til almindelig vedligeholdelse. #3000/#8000 er til den fine polering, når æggen allerede er skarp." },
       { question: "Skal jeg bruge læderstrop?", answer: "Den er god til den sidste polering og til at holde æggen levende mellem slibninger." },
-      { question: "Er en 3-trins sliber nok?", answer: "Den er god til enkel hverdagspleje. En slibesten giver mere kontrol." },
+      { question: "Hvor hurtigt sender I?", answer: "Vi sender fra Danmark med 1-2 dages levering på lagervarer." },
     ],
   },
   "magnetiske-holdere": {
     tagline: "The Calm Kitchen",
-    intro: "Når værktøjet er smukt, skal det ikke gemmes væk.",
+    intro: "Få knivene ud af skuffen — beskyt æggen og skab ro på køkkenbordet.",
     body: "En magnetisk knivholder giver knivene en fast plads og køkkenet et roligere udtryk.",
     faq: [
-      { question: "Skal jeg vælge knivlist eller knivstander?", answer: "Vælg knivlist for vægmontering og mere bordplads. Vælg stander hvis du vil have en fritstående løsning." },
-      { question: "Hvad er forskellen på valnød og akacie?", answer: "Valnød har et mørkere og varmere udtryk. Akacie er lysere og mere nordisk." },
-      { question: "Er magnetisk opbevaring sikker?", answer: "Ja, når holderen bruges korrekt, og knivene placeres stabilt." },
+      { question: "Hvordan monteres den?", answer: "Knivlisten leveres med dobbeltklæbende tape og kan monteres uden boremaskine. Skruer kan også bruges, hvis du foretrækker det." },
+      { question: "Hvor mange knive kan den holde?", answer: "Det afhænger af længden – en standard knivlist på 40 cm har plads til 5-7 knive afhængigt af deres størrelse." },
+      { question: "Passer den til alle knive?", answer: "Holderen virker til alle knive med en stålklinge, der reagerer på magnet — det er de fleste køkkenknive." },
+      { question: "Hvilken træsort skal jeg vælge?", answer: "Valnød har et mørkere og varmere udtryk. Akacie er lysere og mere nordisk." },
+      { question: "Hvor hurtigt sender I?", answer: "Vi sender fra Danmark med 1-2 dages levering på lagervarer." },
     ],
   },
   gaver: {
@@ -589,7 +593,7 @@ function CollectionPage() {
   return (
     <div className="pt-24" style={{ backgroundColor: "#F8F6F3" }}>
       {/* ============ 1. HERO ============ */}
-      <section className={`section-padding pb-12 relative overflow-hidden ${heroBg ? "isolate" : ""}`}>
+      <section className={`pt-8 pb-8 md:pt-16 md:pb-12 relative overflow-hidden ${heroBg ? "isolate" : ""}`}>
         {heroBg && (
           <>
             <div className="absolute inset-0 -z-10 overflow-hidden">
@@ -606,7 +610,7 @@ function CollectionPage() {
         )}
         <div className="container-calm relative">
           {/* Breadcrumbs */}
-          <div className="flex flex-wrap items-center gap-2 mb-6 text-xs text-muted-foreground">
+          <div className="flex flex-wrap items-center gap-2 mb-4 md:mb-6 text-xs text-muted-foreground">
             <Link to="/" className="hover:text-cta transition-colors">Forside</Link>
             <span>/</span>
             <Link to="/shop" className="hover:text-cta transition-colors">Shop</Link>
@@ -614,22 +618,23 @@ function CollectionPage() {
             <span className="text-foreground/70">{content.tagline}</span>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-center">
             <div className="lg:col-span-7">
-              <span className="text-[10px] font-medium uppercase tracking-[0.22em] mb-4 block" style={{ color: "#A67C52" }}>
+              <span className="text-[10px] font-medium uppercase tracking-[0.22em] mb-3 block" style={{ color: "#A67C52" }}>
                 Langsomt Nok kollektion
               </span>
-              <h1 className="font-serif text-4xl md:text-6xl leading-[1.05] mb-6" style={{ color: "#1E1E1E" }}>
+              <h1 className="font-serif text-3xl md:text-5xl lg:text-6xl leading-[1.05] mb-4 md:mb-6" style={{ color: "#1E1E1E" }}>
                 {meta.h1}
               </h1>
-              <p className="text-lg md:text-xl leading-relaxed mb-8 max-w-2xl" style={{ color: "#2D2D2D" }}>
+              <p className="text-base md:text-xl leading-relaxed mb-5 md:mb-8 max-w-2xl" style={{ color: "#2D2D2D" }}>
                 {meta.intro}
               </p>
 
               {/* CTAs */}
-              <div className="flex flex-wrap items-center gap-3 mb-5">
+              <div className="flex flex-wrap items-center gap-3 mb-4">
                 <a
                   href={meta.primaryCta.href}
+                  data-cta={`cta_collection_${categoryKey}`}
                   className="inline-flex items-center justify-center px-6 py-3 rounded-md text-sm font-semibold tracking-wide uppercase text-cta-foreground transition-colors"
                   style={{ backgroundColor: "#4C574A" }}
                   onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#3E4A3D")}
@@ -649,16 +654,15 @@ function CollectionPage() {
                 )}
               </div>
 
-              {/* Visible star + trust line */}
-              <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm" style={{ color: "#A67C52" }}>
-                <StarRow size={16} />
+              {/* Trust line */}
+              <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs md:text-sm" style={{ color: "#A67C52" }}>
+                <StarRow size={14} />
                 <span className="font-medium">{meta.scoreTrustLine}</span>
-                <span className="text-foreground/40">·</span>
-                <span className="text-foreground/65">Fri fragt over 599 kr · 30 dages retur</span>
               </div>
             </div>
 
-            <div className="lg:col-span-5">
+            {/* Side benefit card — hidden on mobile to surface products faster */}
+            <div className="hidden lg:block lg:col-span-5">
               <div className="rounded-2xl p-6 md:p-8" style={{ backgroundColor: "rgba(230,224,215,0.7)", border: "1px solid rgba(90,59,46,0.16)" }}>
                 <div className="flex items-center gap-2 mb-4">
                   <StarRow size={14} />
@@ -690,7 +694,7 @@ function CollectionPage() {
       <ServiceBar />
 
       {/* ============ 3. PRODUCT GRID ============ */}
-      <section id="produkter" className="section-padding pt-14">
+      <section id="produkter" className="pt-8 pb-12 md:pt-14 md:pb-16">
         <div className="container-calm">
           <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-8 border-b pb-5" style={{ borderColor: "rgba(90,59,46,0.16)" }}>
             <div>

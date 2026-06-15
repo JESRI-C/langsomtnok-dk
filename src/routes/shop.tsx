@@ -4,15 +4,17 @@ import { ProductCard } from "@/components/ProductCard";
 import { NewsletterSignup } from "@/components/NewsletterSignup";
 import { ImageSlot, IMAGE_SLOTS } from "@/components/ImageSlot";
 import { TrustBar } from "@/components/landing/TrustBar";
+import { MestValgt } from "@/components/landing/MestValgt";
 import { storefrontApiRequest, PRODUCTS_QUERY, type ShopifyProduct } from "@/lib/shopify";
+import { trackEvent } from "@/lib/analytics";
 
 export const Route = createFileRoute("/shop")({
   head: () => ({
     meta: [
-      { title: "Shop — Langsomt Nok" },
-      { name: "description", content: "Udforsk vores samling af kokkeknive, slibesten, magnetiske holdere og plejeritualer. Skabt med tålmodighed." },
-      { property: "og:title", content: "Shop — Langsomt Nok" },
-      { property: "og:description", content: "Udforsk vores samling af kokkeknive, slibesten, holdere og plejeritualer." },
+      { title: "Shop Langsomt Nok — udvalgte ting til køkkenet" },
+      { name: "description", content: "Udvalgte ting til køkkenet — knive, slibesten, magnetiske holdere og håndlavet keramik. Skabt til brug, ro og materialefølelse." },
+      { property: "og:title", content: "Shop Langsomt Nok — udvalgte ting til køkkenet" },
+      { property: "og:description", content: "Udvalgte ting til køkkenet — skabt til brug, ro og materialefølelse." },
     ],
     links: [{ rel: "canonical", href: "https://langsomtnok.dk/shop" }],
   }),
@@ -20,11 +22,12 @@ export const Route = createFileRoute("/shop")({
 });
 
 const CATEGORIES = [
-  { label: "Alle", query: "" },
-  { label: "Knive", query: "product_type:\"The Chef Line\"" },
-  { label: "Slibning & pleje", query: "product_type:\"The Ritual Set\"" },
-  { label: "Opbevaring", query: "product_type:\"The Calm Kitchen\"" },
-  { label: "Gaver", query: "product_type:\"The Gift Chapter\"" },
+  { label: "Alle", query: "", id: "all" },
+  { label: "Keramik", query: "product_type:Keramik", id: "ceramics" },
+  { label: "Knivholdere", query: "product_type:\"The Calm Kitchen\"", id: "holders" },
+  { label: "Slibning", query: "product_type:\"The Ritual Set\"", id: "sharpening" },
+  { label: "Gaver", query: "product_type:\"The Gift Chapter\"", id: "gifts" },
+  { label: "Alt til køkkenet", query: "product_type:\"The Chef Line\"", id: "kitchen" },
 ];
 
 function ShopPage() {
@@ -47,22 +50,29 @@ function ShopPage() {
   return (
     <div className="pt-24">
       {/* ── Editorial Header ──────────────────────────── */}
-      <section className="section-padding pb-0">
+      <section className="pt-8 md:pt-16 pb-0">
         <div className="container-calm">
-          <div className="max-w-2xl mb-12 fade-in-up">
-            <span className="text-xs font-medium text-copper uppercase tracking-widest mb-3 block">Køkkenfavoritter</span>
-            <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl mb-4">Små opgraderinger til hverdagen i køkkenet</h1>
-            <p className="text-editorial text-muted-foreground">
-              Udvalgte produkter i træ, stål og keramik — valgt fordi de gør køkkenet mere brugbart, roligt og rart at være i.
+          <div className="max-w-2xl mb-6 md:mb-10 fade-in-up">
+            <span className="text-xs font-medium text-copper uppercase tracking-widest mb-3 block">Shop Langsomt Nok</span>
+            <h1 className="font-serif text-3xl md:text-5xl lg:text-6xl mb-3 md:mb-4">Shop Langsomt Nok</h1>
+            <p className="text-base md:text-lg text-muted-foreground">
+              Udvalgte ting til køkkenet — skabt til brug, ro og materialefølelse.
+            </p>
+            <p className="text-xs md:text-sm font-medium mt-3" style={{ color: "#A67C52" }}>
+              Sendes fra Danmark · Levering 1-2 dage · 30 dages returret
             </p>
           </div>
 
           {/* ── Category Filter ──────────────────────────── */}
-          <div className="flex flex-wrap gap-2 mb-12">
+          <div className="flex flex-wrap gap-2 mb-8 md:mb-10">
             {CATEGORIES.map((cat, i) => (
               <button
                 key={cat.label}
-                onClick={() => setActiveCategory(i)}
+                data-cta={`cta_shop_filter_${cat.id}`}
+                onClick={() => {
+                  setActiveCategory(i);
+                  trackEvent("shop_filter_click", { filter: cat.id });
+                }}
                 className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${
                   i === activeCategory
                     ? "bg-cta text-cta-foreground"
@@ -75,6 +85,9 @@ function ShopPage() {
           </div>
         </div>
       </section>
+
+      {/* ── Mest valgt lige nu ──────────────────────── */}
+      <MestValgt />
 
       {/* ── Products Grid ─────────────────────────────── */}
       <section className="pb-16">
