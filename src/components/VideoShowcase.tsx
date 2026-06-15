@@ -76,6 +76,20 @@ export function VideoShowcase({
                 preload="metadata"
                 disablePictureInPicture
                 aria-label={title}
+                onError={(e) => {
+                  // Gracefully hide the <video> element if the source is missing
+                  // (e.g. asset 404s) so the poster image alone carries the visual
+                  // and the browser doesn't keep retrying a broken request.
+                  const v = e.currentTarget;
+                  v.style.display = "none";
+                  if (poster) {
+                    const img = document.createElement("img");
+                    img.src = poster;
+                    img.alt = title;
+                    img.className = "w-full h-auto block aspect-[4/5] md:aspect-[4/5] object-cover";
+                    v.parentElement?.appendChild(img);
+                  }
+                }}
               />
             </div>
           </div>
