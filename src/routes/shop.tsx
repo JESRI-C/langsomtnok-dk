@@ -4,15 +4,17 @@ import { ProductCard } from "@/components/ProductCard";
 import { NewsletterSignup } from "@/components/NewsletterSignup";
 import { ImageSlot, IMAGE_SLOTS } from "@/components/ImageSlot";
 import { TrustBar } from "@/components/landing/TrustBar";
+import { MestValgt } from "@/components/landing/MestValgt";
 import { storefrontApiRequest, PRODUCTS_QUERY, type ShopifyProduct } from "@/lib/shopify";
+import { trackEvent } from "@/lib/analytics";
 
 export const Route = createFileRoute("/shop")({
   head: () => ({
     meta: [
-      { title: "Shop — Langsomt Nok" },
-      { name: "description", content: "Udforsk vores samling af kokkeknive, slibesten, magnetiske holdere og plejeritualer. Skabt med tålmodighed." },
-      { property: "og:title", content: "Shop — Langsomt Nok" },
-      { property: "og:description", content: "Udforsk vores samling af kokkeknive, slibesten, holdere og plejeritualer." },
+      { title: "Shop Langsomt Nok — udvalgte ting til køkkenet" },
+      { name: "description", content: "Udvalgte ting til køkkenet — knive, slibesten, magnetiske holdere og håndlavet keramik. Skabt til brug, ro og materialefølelse." },
+      { property: "og:title", content: "Shop Langsomt Nok — udvalgte ting til køkkenet" },
+      { property: "og:description", content: "Udvalgte ting til køkkenet — skabt til brug, ro og materialefølelse." },
     ],
     links: [{ rel: "canonical", href: "https://langsomtnok.dk/shop" }],
   }),
@@ -20,11 +22,12 @@ export const Route = createFileRoute("/shop")({
 });
 
 const CATEGORIES = [
-  { label: "Alle", query: "" },
-  { label: "Knive", query: "product_type:\"The Chef Line\"" },
-  { label: "Slibning & pleje", query: "product_type:\"The Ritual Set\"" },
-  { label: "Opbevaring", query: "product_type:\"The Calm Kitchen\"" },
-  { label: "Gaver", query: "product_type:\"The Gift Chapter\"" },
+  { label: "Alle", query: "", id: "all" },
+  { label: "Keramik", query: "product_type:Keramik", id: "ceramics" },
+  { label: "Knivholdere", query: "product_type:\"The Calm Kitchen\"", id: "holders" },
+  { label: "Slibning", query: "product_type:\"The Ritual Set\"", id: "sharpening" },
+  { label: "Gaver", query: "product_type:\"The Gift Chapter\"", id: "gifts" },
+  { label: "Alt til køkkenet", query: "product_type:\"The Chef Line\"", id: "kitchen" },
 ];
 
 function ShopPage() {
