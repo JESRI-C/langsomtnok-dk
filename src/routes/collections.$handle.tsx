@@ -593,7 +593,7 @@ function CollectionPage() {
   return (
     <div className="pt-24" style={{ backgroundColor: "#F8F6F3" }}>
       {/* ============ 1. HERO ============ */}
-      <section className={`section-padding pb-12 relative overflow-hidden ${heroBg ? "isolate" : ""}`}>
+      <section className={`pt-8 pb-8 md:pt-16 md:pb-12 relative overflow-hidden ${heroBg ? "isolate" : ""}`}>
         {heroBg && (
           <>
             <div className="absolute inset-0 -z-10 overflow-hidden">
@@ -610,7 +610,7 @@ function CollectionPage() {
         )}
         <div className="container-calm relative">
           {/* Breadcrumbs */}
-          <div className="flex flex-wrap items-center gap-2 mb-6 text-xs text-muted-foreground">
+          <div className="flex flex-wrap items-center gap-2 mb-4 md:mb-6 text-xs text-muted-foreground">
             <Link to="/" className="hover:text-cta transition-colors">Forside</Link>
             <span>/</span>
             <Link to="/shop" className="hover:text-cta transition-colors">Shop</Link>
@@ -618,22 +618,23 @@ function CollectionPage() {
             <span className="text-foreground/70">{content.tagline}</span>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-center">
             <div className="lg:col-span-7">
-              <span className="text-[10px] font-medium uppercase tracking-[0.22em] mb-4 block" style={{ color: "#A67C52" }}>
+              <span className="text-[10px] font-medium uppercase tracking-[0.22em] mb-3 block" style={{ color: "#A67C52" }}>
                 Langsomt Nok kollektion
               </span>
-              <h1 className="font-serif text-4xl md:text-6xl leading-[1.05] mb-6" style={{ color: "#1E1E1E" }}>
+              <h1 className="font-serif text-3xl md:text-5xl lg:text-6xl leading-[1.05] mb-4 md:mb-6" style={{ color: "#1E1E1E" }}>
                 {meta.h1}
               </h1>
-              <p className="text-lg md:text-xl leading-relaxed mb-8 max-w-2xl" style={{ color: "#2D2D2D" }}>
+              <p className="text-base md:text-xl leading-relaxed mb-5 md:mb-8 max-w-2xl" style={{ color: "#2D2D2D" }}>
                 {meta.intro}
               </p>
 
               {/* CTAs */}
-              <div className="flex flex-wrap items-center gap-3 mb-5">
+              <div className="flex flex-wrap items-center gap-3 mb-4">
                 <a
                   href={meta.primaryCta.href}
+                  data-cta={`cta_collection_${categoryKey}`}
                   className="inline-flex items-center justify-center px-6 py-3 rounded-md text-sm font-semibold tracking-wide uppercase text-cta-foreground transition-colors"
                   style={{ backgroundColor: "#4C574A" }}
                   onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#3E4A3D")}
@@ -653,16 +654,15 @@ function CollectionPage() {
                 )}
               </div>
 
-              {/* Visible star + trust line */}
-              <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm" style={{ color: "#A67C52" }}>
-                <StarRow size={16} />
+              {/* Trust line */}
+              <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs md:text-sm" style={{ color: "#A67C52" }}>
+                <StarRow size={14} />
                 <span className="font-medium">{meta.scoreTrustLine}</span>
-                <span className="text-foreground/40">·</span>
-                <span className="text-foreground/65">Fri fragt over 599 kr · 30 dages retur</span>
               </div>
             </div>
 
-            <div className="lg:col-span-5">
+            {/* Side benefit card — hidden on mobile to surface products faster */}
+            <div className="hidden lg:block lg:col-span-5">
               <div className="rounded-2xl p-6 md:p-8" style={{ backgroundColor: "rgba(230,224,215,0.7)", border: "1px solid rgba(90,59,46,0.16)" }}>
                 <div className="flex items-center gap-2 mb-4">
                   <StarRow size={14} />
