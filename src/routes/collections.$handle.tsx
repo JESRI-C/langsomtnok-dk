@@ -694,7 +694,7 @@ function CollectionPage() {
       <ServiceBar />
 
       {/* ============ 3. PRODUCT GRID ============ */}
-      <section id="produkter" className="section-padding pt-14">
+      <section id="produkter" className="pt-8 pb-12 md:pt-14 md:pb-16">
         <div className="container-calm">
           <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-8 border-b pb-5" style={{ borderColor: "rgba(90,59,46,0.16)" }}>
             <div>
