@@ -14,15 +14,15 @@ const HERO_IMAGE =
   "https://cdn.shopify.com/s/files/1/0915/7227/3488/files/Keramik_header.png?v=1778396909";
 
 const FALLBACK: CampaignContent = {
-  seo_title: "Håndlavet keramik | Langsomt Nok Universet",
+  seo_title: "Håndlavet keramik i små serier | Langsomt Nok",
   seo_description:
-    "Et atelier-univers af håndlavet keramik. Kopper, skåle, vaser og unika fra Susan Riel — drejet, glaseret og brændt med ro og omhu.",
+    "Kopper, skåle og vaser med spor af hænder, glasur og tid. Håndlavet keramik fra danske atelierer — små serier, og nogle findes kun én gang.",
   hero_eyebrow: "Atelieret",
-  hero_headline: "Hænder, ler og tid.",
+  hero_headline: "Håndlavet keramik i små serier",
   hero_subheading:
-    "Et roligt univers af håndlavet keramik fra danske atelierer. Hver kop, hver skål, hver vase bærer spor af den, der har formet den.",
-  primary_cta_text: "Træd ind i atelieret",
-  primary_cta_url: "#kategorier",
+    "Kopper, skåle og vaser med spor af hænder, glasur og tid. Hvert stykke varierer let — og nogle findes kun én gang.",
+  primary_cta_text: "Se aktuelle værker",
+  primary_cta_url: "#vaerker",
   intro_section_title: "Det, der bliver til mellem to hænder",
   intro_section_body:
     "Keramik kan ikke skyndes.\nLer skal vente, drejes, tørres, brændes — og så vente igen.\n\nDet er den langsomhed, du holder, når du løfter en håndlavet kop.",
