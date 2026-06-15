@@ -50,22 +50,29 @@ function ShopPage() {
   return (
     <div className="pt-24">
       {/* ── Editorial Header ──────────────────────────── */}
-      <section className="section-padding pb-0">
+      <section className="pt-8 md:pt-16 pb-0">
         <div className="container-calm">
-          <div className="max-w-2xl mb-12 fade-in-up">
-            <span className="text-xs font-medium text-copper uppercase tracking-widest mb-3 block">Køkkenfavoritter</span>
-            <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl mb-4">Små opgraderinger til hverdagen i køkkenet</h1>
-            <p className="text-editorial text-muted-foreground">
-              Udvalgte produkter i træ, stål og keramik — valgt fordi de gør køkkenet mere brugbart, roligt og rart at være i.
+          <div className="max-w-2xl mb-6 md:mb-10 fade-in-up">
+            <span className="text-xs font-medium text-copper uppercase tracking-widest mb-3 block">Shop Langsomt Nok</span>
+            <h1 className="font-serif text-3xl md:text-5xl lg:text-6xl mb-3 md:mb-4">Shop Langsomt Nok</h1>
+            <p className="text-base md:text-lg text-muted-foreground">
+              Udvalgte ting til køkkenet — skabt til brug, ro og materialefølelse.
+            </p>
+            <p className="text-xs md:text-sm font-medium mt-3" style={{ color: "#A67C52" }}>
+              Sendes fra Danmark · Levering 1-2 dage · 30 dages returret
             </p>
           </div>
 
           {/* ── Category Filter ──────────────────────────── */}
-          <div className="flex flex-wrap gap-2 mb-12">
+          <div className="flex flex-wrap gap-2 mb-8 md:mb-10">
             {CATEGORIES.map((cat, i) => (
               <button
                 key={cat.label}
-                onClick={() => setActiveCategory(i)}
+                data-cta={`cta_shop_filter_${cat.id}`}
+                onClick={() => {
+                  setActiveCategory(i);
+                  trackEvent("shop_filter_click" as never, { filter: cat.id } as never);
+                }}
                 className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${
                   i === activeCategory
                     ? "bg-cta text-cta-foreground"
@@ -78,6 +85,9 @@ function ShopPage() {
           </div>
         </div>
       </section>
+
+      {/* ── Mest valgt lige nu ──────────────────────── */}
+      <MestValgt />
 
       {/* ── Products Grid ─────────────────────────────── */}
       <section className="pb-16">
