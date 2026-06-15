@@ -248,7 +248,7 @@ function KeramikHub() {
             to="/collections/$handle"
             params={{ handle: "gaver" }}
             data-cta="cta_see_ceramics_gift"
-            onClick={() => trackEvent("keramik_gift_click" as never, {} as never)}
+            onClick={() => trackEvent("keramik_gift_click")}
             className="inline-flex items-center justify-center px-6 py-3 rounded-md text-sm font-semibold tracking-wide uppercase text-cta-foreground transition-colors"
             style={{ backgroundColor: "#4C574A" }}
           >

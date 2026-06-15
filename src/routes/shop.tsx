@@ -71,7 +71,7 @@ function ShopPage() {
                 data-cta={`cta_shop_filter_${cat.id}`}
                 onClick={() => {
                   setActiveCategory(i);
-                  trackEvent("shop_filter_click" as never, { filter: cat.id } as never);
+                  trackEvent("shop_filter_click", { filter: cat.id });
                 }}
                 className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${
                   i === activeCategory

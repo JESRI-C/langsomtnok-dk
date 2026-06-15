@@ -68,7 +68,7 @@ export function MestValgt() {
               key={c.href}
               to={c.href}
               data-cta={c.ctaId}
-              onClick={() => trackEvent("most_chosen_click" as never, { card: c.label, cta_id: c.ctaId } as never)}
+              onClick={() => trackEvent("most_chosen_click", { card: c.label, cta_id: c.ctaId })}
               className="group block rounded-xl overflow-hidden transition-all duration-500 hover:-translate-y-1"
               style={{ backgroundColor: "#FFFFFF", border: "1px solid rgba(90,59,46,0.16)" }}
             >
