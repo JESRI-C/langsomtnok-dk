@@ -327,22 +327,25 @@ const COLLECTION_CONTENT: Record<string, CollectionContent> = {
   },
   slibesten: {
     tagline: "The Ritual Set",
-    intro: "Skarphed er ikke tilfældig. Den er plejet.",
+    intro: "Når kniven maser tomaten, er det tid til rolig skarphed.",
     body: "Slibning og pleje handler ikke kun om vedligehold. Det er et stille ritual, hvor du giver dine redskaber mere levetid.",
     faq: [
-      { question: "Hvilken slibesten skal jeg vælge først?", answer: "Grundstenen 1000/5000 er det bedste sted at begynde." },
+      { question: "Hvilken slibesten skal jeg vælge først?", answer: "Grundstenen 1000/5000 er det bedste sted at begynde — den dækker både almindelig vedligeholdelse og en finere afslutning." },
+      { question: "Hvad er forskellen på #1000/#5000 og #3000/#8000?", answer: "#1000/#5000 er til almindelig vedligeholdelse. #3000/#8000 er til den fine polering, når æggen allerede er skarp." },
       { question: "Skal jeg bruge læderstrop?", answer: "Den er god til den sidste polering og til at holde æggen levende mellem slibninger." },
-      { question: "Er en 3-trins sliber nok?", answer: "Den er god til enkel hverdagspleje. En slibesten giver mere kontrol." },
+      { question: "Hvor hurtigt sender I?", answer: "Vi sender fra Danmark med 1-2 dages levering på lagervarer." },
     ],
   },
   "magnetiske-holdere": {
     tagline: "The Calm Kitchen",
-    intro: "Når værktøjet er smukt, skal det ikke gemmes væk.",
+    intro: "Få knivene ud af skuffen — beskyt æggen og skab ro på køkkenbordet.",
     body: "En magnetisk knivholder giver knivene en fast plads og køkkenet et roligere udtryk.",
     faq: [
-      { question: "Skal jeg vælge knivlist eller knivstander?", answer: "Vælg knivlist for vægmontering og mere bordplads. Vælg stander hvis du vil have en fritstående løsning." },
-      { question: "Hvad er forskellen på valnød og akacie?", answer: "Valnød har et mørkere og varmere udtryk. Akacie er lysere og mere nordisk." },
-      { question: "Er magnetisk opbevaring sikker?", answer: "Ja, når holderen bruges korrekt, og knivene placeres stabilt." },
+      { question: "Hvordan monteres den?", answer: "Knivlisten leveres med dobbeltklæbende tape og kan monteres uden boremaskine. Skruer kan også bruges, hvis du foretrækker det." },
+      { question: "Hvor mange knive kan den holde?", answer: "Det afhænger af længden – en standard knivlist på 40 cm har plads til 5-7 knive afhængigt af deres størrelse." },
+      { question: "Passer den til alle knive?", answer: "Holderen virker til alle knive med en stålklinge, der reagerer på magnet — det er de fleste køkkenknive." },
+      { question: "Hvilken træsort skal jeg vælge?", answer: "Valnød har et mørkere og varmere udtryk. Akacie er lysere og mere nordisk." },
+      { question: "Hvor hurtigt sender I?", answer: "Vi sender fra Danmark med 1-2 dages levering på lagervarer." },
     ],
   },
   gaver: {
