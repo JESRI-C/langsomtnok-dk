@@ -9,7 +9,7 @@
 
 // Public Meta Pixel ID for langsomtnok.dk — safe to ship in client bundle.
 // Env override allowed for staging/testing; falls back to production pixel.
-const DEFAULT_PIXEL_ID = "1008389321706401";
+const DEFAULT_PIXEL_ID = "1088389321706481";
 const ENV_PIXEL_ID =
   (typeof import.meta !== "undefined" && (import.meta.env?.VITE_META_PIXEL_ID as string | undefined)) || "";
 const PIXEL_ID =
