@@ -29,9 +29,15 @@ export function initMetaPixel(): void {
   // do NOT re-bootstrap fbevents.js. Re-initialising causes Meta to warn
   // "Multiple pixels with conflicting versions were detected on this page",
   // double-fires events, and breaks Events Manager attribution / Purchase dedup.
-  const existingFbq = (window as unknown as { fbq?: unknown })?.fbq;
+  const existingFbq = (window as unknown as { fbq?: { loaded?: boolean } & ((...a: unknown[]) => void) })?.fbq;
   if (typeof existingFbq === "function") {
-    installed = true; // mark installed so track helpers still call through window.fbq
+    // Another loader (GTM) already bootstrapped fbevents.js. Do NOT re-init —
+    // re-initialising the same pixel ID triggers "Multiple pixels with
+    // conflicting versions" and breaks Purchase dedup in Events Manager.
+    installed = true;
+    if (existingFbq.loaded) {
+      try { existingFbq("track", "PageView"); } catch {}
+    }
     return;
   }
 
