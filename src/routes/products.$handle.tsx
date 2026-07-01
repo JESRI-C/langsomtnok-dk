@@ -603,8 +603,20 @@ function ProductPage() {
               </Button>
             </div>
 
+            {/* Stock / dispatch line — subtle urgency, right under CTA */}
+            {variant?.availableForSale && (
+              <div className="flex items-center gap-2 text-xs text-foreground/70">
+                <span className="relative flex h-2 w-2">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cta/40 opacity-75" />
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-cta" />
+                </span>
+                <span className="font-medium">På lager</span>
+                <span className="text-muted-foreground">— sendes fra Danmark i dag ved bestilling før kl. 14</span>
+              </div>
+            )}
+
             {/* Compact trust line — direkte under primær CTA */}
-            <CTATrust className="mt-3" />
+            <CTATrust className="mt-1" />
             <p className="text-xs text-muted-foreground mt-2">
               Spørgsmål? Skriv til{" "}
               <a href="mailto:hej@langsomtnok.dk" className="text-cta font-medium hover:text-cta-hover">
