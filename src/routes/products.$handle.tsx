@@ -37,9 +37,12 @@ const sanitizeHtml = (html: string) => DOMPurify.sanitize(html, {
   ALLOWED_TAGS: ["p", "br", "ul", "ol", "li", "strong", "em", "b", "i", "h3", "h4", "a", "span"],
   ALLOWED_ATTR: ["href", "target", "rel"],
 });
-import { Loader2, Minus, Plus } from "lucide-react";
+import { Loader2, Minus, Plus, Star } from "lucide-react";
 import { toast } from "sonner";
 import { CTATrust } from "@/components/landing/CTATrust";
+import { MicroTrustBar } from "@/components/product/MicroTrustBar";
+import { FounderNote } from "@/components/product/FounderNote";
+import { ProductFeatureGrid } from "@/components/product/ProductFeatureGrid";
 
 export const Route = createFileRoute("/products/$handle")({
   head: ({ params }) => {
@@ -424,12 +427,14 @@ function ProductPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(productSchema) }}
       />
       <div className="container-calm">
-        <Link to="/shop" className="text-sm text-muted-foreground hover:text-foreground mb-8 inline-block">
+        <Link to="/shop" className="text-sm text-muted-foreground hover:text-foreground mb-4 inline-block">
           ← Tilbage til shop
         </Link>
 
+        <MicroTrustBar />
+
         {/* ── 1. Product Hero: Gallery + Info ─────────────────────── */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16">
 
           {/* Gallery */}
           <div className="space-y-4">
@@ -499,18 +504,32 @@ function ProductPage() {
           </div>
 
           {/* Product Information */}
-          <div className="space-y-6">
+          <div className="space-y-5">
             <div>
+              {/* Social proof line — above title */}
+              <div className="flex items-center gap-2 mb-3">
+                <div className="flex items-center gap-0.5" aria-label="Kurateret">
+                  {[0, 1, 2, 3, 4].map((i) => (
+                    <Star key={i} className="w-3.5 h-3.5 fill-copper text-copper" strokeWidth={0} />
+                  ))}
+                </div>
+                <span className="text-[11px] uppercase tracking-[0.2em] text-muted-foreground">
+                  Udvalgt af Langsomt Nok
+                </span>
+              </div>
+
               {product.productType && (
                 <span className="text-xs font-medium text-copper uppercase tracking-wider">
                   {product.productType}
                 </span>
               )}
-              <h1 className="font-serif text-3xl md:text-4xl mb-3 mt-1">{product.title}</h1>
-              {/* Intro from Shopify description */}
+              <h1 className="font-serif text-3xl md:text-4xl lg:text-5xl mb-3 mt-1 leading-[1.1]">
+                {product.title}
+              </h1>
+              {/* Intro from Shopify description — the "hook" */}
               {parsed.intro && (
                 <div
-                  className="text-muted-foreground leading-relaxed [&>p]:mb-2 [&>p:last-child]:mb-0"
+                  className="text-base md:text-lg text-muted-foreground leading-relaxed [&>p]:mb-2 [&>p:last-child]:mb-0"
                   dangerouslySetInnerHTML={{ __html: sanitizeHtml(parsed.intro) }}
                 />
               )}
@@ -584,8 +603,20 @@ function ProductPage() {
               </Button>
             </div>
 
+            {/* Stock / dispatch line — subtle urgency, right under CTA */}
+            {variant?.availableForSale && (
+              <div className="flex items-center gap-2 text-xs text-foreground/70">
+                <span className="relative flex h-2 w-2">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cta/40 opacity-75" />
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-cta" />
+                </span>
+                <span className="font-medium">På lager</span>
+                <span className="text-muted-foreground">— sendes fra Danmark i dag ved bestilling før kl. 14</span>
+              </div>
+            )}
+
             {/* Compact trust line — direkte under primær CTA */}
-            <CTATrust className="mt-3" />
+            <CTATrust className="mt-1" />
             <p className="text-xs text-muted-foreground mt-2">
               Spørgsmål? Skriv til{" "}
               <a href="mailto:hej@langsomtnok.dk" className="text-cta font-medium hover:text-cta-hover">
@@ -613,6 +644,19 @@ function ProductPage() {
             )}
           </div>
         </div>
+
+        {/* ── 1b. Why: fast visual scan of the value proposition ── */}
+        <ProductFeatureGrid />
+
+        {/* ── 1c. Founder note — "Udvalgt af Jesper" ── */}
+        <FounderNote
+          quote={
+            /knivholder|magnet/i.test(product.handle) || /knivholder|magnet/i.test(product.title)
+              ? "Jeg valgte den her, fordi den giver knivene et fast sted at bo — væk fra skuffen, tæt på hånden. Det er den mindste ændring i køkkenet, der giver den største ro."
+              : "Jeg valgte den her, fordi den holder til hverdag efter hverdag — uden at råbe. Præcis det redskab et roligt køkken har brug for."
+          }
+          productType={product.productType}
+        />
 
         {/* ── 2. Product mood video — stort, roligt produktudtryk (når der findes en video) ── */}
         <ProductMoodVideo
