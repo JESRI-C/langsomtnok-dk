@@ -427,12 +427,14 @@ function ProductPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(productSchema) }}
       />
       <div className="container-calm">
-        <Link to="/shop" className="text-sm text-muted-foreground hover:text-foreground mb-8 inline-block">
+        <Link to="/shop" className="text-sm text-muted-foreground hover:text-foreground mb-4 inline-block">
           ← Tilbage til shop
         </Link>
 
+        <MicroTrustBar />
+
         {/* ── 1. Product Hero: Gallery + Info ─────────────────────── */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16">
 
           {/* Gallery */}
           <div className="space-y-4">
