@@ -37,9 +37,12 @@ const sanitizeHtml = (html: string) => DOMPurify.sanitize(html, {
   ALLOWED_TAGS: ["p", "br", "ul", "ol", "li", "strong", "em", "b", "i", "h3", "h4", "a", "span"],
   ALLOWED_ATTR: ["href", "target", "rel"],
 });
-import { Loader2, Minus, Plus } from "lucide-react";
+import { Loader2, Minus, Plus, Star, Check } from "lucide-react";
 import { toast } from "sonner";
 import { CTATrust } from "@/components/landing/CTATrust";
+import { MicroTrustBar } from "@/components/product/MicroTrustBar";
+import { FounderNote } from "@/components/product/FounderNote";
+import { ProductFeatureGrid } from "@/components/product/ProductFeatureGrid";
 
 export const Route = createFileRoute("/products/$handle")({
   head: ({ params }) => {
