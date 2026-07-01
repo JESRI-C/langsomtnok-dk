@@ -504,18 +504,32 @@ function ProductPage() {
           </div>
 
           {/* Product Information */}
-          <div className="space-y-6">
+          <div className="space-y-5">
             <div>
+              {/* Social proof line — above title */}
+              <div className="flex items-center gap-2 mb-3">
+                <div className="flex items-center gap-0.5" aria-label="Kurateret">
+                  {[0, 1, 2, 3, 4].map((i) => (
+                    <Star key={i} className="w-3.5 h-3.5 fill-copper text-copper" strokeWidth={0} />
+                  ))}
+                </div>
+                <span className="text-[11px] uppercase tracking-[0.2em] text-muted-foreground">
+                  Udvalgt af Langsomt Nok
+                </span>
+              </div>
+
               {product.productType && (
                 <span className="text-xs font-medium text-copper uppercase tracking-wider">
                   {product.productType}
                 </span>
               )}
-              <h1 className="font-serif text-3xl md:text-4xl mb-3 mt-1">{product.title}</h1>
-              {/* Intro from Shopify description */}
+              <h1 className="font-serif text-3xl md:text-4xl lg:text-5xl mb-3 mt-1 leading-[1.1]">
+                {product.title}
+              </h1>
+              {/* Intro from Shopify description — the "hook" */}
               {parsed.intro && (
                 <div
-                  className="text-muted-foreground leading-relaxed [&>p]:mb-2 [&>p:last-child]:mb-0"
+                  className="text-base md:text-lg text-muted-foreground leading-relaxed [&>p]:mb-2 [&>p:last-child]:mb-0"
                   dangerouslySetInnerHTML={{ __html: sanitizeHtml(parsed.intro) }}
                 />
               )}
