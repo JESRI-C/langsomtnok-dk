@@ -645,6 +645,19 @@ function ProductPage() {
           </div>
         </div>
 
+        {/* ── 1b. Why: fast visual scan of the value proposition ── */}
+        <ProductFeatureGrid />
+
+        {/* ── 1c. Founder note — "Udvalgt af Jesper" ── */}
+        <FounderNote
+          quote={
+            /knivholder|magnet/i.test(product.handle) || /knivholder|magnet/i.test(product.title)
+              ? "Jeg valgte den her, fordi den giver knivene et fast sted at bo — væk fra skuffen, tæt på hånden. Det er den mindste ændring i køkkenet, der giver den største ro."
+              : "Jeg valgte den her, fordi den holder til hverdag efter hverdag — uden at råbe. Præcis det redskab et roligt køkken har brug for."
+          }
+          productType={product.productType}
+        />
+
         {/* ── 2. Product mood video — stort, roligt produktudtryk (når der findes en video) ── */}
         <ProductMoodVideo
           tags={product.tags || []}
