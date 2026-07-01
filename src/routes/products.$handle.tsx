@@ -37,7 +37,7 @@ const sanitizeHtml = (html: string) => DOMPurify.sanitize(html, {
   ALLOWED_TAGS: ["p", "br", "ul", "ol", "li", "strong", "em", "b", "i", "h3", "h4", "a", "span"],
   ALLOWED_ATTR: ["href", "target", "rel"],
 });
-import { Loader2, Minus, Plus, Star, Check } from "lucide-react";
+import { Loader2, Minus, Plus, Star } from "lucide-react";
 import { toast } from "sonner";
 import { CTATrust } from "@/components/landing/CTATrust";
 import { MicroTrustBar } from "@/components/product/MicroTrustBar";
