@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { TopHook } from "@/components/kampagne/knivstander/TopHook";
 import { Hero } from "@/components/kampagne/knivstander/Hero";
 import { ProblemSolution } from "@/components/kampagne/knivstander/ProblemSolution";
 import { Trust } from "@/components/kampagne/knivstander/Trust";
