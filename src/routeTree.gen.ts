@@ -47,6 +47,7 @@ import { Route as PagesDenForsteRigtigeKokkeknivRouteImport } from './routes/pag
 import { Route as PagesDamaskusKnivRouteImport } from './routes/pages.damaskus-kniv'
 import { Route as KeramikSusanRielRouteImport } from './routes/keramik.susan-riel'
 import { Route as KeramikSlugRouteImport } from './routes/keramik.$slug'
+import { Route as KampagneMagnetiskKnivstanderRouteImport } from './routes/kampagne.magnetisk-knivstander'
 import { Route as GuidesSlugRouteImport } from './routes/guides.$slug'
 import { Route as GaverFarsDagRouteImport } from './routes/gaver.fars-dag'
 import { Route as EmailUnsubscribeRouteImport } from './routes/email/unsubscribe'
@@ -256,6 +257,12 @@ const KeramikSlugRoute = KeramikSlugRouteImport.update({
   path: '/keramik/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const KampagneMagnetiskKnivstanderRoute =
+  KampagneMagnetiskKnivstanderRouteImport.update({
+    id: '/kampagne/magnetisk-knivstander',
+    path: '/kampagne/magnetisk-knivstander',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const GuidesSlugRoute = GuidesSlugRouteImport.update({
   id: '/guides/$slug',
   path: '/guides/$slug',
@@ -338,6 +345,7 @@ export interface FileRoutesByFullPath {
   '/email/unsubscribe': typeof EmailUnsubscribeRoute
   '/gaver/fars-dag': typeof GaverFarsDagRoute
   '/guides/$slug': typeof GuidesSlugRoute
+  '/kampagne/magnetisk-knivstander': typeof KampagneMagnetiskKnivstanderRoute
   '/keramik/$slug': typeof KeramikSlugRoute
   '/keramik/susan-riel': typeof KeramikSusanRielRoute
   '/pages/damaskus-kniv': typeof PagesDamaskusKnivRoute
@@ -389,6 +397,7 @@ export interface FileRoutesByTo {
   '/email/unsubscribe': typeof EmailUnsubscribeRoute
   '/gaver/fars-dag': typeof GaverFarsDagRoute
   '/guides/$slug': typeof GuidesSlugRoute
+  '/kampagne/magnetisk-knivstander': typeof KampagneMagnetiskKnivstanderRoute
   '/keramik/$slug': typeof KeramikSlugRoute
   '/keramik/susan-riel': typeof KeramikSusanRielRoute
   '/pages/damaskus-kniv': typeof PagesDamaskusKnivRoute
@@ -441,6 +450,7 @@ export interface FileRoutesById {
   '/email/unsubscribe': typeof EmailUnsubscribeRoute
   '/gaver/fars-dag': typeof GaverFarsDagRoute
   '/guides/$slug': typeof GuidesSlugRoute
+  '/kampagne/magnetisk-knivstander': typeof KampagneMagnetiskKnivstanderRoute
   '/keramik/$slug': typeof KeramikSlugRoute
   '/keramik/susan-riel': typeof KeramikSusanRielRoute
   '/pages/damaskus-kniv': typeof PagesDamaskusKnivRoute
@@ -494,6 +504,7 @@ export interface FileRouteTypes {
     | '/email/unsubscribe'
     | '/gaver/fars-dag'
     | '/guides/$slug'
+    | '/kampagne/magnetisk-knivstander'
     | '/keramik/$slug'
     | '/keramik/susan-riel'
     | '/pages/damaskus-kniv'
@@ -545,6 +556,7 @@ export interface FileRouteTypes {
     | '/email/unsubscribe'
     | '/gaver/fars-dag'
     | '/guides/$slug'
+    | '/kampagne/magnetisk-knivstander'
     | '/keramik/$slug'
     | '/keramik/susan-riel'
     | '/pages/damaskus-kniv'
@@ -596,6 +608,7 @@ export interface FileRouteTypes {
     | '/email/unsubscribe'
     | '/gaver/fars-dag'
     | '/guides/$slug'
+    | '/kampagne/magnetisk-knivstander'
     | '/keramik/$slug'
     | '/keramik/susan-riel'
     | '/pages/damaskus-kniv'
@@ -648,6 +661,7 @@ export interface RootRouteChildren {
   EmailUnsubscribeRoute: typeof EmailUnsubscribeRoute
   GaverFarsDagRoute: typeof GaverFarsDagRoute
   GuidesSlugRoute: typeof GuidesSlugRoute
+  KampagneMagnetiskKnivstanderRoute: typeof KampagneMagnetiskKnivstanderRoute
   KeramikSlugRoute: typeof KeramikSlugRoute
   KeramikSusanRielRoute: typeof KeramikSusanRielRoute
   PagesDamaskusKnivRoute: typeof PagesDamaskusKnivRoute
@@ -946,6 +960,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof KeramikSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/kampagne/magnetisk-knivstander': {
+      id: '/kampagne/magnetisk-knivstander'
+      path: '/kampagne/magnetisk-knivstander'
+      fullPath: '/kampagne/magnetisk-knivstander'
+      preLoaderRoute: typeof KampagneMagnetiskKnivstanderRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/guides/$slug': {
       id: '/guides/$slug'
       path: '/guides/$slug'
@@ -1048,6 +1069,7 @@ const rootRouteChildren: RootRouteChildren = {
   EmailUnsubscribeRoute: EmailUnsubscribeRoute,
   GaverFarsDagRoute: GaverFarsDagRoute,
   GuidesSlugRoute: GuidesSlugRoute,
+  KampagneMagnetiskKnivstanderRoute: KampagneMagnetiskKnivstanderRoute,
   KeramikSlugRoute: KeramikSlugRoute,
   KeramikSusanRielRoute: KeramikSusanRielRoute,
   PagesDamaskusKnivRoute: PagesDamaskusKnivRoute,
