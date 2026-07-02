@@ -29,27 +29,20 @@ export function Trust() {
         </ul>
 
         <div className="mx-auto mt-12 max-w-2xl text-center">
-          <div className="flex justify-center gap-1 text-[#6E7B4F]" aria-label="5 stjerner">
-            {Array.from({ length: 5 }).map((_, i) => (
-              <span key={i}>★</span>
-            ))}
-          </div>
-          <div className="mt-6 space-y-6">
-            {/* PLACEHOLDER — indsæt rigtige anmeldelser her */}
-            <blockquote className="font-serif italic text-lg md:text-xl text-[#2D2D2D] leading-snug">
-              "[Placeholder — indsæt rigtig kundeanmeldelse her]"
-              <footer className="mt-2 text-xs not-italic text-[#2D2D2D]/50 tracking-wide">
-                — Navn, By (placeholder)
-              </footer>
-            </blockquote>
-            <blockquote className="font-serif italic text-lg md:text-xl text-[#2D2D2D] leading-snug">
-              "[Placeholder — indsæt rigtig kundeanmeldelse her]"
-              <footer className="mt-2 text-xs not-italic text-[#2D2D2D]/50 tracking-wide">
-                — Navn, By (placeholder)
-              </footer>
-            </blockquote>
-          </div>
+          <p className="text-[11px] tracking-[0.18em] uppercase text-[#6E7B4F]">
+            En hilsen fra grundlæggeren
+          </p>
+          <blockquote className="mt-5 font-serif italic text-xl md:text-2xl text-[#2D2D2D] leading-snug">
+            "Jeg lavede den her, fordi jeg var træt af at ankomme til sommerhuset
+            og skulle skære tomater med en sløv brødkniv. Nu står min egen
+            magnetiske stander på terrassebordet — og knivene følger med, hvor
+            end sommeren fører hen."
+          </blockquote>
+          <footer className="mt-5 text-xs not-italic text-[#2D2D2D]/60 tracking-wide">
+            — Jesper, indehaver af Langsomt Nok
+          </footer>
         </div>
+
       </div>
     </section>
   );
