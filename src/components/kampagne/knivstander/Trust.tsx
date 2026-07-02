@@ -33,7 +33,7 @@ export function Trust() {
             En hilsen fra grundlæggeren
           </p>
           <blockquote className="mt-5 font-serif italic text-xl md:text-2xl text-[#2D2D2D] leading-snug">
-            "Jeg lavede den her, fordi jeg var træt af at ankomme til sommerhuset
+            "Jeg har den her, fordi jeg var træt af at ankomme til sommerhuset
             og skulle skære tomater med en sløv brødkniv. Nu står min egen
             magnetiske stander på terrassebordet — og knivene følger med, hvor
             end sommeren fører hen."
