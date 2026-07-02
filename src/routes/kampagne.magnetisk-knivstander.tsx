@@ -38,6 +38,7 @@ function KampagnePage() {
       <style>{`
         .font-serif { font-family: "Fraunces", "Playfair Display", Georgia, serif; }
       `}</style>
+      <TopHook />
       <Hero buyUrl={SHOPIFY_BUY_URL} />
       <ProblemSolution />
       <Trust />
