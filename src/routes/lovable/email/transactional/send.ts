@@ -35,6 +35,7 @@ export const Route = createFileRoute("/lovable/email/transactional/send")({
       POST: async ({ request }) => {
         const supabaseUrl = import.meta.env.VITE_SUPABASE_URL
         const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY
+        const lovableApiKey = process.env.LOVABLE_API_KEY
 
         if (!supabaseUrl || !supabaseServiceKey) {
           console.error('Missing required environment variables')
@@ -44,20 +45,28 @@ export const Route = createFileRoute("/lovable/email/transactional/send")({
           )
         }
 
-        // Verify the caller has a valid Supabase auth token.
-        // In TanStack, there is no Supabase gateway — we validate the JWT ourselves.
+        // This endpoint is a privileged backend interface, not a user API.
+        // Only trusted server code may call it: either with the Supabase
+        // service-role key or the project's LOVABLE_API_KEY as bearer.
+        // End-user flows (contact form, newsletter, cancellation) must go
+        // through their own dedicated public/server routes, which then
+        // enqueue emails using the service-role Supabase client.
         const authHeader = request.headers.get('Authorization')
         if (!authHeader?.startsWith('Bearer ')) {
           return Response.json({ error: 'Unauthorized' }, { status: 401 })
         }
 
         const token = authHeader.slice('Bearer '.length).trim()
-        const supabase = createClient(supabaseUrl, supabaseServiceKey)
-        const { data: { user }, error: authError } = await supabase.auth.getUser(token)
+        const isTrustedCaller =
+          token === supabaseServiceKey ||
+          (lovableApiKey ? token === lovableApiKey : false)
 
-        if (authError || !user) {
+        if (!isTrustedCaller) {
           return Response.json({ error: 'Unauthorized' }, { status: 401 })
         }
+
+        const supabase = createClient(supabaseUrl, supabaseServiceKey)
+
 
         // Parse request body
         let templateName: string
