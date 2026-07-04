@@ -14,6 +14,57 @@ export type Database = {
   }
   public: {
     Tables: {
+      cancellation_requests: {
+        Row: {
+          address: string | null
+          created_at: string
+          email: string
+          full_name: string
+          id: string
+          ip_hash: string | null
+          order_date: string | null
+          order_number: string | null
+          phone: string | null
+          reason: string | null
+          received_date: string | null
+          signed_at: string
+          status: string
+          user_agent: string | null
+        }
+        Insert: {
+          address?: string | null
+          created_at?: string
+          email: string
+          full_name: string
+          id?: string
+          ip_hash?: string | null
+          order_date?: string | null
+          order_number?: string | null
+          phone?: string | null
+          reason?: string | null
+          received_date?: string | null
+          signed_at?: string
+          status?: string
+          user_agent?: string | null
+        }
+        Update: {
+          address?: string | null
+          created_at?: string
+          email?: string
+          full_name?: string
+          id?: string
+          ip_hash?: string | null
+          order_date?: string | null
+          order_number?: string | null
+          phone?: string | null
+          reason?: string | null
+          received_date?: string | null
+          signed_at?: string
+          status?: string
+          user_agent?: string | null
+        }
+        Relationships: []
+      }
       email_send_log: {
         Row: {
           created_at: string

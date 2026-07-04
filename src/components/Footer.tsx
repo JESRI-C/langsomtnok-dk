@@ -35,6 +35,7 @@ const footerLinks = {
     { label: "Privatlivspolitik", href: "/privatlivspolitik" },
     { label: "Cookiepolitik", href: "/cookiepolitik" },
     { label: "Returnering og fortrydelse", href: "/returpolitik" },
+    { label: "Fortryd aftale", href: "/fortryd-aftale" },
     { label: "Levering", href: "/fragt" },
     { label: "Reklamation", href: "/reklamation" },
   ],

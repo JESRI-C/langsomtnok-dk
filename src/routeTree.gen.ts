@@ -20,6 +20,7 @@ import { Route as OmRouteImport } from './routes/om'
 import { Route as KontaktRouteImport } from './routes/kontakt'
 import { Route as HandelsbetingelserRouteImport } from './routes/handelsbetingelser'
 import { Route as FragtRouteImport } from './routes/fragt'
+import { Route as FortrydAftaleRouteImport } from './routes/fortryd-aftale'
 import { Route as FindDitRitualRouteImport } from './routes/find-dit-ritual'
 import { Route as CookiepolitikRouteImport } from './routes/cookiepolitik'
 import { Route as CirklenRouteImport } from './routes/cirklen'
@@ -57,6 +58,7 @@ import { Route as CollectionsHandleRouteImport } from './routes/collections.$han
 import { Route as LovableEmailSuppressionRouteImport } from './routes/lovable/email/suppression'
 import { Route as ApiPublicNewsletterRouteImport } from './routes/api/public/newsletter'
 import { Route as ApiPublicContactRouteImport } from './routes/api/public/contact'
+import { Route as ApiPublicCancellationRouteImport } from './routes/api/public/cancellation'
 import { Route as LovableEmailTransactionalSendRouteImport } from './routes/lovable/email/transactional/send'
 import { Route as LovableEmailTransactionalPreviewRouteImport } from './routes/lovable/email/transactional/preview'
 import { Route as LovableEmailQueueProcessRouteImport } from './routes/lovable/email/queue/process'
@@ -114,6 +116,11 @@ const HandelsbetingelserRoute = HandelsbetingelserRouteImport.update({
 const FragtRoute = FragtRouteImport.update({
   id: '/fragt',
   path: '/fragt',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FortrydAftaleRoute = FortrydAftaleRouteImport.update({
+  id: '/fortryd-aftale',
+  path: '/fortryd-aftale',
   getParentRoute: () => rootRouteImport,
 } as any)
 const FindDitRitualRoute = FindDitRitualRouteImport.update({
@@ -310,6 +317,11 @@ const ApiPublicContactRoute = ApiPublicContactRouteImport.update({
   path: '/api/public/contact',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicCancellationRoute = ApiPublicCancellationRouteImport.update({
+  id: '/api/public/cancellation',
+  path: '/api/public/cancellation',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LovableEmailTransactionalSendRoute =
   LovableEmailTransactionalSendRouteImport.update({
     id: '/lovable/email/transactional/send',
@@ -335,6 +347,7 @@ export interface FileRoutesByFullPath {
   '/cirklen': typeof CirklenRoute
   '/cookiepolitik': typeof CookiepolitikRoute
   '/find-dit-ritual': typeof FindDitRitualRoute
+  '/fortryd-aftale': typeof FortrydAftaleRoute
   '/fragt': typeof FragtRoute
   '/handelsbetingelser': typeof HandelsbetingelserRoute
   '/kontakt': typeof KontaktRoute
@@ -375,6 +388,7 @@ export interface FileRoutesByFullPath {
   '/universet/$slug': typeof UniversetSlugRoute
   '/guides/': typeof GuidesIndexRoute
   '/keramik/': typeof KeramikIndexRoute
+  '/api/public/cancellation': typeof ApiPublicCancellationRoute
   '/api/public/contact': typeof ApiPublicContactRoute
   '/api/public/newsletter': typeof ApiPublicNewsletterRoute
   '/lovable/email/suppression': typeof LovableEmailSuppressionRoute
@@ -388,6 +402,7 @@ export interface FileRoutesByTo {
   '/cirklen': typeof CirklenRoute
   '/cookiepolitik': typeof CookiepolitikRoute
   '/find-dit-ritual': typeof FindDitRitualRoute
+  '/fortryd-aftale': typeof FortrydAftaleRoute
   '/fragt': typeof FragtRoute
   '/handelsbetingelser': typeof HandelsbetingelserRoute
   '/kontakt': typeof KontaktRoute
@@ -428,6 +443,7 @@ export interface FileRoutesByTo {
   '/universet/$slug': typeof UniversetSlugRoute
   '/guides': typeof GuidesIndexRoute
   '/keramik': typeof KeramikIndexRoute
+  '/api/public/cancellation': typeof ApiPublicCancellationRoute
   '/api/public/contact': typeof ApiPublicContactRoute
   '/api/public/newsletter': typeof ApiPublicNewsletterRoute
   '/lovable/email/suppression': typeof LovableEmailSuppressionRoute
@@ -442,6 +458,7 @@ export interface FileRoutesById {
   '/cirklen': typeof CirklenRoute
   '/cookiepolitik': typeof CookiepolitikRoute
   '/find-dit-ritual': typeof FindDitRitualRoute
+  '/fortryd-aftale': typeof FortrydAftaleRoute
   '/fragt': typeof FragtRoute
   '/handelsbetingelser': typeof HandelsbetingelserRoute
   '/kontakt': typeof KontaktRoute
@@ -482,6 +499,7 @@ export interface FileRoutesById {
   '/universet_/$slug': typeof UniversetSlugRoute
   '/guides/': typeof GuidesIndexRoute
   '/keramik/': typeof KeramikIndexRoute
+  '/api/public/cancellation': typeof ApiPublicCancellationRoute
   '/api/public/contact': typeof ApiPublicContactRoute
   '/api/public/newsletter': typeof ApiPublicNewsletterRoute
   '/lovable/email/suppression': typeof LovableEmailSuppressionRoute
@@ -497,6 +515,7 @@ export interface FileRouteTypes {
     | '/cirklen'
     | '/cookiepolitik'
     | '/find-dit-ritual'
+    | '/fortryd-aftale'
     | '/fragt'
     | '/handelsbetingelser'
     | '/kontakt'
@@ -537,6 +556,7 @@ export interface FileRouteTypes {
     | '/universet/$slug'
     | '/guides/'
     | '/keramik/'
+    | '/api/public/cancellation'
     | '/api/public/contact'
     | '/api/public/newsletter'
     | '/lovable/email/suppression'
@@ -550,6 +570,7 @@ export interface FileRouteTypes {
     | '/cirklen'
     | '/cookiepolitik'
     | '/find-dit-ritual'
+    | '/fortryd-aftale'
     | '/fragt'
     | '/handelsbetingelser'
     | '/kontakt'
@@ -590,6 +611,7 @@ export interface FileRouteTypes {
     | '/universet/$slug'
     | '/guides'
     | '/keramik'
+    | '/api/public/cancellation'
     | '/api/public/contact'
     | '/api/public/newsletter'
     | '/lovable/email/suppression'
@@ -603,6 +625,7 @@ export interface FileRouteTypes {
     | '/cirklen'
     | '/cookiepolitik'
     | '/find-dit-ritual'
+    | '/fortryd-aftale'
     | '/fragt'
     | '/handelsbetingelser'
     | '/kontakt'
@@ -643,6 +666,7 @@ export interface FileRouteTypes {
     | '/universet_/$slug'
     | '/guides/'
     | '/keramik/'
+    | '/api/public/cancellation'
     | '/api/public/contact'
     | '/api/public/newsletter'
     | '/lovable/email/suppression'
@@ -657,6 +681,7 @@ export interface RootRouteChildren {
   CirklenRoute: typeof CirklenRoute
   CookiepolitikRoute: typeof CookiepolitikRoute
   FindDitRitualRoute: typeof FindDitRitualRoute
+  FortrydAftaleRoute: typeof FortrydAftaleRoute
   FragtRoute: typeof FragtRoute
   HandelsbetingelserRoute: typeof HandelsbetingelserRoute
   KontaktRoute: typeof KontaktRoute
@@ -697,6 +722,7 @@ export interface RootRouteChildren {
   UniversetSlugRoute: typeof UniversetSlugRoute
   GuidesIndexRoute: typeof GuidesIndexRoute
   KeramikIndexRoute: typeof KeramikIndexRoute
+  ApiPublicCancellationRoute: typeof ApiPublicCancellationRoute
   ApiPublicContactRoute: typeof ApiPublicContactRoute
   ApiPublicNewsletterRoute: typeof ApiPublicNewsletterRoute
   LovableEmailSuppressionRoute: typeof LovableEmailSuppressionRoute
@@ -782,6 +808,13 @@ declare module '@tanstack/react-router' {
       path: '/fragt'
       fullPath: '/fragt'
       preLoaderRoute: typeof FragtRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/fortryd-aftale': {
+      id: '/fortryd-aftale'
+      path: '/fortryd-aftale'
+      fullPath: '/fortryd-aftale'
+      preLoaderRoute: typeof FortrydAftaleRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/find-dit-ritual': {
@@ -1043,6 +1076,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPublicContactRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/cancellation': {
+      id: '/api/public/cancellation'
+      path: '/api/public/cancellation'
+      fullPath: '/api/public/cancellation'
+      preLoaderRoute: typeof ApiPublicCancellationRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/lovable/email/transactional/send': {
       id: '/lovable/email/transactional/send'
       path: '/lovable/email/transactional/send'
@@ -1073,6 +1113,7 @@ const rootRouteChildren: RootRouteChildren = {
   CirklenRoute: CirklenRoute,
   CookiepolitikRoute: CookiepolitikRoute,
   FindDitRitualRoute: FindDitRitualRoute,
+  FortrydAftaleRoute: FortrydAftaleRoute,
   FragtRoute: FragtRoute,
   HandelsbetingelserRoute: HandelsbetingelserRoute,
   KontaktRoute: KontaktRoute,
@@ -1114,6 +1155,7 @@ const rootRouteChildren: RootRouteChildren = {
   UniversetSlugRoute: UniversetSlugRoute,
   GuidesIndexRoute: GuidesIndexRoute,
   KeramikIndexRoute: KeramikIndexRoute,
+  ApiPublicCancellationRoute: ApiPublicCancellationRoute,
   ApiPublicContactRoute: ApiPublicContactRoute,
   ApiPublicNewsletterRoute: ApiPublicNewsletterRoute,
   LovableEmailSuppressionRoute: LovableEmailSuppressionRoute,
@@ -1124,13 +1166,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}

@@ -1,4 +1,7 @@
 import type { ComponentType } from 'react'
+import { template as contactFormNotification } from './contact-form-notification'
+import { template as cancellationConfirmation } from './cancellation-confirmation'
+import { template as cancellationNotification } from './cancellation-notification'
 
 export interface TemplateEntry {
   component: ComponentType<any>
@@ -9,8 +12,8 @@ export interface TemplateEntry {
   to?: string
 }
 
-import { template as contactFormNotification } from './contact-form-notification'
-
 export const TEMPLATES: Record<string, TemplateEntry> = {
   'contact-form-notification': contactFormNotification,
+  'cancellation-confirmation': cancellationConfirmation,
+  'cancellation-notification': cancellationNotification,
 }
