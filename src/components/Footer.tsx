@@ -201,6 +201,7 @@ export function Footer() {
             <p className="text-sm text-deep-foreground/60 leading-relaxed mb-5 max-w-md mx-auto">
               Betal sikkert med kort og de betalingsmuligheder, der vises i checkout.
             </p>
+            <PaymentIcons variant="dark" className="justify-center mb-5" />
             <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-3 text-deep-foreground/50">
               <span className="inline-flex items-center gap-2 text-xs">
                 <CreditCard className="w-4 h-4 text-cta" strokeWidth={1.5} />
