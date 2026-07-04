@@ -10,8 +10,26 @@ export const Route = createFileRoute("/om")({
       { name: "description", content: "Langsomt Nok er skabt til køkkenet som fristed. Til hænder, der mærker forskellen." },
       { property: "og:title", content: "Om Langsomt Nok — Tid. Håndværk. Ro." },
       { property: "og:description", content: "Langsomt Nok er skabt til køkkenet som fristed." },
+      { property: "og:url", content: "https://langsomtnok.dk/om" },
     ],
     links: [{ rel: "canonical", href: "https://langsomtnok.dk/om" }],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "AboutPage",
+          name: "Om Langsomt Nok",
+          url: "https://langsomtnok.dk/om",
+          description: "Langsomt Nok er skabt til køkkenet som fristed. Til hænder, der mærker forskellen.",
+          mainEntity: {
+            "@type": "Organization",
+            name: "Langsomt Nok",
+            url: "https://langsomtnok.dk",
+          },
+        }),
+      },
+    ],
   }),
   component: AboutPage,
 });
