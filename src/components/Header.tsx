@@ -23,7 +23,7 @@ const trustItems = [
   { icon: Shield, text: "Sikker betaling" },
 ];
 
-export function Header() {
+export function Header({ minimal = false }: { minimal?: boolean } = {}) {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const items = useCartStore((s) => s.items);
