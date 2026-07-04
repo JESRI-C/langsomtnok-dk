@@ -37,7 +37,7 @@ import {
   type ShopifyProduct,
 } from "@/lib/shopify";
 import { trackCollectionView } from "@/lib/analytics";
-import { canonicalCollectionUrl } from "@/lib/collectionCanonicals";
+import { COLLECTION_CANONICALS, canonicalCollectionUrl } from "@/lib/collectionCanonicals";
 import kniveHero from "@/assets/knive-hero.png";
 import slibningHero from "@/assets/slibning-hero.png";
 import holdereHero from "@/assets/holdere-hero.png";
