@@ -8,7 +8,7 @@ import { SITE_CONFIG } from "@/lib/site-config";
 const footerLinks = {
   shop: [
     { label: "Knive", to: "/collections/knive" },
-    { label: "Slibesten", to: "/collections/slibesten" },
+    { label: "Slibning & pleje", to: "/collections/slibning-pleje" },
     { label: "Magnetiske holdere", to: "/collections/magnetiske-holdere" },
     { label: "Håndlavet keramik", to: "/keramik" },
     { label: "Pleje & ritualer", to: "/collections/pleje-ritualer" },
