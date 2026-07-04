@@ -11,7 +11,7 @@ const footerLinks = {
     { label: "Slibning & pleje", to: "/collections/slibning-pleje" },
     { label: "Magnetiske holdere", to: "/collections/magnetiske-holdere" },
     { label: "Håndlavet keramik", to: "/keramik" },
-    { label: "Pleje & ritualer", to: "/collections/pleje-ritualer" },
+    
   ],
   guides: [
     { label: "Hvilken kokkekniv skal jeg vælge?", href: "/guides/hvilken-kokkekniv-skal-jeg-vaelge" },
