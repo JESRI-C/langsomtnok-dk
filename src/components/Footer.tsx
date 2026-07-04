@@ -12,10 +12,11 @@ const footerLinks = {
     { label: "Pleje & ritualer", to: "/collections/pleje-ritualer" },
   ],
   guides: [
-    { label: "Knivvalg", to: "/guides" },
-    { label: "Slibning", to: "/guides" },
-    { label: "Pleje", to: "/guides" },
-    { label: "Materialer", to: "/guides" },
+    { label: "Hvilken kokkekniv skal jeg vælge?", to: "/guides/hvilken-kokkekniv-skal-jeg-vaelge" },
+    { label: "Damaskus — hvad betyder det?", to: "/guides/damaskus-kniv-hvad-betyder-det" },
+    { label: "Hvordan sliber man en kniv?", to: "/guides/hvordan-sliber-man-en-kniv" },
+    { label: "Slibesten 1000/5000 forklaret", to: "/guides/slibesten-1000-5000-hvad-betyder-det" },
+    { label: "Se alle guides", to: "/guides" },
   ],
   rituals: [
     { label: "Universet", href: "/universet" },
