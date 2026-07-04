@@ -27,6 +27,7 @@ import { trackAddToCart, trackBeginCheckout, trackCartOpen, trackEvent } from "@
 import { toast } from "sonner";
 import { useState, useEffect } from "react";
 import { Link } from "@tanstack/react-router";
+import { PaymentIcons } from "@/components/PaymentIcons";
 
 /** Free shipping threshold in store currency (DKK) */
 const FREE_SHIPPING_THRESHOLD = 499;
