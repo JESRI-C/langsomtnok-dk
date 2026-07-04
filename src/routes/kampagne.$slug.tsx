@@ -135,7 +135,7 @@ function KampagneNotFound() {
 }
 
 function KampagneSide() {
-  const { campaign, product } = Route.useLoaderData();
+  const { campaign, product } = Route.useLoaderData() as LoaderData;
   const [selectedVariantIdx, setSelectedVariantIdx] = useState(0);
   const addItem = useCartStore((s) => s.addItem);
   const isLoading = useCartStore((s) => s.isLoading);
