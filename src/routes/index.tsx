@@ -70,7 +70,7 @@ export const Route = createFileRoute("/")({
         property: "og:description",
         content: "Køkkenredskaber til hænder, der gerne vil mærke forskellen.",
       },
-      { property: "og:image", content: heroPoster },
+      { property: "og:image", content: "https://cdn.shopify.com/s/files/1/0915/7227/3488/files/ln-material-damascus-01.png?v=1778143706" },
     ],
     links: [{ rel: "canonical", href: "https://langsomtnok.dk" }],
   }),
