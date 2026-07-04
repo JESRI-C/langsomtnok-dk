@@ -217,6 +217,9 @@ function HomePage() {
         </div>
       </section>
 
+      {/* ─────────────────── MEST ELSKEDE (SSR — synligt for annoncetrafik) ─────────────────── */}
+      <MestElskede products={mestElskede} />
+
       {/* ─────────────────── TRUST: Handel med ro i maven ─────────────────── */}
       <section className="section-padding bg-soft/50">
         <div className="container-calm max-w-5xl">
