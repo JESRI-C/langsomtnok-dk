@@ -90,28 +90,32 @@ export function Header({ minimal = false }: { minimal?: boolean } = {}) {
               />
             </Link>
 
-            {/* Center Navigation — desktop */}
-            <nav className="hidden xl:flex items-center gap-6">
-              {navItems.map((item) => (
-                <Link
-                  key={item.to}
-                  to={item.to}
-                  className="text-[14px] font-medium text-foreground/65 hover:text-cta transition-colors duration-300 whitespace-nowrap"
-                  activeProps={{ className: "text-foreground" }}
-                >
-                  {item.label}
-                </Link>
-              ))}
-            </nav>
+            {/* Center Navigation — desktop (skjules i minimal kampagne-header) */}
+            {!minimal && (
+              <nav className="hidden xl:flex items-center gap-6">
+                {navItems.map((item) => (
+                  <Link
+                    key={item.to}
+                    to={item.to}
+                    className="text-[14px] font-medium text-foreground/65 hover:text-cta transition-colors duration-300 whitespace-nowrap"
+                    activeProps={{ className: "text-foreground" }}
+                  >
+                    {item.label}
+                  </Link>
+                ))}
+              </nav>
+            )}
 
             {/* Right icons */}
             <div className="flex items-center gap-3">
-              <button
-                className="text-foreground/50 hover:text-foreground transition-colors p-1.5"
-                aria-label="Søg"
-              >
-                <Search className="w-[18px] h-[18px]" strokeWidth={1.5} />
-              </button>
+              {!minimal && (
+                <button
+                  className="text-foreground/50 hover:text-foreground transition-colors p-1.5"
+                  aria-label="Søg"
+                >
+                  <Search className="w-[18px] h-[18px]" strokeWidth={1.5} />
+                </button>
+              )}
               <button
                 onClick={() => setCartOpen(true)}
                 className="text-foreground/50 hover:text-foreground transition-colors p-1.5 relative"
@@ -124,19 +128,21 @@ export function Header({ minimal = false }: { minimal?: boolean } = {}) {
                   </span>
                 )}
               </button>
-              <button
-                onClick={() => setMobileOpen(!mobileOpen)}
-                className="xl:hidden text-foreground/50 hover:text-foreground transition-colors p-1.5"
-                aria-label={mobileOpen ? "Luk menu" : "Åbn menu"}
-              >
-                {mobileOpen ? <X className="w-5 h-5" strokeWidth={1.5} /> : <Menu className="w-5 h-5" strokeWidth={1.5} />}
-              </button>
+              {!minimal && (
+                <button
+                  onClick={() => setMobileOpen(!mobileOpen)}
+                  className="xl:hidden text-foreground/50 hover:text-foreground transition-colors p-1.5"
+                  aria-label={mobileOpen ? "Luk menu" : "Åbn menu"}
+                >
+                  {mobileOpen ? <X className="w-5 h-5" strokeWidth={1.5} /> : <Menu className="w-5 h-5" strokeWidth={1.5} />}
+                </button>
+              )}
             </div>
           </div>
         </div>
 
-        {/* Mobile Navigation */}
-        {mobileOpen && (
+        {/* Mobile Navigation (skjules i minimal kampagne-header) */}
+        {!minimal && mobileOpen && (
           <div className="xl:hidden fixed inset-x-0 top-[92px] bottom-0 bg-background/99 backdrop-blur-sm z-40 overflow-y-auto">
             <nav className="container-calm py-8 flex flex-col gap-1">
               {navItems.map((item) => (
