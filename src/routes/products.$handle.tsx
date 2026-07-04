@@ -472,36 +472,18 @@ function ProductPage() {
     ? { label: "Se knivene", to: "/shop" }
     : { label: "Udforsk ritualerne", to: "/shop" };
 
-  const productSchema = {
-    "@context": "https://schema.org",
-    "@type": "Product",
-    name: product.title,
-    description: product.description,
-    image: images.map((e) => e.node.url),
-    sku: variant?.sku || product.handle,
-    brand: { "@type": "Brand", name: "Langsomt Nok" },
-    url: `https://langsomtnok.dk/products/${product.handle}`,
-    offers: {
-      "@type": "Offer",
-      price: variant?.price?.amount || product.priceRange.minVariantPrice.amount,
-      priceCurrency: variant?.price?.currencyCode || product.priceRange.minVariantPrice.currencyCode || "DKK",
-      availability: variant?.availableForSale ? "https://schema.org/InStock" : "https://schema.org/OutOfStock",
-      url: `https://langsomtnok.dk/products/${product.handle}`,
-    },
-  };
+  // JSON-LD Product schema er nu leveret via route head() → SSR-tilgængelig
+  // for crawlere. Se `head()` øverst i filen.
 
   return (
     <div className="pt-24 pb-16">
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(productSchema) }}
-      />
       <div className="container-calm">
         <Link to="/shop" className="text-sm text-muted-foreground hover:text-foreground mb-4 inline-block">
           ← Tilbage til shop
         </Link>
 
         <MicroTrustBar />
+
 
         {/* ── 1. Product Hero: Gallery + Info ─────────────────────── */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16">
