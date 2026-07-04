@@ -11,7 +11,9 @@
  *   "opbevaring": "magnetiske-holdere",
  */
 export const COLLECTION_CANONICALS: Record<string, string> = {
-  // Tilføj mapping her når kanoniske valg er truffet.
+  // Slibesten og slibning-pleje dækker samme intention (slibning + pleje).
+  // Vi peger begge på "slibning-pleje" som den kanoniske URL.
+  slibesten: "slibning-pleje",
 };
 
 export function canonicalCollectionHandle(handle: string): string {
