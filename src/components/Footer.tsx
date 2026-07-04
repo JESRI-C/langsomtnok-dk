@@ -63,7 +63,7 @@ export function Footer() {
             </p>
             <div className="flex gap-4 mt-6">
               <a
-                href="https://instagram.com"
+                href={SITE_CONFIG.social.instagram}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-deep-foreground/50 hover:text-deep-foreground transition-colors text-sm"
@@ -71,7 +71,7 @@ export function Footer() {
                 Instagram
               </a>
               <a
-                href="https://pinterest.com"
+                href={SITE_CONFIG.social.pinterest}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-deep-foreground/50 hover:text-deep-foreground transition-colors text-sm"
