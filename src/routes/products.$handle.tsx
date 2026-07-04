@@ -42,6 +42,7 @@ import { toast } from "sonner";
 import { CTATrust } from "@/components/landing/CTATrust";
 import { MicroTrustBar } from "@/components/product/MicroTrustBar";
 import { FounderNote } from "@/components/product/FounderNote";
+import { SocialProofPlaceholder } from "@/components/product/SocialProofPlaceholder";
 import { ProductFeatureGrid } from "@/components/product/ProductFeatureGrid";
 
 async function fetchProductByHandle(handle: string): Promise<ProductNode | null> {
@@ -669,6 +670,7 @@ function ProductPage() {
 
             {/* Compact trust line — direkte under primær CTA */}
             <CTATrust className="mt-1" />
+            <SocialProofPlaceholder compact />
             <p className="text-xs text-muted-foreground mt-2">
               Spørgsmål? Skriv til{" "}
               <a href="mailto:hej@langsomtnok.dk" className="text-cta font-medium hover:text-cta-hover">
