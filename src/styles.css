@@ -94,6 +94,13 @@
   --deep-foreground: oklch(0.92 0.01 75);
   --soft: oklch(0.905 0.018 75);
 
+  /* Handelsfarve — mørk espresso genbrugt fra --deep.
+     Bruges KUN til udfyldte kommercielle knapper (Læg i kurv, Gå til kassen).
+     Kontrast 0.19 vs 0.92 lightness => >4.5:1 AA. */
+  --commerce: var(--deep);
+  --commerce-hover: oklch(0.13 0.005 0);
+  --commerce-foreground: var(--deep-foreground);
+
   --chart-1: oklch(0.371 0.065 40);
   --chart-2: oklch(0.6 0.1 60);
   --chart-3: oklch(0.39 0.03 150);
