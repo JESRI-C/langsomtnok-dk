@@ -169,7 +169,9 @@ function HomePage() {
   return (
     <div className="bg-background">
       {/* ─────────────────── 1. HERO VIDEO ─────────────────── */}
-      <section className="relative min-h-[88vh] md:min-h-[92vh] flex items-end md:items-center">
+      {/* Hero er lavere på mobil (62vh), så første produktkort i "Mest elskede"
+          titter frem uden scroll for annoncetrafik. Desktop uændret. */}
+      <section className="relative min-h-[62vh] md:min-h-[92vh] flex items-end md:items-center">
         <HeroVideo src={HERO_VIDEO_SRC} poster={heroPoster} alt="Roligt nordisk køkken med damaskus kokkekniv" />
         <div className="container-calm relative z-10 pb-16 md:pb-0 pt-24">
           <div className="max-w-2xl fade-in-up">
