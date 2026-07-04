@@ -304,7 +304,7 @@ function HomePage() {
                       name={cat.slot.name}
                       ratio="4/5"
                       motif={cat.slot.motif}
-                      alt={cat.title}
+                      alt={cat.alt}
                       variant="warm"
                       className="rounded-none"
                     />
