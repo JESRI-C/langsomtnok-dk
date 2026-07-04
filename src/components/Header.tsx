@@ -23,7 +23,7 @@ const trustItems = [
   { icon: Shield, text: "Sikker betaling" },
 ];
 
-export function Header() {
+export function Header({ minimal = false }: { minimal?: boolean } = {}) {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const items = useCartStore((s) => s.items);
@@ -44,32 +44,34 @@ export function Header() {
 
   return (
     <>
-      {/* ── Trust Bar ──────────────────────────────────────── */}
-      <div className="bg-soft border-b border-border/40 relative z-50">
-        <div className="container-calm">
-          {/* Desktop: all 4 items */}
-          <div className="hidden md:flex items-center justify-center gap-8 py-2">
-            {trustItems.map((item, i) => (
-              <div key={item.text} className="flex items-center gap-1.5">
-                <item.icon className="w-3.5 h-3.5 text-foreground/40" strokeWidth={1.5} />
-                <span className="text-[11px] font-medium text-foreground/50 tracking-wide">{item.text}</span>
-                {i < trustItems.length - 1 && (
-                  <span className="ml-6 text-border/60">·</span>
-                )}
-              </div>
-            ))}
-          </div>
-          {/* Mobile: 2 items */}
-          <div className="flex md:hidden items-center justify-center gap-6 py-1.5">
-            {trustItems.slice(0, 2).map((item) => (
-              <div key={item.text} className="flex items-center gap-1.5">
-                <item.icon className="w-3 h-3 text-foreground/40" strokeWidth={1.5} />
-                <span className="text-[10px] font-medium text-foreground/50 tracking-wide">{item.text}</span>
-              </div>
-            ))}
+      {/* ── Trust Bar (skjules i minimal kampagne-header) ─────────── */}
+      {!minimal && (
+        <div className="bg-soft border-b border-border/40 relative z-50">
+          <div className="container-calm">
+            {/* Desktop: all 4 items */}
+            <div className="hidden md:flex items-center justify-center gap-8 py-2">
+              {trustItems.map((item, i) => (
+                <div key={item.text} className="flex items-center gap-1.5">
+                  <item.icon className="w-3.5 h-3.5 text-foreground/40" strokeWidth={1.5} />
+                  <span className="text-[11px] font-medium text-foreground/50 tracking-wide">{item.text}</span>
+                  {i < trustItems.length - 1 && (
+                    <span className="ml-6 text-border/60">·</span>
+                  )}
+                </div>
+              ))}
+            </div>
+            {/* Mobile: 2 items */}
+            <div className="flex md:hidden items-center justify-center gap-6 py-1.5">
+              {trustItems.slice(0, 2).map((item) => (
+                <div key={item.text} className="flex items-center gap-1.5">
+                  <item.icon className="w-3 h-3 text-foreground/40" strokeWidth={1.5} />
+                  <span className="text-[10px] font-medium text-foreground/50 tracking-wide">{item.text}</span>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
-      </div>
+      )}
 
       {/* ── Main Header ───────────────────────────────────── */}
       <header
@@ -88,28 +90,32 @@ export function Header() {
               />
             </Link>
 
-            {/* Center Navigation — desktop */}
-            <nav className="hidden xl:flex items-center gap-6">
-              {navItems.map((item) => (
-                <Link
-                  key={item.to}
-                  to={item.to}
-                  className="text-[14px] font-medium text-foreground/65 hover:text-cta transition-colors duration-300 whitespace-nowrap"
-                  activeProps={{ className: "text-foreground" }}
-                >
-                  {item.label}
-                </Link>
-              ))}
-            </nav>
+            {/* Center Navigation — desktop (skjules i minimal kampagne-header) */}
+            {!minimal && (
+              <nav className="hidden xl:flex items-center gap-6">
+                {navItems.map((item) => (
+                  <Link
+                    key={item.to}
+                    to={item.to}
+                    className="text-[14px] font-medium text-foreground/65 hover:text-cta transition-colors duration-300 whitespace-nowrap"
+                    activeProps={{ className: "text-foreground" }}
+                  >
+                    {item.label}
+                  </Link>
+                ))}
+              </nav>
+            )}
 
             {/* Right icons */}
             <div className="flex items-center gap-3">
-              <button
-                className="text-foreground/50 hover:text-foreground transition-colors p-1.5"
-                aria-label="Søg"
-              >
-                <Search className="w-[18px] h-[18px]" strokeWidth={1.5} />
-              </button>
+              {!minimal && (
+                <button
+                  className="text-foreground/50 hover:text-foreground transition-colors p-1.5"
+                  aria-label="Søg"
+                >
+                  <Search className="w-[18px] h-[18px]" strokeWidth={1.5} />
+                </button>
+              )}
               <button
                 onClick={() => setCartOpen(true)}
                 className="text-foreground/50 hover:text-foreground transition-colors p-1.5 relative"
@@ -122,19 +128,21 @@ export function Header() {
                   </span>
                 )}
               </button>
-              <button
-                onClick={() => setMobileOpen(!mobileOpen)}
-                className="xl:hidden text-foreground/50 hover:text-foreground transition-colors p-1.5"
-                aria-label={mobileOpen ? "Luk menu" : "Åbn menu"}
-              >
-                {mobileOpen ? <X className="w-5 h-5" strokeWidth={1.5} /> : <Menu className="w-5 h-5" strokeWidth={1.5} />}
-              </button>
+              {!minimal && (
+                <button
+                  onClick={() => setMobileOpen(!mobileOpen)}
+                  className="xl:hidden text-foreground/50 hover:text-foreground transition-colors p-1.5"
+                  aria-label={mobileOpen ? "Luk menu" : "Åbn menu"}
+                >
+                  {mobileOpen ? <X className="w-5 h-5" strokeWidth={1.5} /> : <Menu className="w-5 h-5" strokeWidth={1.5} />}
+                </button>
+              )}
             </div>
           </div>
         </div>
 
-        {/* Mobile Navigation */}
-        {mobileOpen && (
+        {/* Mobile Navigation (skjules i minimal kampagne-header) */}
+        {!minimal && mobileOpen && (
           <div className="xl:hidden fixed inset-x-0 top-[92px] bottom-0 bg-background/99 backdrop-blur-sm z-40 overflow-y-auto">
             <nav className="container-calm py-8 flex flex-col gap-1">
               {navItems.map((item) => (

@@ -8,6 +8,7 @@ import { ImageSlot, IMAGE_SLOTS } from "@/components/ImageSlot";
 import { HeroVideo } from "@/components/landing/HeroVideo";
 import { VideoShowcase } from "@/components/VideoShowcase";
 import { BundleSection } from "@/components/landing/BundleSection";
+import { MestElskede } from "@/components/landing/MestElskede";
 import { storefrontApiRequest, PRODUCTS_QUERY, type ShopifyProduct } from "@/lib/shopify";
 import { STORIES as UNIVERSET_STORIES } from "@/lib/universet";
 import { StoryCard as UniversetHomeStoryCard } from "@/components/universet/StoryCard";
@@ -25,7 +26,37 @@ const MATERIAL_STEEL = "https://cdn.shopify.com/s/files/1/0915/7227/3488/files/l
 const MATERIAL_WALNUT = "https://cdn.shopify.com/s/files/1/0915/7227/3488/files/ln-material-walnut-01.png?v=1778143731";
 const MATERIAL_STONE = "https://cdn.shopify.com/s/files/1/0915/7227/3488/files/ln-material-whetstone-01.png?v=1778143769";
 
+interface HomeLoaderData {
+  mestElskede: ShopifyProduct[];
+  featured: ShopifyProduct[];
+}
+
+async function fetchHomeProducts(): Promise<HomeLoaderData> {
+  // "Mest elskede" hentes via Shopify-tag `mest-elsket` — kunden tagger
+  // produkter i Shopify admin. Fallback til bestsellers / første 4 produkter
+  // så sektionen aldrig er tom ved koldstart.
+  // TODO: skift `tag:mest-elsket` hvis kurateringen skal styres et andet sted.
+  try {
+    const [mestData, fallbackData] = await Promise.all([
+      storefrontApiRequest(PRODUCTS_QUERY, { first: 4, query: "tag:mest-elsket" }),
+      storefrontApiRequest(PRODUCTS_QUERY, { first: 8 }),
+    ]);
+    const featured: ShopifyProduct[] = fallbackData?.data?.products?.edges ?? [];
+    let mestElskede: ShopifyProduct[] = mestData?.data?.products?.edges ?? [];
+    if (mestElskede.length === 0) mestElskede = featured.slice(0, 4);
+    return { mestElskede, featured };
+  } catch {
+    return { mestElskede: [], featured: [] };
+  }
+}
+
 export const Route = createFileRoute("/")({
+  loader: async ({ context }) => {
+    return context.queryClient.ensureQueryData({
+      queryKey: ["home-products"],
+      queryFn: fetchHomeProducts,
+    });
+  },
   head: () => ({
     meta: [
       { title: "Langsomt Nok — Tid. Håndværk. Ro." },
@@ -113,17 +144,22 @@ const GUIDES = [
 ] as const;
 
 function HomePage() {
-  const [products, setProducts] = useState<ShopifyProduct[]>([]);
+  const loaded = Route.useLoaderData() as HomeLoaderData;
+  // Seed fra loader: første HTML har allerede produkter (SSR).
+  const [products, setProducts] = useState<ShopifyProduct[]>(loaded.featured);
 
   useEffect(() => {
+    // Refresh i baggrunden hvis der ikke kom noget i loader (netværksfejl).
+    if (loaded.featured.length > 0) return;
     storefrontApiRequest(PRODUCTS_QUERY, { first: 8 })
       .then((data) => {
         if (data?.data?.products?.edges) setProducts(data.data.products.edges);
       })
       .catch(console.error);
-  }, []);
+  }, [loaded.featured.length]);
 
   const featured = products.slice(0, 4);
+  const mestElskede = loaded.mestElskede;
 
   return (
     <div className="bg-background">
@@ -180,6 +216,9 @@ function HomePage() {
           </div>
         </div>
       </section>
+
+      {/* ─────────────────── MEST ELSKEDE (SSR — synligt for annoncetrafik) ─────────────────── */}
+      <MestElskede products={mestElskede} />
 
       {/* ─────────────────── TRUST: Handel med ro i maven ─────────────────── */}
       <section className="section-padding bg-soft/50">

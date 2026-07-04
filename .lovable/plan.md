@@ -1,81 +1,67 @@
-# Langsomt Nok — Site rebuild for SEO, struktur og konvertering
+## Fase 1 — Konverteringskritisk (punkt 9, 2, 10, 3)
 
-Det her er en meget stor opgave (15 dele, ~50+ sider berørt). Jeg foreslår vi deler det i 6 faser og kører én ad gangen — så du kan se og godkende undervejs. Jeg starter med en audit, så vi ved præcis hvad der allerede findes, hvad der mangler og hvad der bør ryddes op.
-
----
-
-## Fase 0 — Audit (først, ingen kodeændringer)
-
-Jeg gennemgår og leverer en kort rapport:
-
-1. **Route-inventar** — alle routes i `src/routes/` mappet mod sitemap.xml (hvad er live, hvad er tyndt, hvad er duplikat).
-2. **Ritual-sider** — status på de 5 ritualer (kun 2 findes i dag: `hold-kniven-skarp`, `rolig-opbevaring`). Mangler: knivritualet, gaveritualet, keramikritualet — og de skal flyttes til `/pages/...` slugs som du har angivet, eller jeg foreslår vi beholder eksisterende `/ritualer/...` URLs af hensyn til allerede crawlede links + tilføjer redirects.
-3. **Collection-sider** — hvilke `/collections/$handle` der har unikt indhold vs. bare produktgrid.
-4. **Guides** — eksisterende `ARTICLES` i `src/lib/articles.ts` mappet mod dine 8 ønskede slugs (flere findes allerede under andre slugs — vi beslutter om vi omdøber, redirecter eller skriver nye).
-5. **Produktsider** — tjek af `product.$handle.tsx` for dublerede trust-blokke, schema-status.
-6. **Metadata** — hvilke sider har unikt `head()` og hvilke arver root-default.
-7. **Sitemap & robots** — hvad er med, hvad mangler, hvad burde noindex'es.
-8. **Strukturerede data** — hvor findes JSON-LD i dag, hvor mangler det.
-9. **Lavværdi-sider** — kandidater til noindex / fjernelse af interne links.
-
-**Output:** kort rapport i chat + en `.lovable/seo-audit.md` fil. Ingen kodeændringer.
+Efter denne fase reviewer vi, og jeg fortsætter med resten (1, 4, 5, 6, 7, 8, 11).
 
 ---
 
-## Fase 1 — Tekniske fundament (SEO-kritisk, lav risiko)
+### Punkt 9 — Meta Pixel events på hele frontend
 
-- Unikke `head()` på alle vigtige routes der mangler det (collections, pages, ritualer).
-- BreadcrumbList + Organization/WebSite JSON-LD på root.
-- Product schema på `product.$handle.tsx` (uden fake reviews — Ritual Score forbliver visuel UI, ikke `aggregateRating`).
-- FAQPage schema hvor der allerede er FAQ.
-- Canonical-tjek (kun på leaf, ikke root — undgå dublet pga. TanStack link-merge).
-- Sitemap-opdatering: tilføj manglende sider, fjern thin/draft.
+Pixel base-scriptet er allerede installeret (`src/lib/metaPixel.ts`, default pixel `1088389321706481`, env-override via `VITE_META_PIXEL_ID`). PageView fires på route-skift. Det der mangler er standard-events med korrekt Shopify content_id-format.
+
+- Tilføj hjælpere i `src/lib/metaPixel.ts`: `trackViewContent`, `trackAddToCart`, `trackInitiateCheckout` — alle med `content_type: "product"`, `content_ids`, `value`, `currency: "DKK"`.
+- `content_ids` matcher Shopify-katalogformatet: numerisk variant-ID udtrukket fra Storefront GID (`gid://shopify/ProductVariant/12345` → `"12345"` + evt. `"shopify_DK_<product>_<variant>"` fallback dokumenteret i kode).
+- Fyr `ViewContent` fra `src/routes/product.$handle.tsx` og `src/routes/products.$handle.tsx` når produkt er hentet.
+- Fyr `AddToCart` fra `src/stores/cartStore.ts` (i `addItem`).
+- Fyr `InitiateCheckout` fra `src/components/CartDrawer.tsx` når "Til checkout"-knap åbner Shopify.
+- Cookie-samtykke: der findes ingen consent-løsning i projektet. Jeg tilføjer en `hasMarketingConsent()`-guard som defaulter til `true` med tydelig TODO-kommentar, så det er ét sted at koble på når CMP kommer.
+- Env-variabel `VITE_META_PIXEL_ID` er allerede i `.env.example` — jeg tilføjer kommentar-blok i `metaPixel.ts` med "// TODO: overskriv `DEFAULT_PIXEL_ID` eller sæt `VITE_META_PIXEL_ID`".
+
+### Punkt 2 — SSR af produkter + SEO metadata + JSON-LD
+
+Problemet: `src/routes/collections.$handle.tsx` og produktsider henter data i `useEffect`, så første HTML har "0 produkter".
+
+- Flyt Shopify-fetches til route `loader` via TanStack Query (`ensureQueryData` + `useSuspenseQuery`) på:
+  - `src/routes/collections.$handle.tsx`
+  - `src/routes/product.$handle.tsx` og `src/routes/products.$handle.tsx`
+  - `src/routes/shop.tsx` (default "Alle"-forespørgsel)
+  - `src/routes/index.tsx` (for punkt 3)
+- Rendering under load: skeletons der bevarer plads (undgår layout-shift + viser aldrig "0 produkter").
+- Per-route `head()`:
+  - Collections: `title`, `description`, `og:title`, `og:description` afledt fra kollektionens navn.
+  - Product: samme + `og:image` = produktets første Shopify-billede, `og:type: "product"`.
+  - Canonical + `og:url` self-reference.
+- JSON-LD `Product` schema på produktsider via `scripts` i `head()`: `name`, `image`, `description`, `sku`/`mpn`, `offers` med `priceCurrency: "DKK"`, `price`, `availability` (InStock/OutOfStock afledt af `availableForSale`), `url`.
+- `og:image` bruger produktets rigtige Shopify-billede (ikke placeholder).
+
+### Punkt 10 — Kampagne-skabelon `/kampagne/[slug]`
+
+Nuværende `/kampagne/magnetisk-knivstander` er hardcoded. Jeg refaktorerer til en genbrugelig skabelon:
+
+- Ny fil `src/lib/campaigns.ts` med `CAMPAIGNS` map: slug → `{ productHandle, hook, headline, priceNow, priceBefore, bundleHandle?, faq[], heroImageSlot }`.
+- Ny route `src/routes/kampagne.$slug.tsx` som:
+  - Loader: slår slug op i `CAMPAIGNS`, henter produkt fra Shopify via loader (SSR).
+  - Above the fold på mobil: produktbillede, hook-overskrift, pris (399 kr / 699 kr), trust-bar, én primær CTA "Læg i kurv" (åbner cart drawer + fyrer `AddToCart`).
+  - Derefter: 3 fordele, bundle-sektion hvis `bundleHandle` findes, social proof placeholder (fra punkt 5-forberedelse), FAQ accordion, CTA igen.
+  - Distraktionsfri header: minimal variant med kun logo + kurv (via prop på header eller `<MinimalHeader />` i denne route).
+- Migrér eksisterende `/kampagne/magnetisk-knivstander` til at bruge skabelonen (behold URL'en via redirect eller behold som separat entry i `CAMPAIGNS`).
+- Ingen navigation i sidefod på kampagnesider ud over det juridisk nødvendige.
+
+### Punkt 3 — "Mest elskede" på forsiden
+
+- Ny sektion umiddelbart efter hero i `src/routes/index.tsx`.
+- Loader-integration: henter 4 produkter fra Shopify (kurateret via `query: "tag:mest-elsket"` — fallback: første 4 aktive). Marker med TODO hvor kunden kan skifte kriteriet.
+- Genbruger eksisterende `ProductCard` (billede, navn, pris DKK, Ritual Score hvis feltet findes, rolig CTA "Se produktet").
+- Kort intro-tekst i brandtone; ingen badges/skrigende farver.
 
 ---
 
-## Fase 2 — Ritualsider komplet (5 ritualer)
+### Tekniske detaljer
 
-- Færdiggør `knivritualet`, `gaveritualet`, `keramikritualet` med samme struktur som de 2 eksisterende.
-- Standardisér alle 5 til 10-trins layoutet (Hero → Start her → Video → Promise → Journey → Founder → Guide → Full grid → FAQ → Final CTA).
-- Beslutning: behold `/ritualer/$slug` URL-struktur (allerede i sitemap + GSC) — tilføj evt. `/pages/knivritualet` som alias-redirect hvis du foretrækker det.
+- `MinimalHeader` for kampagnesider: enten prop på eksisterende `<Header>` (`variant="minimal"`) eller ny komponent — jeg vælger prop for at undgå dobbelt-kode.
+- Alle nye loaders bruger `context.queryClient.ensureQueryData` (queryClient er allerede i router context ifølge `src/router.tsx`).
+- Kanoniske kollektions-URL'er (punkt 7) er ikke besvaret — jeg rører ikke ved kollektions-navigation i denne fase. Det tages i fase 2.
+- Fortryd-aftale (punkt 1) og Lovable Emails setup er fase 2 — kræver at email-domænet er verificeret, som jeg tjekker inden.
 
----
+### Ikke rørt i denne fase
 
-## Fase 3 — Collection-sider opgraderes til mini-landing
-
-- `/collections/knive`, `/slibning`, `/opbevaring`, `/keramik`, `/gaver`, `/bundles`.
-- Hero + intro + featured + buying guide + grid + FAQ + SEO-tekst + interne links.
-- Genbrug komponenter fra ritualsiderne (`FeaturedRitualProducts`, `FounderRitualBox`).
-
----
-
-## Fase 4 — Guides-hub + 8 artikler
-
-- `/guides` hub-side med kategorier.
-- Audit eksisterende artikler — omskriv/omdøb til dine 8 målslugs hvor relevant, opret resten.
-- Konsistent struktur: H1 → intro → TOC → sektioner → produktanbefalinger → FAQ → CTA.
-- Article + FAQPage JSON-LD.
-
----
-
-## Fase 5 — Produktside finpudsning + intern linkning + analytics
-
-- Strømlin trust-blokke (én score nær CTA, én detaljeret nede — som allerede halvt gjort).
-- "Hører til dette ritual" / "Læs guiden" / "Det giver mening sammen med" link-moduler.
-- GA4 events: `ritual_cta_click`, `product_card_click`, `guide_click`, `video_play`, `faq_open`, `newsletter_signup`.
-
----
-
-## Fase 6 — Homepage hub + cleanup
-
-- Homepage refresh efter PART 3-spec (hero, 5 ritual cards, featured, founder, guides teaser, newsletter).
-- Cleanup: noindex på thin pages identificeret i audit, fjern interne links til lavværdi-sider.
-- Final QA-checklist kørt på tværs af site.
-
----
-
-## Hvad jeg foreslår nu
-
-Jeg starter med **Fase 0 (audit)** i næste tur — leverer rapporten og venter på din godkendelse før jeg rører kode. Det giver os et fælles overblik og sikrer at vi ikke bygger oven på antagelser (fx om `/pages/knivritualet` vs. `/ritualer/hold-kniven-skarp` URL-strukturen, eller om vi skal omdøbe eksisterende guides).
-
-Sig til hvis du vil have jeg ændrer rækkefølgen, springer en fase over, eller bare kører Fase 0 + 1 først.
+Punkt 1, 4, 5 (kun UI-forberedelse), 6, 7, 8, 11 — alle taget i fase 2 efter din review.
