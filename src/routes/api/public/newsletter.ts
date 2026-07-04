@@ -1,5 +1,99 @@
+import * as React from 'react'
+import { render } from '@react-email/components'
+import { createClient } from '@supabase/supabase-js'
 import { createFileRoute } from '@tanstack/react-router'
 import { z } from 'zod'
+import { TEMPLATES } from '@/lib/email-templates/registry'
+
+const SITE_NAME = 'Langsomt Nok'
+const SENDER_DOMAIN = 'notify.langsomtnok.dk'
+const FROM_DOMAIN = 'langsomtnok.dk'
+const WELCOME_TEMPLATE = 'welcome-newsletter'
+
+function generateToken(): string {
+  const bytes = new Uint8Array(32)
+  crypto.getRandomValues(bytes)
+  return Array.from(bytes).map((b) => b.toString(16).padStart(2, '0')).join('')
+}
+
+async function sendWelcomeEmail(email: string, firstName: string) {
+  const supabaseUrl = import.meta.env.VITE_SUPABASE_URL
+  const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY
+  if (!supabaseUrl || !supabaseServiceKey) return
+
+  const template = TEMPLATES[WELCOME_TEMPLATE]
+  if (!template) return
+
+  const supabase = createClient(supabaseUrl, supabaseServiceKey)
+  const normalized = email.toLowerCase()
+
+  try {
+    // Suppression check
+    const { data: suppressed } = await supabase
+      .from('suppressed_emails')
+      .select('id')
+      .eq('email', normalized)
+      .maybeSingle()
+    if (suppressed) return
+
+    // Get or create unsubscribe token
+    let unsubscribeToken = generateToken()
+    const { data: existing } = await supabase
+      .from('email_unsubscribe_tokens')
+      .select('token, used_at')
+      .eq('email', normalized)
+      .maybeSingle()
+    if (existing?.token && !existing?.used_at) {
+      unsubscribeToken = existing.token as string
+    } else {
+      await supabase
+        .from('email_unsubscribe_tokens')
+        .upsert({ token: unsubscribeToken, email: normalized }, { onConflict: 'email', ignoreDuplicates: true })
+      const { data: stored } = await supabase
+        .from('email_unsubscribe_tokens')
+        .select('token')
+        .eq('email', normalized)
+        .maybeSingle()
+      if (stored?.token) unsubscribeToken = stored.token as string
+    }
+
+    const templateData = { firstName }
+    const element = React.createElement(template.component, templateData)
+    const html = await render(element)
+    const text = await render(element, { plainText: true })
+    const subject = typeof template.subject === 'function' ? template.subject(templateData) : template.subject
+    const messageId = crypto.randomUUID()
+
+    await supabase.from('email_send_log').insert({
+      message_id: messageId,
+      template_name: WELCOME_TEMPLATE,
+      recipient_email: email,
+      status: 'pending',
+      metadata: { source: 'newsletter-welcome' },
+    })
+
+    await supabase.rpc('enqueue_email', {
+      queue_name: 'transactional_emails',
+      payload: {
+        message_id: messageId,
+        to: email,
+        from: `${SITE_NAME} <noreply@${FROM_DOMAIN}>`,
+        sender_domain: SENDER_DOMAIN,
+        subject,
+        html,
+        text,
+        purpose: 'transactional',
+        label: WELCOME_TEMPLATE,
+        idempotency_key: `welcome-${normalized}`,
+        unsubscribe_token: unsubscribeToken,
+        queued_at: new Date().toISOString(),
+      },
+    })
+  } catch (err) {
+    console.error('newsletter: welcome email failed', err)
+  }
+}
+
 
 // Newsletter signup endpoint — subscribes via Shopify Storefront Customer API.
 // No auth required — public endpoint.
