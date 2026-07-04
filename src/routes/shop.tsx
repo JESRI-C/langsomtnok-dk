@@ -15,8 +15,22 @@ export const Route = createFileRoute("/shop")({
       { name: "description", content: "Udvalgte ting til køkkenet — knive, slibesten, magnetiske holdere og håndlavet keramik. Skabt til brug, ro og materialefølelse." },
       { property: "og:title", content: "Shop Langsomt Nok — udvalgte ting til køkkenet" },
       { property: "og:description", content: "Udvalgte ting til køkkenet — skabt til brug, ro og materialefølelse." },
+      { property: "og:url", content: "https://langsomtnok.dk/shop" },
     ],
     links: [{ rel: "canonical", href: "https://langsomtnok.dk/shop" }],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "CollectionPage",
+          name: "Shop Langsomt Nok",
+          url: "https://langsomtnok.dk/shop",
+          description: "Udvalgte ting til køkkenet — knive, slibesten, magnetiske holdere og håndlavet keramik.",
+          isPartOf: { "@type": "WebSite", name: "Langsomt Nok", url: "https://langsomtnok.dk" },
+        }),
+      },
+    ],
   }),
   component: ShopPage,
 });
