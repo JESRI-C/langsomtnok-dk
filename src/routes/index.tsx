@@ -80,29 +80,34 @@ export const Route = createFileRoute("/")({
 const CATEGORIES = [
   {
     title: "Knive",
+    alt: "Kollektion af kokkeknive i damaskus-stål",
     text: "Til dig, der vil lave mad med bedre grej.",
     handle: "knive",
     slot: IMAGE_SLOTS.categories.knives,
   },
   {
     title: "Slibning & pleje",
+    alt: "Slibesten og læderstrop til knivpleje",
     text: "Gør dine knive skarpe igen — i ro og mag.",
     handle: "slibesten",
     slot: IMAGE_SLOTS.categories.sharpeningStones,
   },
   {
     title: "Magnetisk opbevaring",
+    alt: "Magnetisk knivholder i træ på væggen",
     text: "Få knivene væk fra skuffen. Sættes op uden boremaskine.",
     handle: "magnetiske-holdere",
     slot: IMAGE_SLOTS.categories.magneticHolders,
   },
   {
     title: "Gaver",
+    alt: "Udvalgte gaveæsker med køkkenredskaber",
     text: "Gaver, der føles udvalgt — ikke tilfældige.",
     handle: "gaver",
     slot: IMAGE_SLOTS.categories.giftSets,
   },
 ] as const;
+
 
 const RITUAL_CHOICES = [
   {
@@ -299,7 +304,7 @@ function HomePage() {
                       name={cat.slot.name}
                       ratio="4/5"
                       motif={cat.slot.motif}
-                      alt={cat.title}
+                      alt={cat.alt}
                       variant="warm"
                       className="rounded-none"
                     />

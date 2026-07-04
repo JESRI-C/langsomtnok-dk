@@ -15,8 +15,22 @@ export const Route = createFileRoute("/shop")({
       { name: "description", content: "Udvalgte ting til køkkenet — knive, slibesten, magnetiske holdere og håndlavet keramik. Skabt til brug, ro og materialefølelse." },
       { property: "og:title", content: "Shop Langsomt Nok — udvalgte ting til køkkenet" },
       { property: "og:description", content: "Udvalgte ting til køkkenet — skabt til brug, ro og materialefølelse." },
+      { property: "og:url", content: "https://langsomtnok.dk/shop" },
     ],
     links: [{ rel: "canonical", href: "https://langsomtnok.dk/shop" }],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "CollectionPage",
+          name: "Shop Langsomt Nok",
+          url: "https://langsomtnok.dk/shop",
+          description: "Udvalgte ting til køkkenet — knive, slibesten, magnetiske holdere og håndlavet keramik.",
+          isPartOf: { "@type": "WebSite", name: "Langsomt Nok", url: "https://langsomtnok.dk" },
+        }),
+      },
+    ],
   }),
   component: ShopPage,
 });
@@ -123,17 +137,17 @@ function ShopPage() {
           <h2 className="font-serif text-3xl md:text-4xl text-center mb-12">Udforsk kategorierne</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
-              { title: "Knive", desc: "Knive til hænder, der gerne vil mærke forskellen.", handle: "knive", slot: IMAGE_SLOTS.categories.knives },
-              { title: "Slibning & pleje", desc: "Skarphed er ikke tilfældig. Den er plejet.", handle: "slibesten", slot: IMAGE_SLOTS.categories.sharpeningStones },
-              { title: "Magnetisk opbevaring", desc: "Når værktøjet er smukt, skal det ikke gemmes væk.", handle: "magnetiske-holdere", slot: IMAGE_SLOTS.categories.magneticHolders },
-              { title: "Gaver", desc: "Gaver, der bliver brugt. Ikke bare pakket ud.", handle: "gaver", slot: IMAGE_SLOTS.categories.giftSets },
+              { title: "Knive", alt: "Kollektion af kokkeknive i damaskus-stål", desc: "Knive til hænder, der gerne vil mærke forskellen.", handle: "knive", slot: IMAGE_SLOTS.categories.knives },
+              { title: "Slibning & pleje", alt: "Slibesten og læderstrop til knivpleje", desc: "Skarphed er ikke tilfældig. Den er plejet.", handle: "slibesten", slot: IMAGE_SLOTS.categories.sharpeningStones },
+              { title: "Magnetisk opbevaring", alt: "Magnetisk knivholder i træ på væggen", desc: "Når værktøjet er smukt, skal det ikke gemmes væk.", handle: "magnetiske-holdere", slot: IMAGE_SLOTS.categories.magneticHolders },
+              { title: "Gaver", alt: "Udvalgte gaveæsker med køkkenredskaber", desc: "Gaver, der bliver brugt. Ikke bare pakket ud.", handle: "gaver", slot: IMAGE_SLOTS.categories.giftSets },
             ].map((cat) => (
               <Link key={cat.title} to="/collections/$handle" params={{ handle: cat.handle }} className="group block">
                 <ImageSlot
                   name={cat.slot.name}
                   ratio="3/4"
                   motif={cat.slot.motif}
-                  alt={cat.title}
+                  alt={cat.alt}
                   variant="warm"
                   className="mb-4"
                 />
