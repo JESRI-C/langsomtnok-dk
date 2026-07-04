@@ -83,12 +83,40 @@ function pushGA4(eventName: string, params: Record<string, unknown>) {
 
 // ── Meta Pixel event ─────────────────────────────────────────────────────────
 
+/**
+ * Cookie/consent guard for marketing pixels.
+ *
+ * TODO: Kobl på en rigtig CMP (Cookiebot / Consentmanager / Iubenda) — så snart
+ * en samtykkeløsning er valgt, læs marketing-samtykke her og returnér `false`
+ * hvis brugeren ikke har accepteret marketing-cookies. Alt Meta Pixel-trafik
+ * går gennem denne guard.
+ *
+ * Læses fx typisk som:
+ *   const c = window.Cookiebot?.consent;
+ *   return !!c?.marketing;
+ *
+ * Indtil CMP er på plads, defaulter til `true` (samme adfærd som i dag).
+ */
+function hasMarketingConsent(): boolean {
+  if (typeof window === 'undefined') return false;
+  // TODO: erstat med rigtig CMP-lookup. Se docblock ovenfor.
+  const w = window as unknown as {
+    __LN_MARKETING_CONSENT__?: boolean;
+    Cookiebot?: { consent?: { marketing?: boolean } };
+  };
+  if (typeof w.__LN_MARKETING_CONSENT__ === 'boolean') return w.__LN_MARKETING_CONSENT__;
+  if (w.Cookiebot?.consent) return !!w.Cookiebot.consent.marketing;
+  return true;
+}
+
 function pushMeta(
   eventType: 'track' | 'trackCustom',
   eventName: string,
   params?: Record<string, unknown>,
 ) {
   try {
+    if (!hasMarketingConsent()) return;
+
     // Via GTM dataLayer
     pushDataLayer({ event: 'meta_pixel_event', meta_event_type: eventType, meta_event_name: eventName, meta_params: params });
 
