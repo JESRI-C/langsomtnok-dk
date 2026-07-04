@@ -301,9 +301,10 @@ function EditorialSection({
 
 function ProductPage() {
   const { handle } = Route.useParams();
-  const [product, setProduct] = useState<ProductNode | null>(null);
+  const initialProduct = Route.useLoaderData() as ProductNode | null;
+  const [product, setProduct] = useState<ProductNode | null>(initialProduct);
   const [relatedProducts, setRelatedProducts] = useState<ShopifyProduct[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(!initialProduct);
   const [selectedImage, setSelectedImage] = useState(0);
   const [selectedVariantIdx, setSelectedVariantIdx] = useState(0);
   const [quantity, setQuantity] = useState(1);
@@ -312,38 +313,48 @@ function ProductPage() {
   const scrollCleanupRef = useRef<(() => void) | null>(null);
 
   useEffect(() => {
-    setLoading(true);
+    // Loader har allerede produktet i cache; brug det med det samme.
+    // Hent related products + track view, refetch produkt hvis handle skifter.
     setSelectedImage(0);
     setSelectedVariantIdx(0);
     setQuantity(1);
-    storefrontApiRequest(PRODUCT_BY_HANDLE_QUERY, { handle })
-      .then((data) => {
-        const p = data?.data?.productByHandle;
-        if (p) {
-          setProduct(p);
-          fetchProductRecommendations(p.id).then(setRelatedProducts);
-          // Track product view with first available variant data
-          const firstVariant = p.variants?.edges?.[0]?.node;
-          trackProductView({
-            product_id: p.id,
-            product_title: p.title,
-            variant_id: firstVariant?.id,
-            variant_title: firstVariant?.title !== 'Default Title' ? firstVariant?.title : undefined,
-            price: parseFloat(firstVariant?.price?.amount ?? p.priceRange?.minVariantPrice?.amount ?? '0'),
-            currency: firstVariant?.price?.currencyCode ?? p.priceRange?.minVariantPrice?.currencyCode ?? 'DKK',
-            product_type: p.productType,
-          });
-          scrollCleanupRef.current?.();
-          scrollCleanupRef.current = attachScrollDepthTracker();
-        }
-      })
-      .catch(console.error)
-      .finally(() => setLoading(false));
+
+    const primeAndTrack = (p: ProductNode) => {
+      setProduct(p);
+      fetchProductRecommendations(p.id).then(setRelatedProducts);
+      const firstVariant = p.variants?.edges?.[0]?.node;
+      trackProductView({
+        product_id: p.id,
+        product_title: p.title,
+        variant_id: firstVariant?.id,
+        variant_title: firstVariant?.title !== 'Default Title' ? firstVariant?.title : undefined,
+        price: parseFloat(firstVariant?.price?.amount ?? p.priceRange?.minVariantPrice?.amount ?? '0'),
+        currency: firstVariant?.price?.currencyCode ?? p.priceRange?.minVariantPrice?.currencyCode ?? 'DKK',
+        product_type: p.productType,
+      });
+      scrollCleanupRef.current?.();
+      scrollCleanupRef.current = attachScrollDepthTracker();
+    };
+
+    if (initialProduct && initialProduct.handle === handle) {
+      primeAndTrack(initialProduct);
+      setLoading(false);
+    } else {
+      setLoading(true);
+      storefrontApiRequest(PRODUCT_BY_HANDLE_QUERY, { handle })
+        .then((data) => {
+          const p = data?.data?.productByHandle as ProductNode | null;
+          if (p) primeAndTrack(p);
+        })
+        .catch(console.error)
+        .finally(() => setLoading(false));
+    }
 
     return () => {
       scrollCleanupRef.current?.();
       scrollCleanupRef.current = null;
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [handle]);
 
   if (loading) {
