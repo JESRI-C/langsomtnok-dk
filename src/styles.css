@@ -57,6 +57,10 @@
   --color-deep: var(--deep);
   --color-deep-foreground: var(--deep-foreground);
   --color-soft: var(--soft);
+  --color-commerce: var(--commerce);
+  --color-commerce-hover: var(--commerce-hover);
+  --color-commerce-foreground: var(--commerce-foreground);
+  --color-soft: var(--soft);
 
   --font-serif: 'Playfair Display', Georgia, 'Times New Roman', serif;
   --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
@@ -93,6 +97,13 @@
   --deep: oklch(0.19 0.005 0);
   --deep-foreground: oklch(0.92 0.01 75);
   --soft: oklch(0.905 0.018 75);
+
+  /* Handelsfarve — mørk espresso genbrugt fra --deep.
+     Bruges KUN til udfyldte kommercielle knapper (Læg i kurv, Gå til kassen).
+     Kontrast 0.19 vs 0.92 lightness => >4.5:1 AA. */
+  --commerce: var(--deep);
+  --commerce-hover: oklch(0.13 0.005 0);
+  --commerce-foreground: var(--deep-foreground);
 
   --chart-1: oklch(0.371 0.065 40);
   --chart-2: oklch(0.6 0.1 60);

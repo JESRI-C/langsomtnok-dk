@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 interface HeroVideoProps {
   src?: string;
@@ -8,36 +8,60 @@ interface HeroVideoProps {
 
 /**
  * Cinematic hero video background.
- * - autoplay, muted, loop, playsinline
- * - falls back to poster image if video unavailable
- * - warm dark gradient overlay (left → right)
+ * - Poster-billedet vises med det samme (statisk fallback for langsomme netværk).
+ * - Video-elementet mountes først efter første paint (requestIdleCallback) og
+ *   loader kun metadata ved behov — så første skærmbillede er brugbart uden
+ *   at video blokerer for produktindhold.
+ * - Fast aspect-ratio via absolute inset-0 forhindrer layout-shift.
  */
 export function HeroVideo({ src = "/hero.mp4", poster, alt = "" }: HeroVideoProps) {
   const ref = useRef<HTMLVideoElement>(null);
+  const [mountVideo, setMountVideo] = useState(false);
 
   useEffect(() => {
+    // Mount video efter første paint så poster vises straks.
+    const w = window as Window & { requestIdleCallback?: (cb: () => void) => number };
+    const schedule = w.requestIdleCallback ?? ((cb: () => void) => setTimeout(cb, 400));
+    const id = schedule(() => setMountVideo(true));
+    return () => {
+      if (typeof id === "number") clearTimeout(id);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!mountVideo) return;
     const v = ref.current;
     if (!v) return;
     v.play().catch(() => {
-      /* autoplay blocked — poster remains */
+      /* autoplay blokeret — poster forbliver */
     });
-  }, []);
+  }, [mountVideo]);
 
   return (
     <div className="absolute inset-0 overflow-hidden bg-deep">
-      <video
-        ref={ref}
+      {/* Statisk poster — vises altid som fallback, også hvis video aldrig loader */}
+      <img
+        src={poster}
+        alt={alt}
         className="absolute inset-0 w-full h-full object-cover"
-        autoPlay
-        muted
-        loop
-        playsInline
-        preload="metadata"
-        poster={poster}
-        aria-label={alt}
-      >
-        <source src={src} type="video/mp4" />
-      </video>
+        loading="eager"
+        decoding="async"
+      />
+      {mountVideo && (
+        <video
+          ref={ref}
+          className="absolute inset-0 w-full h-full object-cover"
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="none"
+          poster={poster}
+          aria-label={alt}
+        >
+          <source src={src} type="video/mp4" />
+        </video>
+      )}
       {/* Warm dark gradient overlay — anchors text on left, lets sunlit right breathe */}
       <div
         className="absolute inset-0"

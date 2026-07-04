@@ -11,9 +11,11 @@
  *   "opbevaring": "magnetiske-holdere",
  */
 export const COLLECTION_CANONICALS: Record<string, string> = {
-  // Slibesten og slibning-pleje dækker samme intention (slibning + pleje).
-  // Vi peger begge på "slibning-pleje" som den kanoniske URL.
+  // /collections/slibesten, /collections/slibning-pleje og
+  // /collections/pleje-ritualer overlappede — slået sammen til én kanonisk
+  // URL. Gamle handles redirecter permanent i src/routes/collections.$handle.tsx.
   slibesten: "slibning-pleje",
+  "pleje-ritualer": "slibning-pleje",
 };
 
 export function canonicalCollectionHandle(handle: string): string {

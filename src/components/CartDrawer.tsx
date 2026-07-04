@@ -27,6 +27,7 @@ import { trackAddToCart, trackBeginCheckout, trackCartOpen, trackEvent } from "@
 import { toast } from "sonner";
 import { useState, useEffect } from "react";
 import { Link } from "@tanstack/react-router";
+import { PaymentIcons } from "@/components/PaymentIcons";
 
 /** Free shipping threshold in store currency (DKK) */
 const FREE_SHIPPING_THRESHOLD = 499;
@@ -380,11 +381,12 @@ export function CartDrawer() {
                 <div className="rounded-lg p-4 bg-soft/40 border border-foreground/10">
                   <div className="flex items-start gap-2.5">
                     <ShieldCheck className="w-4 h-4 text-cta mt-0.5 flex-shrink-0" strokeWidth={1.5} />
-                    <div>
+                    <div className="flex-1">
                       <p className="text-xs font-medium text-foreground mb-1">Sikker betaling</p>
-                      <p className="text-xs text-muted-foreground leading-relaxed">
+                      <p className="text-xs text-muted-foreground leading-relaxed mb-2">
                         Du betaler trygt via Shopify checkout. Betalingsmulighederne vises, når du går videre til checkout.
                       </p>
+                      <PaymentIcons size="sm" />
                     </div>
                   </div>
                 </div>
@@ -398,9 +400,10 @@ export function CartDrawer() {
                     {formatPrice(totalPrice.toString(), currency)}
                   </span>
                 </div>
-                {/* SHOPIFY CONNECTION: Checkout redirect via Storefront Cart API */}
+                {/* SHOPIFY CONNECTION: Checkout redirect via Storefront Cart API.
+                    Handelsfarve (commerce) + pris i selve knapteksten. */}
                 <Button
-                  variant="cta"
+                  variant="commerce"
                   size="lg"
                   className="w-full"
                   onClick={handleCheckout}
@@ -410,7 +413,7 @@ export function CartDrawer() {
                     <Loader2 className="w-4 h-4 animate-spin" />
                   ) : (
                     <>
-                      Gå til betaling
+                      Gå til kassen — {formatPrice(totalPrice.toString(), currency)}
                       <ArrowRight className="w-4 h-4 ml-2" />
                     </>
                   )}

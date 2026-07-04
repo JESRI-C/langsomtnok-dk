@@ -13,7 +13,7 @@
  * ============================================================================
  */
 
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, redirect } from "@tanstack/react-router";
 import { useState, useEffect } from "react";
 import {
   ArrowRight,
@@ -37,7 +37,7 @@ import {
   type ShopifyProduct,
 } from "@/lib/shopify";
 import { trackCollectionView } from "@/lib/analytics";
-import { canonicalCollectionUrl } from "@/lib/collectionCanonicals";
+import { COLLECTION_CANONICALS, canonicalCollectionUrl } from "@/lib/collectionCanonicals";
 import kniveHero from "@/assets/knive-hero.png";
 import slibningHero from "@/assets/slibning-hero.png";
 import holdereHero from "@/assets/holdere-hero.png";
@@ -512,6 +512,19 @@ async function fetchCollectionInitial(handle: string): Promise<CollectionLoaderD
 }
 
 export const Route = createFileRoute("/collections/$handle")({
+  // Overlappende kollektioner (fx /collections/slibesten,
+  // /collections/pleje-ritualer) redirecter permanent til den kanoniske
+  // handle defineret i src/lib/collectionCanonicals.ts.
+  beforeLoad: ({ params }) => {
+    const canonical = COLLECTION_CANONICALS[params.handle];
+    if (canonical && canonical !== params.handle) {
+      throw redirect({
+        to: "/collections/$handle",
+        params: { handle: canonical },
+        replace: true,
+      });
+    }
+  },
   loader: async ({ params, context }) => {
     // SSR: sørg for at kollektionens produkter ligger i første HTML-payload,
     // så crawlere og annonceklikker aldrig ser "0 produkter".

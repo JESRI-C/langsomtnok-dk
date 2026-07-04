@@ -17,6 +17,7 @@ const buttonVariants = cva(
         ghost: "hover:bg-accent hover:text-accent-foreground",
         link: "text-primary underline-offset-4 hover:underline",
         cta: "bg-cta text-cta-foreground shadow-md hover:bg-cta-hover hover:shadow-lg",
+        commerce: "bg-commerce text-commerce-foreground shadow-md hover:bg-commerce-hover hover:shadow-lg",
         hero: "bg-cta text-cta-foreground shadow-md hover:bg-cta-hover hover:shadow-lg text-base px-8 py-3 h-auto",
         "hero-outline": "border-2 border-foreground/20 bg-transparent text-foreground hover:bg-foreground/5 text-base px-8 py-3 h-auto",
         copper: "bg-copper text-cta-foreground hover:bg-copper/90",

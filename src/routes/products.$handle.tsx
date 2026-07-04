@@ -648,13 +648,13 @@ function ProductPage() {
                   <Plus className="w-4 h-4" />
                 </button>
               </div>
-              <Button variant="cta" size="lg" className="flex-1" onClick={handleAddToCart} disabled={isCartLoading || !variant?.availableForSale}>
+              <Button variant="commerce" size="lg" className="flex-1" onClick={handleAddToCart} disabled={isCartLoading || !variant?.availableForSale}>
                 {isCartLoading ? (
                   <Loader2 className="w-4 h-4 animate-spin" />
                 ) : !variant?.availableForSale ? (
                   "Udsolgt"
                 ) : (
-                  "Tilføj til ritualet"
+                  <>Læg i kurv{variant?.price ? ` — ${formatPrice(variant.price.amount, variant.price.currencyCode)}` : ""}</>
                 )}
               </Button>
             </div>

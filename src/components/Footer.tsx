@@ -2,14 +2,16 @@ import { Link } from "@tanstack/react-router";
 import { CreditCard, ShieldCheck, Package, RotateCcw } from "lucide-react";
 import { trackEvent } from "@/lib/analytics";
 import { COMPANY } from "@/components/legal/LegalPageLayout";
+import { PaymentIcons } from "@/components/PaymentIcons";
+import { SITE_CONFIG } from "@/lib/site-config";
 
 const footerLinks = {
   shop: [
     { label: "Knive", to: "/collections/knive" },
-    { label: "Slibesten", to: "/collections/slibesten" },
+    { label: "Slibning & pleje", to: "/collections/slibning-pleje" },
     { label: "Magnetiske holdere", to: "/collections/magnetiske-holdere" },
     { label: "Håndlavet keramik", to: "/keramik" },
-    { label: "Pleje & ritualer", to: "/collections/pleje-ritualer" },
+    
   ],
   guides: [
     { label: "Hvilken kokkekniv skal jeg vælge?", href: "/guides/hvilken-kokkekniv-skal-jeg-vaelge" },
@@ -61,7 +63,7 @@ export function Footer() {
             </p>
             <div className="flex gap-4 mt-6">
               <a
-                href="https://instagram.com"
+                href={SITE_CONFIG.social.instagram}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-deep-foreground/50 hover:text-deep-foreground transition-colors text-sm"
@@ -69,7 +71,7 @@ export function Footer() {
                 Instagram
               </a>
               <a
-                href="https://pinterest.com"
+                href={SITE_CONFIG.social.pinterest}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-deep-foreground/50 hover:text-deep-foreground transition-colors text-sm"
@@ -199,6 +201,7 @@ export function Footer() {
             <p className="text-sm text-deep-foreground/60 leading-relaxed mb-5 max-w-md mx-auto">
               Betal sikkert med kort og de betalingsmuligheder, der vises i checkout.
             </p>
+            <PaymentIcons variant="dark" className="justify-center mb-5" />
             <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-3 text-deep-foreground/50">
               <span className="inline-flex items-center gap-2 text-xs">
                 <CreditCard className="w-4 h-4 text-cta" strokeWidth={1.5} />
