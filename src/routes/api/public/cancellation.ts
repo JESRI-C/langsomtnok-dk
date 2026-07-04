@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { render } from '@react-email/components'
-import { createClient } from '@supabase/supabase-js'
+import { createClient, type SupabaseClient } from '@supabase/supabase-js'
 import { createFileRoute } from '@tanstack/react-router'
 import { z } from 'zod'
 import { TEMPLATES } from '@/lib/email-templates/registry'
@@ -47,7 +47,7 @@ async function hashIp(ip: string): Promise<string> {
 }
 
 async function enqueueEmail(params: {
-  supabase: ReturnType<typeof createClient>
+  supabase: SupabaseClient<any, any, any>
   templateName: string
   recipient: string
   templateData: Record<string, unknown>
