@@ -591,9 +591,13 @@ export const Route = createFileRoute("/collections/$handle")({
 
 function CollectionPage() {
   const { handle } = Route.useParams();
-  const [products, setProducts] = useState<ShopifyProduct[]>([]);
-  const [collection, setCollection] = useState<{ title: string; description: string } | null>(null);
-  const [loading, setLoading] = useState(true);
+  const initial = Route.useLoaderData() as CollectionLoaderData | undefined;
+  // Seed fra loader: første render har allerede produkterne (SSR-visible).
+  const [products, setProducts] = useState<ShopifyProduct[]>(initial?.products ?? []);
+  const [collection, setCollection] = useState<{ title: string; description: string } | null>(
+    initial?.collection ?? null,
+  );
+  const [loading, setLoading] = useState(false);
   const [sortIdx, setSortIdx] = useState(0);
 
   const content = COLLECTION_CONTENT[handle] || DEFAULT_CONTENT;
@@ -601,6 +605,26 @@ function CollectionPage() {
   const meta = CATEGORY_META[categoryKey];
 
   useEffect(() => {
+    // Default-sort ligger allerede i loader-cache. Kun refetch ved skift.
+    if (sortIdx === 0 && initial && initial.products.length > 0) {
+      trackCollectionView({
+        collection_id: initial.collection?.id ?? handle,
+        collection_title: initial.collection?.title ?? handle,
+        handle,
+        items: initial.products.slice(0, 20).map((p, i) => ({
+          item_id: p.node.id,
+          item_name: p.node.title,
+          item_category: p.node.productType,
+          price: parseFloat(p.node.priceRange.minVariantPrice.amount),
+          currency: p.node.priceRange.minVariantPrice.currencyCode,
+          quantity: 1,
+          index: i,
+          item_list_name: initial.collection?.title ?? handle,
+        })),
+      });
+      return;
+    }
+
     setLoading(true);
     const sort = SORT_OPTIONS[sortIdx];
 
@@ -634,7 +658,6 @@ function CollectionPage() {
           }
         }
 
-        // Track collection view after products are resolved
         if (resolvedProducts.length > 0) {
           trackCollectionView({
             collection_id: col?.id ?? handle,
@@ -655,6 +678,7 @@ function CollectionPage() {
       })
       .catch(console.error)
       .finally(() => setLoading(false));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [handle, sortIdx]);
 
   const heroBg = HERO_BACKGROUNDS[handle];
