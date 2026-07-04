@@ -144,17 +144,22 @@ const GUIDES = [
 ] as const;
 
 function HomePage() {
-  const [products, setProducts] = useState<ShopifyProduct[]>([]);
+  const loaded = Route.useLoaderData() as HomeLoaderData;
+  // Seed fra loader: første HTML har allerede produkter (SSR).
+  const [products, setProducts] = useState<ShopifyProduct[]>(loaded.featured);
 
   useEffect(() => {
+    // Refresh i baggrunden hvis der ikke kom noget i loader (netværksfejl).
+    if (loaded.featured.length > 0) return;
     storefrontApiRequest(PRODUCTS_QUERY, { first: 8 })
       .then((data) => {
         if (data?.data?.products?.edges) setProducts(data.data.products.edges);
       })
       .catch(console.error);
-  }, []);
+  }, [loaded.featured.length]);
 
   const featured = products.slice(0, 4);
+  const mestElskede = loaded.mestElskede;
 
   return (
     <div className="bg-background">
