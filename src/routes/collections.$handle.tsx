@@ -37,6 +37,7 @@ import {
   type ShopifyProduct,
 } from "@/lib/shopify";
 import { trackCollectionView } from "@/lib/analytics";
+import { canonicalCollectionUrl } from "@/lib/collectionCanonicals";
 import kniveHero from "@/assets/knive-hero.png";
 import slibningHero from "@/assets/slibning-hero.png";
 import holdereHero from "@/assets/holdere-hero.png";
@@ -528,6 +529,7 @@ export const Route = createFileRoute("/collections/$handle")({
     const title = `${meta.h1} | Langsomt Nok`;
     const desc = meta.intro;
     const url = `https://langsomtnok.dk/collections/${params.handle}`;
+    const canonicalUrl = canonicalCollectionUrl(params.handle);
     const heroImage = loaded?.products?.[0]?.node?.images?.edges?.[0]?.node?.url;
     const collectionLd = {
       "@context": "https://schema.org",
@@ -578,7 +580,7 @@ export const Route = createFileRoute("/collections/$handle")({
         { property: "og:type", content: "website" },
         ...(heroImage ? [{ property: "og:image", content: heroImage }] : []),
       ],
-      links: [{ rel: "canonical", href: url }],
+      links: [{ rel: "canonical", href: canonicalUrl }],
       scripts: [
         { type: "application/ld+json", children: JSON.stringify(collectionLd) },
         { type: "application/ld+json", children: JSON.stringify(breadcrumbLd) },

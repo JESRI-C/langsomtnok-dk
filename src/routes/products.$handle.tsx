@@ -508,6 +508,9 @@ function ProductPage() {
                   src={activeItem.url}
                   alt={activeItem.alt || product.title}
                   className="w-full h-full object-cover"
+                  loading="eager"
+                  fetchPriority="high"
+                  decoding="async"
                 />
               ) : (
                 <div className="w-full h-full flex flex-col items-center justify-center bg-soft border border-border/40">
