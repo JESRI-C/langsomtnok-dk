@@ -39,19 +39,29 @@ export function HeroVideo({ src = "/hero.mp4", poster, alt = "" }: HeroVideoProp
 
   return (
     <div className="absolute inset-0 overflow-hidden bg-deep">
-      <video
-        ref={ref}
+      {/* Statisk poster — vises altid som fallback, også hvis video aldrig loader */}
+      <img
+        src={poster}
+        alt={alt}
         className="absolute inset-0 w-full h-full object-cover"
-        autoPlay
-        muted
-        loop
-        playsInline
-        preload="metadata"
-        poster={poster}
-        aria-label={alt}
-      >
-        <source src={src} type="video/mp4" />
-      </video>
+        loading="eager"
+        decoding="async"
+      />
+      {mountVideo && (
+        <video
+          ref={ref}
+          className="absolute inset-0 w-full h-full object-cover"
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="none"
+          poster={poster}
+          aria-label={alt}
+        >
+          <source src={src} type="video/mp4" />
+        </video>
+      )}
       {/* Warm dark gradient overlay — anchors text on left, lets sunlit right breathe */}
       <div
         className="absolute inset-0"
