@@ -512,6 +512,19 @@ async function fetchCollectionInitial(handle: string): Promise<CollectionLoaderD
 }
 
 export const Route = createFileRoute("/collections/$handle")({
+  // Overlappende kollektioner (fx /collections/slibesten,
+  // /collections/pleje-ritualer) redirecter permanent til den kanoniske
+  // handle defineret i src/lib/collectionCanonicals.ts.
+  beforeLoad: ({ params }) => {
+    const canonical = COLLECTION_CANONICALS[params.handle];
+    if (canonical && canonical !== params.handle) {
+      throw redirect({
+        to: "/collections/$handle",
+        params: { handle: canonical },
+        replace: true,
+      });
+    }
+  },
   loader: async ({ params, context }) => {
     // SSR: sørg for at kollektionens produkter ligger i første HTML-payload,
     // så crawlere og annonceklikker aldrig ser "0 produkter".
