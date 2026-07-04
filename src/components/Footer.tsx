@@ -2,6 +2,8 @@ import { Link } from "@tanstack/react-router";
 import { CreditCard, ShieldCheck, Package, RotateCcw } from "lucide-react";
 import { trackEvent } from "@/lib/analytics";
 import { COMPANY } from "@/components/legal/LegalPageLayout";
+import { PaymentIcons } from "@/components/PaymentIcons";
+import { SITE_CONFIG } from "@/lib/site-config";
 
 const footerLinks = {
   shop: [
