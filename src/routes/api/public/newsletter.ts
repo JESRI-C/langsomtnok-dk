@@ -179,6 +179,10 @@ export const Route = createFileRoute('/api/public/newsletter')({
           }
 
           console.log('newsletter: subscribed', { email: parsed.email.replace(/(.{2}).*@/, '$1***@'), source: parsed.source })
+
+          // Send velkomstmail — fire-and-forget så evt. fejl ikke blokerer response
+          sendWelcomeEmail(parsed.email, parsed.firstName).catch(() => {})
+
           return Response.json({ success: true })
         } catch (err) {
           console.error('newsletter: Shopify request failed', err)
