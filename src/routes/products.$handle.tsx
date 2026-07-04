@@ -44,18 +44,77 @@ import { MicroTrustBar } from "@/components/product/MicroTrustBar";
 import { FounderNote } from "@/components/product/FounderNote";
 import { ProductFeatureGrid } from "@/components/product/ProductFeatureGrid";
 
+async function fetchProductByHandle(handle: string): Promise<ProductNode | null> {
+  try {
+    const data = await storefrontApiRequest(PRODUCT_BY_HANDLE_QUERY, { handle });
+    return (data?.data?.productByHandle ?? null) as ProductNode | null;
+  } catch {
+    return null;
+  }
+}
+
 export const Route = createFileRoute("/products/$handle")({
-  head: ({ params }) => {
+  loader: async ({ params, context }) => {
+    // Prime TanStack Query cache og returnér produktet så head() kan bruge det
+    // til korrekt titel, meta description, og:image og JSON-LD Product schema.
+    const product = await context.queryClient.ensureQueryData({
+      queryKey: ["product", params.handle],
+      queryFn: () => fetchProductByHandle(params.handle),
+    });
+    return product;
+  },
+  head: ({ params, loaderData }) => {
     const url = `https://langsomtnok.dk/products/${params.handle}`;
-    const title = `${params.handle.replace(/-/g, " ")} — Langsomt Nok`;
+    const product = loaderData as ProductNode | null;
+    if (!product) {
+      return {
+        meta: [
+          { title: "Produkt ikke fundet | Langsomt Nok" },
+          { name: "robots", content: "noindex" },
+        ],
+        links: [{ rel: "canonical", href: url }],
+      };
+    }
+    const title = product.seo?.title ?? `${product.title} | Langsomt Nok`;
+    const desc =
+      product.seo?.description ??
+      (product.description ? product.description.slice(0, 160) : `${product.title} — udvalgt af Langsomt Nok.`);
+    const image = product.images?.edges?.[0]?.node?.url;
+    const firstVariant = product.variants?.edges?.[0]?.node;
+    const productSchema = {
+      "@context": "https://schema.org",
+      "@type": "Product",
+      name: product.title,
+      description: product.description,
+      image: product.images?.edges?.map((e) => e.node.url) ?? [],
+      sku: firstVariant?.sku || product.handle,
+      brand: { "@type": "Brand", name: "Langsomt Nok" },
+      url,
+      offers: {
+        "@type": "Offer",
+        price: firstVariant?.price?.amount ?? product.priceRange.minVariantPrice.amount,
+        priceCurrency:
+          firstVariant?.price?.currencyCode ?? product.priceRange.minVariantPrice.currencyCode ?? "DKK",
+        availability: firstVariant?.availableForSale
+          ? "https://schema.org/InStock"
+          : "https://schema.org/OutOfStock",
+        url,
+      },
+    };
     return {
       meta: [
         { title },
+        { name: "description", content: desc },
         { property: "og:title", content: title },
+        { property: "og:description", content: desc },
         { property: "og:type", content: "product" },
         { property: "og:url", content: url },
+        ...(image ? [{ property: "og:image", content: image }] : []),
       ],
       links: [{ rel: "canonical", href: url }],
+      scripts: [
+        { type: "application/ld+json", children: JSON.stringify(productSchema) },
+      ],
     };
   },
   component: ProductPage,
