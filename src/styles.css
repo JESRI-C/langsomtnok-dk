@@ -57,6 +57,10 @@
   --color-deep: var(--deep);
   --color-deep-foreground: var(--deep-foreground);
   --color-soft: var(--soft);
+  --color-commerce: var(--commerce);
+  --color-commerce-hover: var(--commerce-hover);
+  --color-commerce-foreground: var(--commerce-foreground);
+  --color-soft: var(--soft);
 
   --font-serif: 'Playfair Display', Georgia, 'Times New Roman', serif;
   --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
