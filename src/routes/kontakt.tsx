@@ -25,6 +25,22 @@ export const Route = createFileRoute("/kontakt")({
     scripts: [
       { type: "application/ld+json", children: JSON.stringify(organizationSchema) },
       { type: "application/ld+json", children: JSON.stringify(onlineStoreSchema) },
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "ContactPage",
+          name: "Kontakt Langsomt Nok",
+          url: "https://langsomtnok.dk/kontakt",
+          description: "Skriv roligt til Langsomt Nok om produkter, levering eller gaver.",
+          mainEntity: {
+            "@type": "Organization",
+            name: "Langsomt Nok",
+            email: CONTACT_EMAIL,
+            url: "https://langsomtnok.dk",
+          },
+        }),
+      },
     ],
   }),
   component: ContactPage,
