@@ -150,6 +150,10 @@ function RootComponent() {
 function AppShell() {
   useCartSync();
   const router = useRouter();
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
+  // Kampagnesider skal have en distraktionsfri header (kun logo + kurv)
+  // og ingen announcement bar / footer — hele fokus er på ét CTA.
+  const isKampagne = pathname.startsWith("/kampagne/");
 
   // Track SPA page views on every route change
   useEffect(() => {
@@ -175,12 +179,12 @@ function AppShell() {
 
   return (
     <TrackingProvider>
-      <AnnouncementBar />
-      <Header />
+      {!isKampagne && <AnnouncementBar />}
+      <Header minimal={isKampagne} />
       <main>
         <Outlet />
       </main>
-      <Footer />
+      {!isKampagne && <Footer />}
       <CartDrawer />
       <Toaster position="top-center" toastOptions={{ className: "font-sans" }} />
     </TrackingProvider>
