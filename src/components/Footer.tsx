@@ -12,11 +12,11 @@ const footerLinks = {
     { label: "Pleje & ritualer", to: "/collections/pleje-ritualer" },
   ],
   guides: [
-    { label: "Hvilken kokkekniv skal jeg vælge?", to: "/guides/hvilken-kokkekniv-skal-jeg-vaelge" },
-    { label: "Damaskus — hvad betyder det?", to: "/guides/damaskus-kniv-hvad-betyder-det" },
-    { label: "Hvordan sliber man en kniv?", to: "/guides/hvordan-sliber-man-en-kniv" },
-    { label: "Slibesten 1000/5000 forklaret", to: "/guides/slibesten-1000-5000-hvad-betyder-det" },
-    { label: "Se alle guides", to: "/guides" },
+    { label: "Hvilken kokkekniv skal jeg vælge?", href: "/guides/hvilken-kokkekniv-skal-jeg-vaelge" },
+    { label: "Damaskus — hvad betyder det?", href: "/guides/damaskus-kniv-hvad-betyder-det" },
+    { label: "Hvordan sliber man en kniv?", href: "/guides/hvordan-sliber-man-en-kniv" },
+    { label: "Slibesten 1000/5000 forklaret", href: "/guides/slibesten-1000-5000-hvad-betyder-det" },
+    { label: "Se alle guides", href: "/guides" },
   ],
   rituals: [
     { label: "Universet", href: "/universet" },
@@ -113,9 +113,9 @@ export function Footer() {
             <ul className="space-y-3">
               {footerLinks.guides.map((link) => (
                 <li key={link.label}>
-                  <Link to={link.to} className="text-sm text-deep-foreground/60 hover:text-deep-foreground transition-colors">
+                  <a href={link.href} className="text-sm text-deep-foreground/60 hover:text-deep-foreground transition-colors">
                     {link.label}
-                  </Link>
+                  </a>
                 </li>
               ))}
             </ul>
