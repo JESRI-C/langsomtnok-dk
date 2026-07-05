@@ -1,0 +1,100 @@
+{%- comment -%} KURV — 1:1 tone fra CartDrawer ("Dit ritual") {%- endcomment -%}
+<div class="ln-cart section-padding" style="padding-top: 3rem;">
+  <div class="container-calm">
+    <header class="ln-cart__header">
+      <span class="eyebrow">Dit ritual</span>
+      <h1 class="ln-cart__title">Indkøbskurv</h1>
+    </header>
+
+    {%- if cart.item_count > 0 -%}
+      <form action="{{ routes.cart_url }}" method="post" id="ln-cart-form" class="ln-cart__grid">
+        <div class="ln-cart__items">
+          {%- for item in cart.items -%}
+            <div class="ln-cart__item">
+              <a href="{{ item.url }}" class="ln-cart__item-img">
+                {%- if item.image -%}{{ item.image | image_url: width: 200 | image_tag: alt: item.title, loading: 'lazy' }}{%- endif -%}
+              </a>
+              <div class="ln-cart__item-info">
+                <a href="{{ item.url }}" class="ln-cart__item-title">{{ item.product.title }}</a>
+                {%- unless item.variant.title contains 'Default' -%}<span class="ln-cart__item-variant">{{ item.variant.title }}</span>{%- endunless -%}
+                <span class="ln-cart__item-price">{{ item.original_price | money }}</span>
+              </div>
+              <div class="ln-cart__item-actions">
+                <div class="ln-cart__qty">
+                  <a href="{{ item.url_to_remove }}" data-line="{{ forloop.index }}" data-qty="{{ item.quantity | minus: 1 }}" class="ln-cart__qty-btn" aria-label="Færre">−</a>
+                  <span>{{ item.quantity }}</span>
+                  <a href="{{ item.url_change | default: '#' }}" data-line="{{ forloop.index }}" data-qty="{{ item.quantity | plus: 1 }}" class="ln-cart__qty-btn" aria-label="Flere">+</a>
+                </div>
+                <a href="{{ item.url_to_remove }}" class="ln-cart__remove">Fjern</a>
+              </div>
+            </div>
+          {%- endfor -%}
+        </div>
+
+        <aside class="ln-cart__summary">
+          <h2>Opsummering</h2>
+          <div class="ln-cart__row"><span>Subtotal</span><span>{{ cart.total_price | money }}</span></div>
+          <p class="ln-cart__note">Fragt og evt. rabat beregnes ved betaling.</p>
+          <button type="submit" name="checkout" class="ln-cart__checkout">Gå til betaling</button>
+          <a href="{{ routes.all_products_collection_url }}" class="ln-cart__continue">← Fortsæt med at handle</a>
+          <div class="ln-cart__trust">
+            <span>🔒 Sikker betaling</span><span>·</span><span>Fri fragt over 599 kr</span>
+          </div>
+        </aside>
+      </form>
+    {%- else -%}
+      <div class="ln-cart__empty">
+        <p>Din kurv er tom — endnu.</p>
+        <a href="{{ routes.all_products_collection_url }}" class="btn-cta">Find dit første ritual</a>
+      </div>
+    {%- endif -%}
+  </div>
+</div>
+
+<script>
+  (function () {
+    document.querySelectorAll('.ln-cart__qty-btn').forEach(function (btn) {
+      btn.addEventListener('click', function (e) {
+        e.preventDefault();
+        var line = btn.dataset.line, qty = btn.dataset.qty;
+        fetch('{{ routes.cart_change_url }}', {
+          method: 'POST', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ line: parseInt(line, 10), quantity: parseInt(qty, 10) })
+        }).then(function () { window.location.reload(); });
+      });
+    });
+  })();
+</script>
+
+<style>
+  .ln-cart__header { margin-bottom: 2.5rem; }
+  .ln-cart__title { font-size: clamp(2rem, 6vw, 3rem); margin-top: 0.5rem; }
+  .ln-cart__grid { display: grid; grid-template-columns: 1fr; gap: 2.5rem; }
+  @media (min-width: 900px) { .ln-cart__grid { grid-template-columns: 1fr 22rem; align-items: start; } }
+  .ln-cart__item { display: grid; grid-template-columns: 5.5rem 1fr auto; gap: 1.25rem; padding: 1.25rem 0; border-bottom: 1px solid color-mix(in oklab, var(--border) 60%, transparent); }
+  .ln-cart__item-img { width: 5.5rem; height: 5.5rem; border-radius: 0.5rem; overflow: hidden; background: var(--soft); }
+  .ln-cart__item-img img { width: 100%; height: 100%; object-fit: cover; }
+  .ln-cart__item-info { display: flex; flex-direction: column; gap: 0.25rem; }
+  .ln-cart__item-title { font-family: 'Playfair Display', serif; font-size: 1.0625rem; }
+  .ln-cart__item-variant { font-size: 0.8125rem; color: var(--muted-foreground); }
+  .ln-cart__item-price { font-size: 0.9375rem; font-weight: 500; margin-top: 0.25rem; }
+  .ln-cart__item-actions { display: flex; flex-direction: column; align-items: flex-end; justify-content: space-between; gap: 0.5rem; }
+  .ln-cart__qty { display: flex; align-items: center; gap: 0.75rem; border: 1px solid var(--border); border-radius: 0.5rem; padding: 0.25rem 0.5rem; }
+  .ln-cart__qty-btn { width: 1.25rem; text-align: center; color: var(--foreground); font-size: 1rem; }
+  .ln-cart__remove { font-size: 0.75rem; color: var(--muted-foreground); text-decoration: underline; }
+  .ln-cart__remove:hover { color: var(--foreground); }
+  .ln-cart__summary { border: 1px solid var(--border); border-radius: 0.75rem; padding: 1.75rem; background: color-mix(in oklab, var(--soft) 35%, transparent); }
+  .ln-cart__summary h2 { font-size: 1.25rem; margin-bottom: 1.25rem; }
+  .ln-cart__row { display: flex; justify-content: space-between; font-size: 1rem; font-weight: 500; margin-bottom: 0.75rem; }
+  .ln-cart__note { font-size: 0.75rem; color: var(--muted-foreground); margin-bottom: 1.25rem; }
+  .ln-cart__checkout { width: 100%; min-height: 48px; border: none; border-radius: 0.5rem; background: var(--deep); color: var(--deep-foreground); font-size: 0.95rem; font-weight: 500; cursor: pointer; transition: background 0.25s; }
+  .ln-cart__checkout:hover { background: oklch(0.13 0.005 0); }
+  .ln-cart__continue { display: block; text-align: center; font-size: 0.8125rem; color: var(--muted-foreground); margin-top: 1rem; }
+  .ln-cart__trust { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.5rem; margin-top: 1.25rem; font-size: 0.75rem; color: var(--muted-foreground); }
+  .ln-cart__empty { text-align: center; padding: 4rem 0; display: flex; flex-direction: column; align-items: center; gap: 1.5rem; }
+  .ln-cart__empty p { font-family: 'Playfair Display', serif; font-size: 1.5rem; color: var(--muted-foreground); }
+</style>
+
+{% schema %}
+{ "name": "Kurv", "settings": [] }
+{% endschema %}

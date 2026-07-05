@@ -1,0 +1,68 @@
+{%- comment -%} KONTAKT — 1:1 tone fra src/routes/kontakt.tsx {%- endcomment -%}
+<div class="ln-contact section-padding" style="padding-top: 4rem;">
+  <div class="ln-contact__container">
+    <header class="ln-contact__header">
+      <span class="eyebrow">Skriv til os</span>
+      <h1 class="ln-contact__title">{{ page.title | default: 'Kontakt' }}</h1>
+      <p>Har du et spørgsmål om et produkt, en ordre eller et ritual? Vi svarer roligt — normalt inden for 1-2 hverdage.</p>
+    </header>
+
+    <div class="ln-contact__grid">
+      <div class="ln-contact__form-wrap">
+        {%- if page.content != blank -%}<div class="rte" style="margin-bottom:2rem;">{{ page.content }}</div>{%- endif -%}
+        {% form 'contact', class: 'ln-contact__form' %}
+          {%- if form.posted_successfully? -%}
+            <p class="ln-contact__success">Tak — din besked er sendt. Vi vender roligt tilbage.</p>
+          {%- endif -%}
+          {%- if form.errors -%}
+            <p class="ln-contact__error">{{ form.errors | default_errors }}</p>
+          {%- endif -%}
+          <div class="ln-contact__field">
+            <label for="ln-name">Navn</label>
+            <input type="text" id="ln-name" name="contact[name]" required>
+          </div>
+          <div class="ln-contact__field">
+            <label for="ln-email">E-mail</label>
+            <input type="email" id="ln-email" name="contact[email]" required>
+          </div>
+          <div class="ln-contact__field">
+            <label for="ln-msg">Besked</label>
+            <textarea id="ln-msg" name="contact[body]" rows="6" required></textarea>
+          </div>
+          <button type="submit" class="btn-cta">Send besked</button>
+        {% endform %}
+      </div>
+
+      <aside class="ln-contact__aside">
+        <h2>Langsomt Nok</h2>
+        <p>Drives af JBR Freelance<br>CVR-nr. 30782240</p>
+        <p>Bøgevej 4<br>7160 Tørring<br>Danmark</p>
+        <p><a href="mailto:hej@langsomtnok.dk">hej@langsomtnok.dk</a><br><a href="tel:+4527128497">27 12 84 97</a></p>
+      </aside>
+    </div>
+  </div>
+</div>
+
+<style>
+  .ln-contact__container { max-width: 64rem; margin-inline: auto; padding-inline: clamp(1.5rem, 5vw, 4rem); }
+  .ln-contact__header { max-width: 40rem; margin-bottom: 3rem; }
+  .ln-contact__title { font-size: clamp(2rem, 6vw, 3rem); margin: 0.5rem 0 1rem; }
+  .ln-contact__header p { color: var(--muted-foreground); line-height: 1.75; }
+  .ln-contact__grid { display: grid; grid-template-columns: 1fr; gap: 3rem; }
+  @media (min-width: 860px) { .ln-contact__grid { grid-template-columns: 1.4fr 1fr; } }
+  .ln-contact__form { display: flex; flex-direction: column; gap: 1.25rem; }
+  .ln-contact__field { display: flex; flex-direction: column; gap: 0.5rem; }
+  .ln-contact__field label { font-size: 0.875rem; font-weight: 500; }
+  .ln-contact__field input, .ln-contact__field textarea { border: 1px solid var(--border); border-radius: 0.5rem; padding: 0.75rem 0.875rem; background: var(--card); font-family: inherit; font-size: 0.9375rem; color: var(--foreground); }
+  .ln-contact__field input:focus, .ln-contact__field textarea:focus { outline: none; border-color: var(--walnut); }
+  .ln-contact__success { padding: 0.875rem 1rem; border-radius: 0.5rem; background: color-mix(in oklab, var(--cta) 12%, transparent); color: var(--cta); font-size: 0.875rem; }
+  .ln-contact__error { padding: 0.875rem 1rem; border-radius: 0.5rem; background: color-mix(in oklab, var(--copper) 14%, transparent); color: var(--copper); font-size: 0.875rem; }
+  .ln-contact__aside { border: 1px solid var(--border); border-radius: 0.75rem; padding: 1.75rem; background: color-mix(in oklab, var(--soft) 35%, transparent); align-self: start; }
+  .ln-contact__aside h2 { font-size: 1.25rem; margin-bottom: 1rem; }
+  .ln-contact__aside p { font-size: 0.9375rem; color: var(--muted-foreground); line-height: 1.7; margin-bottom: 1rem; }
+  .ln-contact__aside a { color: var(--cta); }
+</style>
+
+{% schema %}
+{ "name": "Kontakt", "settings": [] }
+{% endschema %}

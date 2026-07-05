@@ -1,0 +1,298 @@
+{%- comment -%}
+  PRODUKTSIDE (PDP) — 1:1 port af src/routes/products.$handle.tsx
+  Galleri + info, variantvælger, læg-i-kurv (Shopify product form),
+  stock-linje, trust, beskrivelse, relaterede produkter, final CTA.
+{%- endcomment -%}
+{%- assign current_variant = product.selected_or_first_available_variant -%}
+{%- assign on_sale = false -%}
+{%- if current_variant.compare_at_price > current_variant.price -%}{%- assign on_sale = true -%}{%- endif -%}
+
+<div class="ln-pdp section-padding" style="padding-top: 2rem;">
+  <div class="container-calm">
+    <a href="{{ routes.all_products_collection_url }}" class="ln-pdp__back">← Tilbage til shop</a>
+
+    <div class="ln-pdp__grid">
+      {%- comment -%} ── Galleri ── {%- endcomment -%}
+      <div class="ln-pdp__gallery">
+        <div class="ln-pdp__main" id="ln-pdp-main">
+          {%- if product.featured_media -%}
+            {{ product.featured_media | image_url: width: 1200 | image_tag: class: 'ln-pdp__main-img', id: 'ln-pdp-main-img', alt: product.title, loading: 'eager', fetchpriority: 'high' }}
+          {%- else -%}
+            <div class="ln-pdp__placeholder"><span>Langsomt Nok</span></div>
+          {%- endif -%}
+          {%- if on_sale -%}
+            {%- assign pct = current_variant.compare_at_price | minus: current_variant.price | times: 100.0 | divided_by: current_variant.compare_at_price | round -%}
+            <span class="ln-pdp__badge">-{{ pct }}%</span>
+          {%- endif -%}
+        </div>
+        {%- if product.media.size > 1 -%}
+          <div class="ln-pdp__thumbs">
+            {%- for media in product.media -%}
+              <button type="button" class="ln-pdp__thumb{% if forloop.first %} is-active{% endif %}" data-full="{{ media | image_url: width: 1200 }}" aria-label="Vis billede {{ forloop.index }}">
+                {{ media | image_url: width: 160 | image_tag: alt: media.alt | default: product.title, loading: 'lazy' }}
+              </button>
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
+      </div>
+
+      {%- comment -%} ── Info ── {%- endcomment -%}
+      <div class="ln-pdp__info">
+        <div class="ln-pdp__stars">
+          <span aria-hidden="true">★★★★★</span>
+          <span class="ln-pdp__stars-label">Udvalgt af Langsomt Nok</span>
+        </div>
+
+        {%- if product.type != blank -%}<span class="ln-pdp__type">{{ product.type }}</span>{%- endif -%}
+        <h1 class="ln-pdp__title">{{ product.title }}</h1>
+
+        <div class="ln-pdp__price" id="ln-pdp-price">
+          <span class="ln-pdp__price-now" data-price>{{ current_variant.price | money }}</span>
+          {%- if on_sale -%}<s class="ln-pdp__price-was" data-compare>{{ current_variant.compare_at_price | money }}</s>{%- endif -%}
+        </div>
+
+        {% form 'product', product, id: 'ln-product-form', class: 'ln-pdp__form' %}
+          <input type="hidden" name="id" value="{{ current_variant.id }}" id="ln-variant-id">
+
+          {%- unless product.has_only_default_variant -%}
+            {%- for option in product.options_with_values -%}
+              <div class="ln-pdp__option">
+                <label class="ln-pdp__option-label">{{ option.name }}</label>
+                <div class="ln-pdp__option-values">
+                  {%- for value in option.values -%}
+                    <button type="button" class="ln-pdp__swatch{% if option.selected_value == value %} is-selected{% endif %}"
+                      data-option-index="{{ forloop.parentloop.index0 }}" data-value="{{ value | escape }}">{{ value }}</button>
+                  {%- endfor -%}
+                </div>
+              </div>
+            {%- endfor -%}
+          {%- endunless -%}
+
+          <div class="ln-pdp__buy">
+            <div class="ln-pdp__qty">
+              <button type="button" data-qty="-1" aria-label="Færre">
+                <svg class="icon" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              </button>
+              <input type="number" name="quantity" id="ln-qty" value="1" min="1" inputmode="numeric">
+              <button type="button" data-qty="1" aria-label="Flere">
+                <svg class="icon" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              </button>
+            </div>
+            <button type="submit" class="ln-pdp__addbtn" id="ln-add-btn"{% unless current_variant.available %} disabled{% endunless %}>
+              {%- if current_variant.available -%}
+                <span data-add-label>Læg i kurv — <span data-price>{{ current_variant.price | money }}</span></span>
+              {%- else -%}
+                <span data-add-label>Udsolgt</span>
+              {%- endif -%}
+            </button>
+          </div>
+
+          {%- if current_variant.available -%}
+            <div class="ln-pdp__stock">
+              <span class="ln-pdp__pulse"></span>
+              <strong>På lager</strong>
+              <span>— sendes fra Danmark i dag ved bestilling før kl. 14</span>
+            </div>
+          {%- endif -%}
+        {% endform %}
+
+        {% render 'trust-bar' %}
+
+        <p class="ln-pdp__contact">
+          Spørgsmål? Skriv til <a href="mailto:hej@langsomtnok.dk">hej@langsomtnok.dk</a>
+        </p>
+      </div>
+    </div>
+
+    {%- comment -%} ── Beskrivelse ── {%- endcomment -%}
+    {%- if product.description != blank -%}
+      <div class="ln-pdp__description rte">{{ product.description }}</div>
+    {%- endif -%}
+
+    {%- comment -%} ── Relaterede produkter (Shopify recommendations) ── {%- endcomment -%}
+    {%- if recommendations.performed and recommendations.products_count > 0 -%}
+      <section class="ln-pdp__related">
+        <header>
+          <h2>Det giver mening sammen med</h2>
+          <p>Byg dit køkkenritual videre med produkter, der passer naturligt sammen.</p>
+        </header>
+        <div class="ln-pdp__related-grid">
+          {%- for rp in recommendations.products limit: 4 -%}
+            {% render 'product-card', product: rp %}
+          {%- endfor -%}
+        </div>
+      </section>
+    {%- endif -%}
+
+    {%- comment -%} ── Final CTA ── {%- endcomment -%}
+    <section class="ln-pdp__finalcta">
+      <div class="ln-pdp__finalcta-panel">
+        <h2>Begynd med dette ritual</h2>
+        <p>Et enkelt redskab. En roligere vane. Et bedre snit.</p>
+        <button type="submit" form="ln-product-form" class="ln-pdp__finalcta-btn"{% unless current_variant.available %} disabled{% endunless %}>
+          {% if current_variant.available %}Tilføj til ritualet{% else %}Udsolgt{% endif %}
+        </button>
+        <p class="ln-pdp__finalcta-trust">
+          <span class="ln-pdp__finalcta-stars">★★★★★</span>
+          <span>Kurateret af Langsomt Nok</span><span>·</span>
+          <span>Fri fragt over 599 kr</span><span>·</span>
+          <span>30 dages retur</span>
+        </p>
+      </div>
+    </section>
+  </div>
+</div>
+
+<script>
+  (function () {
+    var variants = {{ product.variants | json }};
+    var optionCount = {{ product.options.size }};
+    var form = document.getElementById('ln-product-form');
+    if (!form) return;
+    var idInput = document.getElementById('ln-variant-id');
+    var mainImg = document.getElementById('ln-pdp-main-img');
+    var addBtn = document.getElementById('ln-add-btn');
+    var selected = new Array(optionCount);
+
+    // Init from first selected swatches
+    form.querySelectorAll('.ln-pdp__swatch.is-selected').forEach(function (b) {
+      selected[parseInt(b.dataset.optionIndex, 10)] = b.dataset.value;
+    });
+    if (optionCount === 0 && variants[0]) { /* default variant */ }
+
+    function money(cents) {
+      return (cents / 100).toLocaleString('da-DK', { minimumFractionDigits: 2 }).replace(/,00$/, ',00') + ' kr.';
+    }
+
+    function matchVariant() {
+      return variants.find(function (v) {
+        return v.options.every(function (opt, i) { return selected[i] === undefined || opt === selected[i]; });
+      });
+    }
+
+    function update() {
+      var v = matchVariant() || variants[0];
+      if (!v) return;
+      idInput.value = v.id;
+      // price
+      form.querySelectorAll('[data-price]').forEach(function (el) { el.textContent = money(v.price); });
+      var compare = document.querySelector('[data-compare]');
+      // add button state
+      var label = form.querySelector('[data-add-label]');
+      if (v.available) {
+        addBtn.disabled = false;
+        if (label) label.innerHTML = 'Læg i kurv — <span data-price>' + money(v.price) + '</span>';
+      } else {
+        addBtn.disabled = true;
+        if (label) label.textContent = 'Udsolgt';
+      }
+      // swap image if variant has featured media
+      if (v.featured_image && mainImg) {
+        mainImg.src = v.featured_image.src.replace(/(\.[a-z]+)(\?|$)/i, '_1200x$1$2');
+      }
+    }
+
+    form.querySelectorAll('.ln-pdp__swatch').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var idx = parseInt(btn.dataset.optionIndex, 10);
+        selected[idx] = btn.dataset.value;
+        form.querySelectorAll('.ln-pdp__swatch[data-option-index="' + idx + '"]').forEach(function (b) { b.classList.remove('is-selected'); });
+        btn.classList.add('is-selected');
+        update();
+      });
+    });
+
+    // Quantity steppers
+    var qty = document.getElementById('ln-qty');
+    form.querySelectorAll('[data-qty]').forEach(function (b) {
+      b.addEventListener('click', function () {
+        var next = Math.max(1, parseInt(qty.value || '1', 10) + parseInt(b.dataset.qty, 10));
+        qty.value = next;
+      });
+    });
+
+    // Thumbnails
+    document.querySelectorAll('.ln-pdp__thumb').forEach(function (t) {
+      t.addEventListener('click', function () {
+        if (mainImg) mainImg.src = t.dataset.full;
+        document.querySelectorAll('.ln-pdp__thumb').forEach(function (x) { x.classList.remove('is-active'); });
+        t.classList.add('is-active');
+      });
+    });
+  })();
+</script>
+
+<style>
+  .ln-pdp__back { display: inline-block; font-size: 0.875rem; color: var(--muted-foreground); margin-bottom: 1.25rem; }
+  .ln-pdp__back:hover { color: var(--foreground); }
+  .ln-pdp__grid { display: grid; grid-template-columns: 1fr; gap: 2rem; }
+  @media (min-width: 1024px) { .ln-pdp__grid { grid-template-columns: 1fr 1fr; gap: 4rem; } }
+
+  .ln-pdp__main { position: relative; aspect-ratio: 1/1; border-radius: 0.75rem; overflow: hidden; background: var(--linen); }
+  .ln-pdp__main-img { width: 100%; height: 100%; object-fit: cover; }
+  .ln-pdp__placeholder { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: var(--soft); }
+  .ln-pdp__placeholder span { font-family: 'Playfair Display', serif; font-size: 1.25rem; color: color-mix(in oklab, var(--foreground) 15%, transparent); }
+  .ln-pdp__badge { position: absolute; top: 1rem; left: 1rem; background: var(--copper); color: var(--cta-foreground); font-size: 0.75rem; font-weight: 500; padding: 0.25rem 0.75rem; border-radius: 0.375rem; }
+  .ln-pdp__thumbs { display: flex; gap: 0.75rem; margin-top: 1rem; overflow-x: auto; padding-bottom: 0.25rem; }
+  .ln-pdp__thumb { width: 5rem; height: 5rem; flex-shrink: 0; border-radius: 0.375rem; overflow: hidden; border: 2px solid transparent; background: none; cursor: pointer; padding: 0; }
+  .ln-pdp__thumb img { width: 100%; height: 100%; object-fit: cover; }
+  .ln-pdp__thumb.is-active { border-color: var(--walnut); }
+
+  .ln-pdp__info { display: flex; flex-direction: column; gap: 1.25rem; }
+  .ln-pdp__stars { display: flex; align-items: center; gap: 0.5rem; }
+  .ln-pdp__stars > span[aria-hidden] { color: var(--copper); letter-spacing: 0.1em; font-size: 0.875rem; }
+  .ln-pdp__stars-label { font-size: 0.6875rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted-foreground); }
+  .ln-pdp__type { font-size: 0.75rem; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--copper); }
+  .ln-pdp__title { font-size: clamp(1.875rem, 5vw, 3rem); line-height: 1.1; margin: -0.75rem 0 0; }
+  .ln-pdp__price { display: flex; align-items: baseline; gap: 0.75rem; }
+  .ln-pdp__price-now { font-family: 'Playfair Display', serif; font-size: 1.5rem; }
+  .ln-pdp__price-was { color: color-mix(in oklab, var(--muted-foreground) 60%, transparent); font-size: 1.125rem; }
+
+  .ln-pdp__form { display: flex; flex-direction: column; gap: 1.25rem; margin: 0; }
+  .ln-pdp__option-label { display: block; font-size: 0.875rem; font-weight: 500; margin-bottom: 0.5rem; }
+  .ln-pdp__option-values { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .ln-pdp__swatch { padding: 0.5rem 1rem; border-radius: 0.375rem; border: 1px solid var(--border); background: transparent; font-size: 0.875rem; cursor: pointer; transition: all 0.2s; }
+  .ln-pdp__swatch:hover { border-color: color-mix(in oklab, var(--walnut) 50%, var(--border)); }
+  .ln-pdp__swatch.is-selected { border-color: var(--walnut); background: color-mix(in oklab, var(--walnut) 6%, transparent); color: var(--walnut); }
+
+  .ln-pdp__buy { display: flex; align-items: center; gap: 1rem; }
+  .ln-pdp__qty { display: flex; align-items: center; border: 1px solid var(--border); border-radius: 0.5rem; }
+  .ln-pdp__qty button { padding: 0.75rem; background: none; border: none; cursor: pointer; color: var(--foreground); display: flex; }
+  .ln-pdp__qty button:hover { background: color-mix(in oklab, var(--foreground) 5%, transparent); }
+  .ln-pdp__qty input { width: 3rem; text-align: center; border: none; background: none; font-size: 0.875rem; font-weight: 500; -moz-appearance: textfield; }
+  .ln-pdp__qty input::-webkit-outer-spin-button, .ln-pdp__qty input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+  .ln-pdp__addbtn { flex: 1; min-height: 48px; border: none; border-radius: 0.5rem; background: var(--deep); color: var(--deep-foreground); font-size: 0.95rem; font-weight: 500; cursor: pointer; transition: background 0.25s; }
+  .ln-pdp__addbtn:hover:not(:disabled) { background: oklch(0.13 0.005 0); }
+  .ln-pdp__addbtn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+  .ln-pdp__stock { display: flex; align-items: center; gap: 0.5rem; font-size: 0.75rem; color: color-mix(in oklab, var(--foreground) 70%, transparent); }
+  .ln-pdp__stock strong { font-weight: 600; }
+  .ln-pdp__stock span:last-child { color: var(--muted-foreground); }
+  .ln-pdp__pulse { position: relative; width: 0.5rem; height: 0.5rem; border-radius: 50%; background: var(--cta); flex-shrink: 0; }
+  .ln-pdp__pulse::before { content: ''; position: absolute; inset: 0; border-radius: 50%; background: var(--cta); opacity: 0.5; animation: lnPing 1.5s cubic-bezier(0,0,0.2,1) infinite; }
+  @keyframes lnPing { 75%, 100% { transform: scale(2.5); opacity: 0; } }
+  .ln-pdp__contact { font-size: 0.75rem; color: var(--muted-foreground); }
+  .ln-pdp__contact a { color: var(--cta); font-weight: 500; }
+
+  .ln-pdp__description { max-width: 48rem; margin-top: 4rem; }
+  .ln-pdp__related { margin-top: 5rem; }
+  .ln-pdp__related header { max-width: 40rem; margin-bottom: 2rem; }
+  .ln-pdp__related h2 { font-size: clamp(1.75rem, 4vw, 2.5rem); margin-bottom: 0.75rem; }
+  .ln-pdp__related header p { color: var(--muted-foreground); }
+  .ln-pdp__related-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; }
+  @media (min-width: 1024px) { .ln-pdp__related-grid { grid-template-columns: repeat(4, 1fr); } }
+
+  .ln-pdp__finalcta { margin-top: 5rem; max-width: 56rem; }
+  .ln-pdp__finalcta-panel { padding: clamp(2rem, 5vw, 3.5rem); text-align: center; border-radius: 18px; background: #4C574A; }
+  .ln-pdp__finalcta-panel h2 { font-size: clamp(1.75rem, 4vw, 2.5rem); color: #F8F6F3; margin-bottom: 0.75rem; }
+  .ln-pdp__finalcta-panel > p { color: rgba(248,246,243,0.78); max-width: 28rem; margin: 0 auto 1.75rem; }
+  .ln-pdp__finalcta-btn { min-height: 48px; padding: 0 2rem; border: none; border-radius: 0.5rem; background: #F8F6F3; color: #2D2D2D; font-size: 0.95rem; font-weight: 500; cursor: pointer; transition: background 0.25s; }
+  .ln-pdp__finalcta-btn:hover:not(:disabled) { background: #fff; }
+  .ln-pdp__finalcta-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+  .ln-pdp__finalcta-trust { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 0.375rem 0.75rem; margin-top: 1.5rem; font-size: 0.8125rem; color: rgba(248,246,243,0.72); }
+  .ln-pdp__finalcta-stars { color: #A67C52; }
+</style>
+
+{% schema %}
+{ "name": "Produktside", "settings": [], "blocks": [] }
+{% endschema %}

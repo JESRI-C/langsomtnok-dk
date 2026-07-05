@@ -1,0 +1,50 @@
+{%- comment -%} KOLLEKTIONSOVERSIGT — /collections {%- endcomment -%}
+<div class="ln-collist section-padding" style="padding-top: 3rem;">
+  <div class="container-calm">
+    <header class="ln-collist__hero">
+      <span class="eyebrow">Butikken</span>
+      <h1 class="ln-collist__title">{{ page_title | default: 'Kollektioner' }}</h1>
+      <p>Udforsk køkkenets rolige ritualer — kollektion for kollektion.</p>
+    </header>
+
+    <div class="ln-collist__grid">
+      {%- for collection in collections -%}
+        {%- unless collection.handle == 'frontpage' or collection.products_count == 0 -%}
+          <a href="{{ collection.url }}" class="ln-collist__card lift-on-hover">
+            <div class="ln-collist__image">
+              {%- if collection.featured_image -%}
+                {{ collection.featured_image | image_url: width: 800 | image_tag: loading: 'lazy', alt: collection.title, class: 'ln-collist__img' }}
+              {%- elsif collection.products.first.featured_image -%}
+                {{ collection.products.first.featured_image | image_url: width: 800 | image_tag: loading: 'lazy', alt: collection.title, class: 'ln-collist__img' }}
+              {%- else -%}
+                <div style="width:100%;height:100%;background:var(--soft);"></div>
+              {%- endif -%}
+            </div>
+            <div class="ln-collist__body">
+              <h2 class="ln-collist__name">{{ collection.title }}</h2>
+              <span class="ln-collist__meta">{{ collection.products_count }} produkter</span>
+            </div>
+          </a>
+        {%- endunless -%}
+      {%- endfor -%}
+    </div>
+  </div>
+</div>
+
+<style>
+  .ln-collist__hero { max-width: 40rem; margin-bottom: 3rem; }
+  .ln-collist__title { font-size: clamp(2rem, 6vw, 3.5rem); margin: 0.5rem 0 1rem; }
+  .ln-collist__hero p { color: var(--muted-foreground); line-height: 1.75; }
+  .ln-collist__grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.5rem 2rem; }
+  .ln-collist__card { display: block; border-radius: 0.75rem; overflow: hidden; border: 1px solid color-mix(in oklab, var(--border) 60%, transparent); background: var(--card); }
+  .ln-collist__image { aspect-ratio: 4/3; overflow: hidden; background: var(--soft); }
+  .ln-collist__img { width: 100%; height: 100%; object-fit: cover; transition: transform 600ms ease-out; }
+  .ln-collist__card:hover .ln-collist__img { transform: scale(1.04); }
+  .ln-collist__body { padding: 1.25rem 1.375rem 1.5rem; }
+  .ln-collist__name { font-size: 1.25rem; margin-bottom: 0.375rem; }
+  .ln-collist__meta { font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--copper); }
+</style>
+
+{% schema %}
+{ "name": "Kollektionsoversigt", "settings": [] }
+{% endschema %}

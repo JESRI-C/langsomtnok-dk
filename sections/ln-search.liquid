@@ -1,0 +1,53 @@
+{%- comment -%} SØGNING {%- endcomment -%}
+<div class="ln-search section-padding" style="padding-top: 4rem;">
+  <div class="container-calm">
+    <header class="ln-search__header">
+      <span class="eyebrow">Søg</span>
+      <h1 class="ln-search__title">Find det, du leder efter</h1>
+      <form action="{{ routes.search_url }}" method="get" class="ln-search__form" role="search">
+        <input type="search" name="q" value="{{ search.terms | escape }}" placeholder="Søg efter produkter og guides…" autofocus>
+        <button type="submit" class="btn-cta">Søg</button>
+      </form>
+    </header>
+
+    {%- if search.performed -%}
+      {%- if search.results_count > 0 -%}
+        <p class="ln-search__count">{{ search.results_count }} resultater for "{{ search.terms }}"</p>
+        <div class="ln-search__grid">
+          {%- for item in search.results -%}
+            {%- if item.object_type == 'product' -%}
+              {% render 'product-card', product: item %}
+            {%- else -%}
+              <a href="{{ item.url }}" class="ln-search__result lift-on-hover">
+                <span class="ln-search__result-type">{{ item.object_type }}</span>
+                <h3>{{ item.title }}</h3>
+                <p>{{ item.content | default: item.excerpt | strip_html | truncate: 120 }}</p>
+              </a>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+      {%- else -%}
+        <p class="ln-search__empty">Ingen resultater for "{{ search.terms }}". Prøv et andet ord.</p>
+      {%- endif -%}
+    {%- endif -%}
+  </div>
+</div>
+
+<style>
+  .ln-search__header { max-width: 42rem; margin-bottom: 2.5rem; }
+  .ln-search__title { font-size: clamp(2rem, 6vw, 3rem); margin: 0.5rem 0 1.5rem; }
+  .ln-search__form { display: flex; gap: 0.75rem; }
+  .ln-search__form input { flex: 1; border: 1px solid var(--border); border-radius: 0.5rem; padding: 0.75rem 1rem; background: var(--card); font-size: 0.9375rem; color: var(--foreground); }
+  .ln-search__form input:focus { outline: none; border-color: var(--walnut); }
+  .ln-search__count { font-size: 0.8125rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted-foreground); margin-bottom: 1.5rem; }
+  .ln-search__grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 1.5rem 2rem; }
+  .ln-search__result { display: block; padding: 1.25rem; border: 1px solid color-mix(in oklab, var(--border) 60%, transparent); border-radius: 0.75rem; background: var(--card); }
+  .ln-search__result-type { font-size: 0.6875rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--copper); }
+  .ln-search__result h3 { font-size: 1.0625rem; margin: 0.375rem 0 0.5rem; }
+  .ln-search__result p { font-size: 0.875rem; color: var(--muted-foreground); line-height: 1.6; }
+  .ln-search__empty { color: var(--muted-foreground); padding: 2rem 0; }
+</style>
+
+{% schema %}
+{ "name": "Søgning", "settings": [] }
+{% endschema %}

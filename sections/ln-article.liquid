@@ -1,0 +1,85 @@
+{%- comment -%} ARTIKEL / GUIDE — 1:1 port af src/routes/guides.$slug.tsx {%- endcomment -%}
+<article class="ln-article section-padding" style="padding-top: 3rem;">
+  <div class="ln-article__container">
+    <a href="{{ blog.url }}" class="ln-article__back">← Alle guides</a>
+
+    <header class="ln-article__header">
+      {%- if article.tags.size > 0 -%}<span class="eyebrow">{{ article.tags.first }}</span>{%- endif -%}
+      <h1 class="ln-article__title">{{ article.title }}</h1>
+      <div class="ln-article__meta">
+        {%- if article.author != blank -%}<span>{{ article.author }}</span>{%- endif -%}
+        <span>{{ article.published_at | date: '%-d. %B %Y' }}</span>
+      </div>
+    </header>
+
+    {%- if article.image -%}
+      <div class="ln-article__hero">
+        {{ article.image | image_url: width: 1400 | image_tag: alt: article.image.alt | default: article.title, loading: 'eager' }}
+      </div>
+    {%- endif -%}
+
+    <div class="ln-article__body rte">{{ article.content }}</div>
+
+    <footer class="ln-article__footer">
+      <h2>Kom videre</h2>
+      <div class="ln-article__cta">
+        <a href="{{ routes.all_products_collection_url }}" class="btn-cta">Se udvalget</a>
+        <a href="{{ blog.url }}" class="btn-outline-calm">Flere guides</a>
+      </div>
+    </footer>
+  </div>
+
+  {%- if blog.articles.size > 1 -%}
+    <div class="container-calm ln-article__related">
+      <h2>Relaterede guides</h2>
+      <div class="ln-article__related-grid">
+        {%- assign shown = 0 -%}
+        {%- for a in blog.articles -%}
+          {%- unless a.id == article.id -%}
+            {%- if shown < 3 -%}
+              <a href="{{ a.url }}" class="ln-guide-card lift-on-hover">
+                <div class="ln-guide-card__image-wrap">
+                  {%- if a.image -%}
+                    <div class="ln-guide-card__image-inner">{{ a.image | image_url: width: 500 | image_tag: loading: 'lazy', alt: a.title, class: 'ln-guide-card__img' }}</div>
+                  {%- else -%}<div style="width:100%;height:100%;background:var(--soft);"></div>{%- endif -%}
+                </div>
+                <div class="ln-guide-card__body">
+                  <h3 class="ln-guide-card__title">{{ a.title }}</h3>
+                </div>
+              </a>
+              {%- assign shown = shown | plus: 1 -%}
+            {%- endif -%}
+          {%- endunless -%}
+        {%- endfor -%}
+      </div>
+    </div>
+  {%- endif -%}
+</article>
+
+<style>
+  .ln-article__container { max-width: 46rem; margin-inline: auto; padding-inline: clamp(1.5rem, 5vw, 2rem); }
+  .ln-article__back { display: inline-block; font-size: 0.875rem; color: var(--muted-foreground); margin-bottom: 1.5rem; }
+  .ln-article__back:hover { color: var(--foreground); }
+  .ln-article__title { font-size: clamp(2rem, 6vw, 3.25rem); line-height: 1.1; margin: 0.5rem 0 1rem; }
+  .ln-article__meta { display: flex; gap: 1rem; font-size: 0.8125rem; color: var(--muted-foreground); }
+  .ln-article__hero { margin: 2.5rem 0; border-radius: 0.75rem; overflow: hidden; aspect-ratio: 16/9; background: var(--soft); }
+  .ln-article__hero img { width: 100%; height: 100%; object-fit: cover; }
+  .ln-article__body { color: color-mix(in oklab, var(--foreground) 85%, transparent); line-height: 1.85; font-size: 1.0625rem; }
+  .ln-article__footer { margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--border); }
+  .ln-article__footer h2 { font-size: 1.5rem; margin-bottom: 1rem; }
+  .ln-article__cta { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+  .ln-article__related { margin-top: 5rem; }
+  .ln-article__related > h2 { font-size: clamp(1.5rem, 4vw, 2.25rem); margin-bottom: 2rem; }
+  .ln-article__related-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 2rem; }
+  .ln-article__related .ln-guide-card { display: block; border-radius: 0.75rem; overflow: hidden; border: 1px solid color-mix(in oklab, var(--border) 60%, transparent); background: var(--card); }
+  .ln-article__related .ln-guide-card__image-wrap { aspect-ratio: 3/2; overflow: hidden; background: var(--soft); }
+  .ln-article__related .ln-guide-card__image-inner { width: 100%; height: 100%; transition: transform 600ms ease-out; }
+  .ln-article__related .ln-guide-card:hover .ln-guide-card__image-inner { transform: scale(1.04); }
+  .ln-article__related .ln-guide-card__img { width: 100%; height: 100%; object-fit: cover; }
+  .ln-article__related .ln-guide-card__body { padding: 1rem 1.125rem 1.25rem; }
+  .ln-article__related .ln-guide-card__title { font-size: 1.0625rem; line-height: 1.3; }
+</style>
+
+{% schema %}
+{ "name": "Artikel", "settings": [] }
+{% endschema %}

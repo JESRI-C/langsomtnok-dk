@@ -1,0 +1,78 @@
+{%- comment -%}
+  KOLLEKTIONSSIDE — 1:1 port af src/routes/collections.$handle.tsx
+  Rolig hero + produkt-grid (product-card) + sortering.
+{%- endcomment -%}
+<div class="ln-collection section-padding" style="padding-top: 2rem;">
+  <div class="container-calm">
+    <a href="{{ routes.all_products_collection_url }}" class="ln-collection__back">← Alle produkter</a>
+
+    <header class="ln-collection__hero">
+      {%- if collection.metafields.custom.eyebrow != blank -%}
+        <span class="eyebrow">{{ collection.metafields.custom.eyebrow }}</span>
+      {%- else -%}
+        <span class="eyebrow">Kollektion</span>
+      {%- endif -%}
+      <h1 class="ln-collection__title">{{ collection.title }}</h1>
+      {%- if collection.description != blank -%}
+        <div class="ln-collection__desc rte">{{ collection.description }}</div>
+      {%- endif -%}
+    </header>
+
+    <div class="ln-collection__toolbar">
+      <span class="ln-collection__count">{{ collection.products_count }} produkter</span>
+      <form method="get" class="ln-collection__sort">
+        <label for="ln-sort">Sortér:</label>
+        <select name="sort_by" id="ln-sort" onchange="this.form.submit()">
+          {%- assign sort = collection.sort_by | default: collection.default_sort_by -%}
+          <option value="manual"{% if sort == 'manual' %} selected{% endif %}>Udvalgt</option>
+          <option value="best-selling"{% if sort == 'best-selling' %} selected{% endif %}>Mest solgte</option>
+          <option value="price-ascending"{% if sort == 'price-ascending' %} selected{% endif %}>Pris: lav til høj</option>
+          <option value="price-descending"{% if sort == 'price-descending' %} selected{% endif %}>Pris: høj til lav</option>
+          <option value="created-descending"{% if sort == 'created-descending' %} selected{% endif %}>Nyeste</option>
+        </select>
+      </form>
+    </div>
+
+    {%- paginate collection.products by 24 -%}
+      {%- if collection.products.size > 0 -%}
+        <div class="ln-collection__grid">
+          {%- for product in collection.products -%}
+            {% render 'product-card', product: product %}
+          {%- endfor -%}
+        </div>
+        {%- if paginate.pages > 1 -%}
+          <nav class="ln-collection__pagination">
+            {%- if paginate.previous -%}<a href="{{ paginate.previous.url }}" class="btn-outline-calm">← Forrige</a>{%- endif -%}
+            <span>Side {{ paginate.current_page }} af {{ paginate.pages }}</span>
+            {%- if paginate.next -%}<a href="{{ paginate.next.url }}" class="btn-outline-calm">Næste →</a>{%- endif -%}
+          </nav>
+        {%- endif -%}
+      {%- else -%}
+        <p class="ln-collection__empty">Der er ingen produkter i denne kollektion endnu.</p>
+      {%- endif -%}
+    {%- endpaginate -%}
+  </div>
+
+  <div class="container-calm" style="margin-top: 4rem;">
+    {% render 'trust-bar' %}
+  </div>
+</div>
+
+<style>
+  .ln-collection__back { display: inline-block; font-size: 0.875rem; color: var(--muted-foreground); margin-bottom: 1.5rem; }
+  .ln-collection__back:hover { color: var(--foreground); }
+  .ln-collection__hero { max-width: 42rem; margin-bottom: 2.5rem; }
+  .ln-collection__title { font-size: clamp(2rem, 6vw, 3.5rem); margin: 0.5rem 0 1rem; }
+  .ln-collection__desc { color: var(--muted-foreground); line-height: 1.75; }
+  .ln-collection__toolbar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem; padding-bottom: 1.5rem; margin-bottom: 2.5rem; border-bottom: 1px solid color-mix(in oklab, var(--border) 60%, transparent); }
+  .ln-collection__count { font-size: 0.8125rem; letter-spacing: 0.05em; text-transform: uppercase; color: var(--muted-foreground); }
+  .ln-collection__sort { display: flex; align-items: center; gap: 0.5rem; font-size: 0.875rem; color: var(--muted-foreground); }
+  .ln-collection__sort select { border: 1px solid var(--border); border-radius: 0.375rem; padding: 0.375rem 0.625rem; background: var(--card); font-size: 0.875rem; color: var(--foreground); cursor: pointer; }
+  .ln-collection__grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 1.5rem 2rem; }
+  .ln-collection__pagination { display: flex; align-items: center; justify-content: center; gap: 1.5rem; margin-top: 3.5rem; font-size: 0.875rem; color: var(--muted-foreground); }
+  .ln-collection__empty { text-align: center; color: var(--muted-foreground); padding: 4rem 0; }
+</style>
+
+{% schema %}
+{ "name": "Kollektionsside", "settings": [] }
+{% endschema %}
