@@ -57,6 +57,7 @@ import { Route as KampagneKnivsliberGrillRouteImport } from './routes/kampagne.k
 import { Route as KampagneSlugRouteImport } from './routes/kampagne.$slug'
 import { Route as GuidesSlugRouteImport } from './routes/guides.$slug'
 import { Route as GaverFarsDagRouteImport } from './routes/gaver.fars-dag'
+import { Route as GaverAnledningRouteImport } from './routes/gaver.anledning'
 import { Route as EmailUnsubscribeRouteImport } from './routes/email/unsubscribe'
 import { Route as CollectionsHandlavetKeramikRouteImport } from './routes/collections.handlavet-keramik'
 import { Route as CollectionsHandleRouteImport } from './routes/collections.$handle'
@@ -322,6 +323,11 @@ const GaverFarsDagRoute = GaverFarsDagRouteImport.update({
   path: '/gaver/fars-dag',
   getParentRoute: () => rootRouteImport,
 } as any)
+const GaverAnledningRoute = GaverAnledningRouteImport.update({
+  id: '/gaver/anledning',
+  path: '/gaver/anledning',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const EmailUnsubscribeRoute = EmailUnsubscribeRouteImport.update({
   id: '/email/unsubscribe',
   path: '/email/unsubscribe',
@@ -419,6 +425,7 @@ export interface FileRoutesByFullPath {
   '/collections/$handle': typeof CollectionsHandleRoute
   '/collections/handlavet-keramik': typeof CollectionsHandlavetKeramikRoute
   '/email/unsubscribe': typeof EmailUnsubscribeRoute
+  '/gaver/anledning': typeof GaverAnledningRoute
   '/gaver/fars-dag': typeof GaverFarsDagRoute
   '/guides/$slug': typeof GuidesSlugRoute
   '/kampagne/$slug': typeof KampagneSlugRoute
@@ -482,6 +489,7 @@ export interface FileRoutesByTo {
   '/collections/$handle': typeof CollectionsHandleRoute
   '/collections/handlavet-keramik': typeof CollectionsHandlavetKeramikRoute
   '/email/unsubscribe': typeof EmailUnsubscribeRoute
+  '/gaver/anledning': typeof GaverAnledningRoute
   '/gaver/fars-dag': typeof GaverFarsDagRoute
   '/guides/$slug': typeof GuidesSlugRoute
   '/kampagne/$slug': typeof KampagneSlugRoute
@@ -546,6 +554,7 @@ export interface FileRoutesById {
   '/collections/$handle': typeof CollectionsHandleRoute
   '/collections/handlavet-keramik': typeof CollectionsHandlavetKeramikRoute
   '/email/unsubscribe': typeof EmailUnsubscribeRoute
+  '/gaver/anledning': typeof GaverAnledningRoute
   '/gaver/fars-dag': typeof GaverFarsDagRoute
   '/guides/$slug': typeof GuidesSlugRoute
   '/kampagne/$slug': typeof KampagneSlugRoute
@@ -611,6 +620,7 @@ export interface FileRouteTypes {
     | '/collections/$handle'
     | '/collections/handlavet-keramik'
     | '/email/unsubscribe'
+    | '/gaver/anledning'
     | '/gaver/fars-dag'
     | '/guides/$slug'
     | '/kampagne/$slug'
@@ -674,6 +684,7 @@ export interface FileRouteTypes {
     | '/collections/$handle'
     | '/collections/handlavet-keramik'
     | '/email/unsubscribe'
+    | '/gaver/anledning'
     | '/gaver/fars-dag'
     | '/guides/$slug'
     | '/kampagne/$slug'
@@ -737,6 +748,7 @@ export interface FileRouteTypes {
     | '/collections/$handle'
     | '/collections/handlavet-keramik'
     | '/email/unsubscribe'
+    | '/gaver/anledning'
     | '/gaver/fars-dag'
     | '/guides/$slug'
     | '/kampagne/$slug'
@@ -801,6 +813,7 @@ export interface RootRouteChildren {
   CollectionsHandleRoute: typeof CollectionsHandleRoute
   CollectionsHandlavetKeramikRoute: typeof CollectionsHandlavetKeramikRoute
   EmailUnsubscribeRoute: typeof EmailUnsubscribeRoute
+  GaverAnledningRoute: typeof GaverAnledningRoute
   GaverFarsDagRoute: typeof GaverFarsDagRoute
   GuidesSlugRoute: typeof GuidesSlugRoute
   KampagneSlugRoute: typeof KampagneSlugRoute
@@ -1179,6 +1192,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof GaverFarsDagRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/gaver/anledning': {
+      id: '/gaver/anledning'
+      path: '/gaver/anledning'
+      fullPath: '/gaver/anledning'
+      preLoaderRoute: typeof GaverAnledningRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/email/unsubscribe': {
       id: '/email/unsubscribe'
       path: '/email/unsubscribe'
@@ -1298,6 +1318,7 @@ const rootRouteChildren: RootRouteChildren = {
   CollectionsHandleRoute: CollectionsHandleRoute,
   CollectionsHandlavetKeramikRoute: CollectionsHandlavetKeramikRoute,
   EmailUnsubscribeRoute: EmailUnsubscribeRoute,
+  GaverAnledningRoute: GaverAnledningRoute,
   GaverFarsDagRoute: GaverFarsDagRoute,
   GuidesSlugRoute: GuidesSlugRoute,
   KampagneSlugRoute: KampagneSlugRoute,
