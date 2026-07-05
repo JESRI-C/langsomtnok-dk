@@ -92,7 +92,7 @@ export function DirectAddToCart({
 
   const handleAdd = async () => {
     if (!product || !selectedVariant || !available) return;
-    trackEvent("landing_add_to_cart_click", {
+    trackEvent("landing_page_primary_cta_click", {
       source_page: sourcePage,
       campaign: campaignName,
       variant_id: selectedVariant.id,
