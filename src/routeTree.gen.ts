@@ -53,6 +53,7 @@ import { Route as PagesCampingvognKnivsliberRouteImport } from './routes/pages.c
 import { Route as KeramikSusanRielRouteImport } from './routes/keramik.susan-riel'
 import { Route as KeramikSlugRouteImport } from './routes/keramik.$slug'
 import { Route as KampagneMagnetiskKnivstanderRouteImport } from './routes/kampagne.magnetisk-knivstander'
+import { Route as KampagneKnivsliberGrillRouteImport } from './routes/kampagne.knivsliber-grill'
 import { Route as KampagneSlugRouteImport } from './routes/kampagne.$slug'
 import { Route as GuidesSlugRouteImport } from './routes/guides.$slug'
 import { Route as GaverFarsDagRouteImport } from './routes/gaver.fars-dag'
@@ -301,6 +302,11 @@ const KampagneMagnetiskKnivstanderRoute =
     path: '/kampagne/magnetisk-knivstander',
     getParentRoute: () => rootRouteImport,
   } as any)
+const KampagneKnivsliberGrillRoute = KampagneKnivsliberGrillRouteImport.update({
+  id: '/kampagne/knivsliber-grill',
+  path: '/kampagne/knivsliber-grill',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const KampagneSlugRoute = KampagneSlugRouteImport.update({
   id: '/kampagne/$slug',
   path: '/kampagne/$slug',
@@ -416,6 +422,7 @@ export interface FileRoutesByFullPath {
   '/gaver/fars-dag': typeof GaverFarsDagRoute
   '/guides/$slug': typeof GuidesSlugRoute
   '/kampagne/$slug': typeof KampagneSlugRoute
+  '/kampagne/knivsliber-grill': typeof KampagneKnivsliberGrillRoute
   '/kampagne/magnetisk-knivstander': typeof KampagneMagnetiskKnivstanderRoute
   '/keramik/$slug': typeof KeramikSlugRoute
   '/keramik/susan-riel': typeof KeramikSusanRielRoute
@@ -478,6 +485,7 @@ export interface FileRoutesByTo {
   '/gaver/fars-dag': typeof GaverFarsDagRoute
   '/guides/$slug': typeof GuidesSlugRoute
   '/kampagne/$slug': typeof KampagneSlugRoute
+  '/kampagne/knivsliber-grill': typeof KampagneKnivsliberGrillRoute
   '/kampagne/magnetisk-knivstander': typeof KampagneMagnetiskKnivstanderRoute
   '/keramik/$slug': typeof KeramikSlugRoute
   '/keramik/susan-riel': typeof KeramikSusanRielRoute
@@ -541,6 +549,7 @@ export interface FileRoutesById {
   '/gaver/fars-dag': typeof GaverFarsDagRoute
   '/guides/$slug': typeof GuidesSlugRoute
   '/kampagne/$slug': typeof KampagneSlugRoute
+  '/kampagne/knivsliber-grill': typeof KampagneKnivsliberGrillRoute
   '/kampagne/magnetisk-knivstander': typeof KampagneMagnetiskKnivstanderRoute
   '/keramik/$slug': typeof KeramikSlugRoute
   '/keramik/susan-riel': typeof KeramikSusanRielRoute
@@ -605,6 +614,7 @@ export interface FileRouteTypes {
     | '/gaver/fars-dag'
     | '/guides/$slug'
     | '/kampagne/$slug'
+    | '/kampagne/knivsliber-grill'
     | '/kampagne/magnetisk-knivstander'
     | '/keramik/$slug'
     | '/keramik/susan-riel'
@@ -667,6 +677,7 @@ export interface FileRouteTypes {
     | '/gaver/fars-dag'
     | '/guides/$slug'
     | '/kampagne/$slug'
+    | '/kampagne/knivsliber-grill'
     | '/kampagne/magnetisk-knivstander'
     | '/keramik/$slug'
     | '/keramik/susan-riel'
@@ -729,6 +740,7 @@ export interface FileRouteTypes {
     | '/gaver/fars-dag'
     | '/guides/$slug'
     | '/kampagne/$slug'
+    | '/kampagne/knivsliber-grill'
     | '/kampagne/magnetisk-knivstander'
     | '/keramik/$slug'
     | '/keramik/susan-riel'
@@ -792,6 +804,7 @@ export interface RootRouteChildren {
   GaverFarsDagRoute: typeof GaverFarsDagRoute
   GuidesSlugRoute: typeof GuidesSlugRoute
   KampagneSlugRoute: typeof KampagneSlugRoute
+  KampagneKnivsliberGrillRoute: typeof KampagneKnivsliberGrillRoute
   KampagneMagnetiskKnivstanderRoute: typeof KampagneMagnetiskKnivstanderRoute
   KeramikSlugRoute: typeof KeramikSlugRoute
   KeramikSusanRielRoute: typeof KeramikSusanRielRoute
@@ -1138,6 +1151,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof KampagneMagnetiskKnivstanderRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/kampagne/knivsliber-grill': {
+      id: '/kampagne/knivsliber-grill'
+      path: '/kampagne/knivsliber-grill'
+      fullPath: '/kampagne/knivsliber-grill'
+      preLoaderRoute: typeof KampagneKnivsliberGrillRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/kampagne/$slug': {
       id: '/kampagne/$slug'
       path: '/kampagne/$slug'
@@ -1281,6 +1301,7 @@ const rootRouteChildren: RootRouteChildren = {
   GaverFarsDagRoute: GaverFarsDagRoute,
   GuidesSlugRoute: GuidesSlugRoute,
   KampagneSlugRoute: KampagneSlugRoute,
+  KampagneKnivsliberGrillRoute: KampagneKnivsliberGrillRoute,
   KampagneMagnetiskKnivstanderRoute: KampagneMagnetiskKnivstanderRoute,
   KeramikSlugRoute: KeramikSlugRoute,
   KeramikSusanRielRoute: KeramikSusanRielRoute,
