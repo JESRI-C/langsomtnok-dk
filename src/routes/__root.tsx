@@ -184,7 +184,7 @@ function AppShell() {
       <main>
         <Outlet />
       </main>
-      {!isKampagne && <Footer />}
+      <Footer />
       <CartDrawer />
       <Toaster position="top-center" toastOptions={{ className: "font-sans" }} />
     </TrackingProvider>

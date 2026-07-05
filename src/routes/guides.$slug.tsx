@@ -9,12 +9,9 @@ import { getArticleBySlug, getRelatedArticles } from "@/lib/articles";
 export const Route = createFileRoute("/guides/$slug")({
   head: ({ params }) => {
     const article = getArticleBySlug(params.slug);
-    // Canonical: /universet/$slug is the primary URL for articles.
-    // /guides/$slug stays accessible but points canonical to /universet/ when the article exists.
-    const canonical = article
-      ? `https://langsomtnok.dk/universet/${params.slug}`
-      : `https://langsomtnok.dk/guides/${params.slug}`;
-    const url = `https://langsomtnok.dk/guides/${params.slug}`;
+    // Canonical: /guides/$slug er den kanoniske adresse for artikler.
+    // /universet/$slug 301-redirecter hertil (se universet_.$slug.tsx).
+    const canonical = `https://langsomtnok.dk/guides/${params.slug}`;
     const title = article?.seoTitle || `${params.slug} — Langsomt Nok Guides`;
     const desc = article?.metaDescription || "Guide fra Langsomt Nok.";
     const breadcrumbLd = {
@@ -34,8 +31,7 @@ export const Route = createFileRoute("/guides/$slug")({
         { property: "og:description", content: desc },
         { property: "og:url", content: canonical },
         { property: "og:type", content: "article" },
-        // Avoid indexing duplicate URL — universet is the canonical home for articles.
-        ...(article ? [{ name: "robots", content: "noindex, follow" }] : []),
+        { name: "robots", content: "index, follow" },
       ],
       links: [{ rel: "canonical", href: canonical }],
       scripts: [
