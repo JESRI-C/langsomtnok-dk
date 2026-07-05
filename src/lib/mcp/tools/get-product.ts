@@ -31,7 +31,7 @@ export default defineTool({
       url: `https://langsomtnok.dk/products/${p.node.handle}`,
       description: p.node.description,
       productType: p.node.productType,
-      available: p.node.availableForSale,
+      available: variants.some((v) => v.available),
       variants,
     };
     return {

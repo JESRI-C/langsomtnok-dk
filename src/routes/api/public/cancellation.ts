@@ -23,7 +23,7 @@ const CancellationSchema = z.object({
   orderDate: z.string().trim().max(30).optional().default(''),
   receivedDate: z.string().trim().max(30).optional().default(''),
   reason: z.string().trim().max(2000).optional().default(''),
-  consent: z.literal(true, { errorMap: () => ({ message: 'Bekræft venligst fortrydelsen' }) }),
+  consent: z.literal(true, { message: 'Bekræft venligst fortrydelsen' }),
   website: z.string().max(0).optional().default(''), // honeypot
   startedAt: z.number().int().positive(),
 })

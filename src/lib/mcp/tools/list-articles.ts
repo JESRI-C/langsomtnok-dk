@@ -23,14 +23,14 @@ export default defineTool({
         (a) =>
           !q ||
           a.title.toLowerCase().includes(q) ||
-          (a.excerpt ?? "").toLowerCase().includes(q),
+          a.intro.toLowerCase().includes(q),
       )
       .slice(0, limit)
       .map((a) => ({
         slug: a.slug,
         title: a.title,
         category: a.category,
-        excerpt: a.excerpt,
+        excerpt: a.intro,
         url: `https://langsomtnok.dk/guides/${a.slug}`,
       }));
     return {

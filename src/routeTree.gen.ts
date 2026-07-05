@@ -17,6 +17,7 @@ import { Route as ReturpolitikRouteImport } from './routes/returpolitik'
 import { Route as ReklamationRouteImport } from './routes/reklamation'
 import { Route as PrivatlivspolitikRouteImport } from './routes/privatlivspolitik'
 import { Route as OmRouteImport } from './routes/om'
+import { Route as McpRouteImport } from './routes/mcp'
 import { Route as KontaktRouteImport } from './routes/kontakt'
 import { Route as HandelsbetingelserRouteImport } from './routes/handelsbetingelser'
 import { Route as FragtRouteImport } from './routes/fragt'
@@ -58,10 +59,13 @@ import { Route as GaverFarsDagRouteImport } from './routes/gaver.fars-dag'
 import { Route as EmailUnsubscribeRouteImport } from './routes/email/unsubscribe'
 import { Route as CollectionsHandlavetKeramikRouteImport } from './routes/collections.handlavet-keramik'
 import { Route as CollectionsHandleRouteImport } from './routes/collections.$handle'
+import { Route as Char91DotwellKnownChar93OauthProtectedResourceRouteImport } from './routes/[.well-known]/oauth-protected-resource'
+import { Route as Char91DotmcpChar93ListToolsRouteImport } from './routes/[.mcp]/list-tools'
 import { Route as LovableEmailSuppressionRouteImport } from './routes/lovable/email/suppression'
 import { Route as ApiPublicNewsletterRouteImport } from './routes/api/public/newsletter'
 import { Route as ApiPublicContactRouteImport } from './routes/api/public/contact'
 import { Route as ApiPublicCancellationRouteImport } from './routes/api/public/cancellation'
+import { Route as Char91DotmcpChar93InvokeToolToolRouteImport } from './routes/[.mcp]/invoke-tool/$tool'
 import { Route as LovableEmailTransactionalSendRouteImport } from './routes/lovable/email/transactional/send'
 import { Route as LovableEmailTransactionalPreviewRouteImport } from './routes/lovable/email/transactional/preview'
 import { Route as LovableEmailQueueProcessRouteImport } from './routes/lovable/email/queue/process'
@@ -104,6 +108,11 @@ const PrivatlivspolitikRoute = PrivatlivspolitikRouteImport.update({
 const OmRoute = OmRouteImport.update({
   id: '/om',
   path: '/om',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const McpRoute = McpRouteImport.update({
+  id: '/mcp',
+  path: '/mcp',
   getParentRoute: () => rootRouteImport,
 } as any)
 const KontaktRoute = KontaktRouteImport.update({
@@ -323,6 +332,18 @@ const CollectionsHandleRoute = CollectionsHandleRouteImport.update({
   path: '/collections/$handle',
   getParentRoute: () => rootRouteImport,
 } as any)
+const Char91DotwellKnownChar93OauthProtectedResourceRoute =
+  Char91DotwellKnownChar93OauthProtectedResourceRouteImport.update({
+    id: '/.well-known/oauth-protected-resource',
+    path: '/.well-known/oauth-protected-resource',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const Char91DotmcpChar93ListToolsRoute =
+  Char91DotmcpChar93ListToolsRouteImport.update({
+    id: '/.mcp/list-tools',
+    path: '/.mcp/list-tools',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const LovableEmailSuppressionRoute = LovableEmailSuppressionRouteImport.update({
   id: '/lovable/email/suppression',
   path: '/lovable/email/suppression',
@@ -343,6 +364,12 @@ const ApiPublicCancellationRoute = ApiPublicCancellationRouteImport.update({
   path: '/api/public/cancellation',
   getParentRoute: () => rootRouteImport,
 } as any)
+const Char91DotmcpChar93InvokeToolToolRoute =
+  Char91DotmcpChar93InvokeToolToolRouteImport.update({
+    id: '/.mcp/invoke-tool/$tool',
+    path: '/.mcp/invoke-tool/$tool',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const LovableEmailTransactionalSendRoute =
   LovableEmailTransactionalSendRouteImport.update({
     id: '/lovable/email/transactional/send',
@@ -372,6 +399,7 @@ export interface FileRoutesByFullPath {
   '/fragt': typeof FragtRoute
   '/handelsbetingelser': typeof HandelsbetingelserRoute
   '/kontakt': typeof KontaktRoute
+  '/mcp': typeof McpRoute
   '/om': typeof OmRoute
   '/privatlivspolitik': typeof PrivatlivspolitikRoute
   '/reklamation': typeof ReklamationRoute
@@ -380,6 +408,8 @@ export interface FileRoutesByFullPath {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/universet': typeof UniversetRoute
   '/unsubscribe': typeof UnsubscribeRoute
+  '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
+  '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/collections/$handle': typeof CollectionsHandleRoute
   '/collections/handlavet-keramik': typeof CollectionsHandlavetKeramikRoute
   '/email/unsubscribe': typeof EmailUnsubscribeRoute
@@ -412,6 +442,7 @@ export interface FileRoutesByFullPath {
   '/universet/$slug': typeof UniversetSlugRoute
   '/guides/': typeof GuidesIndexRoute
   '/keramik/': typeof KeramikIndexRoute
+  '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
   '/api/public/cancellation': typeof ApiPublicCancellationRoute
   '/api/public/contact': typeof ApiPublicContactRoute
   '/api/public/newsletter': typeof ApiPublicNewsletterRoute
@@ -430,6 +461,7 @@ export interface FileRoutesByTo {
   '/fragt': typeof FragtRoute
   '/handelsbetingelser': typeof HandelsbetingelserRoute
   '/kontakt': typeof KontaktRoute
+  '/mcp': typeof McpRoute
   '/om': typeof OmRoute
   '/privatlivspolitik': typeof PrivatlivspolitikRoute
   '/reklamation': typeof ReklamationRoute
@@ -438,6 +470,8 @@ export interface FileRoutesByTo {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/universet': typeof UniversetRoute
   '/unsubscribe': typeof UnsubscribeRoute
+  '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
+  '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/collections/$handle': typeof CollectionsHandleRoute
   '/collections/handlavet-keramik': typeof CollectionsHandlavetKeramikRoute
   '/email/unsubscribe': typeof EmailUnsubscribeRoute
@@ -470,6 +504,7 @@ export interface FileRoutesByTo {
   '/universet/$slug': typeof UniversetSlugRoute
   '/guides': typeof GuidesIndexRoute
   '/keramik': typeof KeramikIndexRoute
+  '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
   '/api/public/cancellation': typeof ApiPublicCancellationRoute
   '/api/public/contact': typeof ApiPublicContactRoute
   '/api/public/newsletter': typeof ApiPublicNewsletterRoute
@@ -489,6 +524,7 @@ export interface FileRoutesById {
   '/fragt': typeof FragtRoute
   '/handelsbetingelser': typeof HandelsbetingelserRoute
   '/kontakt': typeof KontaktRoute
+  '/mcp': typeof McpRoute
   '/om': typeof OmRoute
   '/privatlivspolitik': typeof PrivatlivspolitikRoute
   '/reklamation': typeof ReklamationRoute
@@ -497,6 +533,8 @@ export interface FileRoutesById {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/universet': typeof UniversetRoute
   '/unsubscribe': typeof UnsubscribeRoute
+  '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
+  '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/collections/$handle': typeof CollectionsHandleRoute
   '/collections/handlavet-keramik': typeof CollectionsHandlavetKeramikRoute
   '/email/unsubscribe': typeof EmailUnsubscribeRoute
@@ -529,6 +567,7 @@ export interface FileRoutesById {
   '/universet_/$slug': typeof UniversetSlugRoute
   '/guides/': typeof GuidesIndexRoute
   '/keramik/': typeof KeramikIndexRoute
+  '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
   '/api/public/cancellation': typeof ApiPublicCancellationRoute
   '/api/public/contact': typeof ApiPublicContactRoute
   '/api/public/newsletter': typeof ApiPublicNewsletterRoute
@@ -549,6 +588,7 @@ export interface FileRouteTypes {
     | '/fragt'
     | '/handelsbetingelser'
     | '/kontakt'
+    | '/mcp'
     | '/om'
     | '/privatlivspolitik'
     | '/reklamation'
@@ -557,6 +597,8 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/universet'
     | '/unsubscribe'
+    | '/.mcp/list-tools'
+    | '/.well-known/oauth-protected-resource'
     | '/collections/$handle'
     | '/collections/handlavet-keramik'
     | '/email/unsubscribe'
@@ -589,6 +631,7 @@ export interface FileRouteTypes {
     | '/universet/$slug'
     | '/guides/'
     | '/keramik/'
+    | '/.mcp/invoke-tool/$tool'
     | '/api/public/cancellation'
     | '/api/public/contact'
     | '/api/public/newsletter'
@@ -607,6 +650,7 @@ export interface FileRouteTypes {
     | '/fragt'
     | '/handelsbetingelser'
     | '/kontakt'
+    | '/mcp'
     | '/om'
     | '/privatlivspolitik'
     | '/reklamation'
@@ -615,6 +659,8 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/universet'
     | '/unsubscribe'
+    | '/.mcp/list-tools'
+    | '/.well-known/oauth-protected-resource'
     | '/collections/$handle'
     | '/collections/handlavet-keramik'
     | '/email/unsubscribe'
@@ -647,6 +693,7 @@ export interface FileRouteTypes {
     | '/universet/$slug'
     | '/guides'
     | '/keramik'
+    | '/.mcp/invoke-tool/$tool'
     | '/api/public/cancellation'
     | '/api/public/contact'
     | '/api/public/newsletter'
@@ -665,6 +712,7 @@ export interface FileRouteTypes {
     | '/fragt'
     | '/handelsbetingelser'
     | '/kontakt'
+    | '/mcp'
     | '/om'
     | '/privatlivspolitik'
     | '/reklamation'
@@ -673,6 +721,8 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/universet'
     | '/unsubscribe'
+    | '/.mcp/list-tools'
+    | '/.well-known/oauth-protected-resource'
     | '/collections/$handle'
     | '/collections/handlavet-keramik'
     | '/email/unsubscribe'
@@ -705,6 +755,7 @@ export interface FileRouteTypes {
     | '/universet_/$slug'
     | '/guides/'
     | '/keramik/'
+    | '/.mcp/invoke-tool/$tool'
     | '/api/public/cancellation'
     | '/api/public/contact'
     | '/api/public/newsletter'
@@ -724,6 +775,7 @@ export interface RootRouteChildren {
   FragtRoute: typeof FragtRoute
   HandelsbetingelserRoute: typeof HandelsbetingelserRoute
   KontaktRoute: typeof KontaktRoute
+  McpRoute: typeof McpRoute
   OmRoute: typeof OmRoute
   PrivatlivspolitikRoute: typeof PrivatlivspolitikRoute
   ReklamationRoute: typeof ReklamationRoute
@@ -732,6 +784,8 @@ export interface RootRouteChildren {
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   UniversetRoute: typeof UniversetRoute
   UnsubscribeRoute: typeof UnsubscribeRoute
+  Char91DotmcpChar93ListToolsRoute: typeof Char91DotmcpChar93ListToolsRoute
+  Char91DotwellKnownChar93OauthProtectedResourceRoute: typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   CollectionsHandleRoute: typeof CollectionsHandleRoute
   CollectionsHandlavetKeramikRoute: typeof CollectionsHandlavetKeramikRoute
   EmailUnsubscribeRoute: typeof EmailUnsubscribeRoute
@@ -764,6 +818,7 @@ export interface RootRouteChildren {
   UniversetSlugRoute: typeof UniversetSlugRoute
   GuidesIndexRoute: typeof GuidesIndexRoute
   KeramikIndexRoute: typeof KeramikIndexRoute
+  Char91DotmcpChar93InvokeToolToolRoute: typeof Char91DotmcpChar93InvokeToolToolRoute
   ApiPublicCancellationRoute: typeof ApiPublicCancellationRoute
   ApiPublicContactRoute: typeof ApiPublicContactRoute
   ApiPublicNewsletterRoute: typeof ApiPublicNewsletterRoute
@@ -829,6 +884,13 @@ declare module '@tanstack/react-router' {
       path: '/om'
       fullPath: '/om'
       preLoaderRoute: typeof OmRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/mcp': {
+      id: '/mcp'
+      path: '/mcp'
+      fullPath: '/mcp'
+      preLoaderRoute: typeof McpRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/kontakt': {
@@ -1118,6 +1180,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CollectionsHandleRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/.well-known/oauth-protected-resource': {
+      id: '/.well-known/oauth-protected-resource'
+      path: '/.well-known/oauth-protected-resource'
+      fullPath: '/.well-known/oauth-protected-resource'
+      preLoaderRoute: typeof Char91DotwellKnownChar93OauthProtectedResourceRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/.mcp/list-tools': {
+      id: '/.mcp/list-tools'
+      path: '/.mcp/list-tools'
+      fullPath: '/.mcp/list-tools'
+      preLoaderRoute: typeof Char91DotmcpChar93ListToolsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/lovable/email/suppression': {
       id: '/lovable/email/suppression'
       path: '/lovable/email/suppression'
@@ -1144,6 +1220,13 @@ declare module '@tanstack/react-router' {
       path: '/api/public/cancellation'
       fullPath: '/api/public/cancellation'
       preLoaderRoute: typeof ApiPublicCancellationRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/.mcp/invoke-tool/$tool': {
+      id: '/.mcp/invoke-tool/$tool'
+      path: '/.mcp/invoke-tool/$tool'
+      fullPath: '/.mcp/invoke-tool/$tool'
+      preLoaderRoute: typeof Char91DotmcpChar93InvokeToolToolRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/lovable/email/transactional/send': {
@@ -1180,6 +1263,7 @@ const rootRouteChildren: RootRouteChildren = {
   FragtRoute: FragtRoute,
   HandelsbetingelserRoute: HandelsbetingelserRoute,
   KontaktRoute: KontaktRoute,
+  McpRoute: McpRoute,
   OmRoute: OmRoute,
   PrivatlivspolitikRoute: PrivatlivspolitikRoute,
   ReklamationRoute: ReklamationRoute,
@@ -1188,6 +1272,9 @@ const rootRouteChildren: RootRouteChildren = {
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   UniversetRoute: UniversetRoute,
   UnsubscribeRoute: UnsubscribeRoute,
+  Char91DotmcpChar93ListToolsRoute: Char91DotmcpChar93ListToolsRoute,
+  Char91DotwellKnownChar93OauthProtectedResourceRoute:
+    Char91DotwellKnownChar93OauthProtectedResourceRoute,
   CollectionsHandleRoute: CollectionsHandleRoute,
   CollectionsHandlavetKeramikRoute: CollectionsHandlavetKeramikRoute,
   EmailUnsubscribeRoute: EmailUnsubscribeRoute,
@@ -1221,6 +1308,7 @@ const rootRouteChildren: RootRouteChildren = {
   UniversetSlugRoute: UniversetSlugRoute,
   GuidesIndexRoute: GuidesIndexRoute,
   KeramikIndexRoute: KeramikIndexRoute,
+  Char91DotmcpChar93InvokeToolToolRoute: Char91DotmcpChar93InvokeToolToolRoute,
   ApiPublicCancellationRoute: ApiPublicCancellationRoute,
   ApiPublicContactRoute: ApiPublicContactRoute,
   ApiPublicNewsletterRoute: ApiPublicNewsletterRoute,

@@ -21,7 +21,7 @@ export default defineTool({
         handle: p.node.handle,
         url: `https://langsomtnok.dk/products/${p.node.handle}`,
         price: variant ? formatPrice(variant.price.amount, variant.price.currencyCode) : null,
-        available: p.node.availableForSale,
+        available: p.node.variants.edges.some((e) => e.node.availableForSale),
         productType: p.node.productType,
       };
     });
