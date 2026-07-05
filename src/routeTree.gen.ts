@@ -33,9 +33,11 @@ import { Route as RitualerRoligOpbevaringRouteImport } from './routes/ritualer.r
 import { Route as RitualerHoldKnivenSkarpRouteImport } from './routes/ritualer.hold-kniven-skarp'
 import { Route as ProductsHandleRouteImport } from './routes/products.$handle'
 import { Route as ProductHandleRouteImport } from './routes/product.$handle'
+import { Route as PagesSommerhusKnivsliberRouteImport } from './routes/pages.sommerhus-knivsliber'
 import { Route as PagesSommerbordMedKeramikRouteImport } from './routes/pages.sommerbord-med-keramik'
 import { Route as PagesSlibestenGuideRouteImport } from './routes/pages.slibesten-guide'
 import { Route as PagesSadanHolderDuDinKnivSkarpRouteImport } from './routes/pages.sadan-holder-du-din-kniv-skarp'
+import { Route as PagesSaadanVirkerKnivsliberenRouteImport } from './routes/pages.saadan-virker-knivsliberen'
 import { Route as PagesSaadanSliberDuDinKnivRouteImport } from './routes/pages.saadan-sliber-du-din-kniv'
 import { Route as PagesKoekkenetSomFristedRouteImport } from './routes/pages.koekkenet-som-fristed'
 import { Route as PagesKnivholderTilKoekkenetRouteImport } from './routes/pages.knivholder-til-koekkenet'
@@ -46,6 +48,7 @@ import { Route as PagesGaverMedRoRouteImport } from './routes/pages.gaver-med-ro
 import { Route as PagesGaveTilMadelskerenRouteImport } from './routes/pages.gave-til-madelskeren'
 import { Route as PagesDenForsteRigtigeKokkeknivRouteImport } from './routes/pages.den-forste-rigtige-kokkekniv'
 import { Route as PagesDamaskusKnivRouteImport } from './routes/pages.damaskus-kniv'
+import { Route as PagesCampingvognKnivsliberRouteImport } from './routes/pages.campingvogn-knivsliber'
 import { Route as KeramikSusanRielRouteImport } from './routes/keramik.susan-riel'
 import { Route as KeramikSlugRouteImport } from './routes/keramik.$slug'
 import { Route as KampagneMagnetiskKnivstanderRouteImport } from './routes/kampagne.magnetisk-knivstander'
@@ -183,6 +186,12 @@ const ProductHandleRoute = ProductHandleRouteImport.update({
   path: '/product/$handle',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PagesSommerhusKnivsliberRoute =
+  PagesSommerhusKnivsliberRouteImport.update({
+    id: '/pages/sommerhus-knivsliber',
+    path: '/pages/sommerhus-knivsliber',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const PagesSommerbordMedKeramikRoute =
   PagesSommerbordMedKeramikRouteImport.update({
     id: '/pages/sommerbord-med-keramik',
@@ -198,6 +207,12 @@ const PagesSadanHolderDuDinKnivSkarpRoute =
   PagesSadanHolderDuDinKnivSkarpRouteImport.update({
     id: '/pages/sadan-holder-du-din-kniv-skarp',
     path: '/pages/sadan-holder-du-din-kniv-skarp',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const PagesSaadanVirkerKnivsliberenRoute =
+  PagesSaadanVirkerKnivsliberenRouteImport.update({
+    id: '/pages/saadan-virker-knivsliberen',
+    path: '/pages/saadan-virker-knivsliberen',
     getParentRoute: () => rootRouteImport,
   } as any)
 const PagesSaadanSliberDuDinKnivRoute =
@@ -255,6 +270,12 @@ const PagesDamaskusKnivRoute = PagesDamaskusKnivRouteImport.update({
   path: '/pages/damaskus-kniv',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PagesCampingvognKnivsliberRoute =
+  PagesCampingvognKnivsliberRouteImport.update({
+    id: '/pages/campingvogn-knivsliber',
+    path: '/pages/campingvogn-knivsliber',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const KeramikSusanRielRoute = KeramikSusanRielRouteImport.update({
   id: '/keramik/susan-riel',
   path: '/keramik/susan-riel',
@@ -368,6 +389,7 @@ export interface FileRoutesByFullPath {
   '/kampagne/magnetisk-knivstander': typeof KampagneMagnetiskKnivstanderRoute
   '/keramik/$slug': typeof KeramikSlugRoute
   '/keramik/susan-riel': typeof KeramikSusanRielRoute
+  '/pages/campingvogn-knivsliber': typeof PagesCampingvognKnivsliberRoute
   '/pages/damaskus-kniv': typeof PagesDamaskusKnivRoute
   '/pages/den-forste-rigtige-kokkekniv': typeof PagesDenForsteRigtigeKokkeknivRoute
   '/pages/gave-til-madelskeren': typeof PagesGaveTilMadelskerenRoute
@@ -378,9 +400,11 @@ export interface FileRoutesByFullPath {
   '/pages/knivholder-til-koekkenet': typeof PagesKnivholderTilKoekkenetRoute
   '/pages/koekkenet-som-fristed': typeof PagesKoekkenetSomFristedRoute
   '/pages/saadan-sliber-du-din-kniv': typeof PagesSaadanSliberDuDinKnivRoute
+  '/pages/saadan-virker-knivsliberen': typeof PagesSaadanVirkerKnivsliberenRoute
   '/pages/sadan-holder-du-din-kniv-skarp': typeof PagesSadanHolderDuDinKnivSkarpRoute
   '/pages/slibesten-guide': typeof PagesSlibestenGuideRoute
   '/pages/sommerbord-med-keramik': typeof PagesSommerbordMedKeramikRoute
+  '/pages/sommerhus-knivsliber': typeof PagesSommerhusKnivsliberRoute
   '/product/$handle': typeof ProductHandleRoute
   '/products/$handle': typeof ProductsHandleRoute
   '/ritualer/hold-kniven-skarp': typeof RitualerHoldKnivenSkarpRoute
@@ -423,6 +447,7 @@ export interface FileRoutesByTo {
   '/kampagne/magnetisk-knivstander': typeof KampagneMagnetiskKnivstanderRoute
   '/keramik/$slug': typeof KeramikSlugRoute
   '/keramik/susan-riel': typeof KeramikSusanRielRoute
+  '/pages/campingvogn-knivsliber': typeof PagesCampingvognKnivsliberRoute
   '/pages/damaskus-kniv': typeof PagesDamaskusKnivRoute
   '/pages/den-forste-rigtige-kokkekniv': typeof PagesDenForsteRigtigeKokkeknivRoute
   '/pages/gave-til-madelskeren': typeof PagesGaveTilMadelskerenRoute
@@ -433,9 +458,11 @@ export interface FileRoutesByTo {
   '/pages/knivholder-til-koekkenet': typeof PagesKnivholderTilKoekkenetRoute
   '/pages/koekkenet-som-fristed': typeof PagesKoekkenetSomFristedRoute
   '/pages/saadan-sliber-du-din-kniv': typeof PagesSaadanSliberDuDinKnivRoute
+  '/pages/saadan-virker-knivsliberen': typeof PagesSaadanVirkerKnivsliberenRoute
   '/pages/sadan-holder-du-din-kniv-skarp': typeof PagesSadanHolderDuDinKnivSkarpRoute
   '/pages/slibesten-guide': typeof PagesSlibestenGuideRoute
   '/pages/sommerbord-med-keramik': typeof PagesSommerbordMedKeramikRoute
+  '/pages/sommerhus-knivsliber': typeof PagesSommerhusKnivsliberRoute
   '/product/$handle': typeof ProductHandleRoute
   '/products/$handle': typeof ProductsHandleRoute
   '/ritualer/hold-kniven-skarp': typeof RitualerHoldKnivenSkarpRoute
@@ -479,6 +506,7 @@ export interface FileRoutesById {
   '/kampagne/magnetisk-knivstander': typeof KampagneMagnetiskKnivstanderRoute
   '/keramik/$slug': typeof KeramikSlugRoute
   '/keramik/susan-riel': typeof KeramikSusanRielRoute
+  '/pages/campingvogn-knivsliber': typeof PagesCampingvognKnivsliberRoute
   '/pages/damaskus-kniv': typeof PagesDamaskusKnivRoute
   '/pages/den-forste-rigtige-kokkekniv': typeof PagesDenForsteRigtigeKokkeknivRoute
   '/pages/gave-til-madelskeren': typeof PagesGaveTilMadelskerenRoute
@@ -489,9 +517,11 @@ export interface FileRoutesById {
   '/pages/knivholder-til-koekkenet': typeof PagesKnivholderTilKoekkenetRoute
   '/pages/koekkenet-som-fristed': typeof PagesKoekkenetSomFristedRoute
   '/pages/saadan-sliber-du-din-kniv': typeof PagesSaadanSliberDuDinKnivRoute
+  '/pages/saadan-virker-knivsliberen': typeof PagesSaadanVirkerKnivsliberenRoute
   '/pages/sadan-holder-du-din-kniv-skarp': typeof PagesSadanHolderDuDinKnivSkarpRoute
   '/pages/slibesten-guide': typeof PagesSlibestenGuideRoute
   '/pages/sommerbord-med-keramik': typeof PagesSommerbordMedKeramikRoute
+  '/pages/sommerhus-knivsliber': typeof PagesSommerhusKnivsliberRoute
   '/product/$handle': typeof ProductHandleRoute
   '/products/$handle': typeof ProductsHandleRoute
   '/ritualer/hold-kniven-skarp': typeof RitualerHoldKnivenSkarpRoute
@@ -536,6 +566,7 @@ export interface FileRouteTypes {
     | '/kampagne/magnetisk-knivstander'
     | '/keramik/$slug'
     | '/keramik/susan-riel'
+    | '/pages/campingvogn-knivsliber'
     | '/pages/damaskus-kniv'
     | '/pages/den-forste-rigtige-kokkekniv'
     | '/pages/gave-til-madelskeren'
@@ -546,9 +577,11 @@ export interface FileRouteTypes {
     | '/pages/knivholder-til-koekkenet'
     | '/pages/koekkenet-som-fristed'
     | '/pages/saadan-sliber-du-din-kniv'
+    | '/pages/saadan-virker-knivsliberen'
     | '/pages/sadan-holder-du-din-kniv-skarp'
     | '/pages/slibesten-guide'
     | '/pages/sommerbord-med-keramik'
+    | '/pages/sommerhus-knivsliber'
     | '/product/$handle'
     | '/products/$handle'
     | '/ritualer/hold-kniven-skarp'
@@ -591,6 +624,7 @@ export interface FileRouteTypes {
     | '/kampagne/magnetisk-knivstander'
     | '/keramik/$slug'
     | '/keramik/susan-riel'
+    | '/pages/campingvogn-knivsliber'
     | '/pages/damaskus-kniv'
     | '/pages/den-forste-rigtige-kokkekniv'
     | '/pages/gave-til-madelskeren'
@@ -601,9 +635,11 @@ export interface FileRouteTypes {
     | '/pages/knivholder-til-koekkenet'
     | '/pages/koekkenet-som-fristed'
     | '/pages/saadan-sliber-du-din-kniv'
+    | '/pages/saadan-virker-knivsliberen'
     | '/pages/sadan-holder-du-din-kniv-skarp'
     | '/pages/slibesten-guide'
     | '/pages/sommerbord-med-keramik'
+    | '/pages/sommerhus-knivsliber'
     | '/product/$handle'
     | '/products/$handle'
     | '/ritualer/hold-kniven-skarp'
@@ -646,6 +682,7 @@ export interface FileRouteTypes {
     | '/kampagne/magnetisk-knivstander'
     | '/keramik/$slug'
     | '/keramik/susan-riel'
+    | '/pages/campingvogn-knivsliber'
     | '/pages/damaskus-kniv'
     | '/pages/den-forste-rigtige-kokkekniv'
     | '/pages/gave-til-madelskeren'
@@ -656,9 +693,11 @@ export interface FileRouteTypes {
     | '/pages/knivholder-til-koekkenet'
     | '/pages/koekkenet-som-fristed'
     | '/pages/saadan-sliber-du-din-kniv'
+    | '/pages/saadan-virker-knivsliberen'
     | '/pages/sadan-holder-du-din-kniv-skarp'
     | '/pages/slibesten-guide'
     | '/pages/sommerbord-med-keramik'
+    | '/pages/sommerhus-knivsliber'
     | '/product/$handle'
     | '/products/$handle'
     | '/ritualer/hold-kniven-skarp'
@@ -702,6 +741,7 @@ export interface RootRouteChildren {
   KampagneMagnetiskKnivstanderRoute: typeof KampagneMagnetiskKnivstanderRoute
   KeramikSlugRoute: typeof KeramikSlugRoute
   KeramikSusanRielRoute: typeof KeramikSusanRielRoute
+  PagesCampingvognKnivsliberRoute: typeof PagesCampingvognKnivsliberRoute
   PagesDamaskusKnivRoute: typeof PagesDamaskusKnivRoute
   PagesDenForsteRigtigeKokkeknivRoute: typeof PagesDenForsteRigtigeKokkeknivRoute
   PagesGaveTilMadelskerenRoute: typeof PagesGaveTilMadelskerenRoute
@@ -712,9 +752,11 @@ export interface RootRouteChildren {
   PagesKnivholderTilKoekkenetRoute: typeof PagesKnivholderTilKoekkenetRoute
   PagesKoekkenetSomFristedRoute: typeof PagesKoekkenetSomFristedRoute
   PagesSaadanSliberDuDinKnivRoute: typeof PagesSaadanSliberDuDinKnivRoute
+  PagesSaadanVirkerKnivsliberenRoute: typeof PagesSaadanVirkerKnivsliberenRoute
   PagesSadanHolderDuDinKnivSkarpRoute: typeof PagesSadanHolderDuDinKnivSkarpRoute
   PagesSlibestenGuideRoute: typeof PagesSlibestenGuideRoute
   PagesSommerbordMedKeramikRoute: typeof PagesSommerbordMedKeramikRoute
+  PagesSommerhusKnivsliberRoute: typeof PagesSommerhusKnivsliberRoute
   ProductHandleRoute: typeof ProductHandleRoute
   ProductsHandleRoute: typeof ProductsHandleRoute
   RitualerHoldKnivenSkarpRoute: typeof RitualerHoldKnivenSkarpRoute
@@ -901,6 +943,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProductHandleRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/pages/sommerhus-knivsliber': {
+      id: '/pages/sommerhus-knivsliber'
+      path: '/pages/sommerhus-knivsliber'
+      fullPath: '/pages/sommerhus-knivsliber'
+      preLoaderRoute: typeof PagesSommerhusKnivsliberRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/pages/sommerbord-med-keramik': {
       id: '/pages/sommerbord-med-keramik'
       path: '/pages/sommerbord-med-keramik'
@@ -920,6 +969,13 @@ declare module '@tanstack/react-router' {
       path: '/pages/sadan-holder-du-din-kniv-skarp'
       fullPath: '/pages/sadan-holder-du-din-kniv-skarp'
       preLoaderRoute: typeof PagesSadanHolderDuDinKnivSkarpRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/pages/saadan-virker-knivsliberen': {
+      id: '/pages/saadan-virker-knivsliberen'
+      path: '/pages/saadan-virker-knivsliberen'
+      fullPath: '/pages/saadan-virker-knivsliberen'
+      preLoaderRoute: typeof PagesSaadanVirkerKnivsliberenRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/pages/saadan-sliber-du-din-kniv': {
@@ -990,6 +1046,13 @@ declare module '@tanstack/react-router' {
       path: '/pages/damaskus-kniv'
       fullPath: '/pages/damaskus-kniv'
       preLoaderRoute: typeof PagesDamaskusKnivRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/pages/campingvogn-knivsliber': {
+      id: '/pages/campingvogn-knivsliber'
+      path: '/pages/campingvogn-knivsliber'
+      fullPath: '/pages/campingvogn-knivsliber'
+      preLoaderRoute: typeof PagesCampingvognKnivsliberRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/keramik/susan-riel': {
@@ -1134,6 +1197,7 @@ const rootRouteChildren: RootRouteChildren = {
   KampagneMagnetiskKnivstanderRoute: KampagneMagnetiskKnivstanderRoute,
   KeramikSlugRoute: KeramikSlugRoute,
   KeramikSusanRielRoute: KeramikSusanRielRoute,
+  PagesCampingvognKnivsliberRoute: PagesCampingvognKnivsliberRoute,
   PagesDamaskusKnivRoute: PagesDamaskusKnivRoute,
   PagesDenForsteRigtigeKokkeknivRoute: PagesDenForsteRigtigeKokkeknivRoute,
   PagesGaveTilMadelskerenRoute: PagesGaveTilMadelskerenRoute,
@@ -1145,9 +1209,11 @@ const rootRouteChildren: RootRouteChildren = {
   PagesKnivholderTilKoekkenetRoute: PagesKnivholderTilKoekkenetRoute,
   PagesKoekkenetSomFristedRoute: PagesKoekkenetSomFristedRoute,
   PagesSaadanSliberDuDinKnivRoute: PagesSaadanSliberDuDinKnivRoute,
+  PagesSaadanVirkerKnivsliberenRoute: PagesSaadanVirkerKnivsliberenRoute,
   PagesSadanHolderDuDinKnivSkarpRoute: PagesSadanHolderDuDinKnivSkarpRoute,
   PagesSlibestenGuideRoute: PagesSlibestenGuideRoute,
   PagesSommerbordMedKeramikRoute: PagesSommerbordMedKeramikRoute,
+  PagesSommerhusKnivsliberRoute: PagesSommerhusKnivsliberRoute,
   ProductHandleRoute: ProductHandleRoute,
   ProductsHandleRoute: ProductsHandleRoute,
   RitualerHoldKnivenSkarpRoute: RitualerHoldKnivenSkarpRoute,
