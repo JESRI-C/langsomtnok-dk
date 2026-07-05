@@ -40,6 +40,7 @@ const sanitizeHtml = (html: string) => DOMPurify.sanitize(html, {
 import { Loader2, Minus, Plus, Star } from "lucide-react";
 import { toast } from "sonner";
 import { CTATrust } from "@/components/landing/CTATrust";
+import { TrustBlok } from "@/components/TrustBlok";
 import { MicroTrustBar } from "@/components/product/MicroTrustBar";
 import { FounderNote } from "@/components/product/FounderNote";
 import { SocialProofPlaceholder } from "@/components/product/SocialProofPlaceholder";
@@ -680,6 +681,8 @@ function ProductPage() {
                 hej@langsomtnok.dk
               </a>
             </p>
+            {/* Rolig trust-blok direkte under købssektionen */}
+            <TrustBlok />
             {/* Stort trust-modul flyttet længere ned (RitualScoreAccordion) for at undgå dobbeltarbejde med RitualScoreBadge over Add to Cart. */}
 
 
