@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { CreditCard, ShieldCheck, Package, RotateCcw } from "lucide-react";
+import { ShieldCheck, Package, RotateCcw } from "lucide-react";
 import { trackEvent } from "@/lib/analytics";
 import { COMPANY } from "@/components/legal/LegalPageLayout";
 import { PaymentIcons } from "@/components/PaymentIcons";
@@ -22,7 +22,7 @@ const footerLinks = {
   ],
   rituals: [
     { label: "Universet", href: "/universet" },
-    { label: "Farsdagsgaver", href: "/gaver/fars-dag" },
+    { label: "Gaveguide", href: "/gaver/anledning" },
     { label: "Hold din kniv skarp", href: "/ritualer/hold-kniven-skarp" },
     { label: "Rolig opbevaring", href: "/ritualer/rolig-opbevaring" },
     { label: "Find dit køkkenritual", href: "/find-dit-ritual" },
@@ -61,24 +61,32 @@ export function Footer() {
               </a>
               {" "}— vi svarer roligt og hurtigt.
             </p>
-            <div className="flex gap-4 mt-6">
-              <a
-                href={SITE_CONFIG.social.instagram}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-deep-foreground/50 hover:text-deep-foreground transition-colors text-sm"
-              >
-                Instagram
-              </a>
-              <a
-                href={SITE_CONFIG.social.pinterest}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-deep-foreground/50 hover:text-deep-foreground transition-colors text-sm"
-              >
-                Pinterest
-              </a>
-            </div>
+            {/* Sociale profiler skjules indtil rigtige URLs er sat i src/lib/site-config.ts */}
+            {SITE_CONFIG.social.instagram !== "https://www.instagram.com/" ||
+            SITE_CONFIG.social.pinterest !== "https://www.pinterest.com/" ? (
+              <div className="flex gap-4 mt-6">
+                {SITE_CONFIG.social.instagram !== "https://www.instagram.com/" && (
+                  <a
+                    href={SITE_CONFIG.social.instagram}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-deep-foreground/50 hover:text-deep-foreground transition-colors text-sm"
+                  >
+                    Instagram
+                  </a>
+                )}
+                {SITE_CONFIG.social.pinterest !== "https://www.pinterest.com/" && (
+                  <a
+                    href={SITE_CONFIG.social.pinterest}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-deep-foreground/50 hover:text-deep-foreground transition-colors text-sm"
+                  >
+                    Pinterest
+                  </a>
+                )}
+              </div>
+            ) : null}
 
             <div className="mt-8 pt-6 border-t border-deep-foreground/10 max-w-sm">
               <h3 className="text-sm font-medium tracking-wider uppercase mb-3 text-deep-foreground/40">
@@ -204,10 +212,6 @@ export function Footer() {
             <PaymentIcons variant="dark" className="justify-center mb-5" />
             <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-3 text-deep-foreground/50">
               <span className="inline-flex items-center gap-2 text-xs">
-                <CreditCard className="w-4 h-4 text-cta" strokeWidth={1.5} />
-                Kort
-              </span>
-              <span className="inline-flex items-center gap-2 text-xs">
                 <ShieldCheck className="w-4 h-4 text-cta" strokeWidth={1.5} />
                 Sikker betaling
               </span>
@@ -218,6 +222,7 @@ export function Footer() {
               <span className="inline-flex items-center gap-2 text-xs">
                 <RotateCcw className="w-4 h-4 text-cta" strokeWidth={1.5} />
                 30 dages returret
+                <span className="text-deep-foreground/35">· Lovpligtig 14 dages fortrydelsesret</span>
               </span>
             </div>
           </div>

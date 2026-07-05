@@ -451,7 +451,10 @@ export type AnalyticsEvent =
   | 'cart_upsell_add'
   | 'most_chosen_click'
   | 'shop_filter_click'
-  | 'keramik_gift_click';
+  | 'keramik_gift_click'
+  | 'gaver_anledning_view'
+  | 'cancellation_confirm_view'
+  | 'cancellation_submitted';
 
 interface AnalyticsParams {
   label?: string;
