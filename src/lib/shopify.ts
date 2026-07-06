@@ -503,17 +503,21 @@ export const PRODUCTS_BY_HANDLES_QUERY = `
   }
 `;
 
-/** Fetch products by an array of handles */
+/** Fetch products by an array of handles (uses productByHandle per handle — reliable with hyphenated handles) */
 export async function fetchProductsByHandles(handles: string[]): Promise<ShopifyProduct[]> {
   if (handles.length === 0) return [];
-  // Quote handle to prevent hyphens from being tokenized as OR/NOT operators
-  const query = handles.map(h => `handle:"${h}"`).join(" OR ");
-  try {
-    const data = await storefrontApiRequest(PRODUCTS_BY_HANDLES_QUERY, { first: handles.length, query });
-    return data?.data?.products?.edges || [];
-  } catch {
-    return [];
-  }
+  const results = await Promise.all(
+    handles.map(async (handle) => {
+      try {
+        const data = await storefrontApiRequest(PRODUCT_BY_HANDLE_QUERY, { handle });
+        const node = data?.data?.productByHandle;
+        return node ? { node } as ShopifyProduct : null;
+      } catch {
+        return null;
+      }
+    }),
+  );
+  return results.filter((p): p is ShopifyProduct => p !== null);
 }
 
 /** Fetch products by a Shopify search query (e.g. "product_type:'The Ritual Set'"). */
