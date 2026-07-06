@@ -506,7 +506,8 @@ export const PRODUCTS_BY_HANDLES_QUERY = `
 /** Fetch products by an array of handles */
 export async function fetchProductsByHandles(handles: string[]): Promise<ShopifyProduct[]> {
   if (handles.length === 0) return [];
-  const query = handles.map(h => `handle:${h}`).join(" OR ");
+  // Quote handle to prevent hyphens from being tokenized as OR/NOT operators
+  const query = handles.map(h => `handle:"${h}"`).join(" OR ");
   try {
     const data = await storefrontApiRequest(PRODUCTS_BY_HANDLES_QUERY, { first: handles.length, query });
     return data?.data?.products?.edges || [];
