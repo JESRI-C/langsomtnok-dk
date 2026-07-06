@@ -378,10 +378,10 @@ export function CartDrawer() {
               </div>
 
 
-              {/* Checkout footer */}
-              <div className="flex-shrink-0 pt-4 border-t border-border space-y-4">
-                {/* Secure payment info box */}
-                <div className="rounded-lg p-4 bg-soft/40 border border-foreground/10">
+              {/* Checkout footer — slank på mobil, fuld på desktop */}
+              <div className="flex-shrink-0 pt-4 border-t border-border space-y-3 sm:space-y-4">
+                {/* Sikker betaling-boks kun på desktop */}
+                <div className="hidden sm:block rounded-lg p-4 bg-soft/40 border border-foreground/10">
                   <div className="flex items-start gap-2.5">
                     <ShieldCheck className="w-4 h-4 text-cta mt-0.5 flex-shrink-0" strokeWidth={1.5} />
                     <div className="flex-1">
@@ -394,7 +394,7 @@ export function CartDrawer() {
                   </div>
                 </div>
 
-                <p className="text-xs text-muted-foreground text-center italic">
+                <p className="hidden sm:block text-xs text-muted-foreground text-center italic">
                   Din ordre pakkes med ro og omhu.
                 </p>
                 <div className="flex justify-between items-baseline">
@@ -403,8 +403,7 @@ export function CartDrawer() {
                     {formatPrice(totalPrice.toString(), currency)}
                   </span>
                 </div>
-                {/* SHOPIFY CONNECTION: Checkout redirect via Storefront Cart API.
-                    Handelsfarve (commerce) + pris i selve knapteksten. */}
+                {/* SHOPIFY CONNECTION: Checkout redirect via Storefront Cart API. */}
                 <Button
                   variant="commerce"
                   size="lg"
@@ -421,10 +420,18 @@ export function CartDrawer() {
                     </>
                   )}
                 </Button>
-                <p className="text-xs text-muted-foreground text-center">
+                {/* Kompakt trust-strip på mobil, betalings-ikoner inkluderet */}
+                <div className="sm:hidden flex items-center justify-between gap-2 text-[11px] text-muted-foreground">
+                  <span className="flex items-center gap-1">
+                    <ShieldCheck className="w-3 h-3 text-cta" strokeWidth={1.5} />
+                    Sikker betaling
+                  </span>
+                  <PaymentIcons size="sm" />
+                </div>
+                <p className="hidden sm:block text-xs text-muted-foreground text-center">
                   Betaling håndteres sikkert i checkout.
                 </p>
-                <div className="flex justify-center gap-6 text-xs text-muted-foreground">
+                <div className="hidden sm:flex justify-center gap-6 text-xs text-muted-foreground">
                   <span>Pakket med omhu</span>
                   <span>·</span>
                   <span>Sikker betaling</span>
@@ -433,11 +440,12 @@ export function CartDrawer() {
                 </div>
                 <button
                   onClick={() => setOpen(false)}
-                  className="w-full text-center text-sm text-muted-foreground hover:text-foreground transition-colors pt-2"
+                  className="hidden sm:block w-full text-center text-sm text-muted-foreground hover:text-foreground transition-colors pt-2"
                 >
                   Fortsæt med at udforske
                 </button>
               </div>
+
             </>
           )}
         </div>
