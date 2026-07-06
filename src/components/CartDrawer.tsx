@@ -267,113 +267,116 @@ export function CartDrawer() {
                 </div>
               )}
 
-              {/* Cart items */}
-              <div className="flex-1 overflow-y-auto space-y-4 pr-1">
-                {items.map((item) => (
-                  <div key={item.variantId} className="flex gap-4 p-3 rounded-lg bg-soft/50">
-                    {/* SHOPIFY CONNECTION: Product image from Shopify CDN */}
-                    <div className="w-20 h-20 rounded-md overflow-hidden flex-shrink-0 bg-linen">
-                      {item.product.node.images?.edges?.[0]?.node && (
-                        <img
-                          src={item.product.node.images.edges[0].node.url}
-                          alt={item.product.node.title}
-                          className="w-full h-full object-cover"
-                        />
-                      )}
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <h4 className="font-medium text-sm leading-tight">{item.product.node.title}</h4>
-                      {item.variantTitle !== "Default Title" && (
-                        <p className="text-xs text-muted-foreground mt-0.5">{item.variantTitle}</p>
-                      )}
-                      <p className="text-sm font-medium mt-1">
-                        {formatPrice(item.price.amount, item.price.currencyCode)}
-                      </p>
-                      {/* SHOPIFY CONNECTION: Quantity updates via cartLinesUpdate mutation */}
-                      <div className="flex items-center gap-2 mt-2">
-                        <button
-                          onClick={() => updateQuantity(item.variantId, item.quantity - 1)}
-                          className="w-7 h-7 rounded-md border border-border flex items-center justify-center hover:bg-accent transition-colors"
-                        >
-                          <Minus className="w-3 h-3" />
-                        </button>
-                        <span className="text-sm w-6 text-center">{item.quantity}</span>
-                        <button
-                          onClick={() => updateQuantity(item.variantId, item.quantity + 1)}
-                          className="w-7 h-7 rounded-md border border-border flex items-center justify-center hover:bg-accent transition-colors"
-                        >
-                          <Plus className="w-3 h-3" />
-                        </button>
-                        {/* SHOPIFY CONNECTION: Remove via cartLinesRemove mutation */}
-                        <button
-                          onClick={() => removeItem(item.variantId)}
-                          className="ml-auto text-muted-foreground hover:text-foreground transition-colors"
-                        >
-                          <Trash2 className="w-4 h-4" />
-                        </button>
+              {/* Cart items + upsell — scrollable together so kurv-varen altid vises først */}
+              <div className="flex-1 overflow-y-auto pr-1 min-h-0">
+                <div className="space-y-4">
+                  {items.map((item) => (
+                    <div key={item.variantId} className="flex gap-4 p-3 rounded-lg bg-soft/50">
+                      {/* SHOPIFY CONNECTION: Product image from Shopify CDN */}
+                      <div className="w-20 h-20 rounded-md overflow-hidden flex-shrink-0 bg-linen">
+                        {item.product.node.images?.edges?.[0]?.node && (
+                          <img
+                            src={item.product.node.images.edges[0].node.url}
+                            alt={item.product.node.title}
+                            className="w-full h-full object-cover"
+                          />
+                        )}
                       </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-
-              {/* ── Upsell Block — rule-based cross-sell ──────────────── */}
-              {upsellProducts.length > 0 && (
-                <div className="flex-shrink-0 py-3 border-t border-border" data-block="cart-upsell">
-                  <p className="text-xs text-muted-foreground font-medium mb-2 px-1">
-                    Det hører til ritualet…
-                  </p>
-                  <div className="space-y-2">
-                    {upsellProducts.map((rec) => {
-                      const variant = rec.node.variants.edges[0]?.node;
-                      const img = rec.node.images.edges[0]?.node;
-                      return (
-                        <div
-                          key={rec.node.id}
-                          className="flex items-center gap-3 p-2 rounded-md border border-border/60 bg-soft/30"
-                        >
-                          <Link
-                            to="/products/$handle"
-                            params={{ handle: rec.node.handle }}
-                            onClick={() => {
-                              setOpen(false);
-                              trackEvent("cart_upsell_click", {
-                                product_id: rec.node.id,
-                                product_title: rec.node.title,
-                              });
-                            }}
-                            className="flex items-center gap-3 flex-1 min-w-0"
-                          >
-                            {img && (
-                              <img
-                                src={img.url}
-                                alt={img.altText ?? rec.node.title}
-                                className="w-10 h-10 rounded object-cover flex-shrink-0"
-                              />
-                            )}
-                            <div className="min-w-0 flex-1">
-                              <p className="text-xs font-medium truncate">{rec.node.title}</p>
-                              {variant && (
-                                <p className="text-xs text-muted-foreground">
-                                  {formatPrice(variant.price.amount, variant.price.currencyCode)}
-                                </p>
-                              )}
-                            </div>
-                          </Link>
+                      <div className="flex-1 min-w-0">
+                        <h4 className="font-medium text-sm leading-tight">{item.product.node.title}</h4>
+                        {item.variantTitle !== "Default Title" && (
+                          <p className="text-xs text-muted-foreground mt-0.5">{item.variantTitle}</p>
+                        )}
+                        <p className="text-sm font-medium mt-1">
+                          {formatPrice(item.price.amount, item.price.currencyCode)}
+                        </p>
+                        {/* SHOPIFY CONNECTION: Quantity updates via cartLinesUpdate mutation */}
+                        <div className="flex items-center gap-2 mt-2">
                           <button
-                            onClick={(e) => handleUpsellAdd(rec, e)}
-                            disabled={isLoading || !variant?.availableForSale}
-                            className="text-xs font-medium text-cta px-2 py-1 rounded hover:bg-cta/10 transition-colors flex-shrink-0 disabled:opacity-50"
-                            aria-label={`Tilføj ${rec.node.title}`}
+                            onClick={() => updateQuantity(item.variantId, item.quantity - 1)}
+                            className="w-7 h-7 rounded-md border border-border flex items-center justify-center hover:bg-accent transition-colors"
                           >
-                            + Tilføj
+                            <Minus className="w-3 h-3" />
+                          </button>
+                          <span className="text-sm w-6 text-center">{item.quantity}</span>
+                          <button
+                            onClick={() => updateQuantity(item.variantId, item.quantity + 1)}
+                            className="w-7 h-7 rounded-md border border-border flex items-center justify-center hover:bg-accent transition-colors"
+                          >
+                            <Plus className="w-3 h-3" />
+                          </button>
+                          {/* SHOPIFY CONNECTION: Remove via cartLinesRemove mutation */}
+                          <button
+                            onClick={() => removeItem(item.variantId)}
+                            className="ml-auto text-muted-foreground hover:text-foreground transition-colors"
+                          >
+                            <Trash2 className="w-4 h-4" />
                           </button>
                         </div>
-                      );
-                    })}
-                  </div>
+                      </div>
+                    </div>
+                  ))}
                 </div>
-              )}
+
+                {/* ── Upsell Block — nu inde i scrollområdet, under kurv-varerne ── */}
+                {upsellProducts.length > 0 && (
+                  <div className="mt-6 pt-4 border-t border-border" data-block="cart-upsell">
+                    <p className="text-xs text-muted-foreground font-medium mb-2 px-1">
+                      Det hører til ritualet…
+                    </p>
+                    <div className="space-y-2">
+                      {upsellProducts.slice(0, 2).map((rec) => {
+                        const variant = rec.node.variants.edges[0]?.node;
+                        const img = rec.node.images.edges[0]?.node;
+                        return (
+                          <div
+                            key={rec.node.id}
+                            className="flex items-center gap-3 p-2 rounded-md border border-border/60 bg-soft/30"
+                          >
+                            <Link
+                              to="/products/$handle"
+                              params={{ handle: rec.node.handle }}
+                              onClick={() => {
+                                setOpen(false);
+                                trackEvent("cart_upsell_click", {
+                                  product_id: rec.node.id,
+                                  product_title: rec.node.title,
+                                });
+                              }}
+                              className="flex items-center gap-3 flex-1 min-w-0"
+                            >
+                              {img && (
+                                <img
+                                  src={img.url}
+                                  alt={img.altText ?? rec.node.title}
+                                  className="w-10 h-10 rounded object-cover flex-shrink-0"
+                                />
+                              )}
+                              <div className="min-w-0 flex-1">
+                                <p className="text-xs font-medium truncate">{rec.node.title}</p>
+                                {variant && (
+                                  <p className="text-xs text-muted-foreground">
+                                    {formatPrice(variant.price.amount, variant.price.currencyCode)}
+                                  </p>
+                                )}
+                              </div>
+                            </Link>
+                            <button
+                              onClick={(e) => handleUpsellAdd(rec, e)}
+                              disabled={isLoading || !variant?.availableForSale}
+                              className="text-xs font-medium text-cta px-2 py-1 rounded hover:bg-cta/10 transition-colors flex-shrink-0 disabled:opacity-50"
+                              aria-label={`Tilføj ${rec.node.title}`}
+                            >
+                              + Tilføj
+                            </button>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                )}
+              </div>
+
 
               {/* Checkout footer */}
               <div className="flex-shrink-0 pt-4 border-t border-border space-y-4">
