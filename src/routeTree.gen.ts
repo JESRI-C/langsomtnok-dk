@@ -41,6 +41,9 @@ import { Route as PagesSadanHolderDuDinKnivSkarpRouteImport } from './routes/pag
 import { Route as PagesSaadanVirkerKnivsliberenRouteImport } from './routes/pages.saadan-virker-knivsliberen'
 import { Route as PagesSaadanSliberDuDinKnivRouteImport } from './routes/pages.saadan-sliber-du-din-kniv'
 import { Route as PagesKoekkenetSomFristedRouteImport } from './routes/pages.koekkenet-som-fristed'
+import { Route as PagesKnivsliberVarmeDageRouteImport } from './routes/pages.knivsliber-varme-dage'
+import { Route as PagesKnivsliberSommerhusRouteImport } from './routes/pages.knivsliber-sommerhus'
+import { Route as PagesKnivsliber3TrinRouteImport } from './routes/pages.knivsliber-3-trin'
 import { Route as PagesKnivholderTilKoekkenetRouteImport } from './routes/pages.knivholder-til-koekkenet'
 import { Route as PagesKnivholderITraeRouteImport } from './routes/pages.knivholder-i-trae'
 import { Route as PagesHvilkenKnivholderSkalJegVaelgeRouteImport } from './routes/pages.hvilken-knivholder-skal-jeg-vaelge'
@@ -238,6 +241,23 @@ const PagesKoekkenetSomFristedRoute =
     path: '/pages/koekkenet-som-fristed',
     getParentRoute: () => rootRouteImport,
   } as any)
+const PagesKnivsliberVarmeDageRoute =
+  PagesKnivsliberVarmeDageRouteImport.update({
+    id: '/pages/knivsliber-varme-dage',
+    path: '/pages/knivsliber-varme-dage',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const PagesKnivsliberSommerhusRoute =
+  PagesKnivsliberSommerhusRouteImport.update({
+    id: '/pages/knivsliber-sommerhus',
+    path: '/pages/knivsliber-sommerhus',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const PagesKnivsliber3TrinRoute = PagesKnivsliber3TrinRouteImport.update({
+  id: '/pages/knivsliber-3-trin',
+  path: '/pages/knivsliber-3-trin',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PagesKnivholderTilKoekkenetRoute =
   PagesKnivholderTilKoekkenetRouteImport.update({
     id: '/pages/knivholder-til-koekkenet',
@@ -442,6 +462,9 @@ export interface FileRoutesByFullPath {
   '/pages/hvilken-knivholder-skal-jeg-vaelge': typeof PagesHvilkenKnivholderSkalJegVaelgeRoute
   '/pages/knivholder-i-trae': typeof PagesKnivholderITraeRoute
   '/pages/knivholder-til-koekkenet': typeof PagesKnivholderTilKoekkenetRoute
+  '/pages/knivsliber-3-trin': typeof PagesKnivsliber3TrinRoute
+  '/pages/knivsliber-sommerhus': typeof PagesKnivsliberSommerhusRoute
+  '/pages/knivsliber-varme-dage': typeof PagesKnivsliberVarmeDageRoute
   '/pages/koekkenet-som-fristed': typeof PagesKoekkenetSomFristedRoute
   '/pages/saadan-sliber-du-din-kniv': typeof PagesSaadanSliberDuDinKnivRoute
   '/pages/saadan-virker-knivsliberen': typeof PagesSaadanVirkerKnivsliberenRoute
@@ -506,6 +529,9 @@ export interface FileRoutesByTo {
   '/pages/hvilken-knivholder-skal-jeg-vaelge': typeof PagesHvilkenKnivholderSkalJegVaelgeRoute
   '/pages/knivholder-i-trae': typeof PagesKnivholderITraeRoute
   '/pages/knivholder-til-koekkenet': typeof PagesKnivholderTilKoekkenetRoute
+  '/pages/knivsliber-3-trin': typeof PagesKnivsliber3TrinRoute
+  '/pages/knivsliber-sommerhus': typeof PagesKnivsliberSommerhusRoute
+  '/pages/knivsliber-varme-dage': typeof PagesKnivsliberVarmeDageRoute
   '/pages/koekkenet-som-fristed': typeof PagesKoekkenetSomFristedRoute
   '/pages/saadan-sliber-du-din-kniv': typeof PagesSaadanSliberDuDinKnivRoute
   '/pages/saadan-virker-knivsliberen': typeof PagesSaadanVirkerKnivsliberenRoute
@@ -571,6 +597,9 @@ export interface FileRoutesById {
   '/pages/hvilken-knivholder-skal-jeg-vaelge': typeof PagesHvilkenKnivholderSkalJegVaelgeRoute
   '/pages/knivholder-i-trae': typeof PagesKnivholderITraeRoute
   '/pages/knivholder-til-koekkenet': typeof PagesKnivholderTilKoekkenetRoute
+  '/pages/knivsliber-3-trin': typeof PagesKnivsliber3TrinRoute
+  '/pages/knivsliber-sommerhus': typeof PagesKnivsliberSommerhusRoute
+  '/pages/knivsliber-varme-dage': typeof PagesKnivsliberVarmeDageRoute
   '/pages/koekkenet-som-fristed': typeof PagesKoekkenetSomFristedRoute
   '/pages/saadan-sliber-du-din-kniv': typeof PagesSaadanSliberDuDinKnivRoute
   '/pages/saadan-virker-knivsliberen': typeof PagesSaadanVirkerKnivsliberenRoute
@@ -637,6 +666,9 @@ export interface FileRouteTypes {
     | '/pages/hvilken-knivholder-skal-jeg-vaelge'
     | '/pages/knivholder-i-trae'
     | '/pages/knivholder-til-koekkenet'
+    | '/pages/knivsliber-3-trin'
+    | '/pages/knivsliber-sommerhus'
+    | '/pages/knivsliber-varme-dage'
     | '/pages/koekkenet-som-fristed'
     | '/pages/saadan-sliber-du-din-kniv'
     | '/pages/saadan-virker-knivsliberen'
@@ -701,6 +733,9 @@ export interface FileRouteTypes {
     | '/pages/hvilken-knivholder-skal-jeg-vaelge'
     | '/pages/knivholder-i-trae'
     | '/pages/knivholder-til-koekkenet'
+    | '/pages/knivsliber-3-trin'
+    | '/pages/knivsliber-sommerhus'
+    | '/pages/knivsliber-varme-dage'
     | '/pages/koekkenet-som-fristed'
     | '/pages/saadan-sliber-du-din-kniv'
     | '/pages/saadan-virker-knivsliberen'
@@ -765,6 +800,9 @@ export interface FileRouteTypes {
     | '/pages/hvilken-knivholder-skal-jeg-vaelge'
     | '/pages/knivholder-i-trae'
     | '/pages/knivholder-til-koekkenet'
+    | '/pages/knivsliber-3-trin'
+    | '/pages/knivsliber-sommerhus'
+    | '/pages/knivsliber-varme-dage'
     | '/pages/koekkenet-som-fristed'
     | '/pages/saadan-sliber-du-din-kniv'
     | '/pages/saadan-virker-knivsliberen'
@@ -830,6 +868,9 @@ export interface RootRouteChildren {
   PagesHvilkenKnivholderSkalJegVaelgeRoute: typeof PagesHvilkenKnivholderSkalJegVaelgeRoute
   PagesKnivholderITraeRoute: typeof PagesKnivholderITraeRoute
   PagesKnivholderTilKoekkenetRoute: typeof PagesKnivholderTilKoekkenetRoute
+  PagesKnivsliber3TrinRoute: typeof PagesKnivsliber3TrinRoute
+  PagesKnivsliberSommerhusRoute: typeof PagesKnivsliberSommerhusRoute
+  PagesKnivsliberVarmeDageRoute: typeof PagesKnivsliberVarmeDageRoute
   PagesKoekkenetSomFristedRoute: typeof PagesKoekkenetSomFristedRoute
   PagesSaadanSliberDuDinKnivRoute: typeof PagesSaadanSliberDuDinKnivRoute
   PagesSaadanVirkerKnivsliberenRoute: typeof PagesSaadanVirkerKnivsliberenRoute
@@ -1078,6 +1119,27 @@ declare module '@tanstack/react-router' {
       path: '/pages/koekkenet-som-fristed'
       fullPath: '/pages/koekkenet-som-fristed'
       preLoaderRoute: typeof PagesKoekkenetSomFristedRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/pages/knivsliber-varme-dage': {
+      id: '/pages/knivsliber-varme-dage'
+      path: '/pages/knivsliber-varme-dage'
+      fullPath: '/pages/knivsliber-varme-dage'
+      preLoaderRoute: typeof PagesKnivsliberVarmeDageRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/pages/knivsliber-sommerhus': {
+      id: '/pages/knivsliber-sommerhus'
+      path: '/pages/knivsliber-sommerhus'
+      fullPath: '/pages/knivsliber-sommerhus'
+      preLoaderRoute: typeof PagesKnivsliberSommerhusRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/pages/knivsliber-3-trin': {
+      id: '/pages/knivsliber-3-trin'
+      path: '/pages/knivsliber-3-trin'
+      fullPath: '/pages/knivsliber-3-trin'
+      preLoaderRoute: typeof PagesKnivsliber3TrinRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/pages/knivholder-til-koekkenet': {
@@ -1336,6 +1398,9 @@ const rootRouteChildren: RootRouteChildren = {
     PagesHvilkenKnivholderSkalJegVaelgeRoute,
   PagesKnivholderITraeRoute: PagesKnivholderITraeRoute,
   PagesKnivholderTilKoekkenetRoute: PagesKnivholderTilKoekkenetRoute,
+  PagesKnivsliber3TrinRoute: PagesKnivsliber3TrinRoute,
+  PagesKnivsliberSommerhusRoute: PagesKnivsliberSommerhusRoute,
+  PagesKnivsliberVarmeDageRoute: PagesKnivsliberVarmeDageRoute,
   PagesKoekkenetSomFristedRoute: PagesKoekkenetSomFristedRoute,
   PagesSaadanSliberDuDinKnivRoute: PagesSaadanSliberDuDinKnivRoute,
   PagesSaadanVirkerKnivsliberenRoute: PagesSaadanVirkerKnivsliberenRoute,
