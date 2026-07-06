@@ -2,7 +2,8 @@
    LANGSOMT NOK — Design System
    ============================================================================ */
 
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Inter:wght@300..700&display=swap');
+/* Fonts loaded via <link> in src/routes/__root.tsx — never @import a remote URL here (Lightning CSS resolves from filesystem only). */
+
 
 :root {
   --radius: 0.5rem;
