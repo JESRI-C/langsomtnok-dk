@@ -12,7 +12,7 @@ export function TopHook({ label = "Sommerrabat" }: { label?: string }) {
           <span className="text-[#C9D4B5]/70 line-through">499 kr</span>
         </p>
         <span className="hidden sm:inline text-[#C9D4B5]/50" aria-hidden>•</span>
-        <span className="text-xs text-[#C9D4B5]">Fri fragt · Sendes i dag</span>
+        <span className="text-xs text-[#C9D4B5]">Fri fragt&nbsp;</span>
       </div>
     </div>
   );
