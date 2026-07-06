@@ -25,7 +25,7 @@ export const Route = createFileRoute("/pages/knivsliber-varme-dage")({
       { property: "og:description", content: "Til grill, salater og lange aftener. Tre rolige trin — og knivene er klar." },
       { property: "og:type", content: "product" },
       { property: "og:url", content: "https://langsomtnok.dk/pages/knivsliber-varme-dage" },
-      { property: "og:image", content: `https://langsomtnok.dk${heroImg.url}` },
+      { property: "og:image", content: `https://langsomtnok.dk${heroPoster.url}` },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "robots", content: "index,follow" },
     ],
@@ -58,11 +58,13 @@ function Page() {
       <TopHook label="Sommerrabat" />
 
       <Hero
-        imageUrl={heroImg.url}
-        alt="Knivsliber i valnød på terrassebord med krydderurter"
+        videoUrl={heroVideo.url}
+        posterUrl={heroPoster.url}
+        alt="Knivsliberen i brug — tre trin fra grov til polér"
         eyebrow="Sommerrabat · Spar 24 %"
-        headline={<>Skarpe knive til <em className="italic font-light text-[#6E7B4F]">varme dage</em></>}
+        headline={<>Skarpe knive til <em className="italic font-light">varme dage</em></>}
         subline="Til grill, salater og lange aftener på terrassen. Tre rolige trin — og knivene er klar til sommermaden."
+        buyUrl={BUY_URL}
         sourcePage={SOURCE_PAGE}
         campaignName={CAMPAIGN}
       />
@@ -92,11 +94,12 @@ function Page() {
           { q: "Hvad hvis jeg ikke er tilfreds?", a: "30 dages fortrydelse. Skriv til os, så ordner vi det roligt." },
         ]}
         ctaHeadline={<>Tag den med ud <em className="italic font-light text-[#6E7B4F]">i sommer</em></>}
+        buyUrl={BUY_URL}
         sourcePage={SOURCE_PAGE}
         campaignName={CAMPAIGN}
       />
 
-      <StickyBuyBar sourcePage={SOURCE_PAGE} campaignName={CAMPAIGN} />
+      <StickyBuyBar buyUrl={BUY_URL} sourcePage={SOURCE_PAGE} campaignName={CAMPAIGN} />
     </main>
   );
 }

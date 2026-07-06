@@ -5,7 +5,7 @@ import { Hero } from "@/components/kampagne/knivsliber/Hero";
 import { ProblemSolution } from "@/components/kampagne/knivsliber/ProblemSolution";
 import { Trust } from "@/components/kampagne/knivsliber/Trust";
 import { FaqCta } from "@/components/kampagne/knivsliber/FaqCta";
-import { StickyBuyBar } from "@/components/knivsliber-landing/StickyBuyBar";
+import { StickyBuyBar } from "@/components/kampagne/knivsliber/StickyBuyBar";
 import { KNIVSLIBER_CONFIG } from "@/lib/knivsliber-config";
 import { trackEvent, trackProductView } from "@/lib/analytics";
 import heroVideo from "@/assets/knivsliber/ugc-3trin.mp4.asset.json";
@@ -14,6 +14,7 @@ import trustImg from "@/assets/knivsliber/img_1339.jpg.asset.json";
 
 const SOURCE_PAGE = "/pages/knivsliber-3-trin";
 const CAMPAIGN = "3_trin";
+const BUY_URL = `https://langsomtnok.dk/products/${KNIVSLIBER_CONFIG.PRODUCT_HANDLE}`;
 
 export const Route = createFileRoute("/pages/knivsliber-3-trin")({
   head: () => ({
@@ -21,7 +22,7 @@ export const Route = createFileRoute("/pages/knivsliber-3-trin")({
       { title: "Knivsliber i tre rolige trin — 379 kr | Langsomt Nok" },
       { name: "description", content: "Grov. Fin. Polér. Tre trin, fem minutter — og din kniv er skarp igen. Knivsliber i valnød, 379 kr (før 499 kr)." },
       { property: "og:title", content: "Tre rolige trin — og kniven er skarp igen" },
-      { property: "og:description", content: "Grov. Fin. Polér. Se hvordan det virker — og læg den i kurven." },
+      { property: "og:description", content: "Grov. Fin. Polér. Se hvordan det virker — og køb sliberen." },
       { property: "og:type", content: "product" },
       { property: "og:url", content: "https://langsomtnok.dk/pages/knivsliber-3-trin" },
       { property: "og:image", content: `https://langsomtnok.dk${heroPoster.url}` },
@@ -61,8 +62,9 @@ function Page() {
         posterUrl={heroPoster.url}
         alt="Video: knivsliberen i brug — tre trin fra grov til polér"
         eyebrow="Grov · Fin · Polér"
-        headline={<>Tre rolige trin — og kniven er <em className="italic font-light text-[#6E7B4F]">skarp igen</em></>}
+        headline={<>Tre rolige trin — og kniven er <em className="italic font-light">skarp igen</em></>}
         subline="Se hvordan det virker. Fem minutter ved køkkenbordet, ét trin ad gangen. Ingen vandsten, ingen viden krævet."
+        buyUrl={BUY_URL}
         sourcePage={SOURCE_PAGE}
         campaignName={CAMPAIGN}
       />
@@ -92,11 +94,12 @@ function Page() {
           { q: "Kan den slibe saks?", a: "Nej — kun lige klinger. Sakse kræver et andet værktøj." },
         ]}
         ctaHeadline={<>Læg den <em className="italic font-light text-[#6E7B4F]">i kurven</em></>}
+        buyUrl={BUY_URL}
         sourcePage={SOURCE_PAGE}
         campaignName={CAMPAIGN}
       />
 
-      <StickyBuyBar sourcePage={SOURCE_PAGE} campaignName={CAMPAIGN} />
+      <StickyBuyBar buyUrl={BUY_URL} sourcePage={SOURCE_PAGE} campaignName={CAMPAIGN} />
     </main>
   );
 }
