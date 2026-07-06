@@ -5,25 +5,27 @@ import { Hero } from "@/components/kampagne/knivsliber/Hero";
 import { ProblemSolution } from "@/components/kampagne/knivsliber/ProblemSolution";
 import { Trust } from "@/components/kampagne/knivsliber/Trust";
 import { FaqCta } from "@/components/kampagne/knivsliber/FaqCta";
-import { StickyBuyBar } from "@/components/knivsliber-landing/StickyBuyBar";
+import { StickyBuyBar } from "@/components/kampagne/knivsliber/StickyBuyBar";
 import { KNIVSLIBER_CONFIG } from "@/lib/knivsliber-config";
 import { trackEvent, trackProductView } from "@/lib/analytics";
-import heroImg from "@/assets/knivsliber/img_1346.jpg.asset.json";
+import heroVideo from "@/assets/knivsliber/ugc-3trin.mp4.asset.json";
+import heroPoster from "@/assets/knivsliber/ugc-3trin-poster.jpg.asset.json";
 import trustImg from "@/assets/knivsliber/img_1343.jpg.asset.json";
 
 const SOURCE_PAGE = "/pages/knivsliber-sommerhus";
 const CAMPAIGN = "sommerhus";
+const BUY_URL = `https://langsomtnok.dk/products/${KNIVSLIBER_CONFIG.PRODUCT_HANDLE}`;
 
 export const Route = createFileRoute("/pages/knivsliber-sommerhus")({
   head: () => ({
     meta: [
       { title: "Knivsliber til sommerhuset — 379 kr | Langsomt Nok" },
-      { name: "description", content: "Sommerhusets knive er altid de sløveste. Tag knivsliberen med — 379 kr (før 499 kr). Ingen skruer, ingen montering. Bare ud af tasken." },
+      { name: "description", content: "Sommerhusets knive er altid de sløveste. Tag knivsliberen med — 379 kr (før 499 kr). Ingen skruer, ingen montering." },
       { property: "og:title", content: "Tag den med i sommerhuset — 379 kr" },
       { property: "og:description", content: "Sommerhusets knive er sløve. Knivsliberen flytter med. Tre rolige trin." },
       { property: "og:type", content: "product" },
       { property: "og:url", content: "https://langsomtnok.dk/pages/knivsliber-sommerhus" },
-      { property: "og:image", content: `https://langsomtnok.dk${heroImg.url}` },
+      { property: "og:image", content: `https://langsomtnok.dk${heroPoster.url}` },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "robots", content: "index,follow" },
     ],
@@ -56,11 +58,13 @@ function Page() {
       <TopHook label="Sommerferie · Fri fragt" />
 
       <Hero
-        imageUrl={heroImg.url}
-        alt="Knivsliber i valnød med kokkekniv ved siden af krydderurter i sommerhus-miljø"
+        videoUrl={heroVideo.url}
+        posterUrl={heroPoster.url}
+        alt="Knivsliberen i brug — tre trin, roligt og enkelt"
         eyebrow="Til sommerhuset · Spar 24 %"
-        headline={<>Sommerhusets knive er altid <em className="italic font-light text-[#6E7B4F]">de sløveste</em></>}
+        headline={<>Sommerhusets knive er altid <em className="italic font-light">de sløveste</em></>}
         subline="Læg knivsliberen i tasken sammen med badetøjet. Tre trin på køkkenbordet — og aftensmaden bliver et rent snit."
+        buyUrl={BUY_URL}
         sourcePage={SOURCE_PAGE}
         campaignName={CAMPAIGN}
       />
@@ -90,11 +94,12 @@ function Page() {
           { q: "Fri fragt?", a: "Ja, gratis fragt i Danmark. Sendes i dag ved ordre inden kl. 14." },
         ]}
         ctaHeadline={<>Læg den <em className="italic font-light text-[#6E7B4F]">i tasken</em></>}
+        buyUrl={BUY_URL}
         sourcePage={SOURCE_PAGE}
         campaignName={CAMPAIGN}
       />
 
-      <StickyBuyBar sourcePage={SOURCE_PAGE} campaignName={CAMPAIGN} />
+      <StickyBuyBar buyUrl={BUY_URL} sourcePage={SOURCE_PAGE} campaignName={CAMPAIGN} />
     </main>
   );
 }

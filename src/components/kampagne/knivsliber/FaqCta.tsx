@@ -1,17 +1,17 @@
 import { PriceBadge, PriceLine } from "./PriceBadge";
-import { DirectAddToCart } from "@/components/knivsliber-landing/DirectAddToCart";
-import { KNIVSLIBER_CONFIG } from "@/lib/knivsliber-config";
+import { BuyButton } from "./BuyButton";
 
 interface FaqItem { q: string; a: string; }
 
 interface Props {
   faq: FaqItem[];
   ctaHeadline: React.ReactNode;
+  buyUrl: string;
   sourcePage: string;
   campaignName: string;
 }
 
-export function FaqCta({ faq, ctaHeadline, sourcePage, campaignName }: Props) {
+export function FaqCta({ faq, ctaHeadline, buyUrl, sourcePage, campaignName }: Props) {
   return (
     <section className="bg-[#F4F1EA] px-6 py-20 md:py-28">
       <div className="mx-auto max-w-2xl">
@@ -38,16 +38,13 @@ export function FaqCta({ faq, ctaHeadline, sourcePage, campaignName }: Props) {
             {ctaHeadline}
           </h3>
           <PriceLine className="text-[#2D2D2D]" />
-          <div className="w-full max-w-md">
-            <DirectAddToCart
-              productHandle={KNIVSLIBER_CONFIG.PRODUCT_HANDLE}
-              variantId={KNIVSLIBER_CONFIG.DEFAULT_VARIANT_ID}
-              sourcePage={sourcePage}
-              campaignName={campaignName}
-            />
-          </div>
+          <BuyButton
+            href={buyUrl}
+            sourcePage={sourcePage}
+            campaignName={campaignName}
+          />
           <p className="text-xs text-[#2D2D2D]/50 max-w-xs">
-            Lægges direkte i din kurv — ingen omvej.
+            Fri fragt · Sendes i dag · 30 dages fortrydelse
           </p>
         </div>
       </div>

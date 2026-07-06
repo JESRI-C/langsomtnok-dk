@@ -5,14 +5,16 @@ import { Hero } from "@/components/kampagne/knivsliber/Hero";
 import { ProblemSolution } from "@/components/kampagne/knivsliber/ProblemSolution";
 import { Trust } from "@/components/kampagne/knivsliber/Trust";
 import { FaqCta } from "@/components/kampagne/knivsliber/FaqCta";
-import { StickyBuyBar } from "@/components/knivsliber-landing/StickyBuyBar";
+import { StickyBuyBar } from "@/components/kampagne/knivsliber/StickyBuyBar";
 import { KNIVSLIBER_CONFIG } from "@/lib/knivsliber-config";
 import { trackEvent, trackProductView } from "@/lib/analytics";
-import heroImg from "@/assets/knivsliber/img_1343.jpg.asset.json";
+import heroVideo from "@/assets/knivsliber/ugc-3trin.mp4.asset.json";
+import heroPoster from "@/assets/knivsliber/ugc-3trin-poster.jpg.asset.json";
 import trustImg from "@/assets/knivsliber/img_1344.jpg.asset.json";
 
 const SOURCE_PAGE = "/pages/knivsliber-varme-dage";
 const CAMPAIGN = "varme_dage";
+const BUY_URL = `https://langsomtnok.dk/products/${KNIVSLIBER_CONFIG.PRODUCT_HANDLE}`;
 
 export const Route = createFileRoute("/pages/knivsliber-varme-dage")({
   head: () => ({
@@ -23,7 +25,7 @@ export const Route = createFileRoute("/pages/knivsliber-varme-dage")({
       { property: "og:description", content: "Til grill, salater og lange aftener. Tre rolige trin — og knivene er klar." },
       { property: "og:type", content: "product" },
       { property: "og:url", content: "https://langsomtnok.dk/pages/knivsliber-varme-dage" },
-      { property: "og:image", content: `https://langsomtnok.dk${heroImg.url}` },
+      { property: "og:image", content: `https://langsomtnok.dk${heroPoster.url}` },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "robots", content: "index,follow" },
     ],
@@ -56,11 +58,13 @@ function Page() {
       <TopHook label="Sommerrabat" />
 
       <Hero
-        imageUrl={heroImg.url}
-        alt="Knivsliber i valnød på terrassebord med krydderurter"
+        videoUrl={heroVideo.url}
+        posterUrl={heroPoster.url}
+        alt="Knivsliberen i brug — tre trin fra grov til polér"
         eyebrow="Sommerrabat · Spar 24 %"
-        headline={<>Skarpe knive til <em className="italic font-light text-[#6E7B4F]">varme dage</em></>}
+        headline={<>Skarpe knive til <em className="italic font-light">varme dage</em></>}
         subline="Til grill, salater og lange aftener på terrassen. Tre rolige trin — og knivene er klar til sommermaden."
+        buyUrl={BUY_URL}
         sourcePage={SOURCE_PAGE}
         campaignName={CAMPAIGN}
       />
@@ -90,11 +94,12 @@ function Page() {
           { q: "Hvad hvis jeg ikke er tilfreds?", a: "30 dages fortrydelse. Skriv til os, så ordner vi det roligt." },
         ]}
         ctaHeadline={<>Tag den med ud <em className="italic font-light text-[#6E7B4F]">i sommer</em></>}
+        buyUrl={BUY_URL}
         sourcePage={SOURCE_PAGE}
         campaignName={CAMPAIGN}
       />
 
-      <StickyBuyBar sourcePage={SOURCE_PAGE} campaignName={CAMPAIGN} />
+      <StickyBuyBar buyUrl={BUY_URL} sourcePage={SOURCE_PAGE} campaignName={CAMPAIGN} />
     </main>
   );
 }
