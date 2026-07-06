@@ -6,12 +6,11 @@ interface FaqItem { q: string; a: string; }
 interface Props {
   faq: FaqItem[];
   ctaHeadline: React.ReactNode;
-  buyUrl: string;
   sourcePage: string;
   campaignName: string;
 }
 
-export function FaqCta({ faq, ctaHeadline, buyUrl, sourcePage, campaignName }: Props) {
+export function FaqCta({ faq, ctaHeadline, sourcePage, campaignName }: Props) {
   return (
     <section className="bg-[#F4F1EA] px-6 py-20 md:py-28">
       <div className="mx-auto max-w-2xl">
@@ -39,7 +38,7 @@ export function FaqCta({ faq, ctaHeadline, buyUrl, sourcePage, campaignName }: P
           </h3>
           <PriceLine className="text-[#2D2D2D]" />
           <BuyButton
-            href={buyUrl}
+            
             sourcePage={sourcePage}
             campaignName={campaignName}
           />

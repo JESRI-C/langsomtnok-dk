@@ -8,7 +8,6 @@ interface HeroProps {
   eyebrow?: string;
   headline: React.ReactNode;
   subline: string;
-  buyUrl: string;
   sourcePage: string;
   campaignName: string;
 }
@@ -20,7 +19,7 @@ export function Hero({
   eyebrow,
   headline,
   subline,
-  buyUrl,
+  
   sourcePage,
   campaignName,
 }: HeroProps) {
@@ -63,7 +62,7 @@ export function Hero({
             <div className="mt-6 flex flex-col gap-4 sm:flex-row sm:items-center">
               <PriceLine className="text-[#F4F1EA]" />
               <BuyButton
-                href={buyUrl}
+                
                 sourcePage={sourcePage}
                 campaignName={campaignName}
               />
