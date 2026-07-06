@@ -325,7 +325,7 @@ export function CartDrawer() {
                       Det hører til ritualet…
                     </p>
                     <div className="space-y-2">
-                      {upsellProducts.slice(0, 2).map((rec) => {
+                      {upsellProducts.slice(0, 2).map((rec, idx) => {
                         const variant = rec.node.variants.edges[0]?.node;
                         const img = rec.node.images.edges[0]?.node;
                         return (
