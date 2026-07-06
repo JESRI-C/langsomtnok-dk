@@ -61,7 +61,7 @@ export function Hero({
               />
               {/* Badge — inde i rammen, øverst højre */}
               <div className="absolute top-4 right-4">
-                <PriceBadge size="sm" />
+                <PriceBadge size="md" />
               </div>
             </div>
           </div>
