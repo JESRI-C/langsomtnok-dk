@@ -331,7 +331,7 @@ export function CartDrawer() {
                         return (
                           <div
                             key={rec.node.id}
-                            className="flex items-center gap-3 p-2 rounded-md border border-border/60 bg-soft/30"
+                            className={`${idx === 0 ? '' : 'hidden sm:flex'} flex items-center gap-3 p-2 rounded-md border border-border/60 bg-soft/30`}
                           >
                             <Link
                               to="/products/$handle"
