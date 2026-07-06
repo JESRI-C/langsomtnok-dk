@@ -21,7 +21,7 @@ export function StickyBuyBar({ buyUrl, sourcePage, campaignName }: Props) {
         </div>
         <a
           href={buyUrl}
-          onClick={() => trackEvent("landing_page_sticky_cta_click", {
+          onClick={() => trackEvent("landing_page_primary_cta_click", {
             source_page: sourcePage,
             campaign: campaignName,
           })}
