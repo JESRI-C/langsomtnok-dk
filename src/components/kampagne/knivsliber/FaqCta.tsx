@@ -10,7 +10,7 @@ interface Props {
   campaignName: string;
 }
 
-export function FaqCta({ faq, ctaHeadline, buyUrl, sourcePage, campaignName }: Props) {
+export function FaqCta({ faq, ctaHeadline, sourcePage, campaignName }: Props) {
   return (
     <section className="bg-[#F4F1EA] px-6 py-20 md:py-28">
       <div className="mx-auto max-w-2xl">

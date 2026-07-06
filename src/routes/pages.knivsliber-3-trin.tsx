@@ -14,7 +14,6 @@ import trustImg from "@/assets/knivsliber/img_1339.jpg.asset.json";
 
 const SOURCE_PAGE = "/pages/knivsliber-3-trin";
 const CAMPAIGN = "3_trin";
-const BUY_URL = `https://langsomtnok.dk/products/${KNIVSLIBER_CONFIG.PRODUCT_HANDLE}`;
 
 export const Route = createFileRoute("/pages/knivsliber-3-trin")({
   head: () => ({

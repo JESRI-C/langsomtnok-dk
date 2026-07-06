@@ -14,7 +14,6 @@ import trustImg from "@/assets/knivsliber/img_1344.jpg.asset.json";
 
 const SOURCE_PAGE = "/pages/knivsliber-varme-dage";
 const CAMPAIGN = "varme_dage";
-const BUY_URL = `https://langsomtnok.dk/products/${KNIVSLIBER_CONFIG.PRODUCT_HANDLE}`;
 
 export const Route = createFileRoute("/pages/knivsliber-varme-dage")({
   head: () => ({

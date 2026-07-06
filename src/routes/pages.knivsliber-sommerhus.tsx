@@ -14,7 +14,6 @@ import trustImg from "@/assets/knivsliber/img_1343.jpg.asset.json";
 
 const SOURCE_PAGE = "/pages/knivsliber-sommerhus";
 const CAMPAIGN = "sommerhus";
-const BUY_URL = `https://langsomtnok.dk/products/${KNIVSLIBER_CONFIG.PRODUCT_HANDLE}`;
 
 export const Route = createFileRoute("/pages/knivsliber-sommerhus")({
   head: () => ({

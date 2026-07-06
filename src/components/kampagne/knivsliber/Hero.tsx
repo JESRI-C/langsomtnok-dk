@@ -19,7 +19,7 @@ export function Hero({
   eyebrow,
   headline,
   subline,
-  buyUrl,
+  
   sourcePage,
   campaignName,
 }: HeroProps) {
