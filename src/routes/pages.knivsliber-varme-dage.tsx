@@ -5,14 +5,16 @@ import { Hero } from "@/components/kampagne/knivsliber/Hero";
 import { ProblemSolution } from "@/components/kampagne/knivsliber/ProblemSolution";
 import { Trust } from "@/components/kampagne/knivsliber/Trust";
 import { FaqCta } from "@/components/kampagne/knivsliber/FaqCta";
-import { StickyBuyBar } from "@/components/knivsliber-landing/StickyBuyBar";
+import { StickyBuyBar } from "@/components/kampagne/knivsliber/StickyBuyBar";
 import { KNIVSLIBER_CONFIG } from "@/lib/knivsliber-config";
 import { trackEvent, trackProductView } from "@/lib/analytics";
-import heroImg from "@/assets/knivsliber/img_1343.jpg.asset.json";
+import heroVideo from "@/assets/knivsliber/ugc-3trin.mp4.asset.json";
+import heroPoster from "@/assets/knivsliber/ugc-3trin-poster.jpg.asset.json";
 import trustImg from "@/assets/knivsliber/img_1344.jpg.asset.json";
 
 const SOURCE_PAGE = "/pages/knivsliber-varme-dage";
 const CAMPAIGN = "varme_dage";
+const BUY_URL = `https://langsomtnok.dk/products/${KNIVSLIBER_CONFIG.PRODUCT_HANDLE}`;
 
 export const Route = createFileRoute("/pages/knivsliber-varme-dage")({
   head: () => ({
