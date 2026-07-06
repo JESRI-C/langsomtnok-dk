@@ -64,7 +64,7 @@ function Page() {
         eyebrow="Til sommerhuset · Spar 24 %"
         headline={<>Sommerhusets knive er altid <em className="italic font-light">de sløveste</em></>}
         subline="Læg knivsliberen i tasken sammen med badetøjet. Tre trin på køkkenbordet — og aftensmaden bliver et rent snit."
-        buyUrl={BUY_URL}
+        
         sourcePage={SOURCE_PAGE}
         campaignName={CAMPAIGN}
       />
@@ -94,12 +94,12 @@ function Page() {
           { q: "Fri fragt?", a: "Ja, gratis fragt i Danmark. Sendes i dag ved ordre inden kl. 14." },
         ]}
         ctaHeadline={<>Læg den <em className="italic font-light text-[#6E7B4F]">i tasken</em></>}
-        buyUrl={BUY_URL}
+        
         sourcePage={SOURCE_PAGE}
         campaignName={CAMPAIGN}
       />
 
-      <StickyBuyBar buyUrl={BUY_URL} sourcePage={SOURCE_PAGE} campaignName={CAMPAIGN} />
+      <StickyBuyBar  sourcePage={SOURCE_PAGE} campaignName={CAMPAIGN} />
     </main>
   );
 }

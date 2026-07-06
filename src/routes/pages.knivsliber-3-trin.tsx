@@ -64,7 +64,7 @@ function Page() {
         eyebrow="Grov · Fin · Polér"
         headline={<>Tre rolige trin — og kniven er <em className="italic font-light">skarp igen</em></>}
         subline="Se hvordan det virker. Fem minutter ved køkkenbordet, ét trin ad gangen. Ingen vandsten, ingen viden krævet."
-        buyUrl={BUY_URL}
+        
         sourcePage={SOURCE_PAGE}
         campaignName={CAMPAIGN}
       />
@@ -94,12 +94,12 @@ function Page() {
           { q: "Kan den slibe saks?", a: "Nej — kun lige klinger. Sakse kræver et andet værktøj." },
         ]}
         ctaHeadline={<>Læg den <em className="italic font-light text-[#6E7B4F]">i kurven</em></>}
-        buyUrl={BUY_URL}
+        
         sourcePage={SOURCE_PAGE}
         campaignName={CAMPAIGN}
       />
 
-      <StickyBuyBar buyUrl={BUY_URL} sourcePage={SOURCE_PAGE} campaignName={CAMPAIGN} />
+      <StickyBuyBar  sourcePage={SOURCE_PAGE} campaignName={CAMPAIGN} />
     </main>
   );
 }
